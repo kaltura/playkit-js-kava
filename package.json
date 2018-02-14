@@ -55,7 +55,7 @@
     "mocha": "^3.2.0",
     "mocha-cli": "^1.0.1",
     "playkit-js": "https://github.com/kaltura/playkit-js.git#master",
-    "playkit-js-providers": "https://github.com/kaltura/playkit-js-providers.git#master",
+    "playkit-js-providers": "https://github.com/kaltura/playkit-js-providers.git#analytics-service",
     "pre-push": "^0.1.1",
     "sinon": "^2.0.0",
     "sinon-chai": "^2.8.0",
@@ -67,7 +67,7 @@
   },
   "peerDependencies": {
     "playkit-js": "https://github.com/kaltura/playkit-js.git#master",
-    "playkit-js-providers": "https://github.com/kaltura/playkit-js-providers.git#master"
+    "playkit-js-providers": "https://github.com/kaltura/playkit-js-providers.git#analytics-service"
   },
   "keywords": [],
   "license": "AGPL-3.0",
