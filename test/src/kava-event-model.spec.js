@@ -1,7 +1,5 @@
 import {KavaEventModel} from '../../src/kava-event-model'
 
-const date = new Date();
-
 class FakeModel {
   getPlayTimeSum() {
     return 10;

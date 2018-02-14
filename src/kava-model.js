@@ -1,5 +1,5 @@
 // @flow
-import {KavaEventModel} from './kava-event-model'
+import {getEventModel} from './kava-event-model'
 
 /**
  * The KAVA model that stores data.
@@ -262,6 +262,6 @@ export default class KavaModel {
    * @returns {Object} - The event model.
    */
   getModel(eventObj: KavaEvent): Object {
-    return KavaEventModel.getEventModel(eventObj, this);
+    return getEventModel(eventObj, this);
   }
 }

@@ -113,40 +113,47 @@ export const KavaEventModel: { [event: string]: KavaEvent } = {
     getEventModel: (model: KavaModel) => ({
       errorCode: model.getErrorCode()
     })
-  },
-  getEventModel: (eventObj: KavaEvent, model: KavaModel) => {
-    const commonModel = {
-      eventType: eventObj.index,
-      partnerId: model.getPartnerId(),
-      entryId: model.getEntryId(),
-      sessionId: model.getSessionId(),
-      eventIndex: model.getEventIndex(),
-      referrer: model.getReferrer(),
-      deliveryType: model.getDeliveryType(),
-      playbackType: model.getPlaybackType(),
-      clientVer: model.getClientVer(),
-      clientTag: model.getClientTag(),
-      position: model.getPosition()
-    };
-    if (model.getSessionStartTime()) {
-      commonModel.sessionStartTime = model.getSessionStartTime();
-    }
-    if (model.getKS()) {
-      commonModel.ks = model.getKS();
-    }
-    if (model.getUIConfId()) {
-      commonModel.uiConfId = model.getUIConfId();
-    }
-    if (model.getCustomVar1()) {
-      commonModel.customVar1 = model.getCustomVar1();
-    }
-    if (model.getCustomVar2()) {
-      commonModel.customVar2 = model.getCustomVar2();
-    }
-    if (model.getCustomVar3()) {
-      commonModel.customVar3 = model.getCustomVar3();
-    }
-    const eventModel = eventObj.getEventModel(model);
-    return Object.assign(eventModel, commonModel);
   }
 };
+
+/**
+ * Gets the full event model for a certain event object including the common params.
+ * @param {KavaEvent} eventObj - The event model.
+ * @param {KavaModel} model - The plugin model store.
+ * @returns {Object} - The full event model.
+ */
+export function getEventModel(eventObj: KavaEvent, model: KavaModel): Object {
+  const commonModel: Object = {
+    eventType: eventObj.index,
+    partnerId: model.getPartnerId(),
+    entryId: model.getEntryId(),
+    sessionId: model.getSessionId(),
+    eventIndex: model.getEventIndex(),
+    referrer: model.getReferrer(),
+    deliveryType: model.getDeliveryType(),
+    playbackType: model.getPlaybackType(),
+    clientVer: model.getClientVer(),
+    clientTag: model.getClientTag(),
+    position: model.getPosition()
+  };
+  if (model.getSessionStartTime()) {
+    commonModel.sessionStartTime = model.getSessionStartTime();
+  }
+  if (model.getKS()) {
+    commonModel.ks = model.getKS();
+  }
+  if (model.getUIConfId()) {
+    commonModel.uiConfId = model.getUIConfId();
+  }
+  if (model.getCustomVar1()) {
+    commonModel.customVar1 = model.getCustomVar1();
+  }
+  if (model.getCustomVar2()) {
+    commonModel.customVar2 = model.getCustomVar2();
+  }
+  if (model.getCustomVar3()) {
+    commonModel.customVar3 = model.getCustomVar3();
+  }
+  const eventModel = eventObj.getEventModel(model);
+  return Object.assign(eventModel, commonModel);
+}
