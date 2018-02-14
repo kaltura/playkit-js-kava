@@ -17,6 +17,7 @@ export default class KavaRateHandler {
    * Sets the video rates.
    * @param {Array<number>} rates - The video rates.
    * @public
+   * @returns {void}
    */
   setRates(rates: Array<number>): void {
     this._rates = [];
@@ -33,6 +34,7 @@ export default class KavaRateHandler {
    * Sets the current rate.
    * @param {number} rate - The current rate.
    * @public
+   * @returns {void}
    */
   setCurrent(rate: number): void {
     if (rate === 0) {
