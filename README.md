@@ -67,9 +67,9 @@ player.play();
 ## Documentation
 
 ### Table of Contents
-- [KAVA Configuration](./docs/configuration.md)
-- [KAVA Events](./docs/kava-events.md)
-- [KAVA Parameters](./docs/kava-parameters.md)
+- [Configuration](./docs/configuration.md)
+- [Events](./docs/kava-events.md)
+- [Parameters](./docs/kava-parameters.md)
 
 ## Running the Tests
 

@@ -1,5 +1,4 @@
-
-   ##  KAVA Events List:
+##  KAVA Events List:
 
 Here you can see the list of all available KAVA Events:
 
