@@ -17,146 +17,26 @@ export default class KavaModel {
   errorCode: number;
   joinTime: number;
   targetPosition: number;
+  getActualBitrate: Function;
+  getAverageBitrate: Function;
+  getPartnerId: Function;
+  getEntryId: Function;
+  getSessionId: Function;
+  getClientVer: Function;
+  getClientTag: Function;
+  getKS: Function;
+  getUIConfId: Function;
+  getCustomVar1: Function;
+  getCustomVar2: Function;
+  getCustomVar3: Function;
+  getPosition: Function;
+  getDeliveryType: Function;
+  getPlaybackType: Function;
 
   constructor(model?: Object) {
     if (model) {
       this.updateModel(model);
     }
-  }
-
-  /**
-   * Gets the partner ID.
-   * KAVA plugin should override this method.
-   * @returns {string} - The partner ID.
-   */
-  getPartnerId(): string {
-    return '';
-  }
-
-  /**
-   * Gets the entry ID.
-   * KAVA plugin should override this method.
-   * @returns {string} - The entry ID.
-   */
-  getEntryId(): string {
-    return '';
-  }
-
-  /**
-   * Gets the session ID.
-   * KAVA plugin should override this method.
-   * @returns {string} - The session ID.
-   */
-  getSessionId(): string {
-    return '';
-  }
-
-  /**
-   * Gets the delivery type (dash, hls, url).
-   * KAVA plugin should override this method.
-   * @returns {string} - The delivery type.
-   */
-  getDeliveryType(): string {
-    return '';
-  }
-
-  /**
-   * Gets the playback type (vod, live, dvr).
-   * KAVA plugin should override this method.
-   * @returns {string} - The playback type.
-   */
-  getPlaybackType(): string {
-    return '';
-  }
-
-  /**
-   * Gets the client version.
-   * KAVA plugin should override this method.
-   * @returns {string} - The client version.
-   */
-  getClientVer(): string {
-    return '';
-  }
-
-  /**
-   * Gets the client tag.
-   * KAVA plugin should override this method.
-   * @returns {string} - The client tag.
-   */
-  getClientTag(): string {
-    return '';
-  }
-
-  /**
-   * Gets a position.
-   * KAVA plugin should override this method.
-   * @returns {number} - The position.
-   */
-  getPosition(): number {
-    return -1;
-  }
-
-  /**
-   * Gets the kaltura session.
-   * KAVA plugin should override this method.
-   * @returns {string} - The kaltura session.
-   */
-  getKS(): string {
-    return '';
-  }
-
-  /**
-   * Gets the UI conf ID.
-   * KAVA plugin should override this method.
-   * @returns {number} - The UI conf ID.
-   */
-  getUIConfId(): number {
-    return -1;
-  }
-
-  /**
-   * Gets a custom var.
-   * KAVA plugin should override this method.
-   * @returns {any} - The custom var.
-   */
-  getCustomVar1(): any {
-    return null;
-  }
-
-  /**
-   * Gets a custom var.
-   * KAVA plugin should override this method.
-   * @returns {any} - The custom var.
-   */
-  getCustomVar2(): any {
-    return null;
-  }
-
-  /**
-   * Gets a custom var.
-   * KAVA plugin should override this method.
-   * @returns {any} - The custom var.
-   */
-  getCustomVar3(): any {
-    return null;
-  }
-
-  /**
-   * Gets the current bitrate.
-   * KAVA plugin should override this method.
-   * @returns {number} - The current bitrate.
-   */
-  getActualBitrate(): number {
-    return -1;
-  }
-
-  /**
-   * Gets the average bitrate.
-   * KAVA plugin should override this method.
-   * @returns {number} - The average bitrate.
-   */
-  getAverageBitrate(): number {
-    return -1;
   }
 
   /**
