@@ -26,6 +26,7 @@ export default class KavaModel {
   getClientTag: Function;
   getKS: Function;
   getUIConfId: Function;
+  getReferrer: Function;
   getCustomVar1: Function;
   getCustomVar2: Function;
   getCustomVar3: Function;
@@ -37,14 +38,6 @@ export default class KavaModel {
     if (model) {
       this.updateModel(model);
     }
-  }
-
-  /**
-   * Gets the referrer.
-   * @returns {string} - The referrer.
-   */
-  getReferrer(): string {
-    return btoa(document.referrer || document.URL);
   }
 
   /**
