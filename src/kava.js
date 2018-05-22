@@ -347,7 +347,7 @@ export default class Kava extends BasePlugin {
     KavaModel.prototype.getClientTag = () => "html5:v" + this.config.playerVersion;
     KavaModel.prototype.getKS = () => this.config.ks;
     KavaModel.prototype.getUIConfId = () => this.config.uiConfId;
-    KavaModel.prototype.getReferrer = () => this.config.referrer;
+    KavaModel.prototype.getReferrer = () => btoa(this.config.referrer);
     KavaModel.prototype.getCustomVar1 = () => this.config.customVar1;
     KavaModel.prototype.getCustomVar2 = () => this.config.customVar2;
     KavaModel.prototype.getCustomVar3 = () => this.config.customVar3;
