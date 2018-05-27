@@ -30,7 +30,7 @@ module.exports = {
   output: {
     path: __dirname + "/dist",
     filename: '[name].js',
-    library: ["playkit", "kava"],
+    library: ["KalturaPlayer", "plugins", "kava"],
     libraryTarget: "umd",
     devtoolModuleFilenameTemplate: "./kava/[resource-path]"
   },
@@ -76,13 +76,13 @@ module.exports = {
       commonjs: "playkit-js",
       commonjs2: "playkit-js",
       amd: "playkit-js",
-      root: ["playkit", "core"]
+      root: ["KalturaPlayer", "core"]
     },
     "playkit-js-providers": {
       commonjs: "playkit-js-providers",
       commonjs2: "playkit-js-providers",
       amd: "playkit-js-providers",
-      root: ["playkit", "providers"]
+      root: ["KalturaPlayer", "providers"]
     }
   }
 };
