@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <script src="./playkit-kava.js"></script>
+</head>
+<body>
+<div id="player-placeholder" style="width: 360px; height: 640px;"></div>
+<script>
+  var playerContainer = document.querySelector("#player-placeholder");
+  var config = {
+    logLevel: "DEBUG",
+    sources: {
+      progressive: [{
+        mimetype: "video/mp4",
+        url: "http://www.html5videoplayer.net/videos/toystory.mp4"
+      }]
+    },
+    plugins: {
+      "kava": {}
+    }
+  };
+  var player = playkit.core.loadPlayer(config);
+  playerContainer.appendChild(window.player.getView());
+  player.play();
+</script>
+</body>
+</html>
