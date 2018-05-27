@@ -44,7 +44,7 @@ export default class KavaTimer extends FakeEventTarget {
    * @public
    * @returns {void}
    */
-  continue(): void {
+  resume(): void {
     this._stopped = false;
     this._resetCounter = 0;
   }

@@ -95,6 +95,7 @@ export default class Kava extends BasePlugin {
       eventIndex: 1,
       bufferTime: .0,
       bufferTimeSum: .0,
+      playTimeSum: .0,
       sessionStartTime: null
     });
   }
@@ -207,7 +208,7 @@ export default class Kava extends BasePlugin {
       this._isEnded = false;
       this._sendAnalytics(KavaEventModel.REPLAY);
     } else if (this._isPaused) {
-      this._timer.continue();
+      this._timer.resume();
       this._isPaused = false;
       this._sendAnalytics(KavaEventModel.RESUME);
     }
