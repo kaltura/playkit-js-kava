@@ -51,9 +51,9 @@ export default class Kava extends BasePlugin {
 
   constructor(name: string, player: Player, config: Object) {
     super(name, player, config);
-    this._addDelegates();
     this._rateHandler = new KavaRateHandler();
     this._model = new KavaModel();
+    this._setModelDelegates();
     this._timer = new KavaTimer({
       resetCounter: this.config.resetSessionCountdown,
       eventCounter: this.config.viewEventCountdown
@@ -338,23 +338,23 @@ export default class Kava extends BasePlugin {
     this._previousCurrentTime = this.player.currentTime;
   }
 
-  _addDelegates() {
-    KavaModel.prototype.getActualBitrate = () => this._rateHandler.getCurrent();
-    KavaModel.prototype.getAverageBitrate = () => this._rateHandler.getAverage();
-    KavaModel.prototype.getPartnerId = () => this.config.partnerId;
-    KavaModel.prototype.getEntryId = () => this.config.entryId;
-    KavaModel.prototype.getSessionId = () => this.config.sessionId;
-    KavaModel.prototype.getClientVer = () => this.config.playerVersion;
-    KavaModel.prototype.getClientTag = () => "html5:v" + this.config.playerVersion;
-    KavaModel.prototype.getKS = () => this.config.ks;
-    KavaModel.prototype.getUIConfId = () => this.config.uiConfId;
-    KavaModel.prototype.getReferrer = () => btoa(this.config.referrer);
-    KavaModel.prototype.getCustomVar1 = () => this.config.customVar1;
-    KavaModel.prototype.getCustomVar2 = () => this.config.customVar2;
-    KavaModel.prototype.getCustomVar3 = () => this.config.customVar3;
-    KavaModel.prototype.getPosition = () => this._getPosition();
-    KavaModel.prototype.getDeliveryType = () => this._getDeliveryType();
-    KavaModel.prototype.getPlaybackType = () => this._getPlaybackType();
+  _setModelDelegates() {
+    this._model.getActualBitrate = () => this._rateHandler.getCurrent();
+    this._model.getAverageBitrate = () => this._rateHandler.getAverage();
+    this._model.getPartnerId = () => this.config.partnerId;
+    this._model.getEntryId = () => this.config.entryId;
+    this._model.getSessionId = () => this.config.sessionId;
+    this._model.getClientVer = () => this.config.playerVersion;
+    this._model.getClientTag = () => "html5:v" + this.config.playerVersion;
+    this._model.getKS = () => this.config.ks;
+    this._model.getUIConfId = () => this.config.uiConfId;
+    this._model.getReferrer = () => btoa(this.config.referrer);
+    this._model.getCustomVar1 = () => this.config.customVar1;
+    this._model.getCustomVar2 = () => this.config.customVar2;
+    this._model.getCustomVar3 = () => this.config.customVar3;
+    this._model.getPosition = () => this._getPosition();
+    this._model.getDeliveryType = () => this._getDeliveryType();
+    this._model.getPlaybackType = () => this._getPlaybackType();
   }
 
   _getPosition(): number {
