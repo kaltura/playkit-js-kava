@@ -381,7 +381,10 @@ export default class Kava extends BasePlugin {
         return "dvr";
       }
     }
-    return this.player.config.sources.type.toLowerCase();
+    if (this.player.config.sources.type) {
+      return this.player.config.sources.type.toString().toLowerCase();
+    }
+    return '';
   }
 
   _validate(): boolean {
