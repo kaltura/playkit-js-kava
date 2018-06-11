@@ -36,7 +36,9 @@ export default class Kava extends BasePlugin {
     serviceUrl: '//analytics.kaltura.com/api_v3/index.php',
     viewEventCountdown: 10,
     resetSessionCountdown: 30,
-    dvrThreshold: 120000
+    dvrThreshold: 120000,
+    playbackContext: '',
+    applicationVersion: ''
   };
 
   /**
@@ -355,6 +357,8 @@ export default class Kava extends BasePlugin {
     this._model.getPosition = () => this._getPosition();
     this._model.getDeliveryType = () => this._getDeliveryType();
     this._model.getPlaybackType = () => this._getPlaybackType();
+    this._model.getPlaybackContext = () => this.config.playbackContext;
+    this._model.getApplicationVersion = () => this.config.applicationVersion;
   }
 
   _getPosition(): number {
