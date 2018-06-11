@@ -1,9 +1,9 @@
-# PlayKit JS Kava - Kaltura Advanced Video Analytics Plugin for the [PlayKit JS Player]
+# PlayKit JS Kava - Kaltura Advanced Video Analytics Plugin for the [Kaltura Player JS]
 
 [![Build Status](https://travis-ci.org/kaltura/playkit-js-kava.svg?branch=master)](https://travis-ci.org/kaltura/playkit-js-kava)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
-PlayKit JS Kava plugin integrates Kava (Kaltura Advanced Video Analytics) with the [PlayKit JS Player].
+PlayKit JS Kava plugin integrates Kava (Kaltura Advanced Video Analytics) with the [Kaltura Player JS].
 
 The main purpose of this plugin is to track and collect various events and data about the video player.
 
@@ -19,7 +19,7 @@ PlayKit JS Kava is written in [ECMAScript6], statically analysed using [Flow] an
 
 The plugin requires [PlayKit JS Player] to be loaded first.
 
-[playkit js player]: https://github.com/kaltura/playkit-js
+[Kaltura Player JS]: https://github.com/kaltura/kaltura-player-js
 
 ### Installing
 
@@ -46,23 +46,32 @@ yarn run build
 Finally, add the bundle as a script tag in your page, and initialize the player
 
 ```html
-<script type="text/javascript" src="/PATH/TO/FILE/playkit.js"></script>
+<script type="text/javascript" src="/PATH/TO/FILE/kaltura-{ovp/tv}-player.js"></script>
 <script type="text/javascript" src="/PATH/TO/FILE/playkit-kava.js"></script>
 <div id="player-placeholder" style="height:360px; width:640px">
 <script type="text/javascript">
-var playerContainer = document.querySelector("#player-placeholder");
 var config = {
- ...
- plugins: {
-   kava: {
-     ...
+  targetId: 'player-placeholder',
+  provider: {
+    partnerId: {PARTNER_ID}
+    ...
+  },
+  player: {
+   plugins: {
+     kava: {
+        ...
+     }
+    ...
    }
- }
+   ...
+  }
  ...
 };
-var player = playkit.core.loadPlayer(config);
-playerContainer.appendChild(player.getView());
-player.play();
+var player = KalturaPlayer.setup(config);
+player.loadMedia({
+  entryId: '{ENTRY_ID}'
+  ...
+});
 </script>
 ```
 
