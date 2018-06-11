@@ -1,5 +1,5 @@
 // @flow
-import {BasePlugin, FakeEvent} from 'playkit-js'
+import {BasePlugin, Error as PKError, FakeEvent} from 'playkit-js'
 import {OVPAnalyticsService} from 'playkit-js-providers/dist/playkit-analytics-service'
 import {KavaEventModel} from './kava-event-model'
 import KavaRateHandler from './kava-rate-handler'
@@ -297,6 +297,9 @@ export default class Kava extends BasePlugin {
   _onError(event: FakeEvent): void {
     this._model.updateModel({errorCode: event.payload.code});
     this._sendAnalytics(KavaEventModel.ERROR);
+    if (event.payload && (event.payload.severity === PKError.Severity.CRITICAL)) {
+      this.reset();
+    }
   }
 
   _onPlayerStateChanged(event: FakeEvent): void {
