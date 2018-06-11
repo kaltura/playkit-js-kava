@@ -1,5 +1,5 @@
 // @flow
-import {getEventModel} from './kava-event-model'
+import {getEventModel} from './kava-event-model';
 
 /**
  * The KAVA model that stores data.

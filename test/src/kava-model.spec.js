@@ -1,4 +1,4 @@
-import KavaModel from '../../src/kava-model'
+import KavaModel from '../../src/kava-model';
 
 const ab = 3,
   avb = 5,
@@ -34,7 +34,7 @@ describe('KavaModel', () => {
     MY_EVENT: {
       type: 'MY_EVENT',
       index: 99,
-      getEventModel: (model) => ({
+      getEventModel: model => ({
         playTimeSum: model.getPlayTimeSum(),
         bufferTime: model.getBufferTime(),
         bufferTimeSum: model.getBufferTimeSum(),
@@ -46,22 +46,22 @@ describe('KavaModel', () => {
 
   beforeEach(() => {
     sandbox = sinon.sandbox.create();
-    sandbox.stub(KavaModel.prototype, "getActualBitrate").callsFake(() => ab);
-    sandbox.stub(KavaModel.prototype, "getAverageBitrate").callsFake(() => avb);
-    sandbox.stub(KavaModel.prototype, "getPartnerId").callsFake(() => pid);
-    sandbox.stub(KavaModel.prototype, "getEntryId").callsFake(() => eid);
-    sandbox.stub(KavaModel.prototype, "getSessionId").callsFake(() => sid);
-    sandbox.stub(KavaModel.prototype, "getReferrer").callsFake(() => referrer);
-    sandbox.stub(KavaModel.prototype, "getClientVer").callsFake(() => cv);
-    sandbox.stub(KavaModel.prototype, "getClientTag").callsFake(() => ct);
-    sandbox.stub(KavaModel.prototype, "getKS").callsFake(() => ks);
-    sandbox.stub(KavaModel.prototype, "getUIConfId").callsFake(() => uic);
-    sandbox.stub(KavaModel.prototype, "getCustomVar1").callsFake(() => cv1);
-    sandbox.stub(KavaModel.prototype, "getCustomVar2").callsFake(() => cv2);
-    sandbox.stub(KavaModel.prototype, "getCustomVar3").callsFake(() => cv3);
-    sandbox.stub(KavaModel.prototype, "getPosition").callsFake(() => pos);
-    sandbox.stub(KavaModel.prototype, "getDeliveryType").callsFake(() => del);
-    sandbox.stub(KavaModel.prototype, "getPlaybackType").callsFake(() => pback);
+    sandbox.stub(KavaModel.prototype, 'getActualBitrate').callsFake(() => ab);
+    sandbox.stub(KavaModel.prototype, 'getAverageBitrate').callsFake(() => avb);
+    sandbox.stub(KavaModel.prototype, 'getPartnerId').callsFake(() => pid);
+    sandbox.stub(KavaModel.prototype, 'getEntryId').callsFake(() => eid);
+    sandbox.stub(KavaModel.prototype, 'getSessionId').callsFake(() => sid);
+    sandbox.stub(KavaModel.prototype, 'getReferrer').callsFake(() => referrer);
+    sandbox.stub(KavaModel.prototype, 'getClientVer').callsFake(() => cv);
+    sandbox.stub(KavaModel.prototype, 'getClientTag').callsFake(() => ct);
+    sandbox.stub(KavaModel.prototype, 'getKS').callsFake(() => ks);
+    sandbox.stub(KavaModel.prototype, 'getUIConfId').callsFake(() => uic);
+    sandbox.stub(KavaModel.prototype, 'getCustomVar1').callsFake(() => cv1);
+    sandbox.stub(KavaModel.prototype, 'getCustomVar2').callsFake(() => cv2);
+    sandbox.stub(KavaModel.prototype, 'getCustomVar3').callsFake(() => cv3);
+    sandbox.stub(KavaModel.prototype, 'getPosition').callsFake(() => pos);
+    sandbox.stub(KavaModel.prototype, 'getDeliveryType').callsFake(() => del);
+    sandbox.stub(KavaModel.prototype, 'getPlaybackType').callsFake(() => pback);
     model = new KavaModel({
       sessionStartTime: sst,
       eventIndex: ei,
@@ -80,12 +80,12 @@ describe('KavaModel', () => {
     sandbox.restore();
   });
 
-  it('should update the model', function () {
+  it('should update the model', function() {
     model.updateModel({language: 'newLang'});
     model.getLanguage().should.equal('newLang');
   });
 
-  it('should return the model', function () {
+  it('should return the model', function() {
     const resultModel = model.getModel(eventModel.MY_EVENT);
     resultModel.should.deep.equal({
       playTimeSum: pts,

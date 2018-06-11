@@ -1,10 +1,10 @@
 // @flow
-import {BasePlugin, Error as PKError, FakeEvent} from 'playkit-js'
-import {OVPAnalyticsService} from 'playkit-js-providers/dist/playkit-analytics-service'
-import {KavaEventModel} from './kava-event-model'
-import KavaRateHandler from './kava-rate-handler'
-import KavaTimer from './kava-timer'
-import KavaModel from './kava-model'
+import {BasePlugin, Error as PKError, FakeEvent} from 'playkit-js';
+import {OVPAnalyticsService} from 'playkit-js-providers/dist/playkit-analytics-service';
+import {KavaEventModel} from './kava-event-model';
+import KavaRateHandler from './kava-rate-handler';
+import KavaTimer from './kava-timer';
+import KavaModel from './kava-model';
 
 /**
  * KAVA (Kaltura Advanced Analytics) plugin class.
@@ -25,7 +25,7 @@ export default class Kava extends BasePlugin {
   _isEnded: boolean;
   _isPaused: boolean;
   _isBuffering: boolean;
-  _timePercentEvent: { [time: string]: boolean };
+  _timePercentEvent: {[time: string]: boolean};
 
   /**
    * The default config of the plugin.
@@ -65,9 +65,9 @@ export default class Kava extends BasePlugin {
     this._addBindings();
     this._model.updateModel({
       eventIndex: 1,
-      bufferTime: .0,
-      bufferTimeSum: .0,
-      playTimeSum: .0
+      bufferTime: 0.0,
+      bufferTimeSum: 0.0,
+      playTimeSum: 0.0
     });
   }
 
@@ -95,9 +95,9 @@ export default class Kava extends BasePlugin {
     this._addBindings();
     this._model.updateModel({
       eventIndex: 1,
-      bufferTime: .0,
-      bufferTimeSum: .0,
-      playTimeSum: .0,
+      bufferTime: 0.0,
+      bufferTimeSum: 0.0,
+      playTimeSum: 0.0,
       sessionStartTime: null
     });
   }
@@ -117,12 +117,12 @@ export default class Kava extends BasePlugin {
   }
 
   _resetSession(): void {
-    this.logger.debug("Reset KAVA session");
+    this.logger.debug('Reset KAVA session');
     this._rateHandler.reset();
     this._model.updateModel({
       eventIndex: 1,
-      bufferTimeSum: .0,
-      playTimeSum: .0
+      bufferTimeSum: 0.0,
+      playTimeSum: 0.0
     });
   }
 
@@ -138,35 +138,57 @@ export default class Kava extends BasePlugin {
     }
 
     const model = this._model.getModel(eventObj);
-    OVPAnalyticsService.trackEvent(this.config.serviceUrl, model).doHttpRequest()
-      .then(response => {
-        this.logger.debug(`KAVA event sent`, eventObj.type, model);
-        this._updateSessionStartTimeModel(response);
-      }, err => {
-        this.logger.error(`Failed to send KAVA event`, eventObj.type, model, err);
-      });
+    OVPAnalyticsService.trackEvent(this.config.serviceUrl, model)
+      .doHttpRequest()
+      .then(
+        response => {
+          this.logger.debug(`KAVA event sent`, eventObj.type, model);
+          this._updateSessionStartTimeModel(response);
+        },
+        err => {
+          this.logger.error(`Failed to send KAVA event`, eventObj.type, model, err);
+        }
+      );
     this._model.updateModel({eventIndex: this._model.getEventIndex() + 1});
   }
 
   _addBindings(): void {
-    this.eventManager.listen(this._timer, KavaTimer.Event.TICK, () => this._rateHandler.countCurrent());
+    this.eventManager.listen(this._timer, KavaTimer.Event.TICK, () =>
+      this._rateHandler.countCurrent()
+    );
     this.eventManager.listen(this._timer, KavaTimer.Event.REPORT, () => this._onReport());
     this.eventManager.listen(this._timer, KavaTimer.Event.RESET, () => this._resetSession());
-    this.eventManager.listen(this.player, this.player.Event.SOURCE_SELECTED, () => this._onSourceSelected());
-    this.eventManager.listen(this.player, this.player.Event.ERROR, (event) => this._onError(event));
+    this.eventManager.listen(this.player, this.player.Event.SOURCE_SELECTED, () =>
+      this._onSourceSelected()
+    );
+    this.eventManager.listen(this.player, this.player.Event.ERROR, event => this._onError(event));
     this.player.ready().then(() => {
       this._setInitialTracks();
       this.eventManager.listen(this.player, this.player.Event.PLAYING, () => this._onPlaying());
-      this.eventManager.listen(this.player, this.player.Event.FIRST_PLAY, () => this._onFirstPlay());
+      this.eventManager.listen(this.player, this.player.Event.FIRST_PLAY, () =>
+        this._onFirstPlay()
+      );
       this.eventManager.listen(this.player, this.player.Event.SEEKING, () => this._onSeeking());
       this.eventManager.listen(this.player, this.player.Event.PAUSE, () => this._onPause());
       this.eventManager.listen(this.player, this.player.Event.ENDED, () => this._onEnded());
-      this.eventManager.listen(this.player, this.player.Event.TIME_UPDATE, () => this._onTimeUpdate());
-      this.eventManager.listen(this.player, this.player.Event.VIDEO_TRACK_CHANGED, (event) => this._onVideoTrackChanged(event));
-      this.eventManager.listen(this.player, this.player.Event.ABR_MODE_CHANGED, (event) => this._onAbrModeChanged(event));
-      this.eventManager.listen(this.player, this.player.Event.AUDIO_TRACK_CHANGED, (event) => this._onAudioTrackChanged(event));
-      this.eventManager.listen(this.player, this.player.Event.TEXT_TRACK_CHANGED, (event) => this._onTextTrackChanged(event));
-      this.eventManager.listen(this.player, this.player.Event.PLAYER_STATE_CHANGED, (event) => this._onPlayerStateChanged(event));
+      this.eventManager.listen(this.player, this.player.Event.TIME_UPDATE, () =>
+        this._onTimeUpdate()
+      );
+      this.eventManager.listen(this.player, this.player.Event.VIDEO_TRACK_CHANGED, event =>
+        this._onVideoTrackChanged(event)
+      );
+      this.eventManager.listen(this.player, this.player.Event.ABR_MODE_CHANGED, event =>
+        this._onAbrModeChanged(event)
+      );
+      this.eventManager.listen(this.player, this.player.Event.AUDIO_TRACK_CHANGED, event =>
+        this._onAudioTrackChanged(event)
+      );
+      this.eventManager.listen(this.player, this.player.Event.TEXT_TRACK_CHANGED, event =>
+        this._onTextTrackChanged(event)
+      );
+      this.eventManager.listen(this.player, this.player.Event.PLAYER_STATE_CHANGED, event =>
+        this._onPlayerStateChanged(event)
+      );
     });
   }
 
@@ -203,7 +225,9 @@ export default class Kava extends BasePlugin {
     if (this._isFirstPlay) {
       this._timer.start();
       this._isFirstPlay = false;
-      this._model.updateModel({joinTime: Kava._getTimeDifferenceInSeconds(this._firstPlayRequestTime)});
+      this._model.updateModel({
+        joinTime: Kava._getTimeDifferenceInSeconds(this._firstPlayRequestTime)
+      });
       this._sendAnalytics(KavaEventModel.PLAY);
     } else if (this._isEnded) {
       this._timer.start();
@@ -246,15 +270,15 @@ export default class Kava extends BasePlugin {
   _onTimeUpdate(): void {
     this._updatePlayTimeSumModel();
     const percent = this.player.currentTime / this.player.duration;
-    if (!this._timePercentEvent.PLAY_REACHED_25 && percent >= .25) {
+    if (!this._timePercentEvent.PLAY_REACHED_25 && percent >= 0.25) {
       this._timePercentEvent.PLAY_REACHED_25 = true;
       this._sendAnalytics(KavaEventModel.PLAY_REACHED_25_PERCENT);
     }
-    if (!this._timePercentEvent.PLAY_REACHED_50 && percent >= .50) {
+    if (!this._timePercentEvent.PLAY_REACHED_50 && percent >= 0.5) {
       this._timePercentEvent.PLAY_REACHED_50 = true;
       this._sendAnalytics(KavaEventModel.PLAY_REACHED_50_PERCENT);
     }
-    if (!this._timePercentEvent.PLAY_REACHED_75 && percent >= .75) {
+    if (!this._timePercentEvent.PLAY_REACHED_75 && percent >= 0.75) {
       this._timePercentEvent.PLAY_REACHED_75 = true;
       this._sendAnalytics(KavaEventModel.PLAY_REACHED_75_PERCENT);
     }
@@ -297,7 +321,7 @@ export default class Kava extends BasePlugin {
   _onError(event: FakeEvent): void {
     this._model.updateModel({errorCode: event.payload.code});
     this._sendAnalytics(KavaEventModel.ERROR);
-    if (event.payload && (event.payload.severity === PKError.Severity.CRITICAL)) {
+    if (event.payload && event.payload.severity === PKError.Severity.CRITICAL) {
       this.reset();
     }
   }
@@ -350,7 +374,7 @@ export default class Kava extends BasePlugin {
     this._model.getEntryId = () => this.config.entryId;
     this._model.getSessionId = () => this.config.sessionId;
     this._model.getClientVer = () => this.config.playerVersion;
-    this._model.getClientTag = () => "html5:v" + this.config.playerVersion;
+    this._model.getClientTag = () => 'html5:v' + this.config.playerVersion;
     this._model.getKS = () => this.config.ks;
     this._model.getUIConfId = () => this.config.uiConfId;
     this._model.getReferrer = () => btoa(this.config.referrer);
@@ -376,7 +400,7 @@ export default class Kava extends BasePlugin {
 
   _getDeliveryType(): string {
     if (this.player.streamType === this.player.StreamType.PROGRESSIVE) {
-      return "url";
+      return 'url';
     }
     return this.player.streamType;
   }
@@ -385,7 +409,7 @@ export default class Kava extends BasePlugin {
     if (this.player.isLive() && this.player.isDvr()) {
       const distanceFromLiveEdge = this.player.duration - this.player.currentTime;
       if (distanceFromLiveEdge >= this.config.dvrThreshold) {
-        return "dvr";
+        return 'dvr';
       }
     }
     if (this.player.config.sources.type) {
@@ -396,11 +420,11 @@ export default class Kava extends BasePlugin {
 
   _validate(): boolean {
     if (!this.config.partnerId) {
-      Kava._logMissingParam("partnerId");
+      Kava._logMissingParam('partnerId');
       return false;
     }
     if (!this.config.entryId) {
-      Kava._logMissingParam("entryId");
+      Kava._logMissingParam('entryId');
       return false;
     }
     return true;

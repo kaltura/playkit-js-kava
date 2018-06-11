@@ -40,7 +40,7 @@ export default class KavaRateHandler {
     if (rate === 0) {
       this._isSwitchedToAbrMode = true;
     } else {
-      this._rates.forEach(o => o.active = false);
+      this._rates.forEach(o => (o.active = false));
       const obj = this._rates.find(o => o.rate === rate);
       if (obj) {
         obj.active = true;
@@ -83,7 +83,7 @@ export default class KavaRateHandler {
     let totalDuration = 0;
     let sum = 0;
     this._rates.forEach(o => {
-      sum += (o.rate * o.duration);
+      sum += o.rate * o.duration;
       totalDuration += o.duration;
     });
     return totalDuration ? sum / totalDuration : 0;
@@ -95,7 +95,7 @@ export default class KavaRateHandler {
    * @returns {void}
    */
   reset(): void {
-    this._rates.forEach(o => o.duration = 0);
+    this._rates.forEach(o => (o.duration = 0));
   }
 
   /**

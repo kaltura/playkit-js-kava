@@ -1,5 +1,5 @@
 // @flow
-import {FakeEvent, FakeEventTarget} from 'playkit-js'
+import {FakeEvent, FakeEventTarget} from 'playkit-js';
 
 const SECOND: number = 1000;
 
@@ -16,9 +16,9 @@ export default class KavaTimer extends FakeEventTarget {
   _config: Object;
 
   static Event = {
-    TICK: "tick",
-    RESET: "reset",
-    REPORT: "report"
+    TICK: 'tick',
+    RESET: 'reset',
+    REPORT: 'report'
   };
 
   constructor(config: Object) {
