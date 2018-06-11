@@ -1,9 +1,9 @@
 // @flow
-import KavaModel from './kava-model'
+import KavaModel from './kava-model';
 
-export const KavaEventModel: { [event: string]: KavaEvent } = {
+export const KavaEventModel: {[event: string]: KavaEvent} = {
   VIEW: {
-    type: "VIEW",
+    type: 'VIEW',
     index: 99,
     getEventModel: (model: KavaModel) => ({
       playTimeSum: model.getPlayTimeSum(),
@@ -14,17 +14,17 @@ export const KavaEventModel: { [event: string]: KavaEvent } = {
     })
   },
   IMPRESSION: {
-    type: "IMPRESSION",
+    type: 'IMPRESSION',
     index: 1,
     getEventModel: () => ({})
   },
   PLAY_REQUEST: {
-    type: "PLAY_REQUEST",
+    type: 'PLAY_REQUEST',
     index: 2,
     getEventModel: () => ({})
   },
   PLAY: {
-    type: "PLAY",
+    type: 'PLAY',
     index: 3,
     getEventModel: (model: KavaModel) => ({
       bufferTime: model.getBufferTime(),
@@ -34,7 +34,7 @@ export const KavaEventModel: { [event: string]: KavaEvent } = {
     })
   },
   RESUME: {
-    type: "RESUME",
+    type: 'RESUME',
     index: 4,
     getEventModel: (model: KavaModel) => ({
       bufferTime: model.getBufferTime(),
@@ -43,72 +43,72 @@ export const KavaEventModel: { [event: string]: KavaEvent } = {
     })
   },
   PAUSE: {
-    type: "PAUSE",
+    type: 'PAUSE',
     index: 33,
     getEventModel: () => ({})
   },
   REPLAY: {
-    type: "REPLAY",
+    type: 'REPLAY',
     index: 34,
     getEventModel: () => ({})
   },
   SEEK: {
-    type: "SEEK",
+    type: 'SEEK',
     index: 35,
     getEventModel: (model: KavaModel) => ({
       targetPosition: model.getTargetPosition()
     })
   },
   PLAY_REACHED_25_PERCENT: {
-    type: "PLAY_REACHED_25_PERCENT",
+    type: 'PLAY_REACHED_25_PERCENT',
     index: 11,
     getEventModel: () => ({})
   },
   PLAY_REACHED_50_PERCENT: {
-    type: "PLAY_REACHED_50_PERCENT",
+    type: 'PLAY_REACHED_50_PERCENT',
     index: 12,
     getEventModel: () => ({})
   },
   PLAY_REACHED_75_PERCENT: {
-    type: "PLAY_REACHED_75_PERCENT",
+    type: 'PLAY_REACHED_75_PERCENT',
     index: 13,
     getEventModel: () => ({})
   },
   PLAY_REACHED_100_PERCENT: {
-    type: "PLAY_REACHED_100_PERCENT",
+    type: 'PLAY_REACHED_100_PERCENT',
     index: 14,
     getEventModel: () => ({})
   },
   SOURCE_SELECTED: {
-    type: "SOURCE_SELECTED",
+    type: 'SOURCE_SELECTED',
     index: 39,
     getEventModel: (model: KavaModel) => ({
       actualBitrate: model.getActualBitrate()
     })
   },
   AUDIO_SELECTED: {
-    type: "AUDIO_SELECTED",
+    type: 'AUDIO_SELECTED',
     index: 42,
     getEventModel: (model: KavaModel) => ({
       language: model.getLanguage()
     })
   },
   FLAVOR_SWITCH: {
-    type: "FLAVOR_SWITCH",
+    type: 'FLAVOR_SWITCH',
     index: 43,
     getEventModel: (model: KavaModel) => ({
       actualBitrate: model.getActualBitrate()
     })
   },
   CAPTIONS: {
-    type: "CAPTIONS",
+    type: 'CAPTIONS',
     index: 38,
     getEventModel: (model: KavaModel) => ({
       caption: model.getCaption()
     })
   },
   ERROR: {
-    type: "ERROR",
+    type: 'ERROR',
     index: 98,
     getEventModel: (model: KavaModel) => ({
       errorCode: model.getErrorCode()
