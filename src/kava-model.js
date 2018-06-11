@@ -33,6 +33,8 @@ export default class KavaModel {
   getPosition: Function;
   getDeliveryType: Function;
   getPlaybackType: Function;
+  getPlaybackContext: Function;
+  getApplicationVersion: Function;
 
   constructor(model?: Object) {
     if (model) {

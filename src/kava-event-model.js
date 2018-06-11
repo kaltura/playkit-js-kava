@@ -154,6 +154,12 @@ export function getEventModel(eventObj: KavaEvent, model: KavaModel): Object {
   if (model.getCustomVar3()) {
     commonModel.customVar3 = model.getCustomVar3();
   }
+  if (model.getPlaybackContext()) {
+    commonModel.playbackContext = model.getPlaybackContext();
+  }
+  if (model.getApplicationVersion()) {
+    commonModel.applicationVersion = model.getApplicationVersion();
+  }
   const eventModel = eventObj.getEventModel(model);
   return Object.assign(eventModel, commonModel);
 }
