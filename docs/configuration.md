@@ -10,7 +10,9 @@
   dvrThreshold: number,
   customVar1: Object,
   customVar2: Object,
-  customVar3: Object
+  customVar3: Object,
+  applicationVersion: string,
+  playabckContext: string
 }
 ```
 
@@ -78,3 +80,23 @@
 > ##### Description: Custom objects fields.
 >
 > You can use these fields for your own custom needs.
+
+##
+
+> ### config.applicationVersion
+>
+> ##### Type: `string`
+>
+> ##### Default: `-`
+>
+> ##### Description: Used to send the application version from which the user is playing the entry.
+
+##
+
+> ### config.playbackContext
+>
+> ##### Type: `string`
+>
+> ##### Default: `-`
+>
+> ##### Description: Used to send the id of the category from which the user is playing the entry.
