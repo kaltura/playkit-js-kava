@@ -343,7 +343,7 @@ export default class Kava extends BasePlugin {
     if (!this._model.getSessionStartTime() && response) {
       if (typeof response === 'object') {
         this._model.updateModel({sessionStartTime: response.time});
-        this._viewEventEnabled = response.viewEventEnabled;
+        this._viewEventEnabled = response.viewEventsEnabled;
       } else {
         this._model.updateModel({sessionStartTime: response});
       }
