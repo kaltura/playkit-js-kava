@@ -307,7 +307,7 @@ export default class Kava extends BasePlugin {
   }
 
   _onAudioTrackChanged(event: FakeEvent): void {
-    const audioTrack = event.payload.selectedVideoTrack;
+    const audioTrack = event.payload.selectedAudioTrack;
     this._model.updateModel({language: audioTrack.language});
     this._sendAnalytics(KavaEventModel.AUDIO_SELECTED);
   }
