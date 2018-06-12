@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.2.1"></a>
+## [0.2.1](https://github.com/kaltura/playkit-js-kava/compare/v0.2.0...v0.2.1) (2018-06-12)
+
+
+### Bug Fixes
+
+* **FEC-8304:** No VIEW events are sent ([#6](https://github.com/kaltura/playkit-js-kava/issues/6)) ([9a87321](https://github.com/kaltura/playkit-js-kava/commit/9a87321))
+
+
+
 <a name="0.2.0"></a>
 
 # [0.2.0](https://github.com/kaltura/playkit-js-kava/compare/v0.1.0...v0.2.0) (2018-06-11)
