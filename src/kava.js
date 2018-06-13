@@ -36,7 +36,7 @@ export default class Kava extends BasePlugin {
     serviceUrl: '//analytics.kaltura.com/api_v3/index.php',
     viewEventCountdown: 10,
     resetSessionCountdown: 30,
-    dvrThreshold: 120000,
+    dvrThreshold: 120,
     playbackContext: '',
     applicationVersion: ''
   };

@@ -23,7 +23,7 @@
   serviceUrl: '//analytics.kaltura.com/api_v3/index.php',
   viewEventCountdown: 10,
   resetSessionCountdown: 30,
-  dvrThreshold: 120000
+  dvrThreshold: 120
 }
 ```
 
@@ -63,9 +63,9 @@
 >
 > ##### Type: `number`
 >
-> ##### Default: `120000`
+> ##### Default: `120`
 >
-> ##### Description: Threshold in milliseconds from the live edge.
+> ##### Description: Threshold in seconds from the live edge.
 >
 > When player's playback position from the live edge <= then dvrThreshold, Kava will set playbackType to dvr. Otherwise it will be live.
 
