@@ -159,34 +159,32 @@ export default class Kava extends BasePlugin {
       this._onSourceSelected()
     );
     this.eventManager.listen(this.player, this.player.Event.ERROR, event => this._onError(event));
-    this.player.ready().then(() => {
-      this._setInitialTracks();
-      this.eventManager.listen(this.player, this.player.Event.PLAYING, () => this._onPlaying());
-      this.eventManager.listen(this.player, this.player.Event.FIRST_PLAY, () =>
-        this._onFirstPlay()
-      );
-      this.eventManager.listen(this.player, this.player.Event.SEEKING, () => this._onSeeking());
-      this.eventManager.listen(this.player, this.player.Event.PAUSE, () => this._onPause());
-      this.eventManager.listen(this.player, this.player.Event.ENDED, () => this._onEnded());
-      this.eventManager.listen(this.player, this.player.Event.TIME_UPDATE, () =>
-        this._onTimeUpdate()
-      );
-      this.eventManager.listen(this.player, this.player.Event.VIDEO_TRACK_CHANGED, event =>
-        this._onVideoTrackChanged(event)
-      );
-      this.eventManager.listen(this.player, this.player.Event.ABR_MODE_CHANGED, event =>
-        this._onAbrModeChanged(event)
-      );
-      this.eventManager.listen(this.player, this.player.Event.AUDIO_TRACK_CHANGED, event =>
-        this._onAudioTrackChanged(event)
-      );
-      this.eventManager.listen(this.player, this.player.Event.TEXT_TRACK_CHANGED, event =>
-        this._onTextTrackChanged(event)
-      );
-      this.eventManager.listen(this.player, this.player.Event.PLAYER_STATE_CHANGED, event =>
-        this._onPlayerStateChanged(event)
-      );
-    });
+    this.eventManager.listen(this.player, this.player.Event.FIRST_PLAY, () => this._onFirstPlay());
+    this.eventManager.listen(this.player, this.player.Event.TRACKS_CHANGED, event =>
+      this._setInitialTracks(event)
+    );
+    this.eventManager.listen(this.player, this.player.Event.PLAYING, () => this._onPlaying());
+    this.eventManager.listen(this.player, this.player.Event.SEEKING, () => this._onSeeking());
+    this.eventManager.listen(this.player, this.player.Event.PAUSE, () => this._onPause());
+    this.eventManager.listen(this.player, this.player.Event.ENDED, () => this._onEnded());
+    this.eventManager.listen(this.player, this.player.Event.TIME_UPDATE, () =>
+      this._onTimeUpdate()
+    );
+    this.eventManager.listen(this.player, this.player.Event.VIDEO_TRACK_CHANGED, event =>
+      this._onVideoTrackChanged(event)
+    );
+    this.eventManager.listen(this.player, this.player.Event.ABR_MODE_CHANGED, event =>
+      this._onAbrModeChanged(event)
+    );
+    this.eventManager.listen(this.player, this.player.Event.AUDIO_TRACK_CHANGED, event =>
+      this._onAudioTrackChanged(event)
+    );
+    this.eventManager.listen(this.player, this.player.Event.TEXT_TRACK_CHANGED, event =>
+      this._onTextTrackChanged(event)
+    );
+    this.eventManager.listen(this.player, this.player.Event.PLAYER_STATE_CHANGED, event =>
+      this._onPlayerStateChanged(event)
+    );
   }
 
   _getRates(): Array<number> {
@@ -200,7 +198,9 @@ export default class Kava extends BasePlugin {
     const rates = this._getRates();
     const activeTracks = this.player.getActiveTracks();
     this._rateHandler.setRates(rates);
-    this._rateHandler.setCurrent(activeTracks.video.bandwidth);
+    if (activeTracks.video) {
+      this._rateHandler.setCurrent(activeTracks.video.bandwidth);
+    }
     if (activeTracks.audio) {
       this._model.updateModel({language: activeTracks.audio.language});
     }
@@ -265,22 +265,24 @@ export default class Kava extends BasePlugin {
   }
 
   _onTimeUpdate(): void {
-    const percent = this.player.currentTime / this.player.duration;
-    if (!this._timePercentEvent.PLAY_REACHED_25 && percent >= 0.25) {
-      this._timePercentEvent.PLAY_REACHED_25 = true;
-      this._sendAnalytics(KavaEventModel.PLAY_REACHED_25_PERCENT);
-    }
-    if (!this._timePercentEvent.PLAY_REACHED_50 && percent >= 0.5) {
-      this._timePercentEvent.PLAY_REACHED_50 = true;
-      this._sendAnalytics(KavaEventModel.PLAY_REACHED_50_PERCENT);
-    }
-    if (!this._timePercentEvent.PLAY_REACHED_75 && percent >= 0.75) {
-      this._timePercentEvent.PLAY_REACHED_75 = true;
-      this._sendAnalytics(KavaEventModel.PLAY_REACHED_75_PERCENT);
-    }
-    if (!this._timePercentEvent.PLAY_REACHED_100 && percent === 1) {
-      this._timePercentEvent.PLAY_REACHED_100 = true;
-      this._sendAnalytics(KavaEventModel.PLAY_REACHED_100_PERCENT);
+    if (!this.player.isLive()) {
+      const percent = this.player.currentTime / this.player.duration;
+      if (!this._timePercentEvent.PLAY_REACHED_25 && percent >= 0.25) {
+        this._timePercentEvent.PLAY_REACHED_25 = true;
+        this._sendAnalytics(KavaEventModel.PLAY_REACHED_25_PERCENT);
+      }
+      if (!this._timePercentEvent.PLAY_REACHED_50 && percent >= 0.5) {
+        this._timePercentEvent.PLAY_REACHED_50 = true;
+        this._sendAnalytics(KavaEventModel.PLAY_REACHED_50_PERCENT);
+      }
+      if (!this._timePercentEvent.PLAY_REACHED_75 && percent >= 0.75) {
+        this._timePercentEvent.PLAY_REACHED_75 = true;
+        this._sendAnalytics(KavaEventModel.PLAY_REACHED_75_PERCENT);
+      }
+      if (!this._timePercentEvent.PLAY_REACHED_100 && percent === 1) {
+        this._timePercentEvent.PLAY_REACHED_100 = true;
+        this._sendAnalytics(KavaEventModel.PLAY_REACHED_100_PERCENT);
+      }
     }
   }
 
@@ -315,9 +317,9 @@ export default class Kava extends BasePlugin {
   }
 
   _onError(event: FakeEvent): void {
-    this._model.updateModel({errorCode: event.payload.code});
-    this._sendAnalytics(KavaEventModel.ERROR);
     if (event.payload && event.payload.severity === PKError.Severity.CRITICAL) {
+      this._model.updateModel({errorCode: event.payload.code});
+      this._sendAnalytics(KavaEventModel.ERROR);
       this.reset();
     }
   }
