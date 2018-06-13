@@ -162,12 +162,10 @@ export default class Kava extends BasePlugin {
       this._onSourceSelected()
     );
     this.eventManager.listen(this.player, this.player.Event.ERROR, event => this._onError(event));
+    this.eventManager.listen(this.player, this.player.Event.FIRST_PLAY, () => this._onFirstPlay());
     this.player.ready().then(() => {
       this._setInitialTracks();
       this.eventManager.listen(this.player, this.player.Event.PLAYING, () => this._onPlaying());
-      this.eventManager.listen(this.player, this.player.Event.FIRST_PLAY, () =>
-        this._onFirstPlay()
-      );
       this.eventManager.listen(this.player, this.player.Event.SEEKING, () => this._onSeeking());
       this.eventManager.listen(this.player, this.player.Event.PAUSE, () => this._onPause());
       this.eventManager.listen(this.player, this.player.Event.ENDED, () => this._onEnded());
