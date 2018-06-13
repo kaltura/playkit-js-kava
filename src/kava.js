@@ -162,34 +162,32 @@ export default class Kava extends BasePlugin {
       this._onSourceSelected()
     );
     this.eventManager.listen(this.player, this.player.Event.ERROR, event => this._onError(event));
-    this.player.ready().then(() => {
-      this._setInitialTracks();
-      this.eventManager.listen(this.player, this.player.Event.PLAYING, () => this._onPlaying());
-      this.eventManager.listen(this.player, this.player.Event.FIRST_PLAY, () =>
-        this._onFirstPlay()
-      );
-      this.eventManager.listen(this.player, this.player.Event.SEEKING, () => this._onSeeking());
-      this.eventManager.listen(this.player, this.player.Event.PAUSE, () => this._onPause());
-      this.eventManager.listen(this.player, this.player.Event.ENDED, () => this._onEnded());
-      this.eventManager.listen(this.player, this.player.Event.TIME_UPDATE, () =>
-        this._onTimeUpdate()
-      );
-      this.eventManager.listen(this.player, this.player.Event.VIDEO_TRACK_CHANGED, event =>
-        this._onVideoTrackChanged(event)
-      );
-      this.eventManager.listen(this.player, this.player.Event.ABR_MODE_CHANGED, event =>
-        this._onAbrModeChanged(event)
-      );
-      this.eventManager.listen(this.player, this.player.Event.AUDIO_TRACK_CHANGED, event =>
-        this._onAudioTrackChanged(event)
-      );
-      this.eventManager.listen(this.player, this.player.Event.TEXT_TRACK_CHANGED, event =>
-        this._onTextTrackChanged(event)
-      );
-      this.eventManager.listen(this.player, this.player.Event.PLAYER_STATE_CHANGED, event =>
-        this._onPlayerStateChanged(event)
-      );
-    });
+    this.eventManager.listen(this.player, this.player.Event.FIRST_PLAY, () => this._onFirstPlay());
+    this.eventManager.listen(this.player, this.player.Event.TRACKS_CHANGED, event =>
+      this._setInitialTracks(event)
+    );
+    this.eventManager.listen(this.player, this.player.Event.PLAYING, () => this._onPlaying());
+    this.eventManager.listen(this.player, this.player.Event.SEEKING, () => this._onSeeking());
+    this.eventManager.listen(this.player, this.player.Event.PAUSE, () => this._onPause());
+    this.eventManager.listen(this.player, this.player.Event.ENDED, () => this._onEnded());
+    this.eventManager.listen(this.player, this.player.Event.TIME_UPDATE, () =>
+      this._onTimeUpdate()
+    );
+    this.eventManager.listen(this.player, this.player.Event.VIDEO_TRACK_CHANGED, event =>
+      this._onVideoTrackChanged(event)
+    );
+    this.eventManager.listen(this.player, this.player.Event.ABR_MODE_CHANGED, event =>
+      this._onAbrModeChanged(event)
+    );
+    this.eventManager.listen(this.player, this.player.Event.AUDIO_TRACK_CHANGED, event =>
+      this._onAudioTrackChanged(event)
+    );
+    this.eventManager.listen(this.player, this.player.Event.TEXT_TRACK_CHANGED, event =>
+      this._onTextTrackChanged(event)
+    );
+    this.eventManager.listen(this.player, this.player.Event.PLAYER_STATE_CHANGED, event =>
+      this._onPlayerStateChanged(event)
+    );
   }
 
   _getRates(): Array<number> {
