@@ -271,22 +271,24 @@ export default class Kava extends BasePlugin {
 
   _onTimeUpdate(): void {
     this._updatePlayTimeSumModel();
-    const percent = this.player.currentTime / this.player.duration;
-    if (!this._timePercentEvent.PLAY_REACHED_25 && percent >= 0.25) {
-      this._timePercentEvent.PLAY_REACHED_25 = true;
-      this._sendAnalytics(KavaEventModel.PLAY_REACHED_25_PERCENT);
-    }
-    if (!this._timePercentEvent.PLAY_REACHED_50 && percent >= 0.5) {
-      this._timePercentEvent.PLAY_REACHED_50 = true;
-      this._sendAnalytics(KavaEventModel.PLAY_REACHED_50_PERCENT);
-    }
-    if (!this._timePercentEvent.PLAY_REACHED_75 && percent >= 0.75) {
-      this._timePercentEvent.PLAY_REACHED_75 = true;
-      this._sendAnalytics(KavaEventModel.PLAY_REACHED_75_PERCENT);
-    }
-    if (!this._timePercentEvent.PLAY_REACHED_100 && percent === 1) {
-      this._timePercentEvent.PLAY_REACHED_100 = true;
-      this._sendAnalytics(KavaEventModel.PLAY_REACHED_100_PERCENT);
+    if (!this.player.isLive()) {
+      const percent = this.player.currentTime / this.player.duration;
+      if (!this._timePercentEvent.PLAY_REACHED_25 && percent >= 0.25) {
+        this._timePercentEvent.PLAY_REACHED_25 = true;
+        this._sendAnalytics(KavaEventModel.PLAY_REACHED_25_PERCENT);
+      }
+      if (!this._timePercentEvent.PLAY_REACHED_50 && percent >= 0.5) {
+        this._timePercentEvent.PLAY_REACHED_50 = true;
+        this._sendAnalytics(KavaEventModel.PLAY_REACHED_50_PERCENT);
+      }
+      if (!this._timePercentEvent.PLAY_REACHED_75 && percent >= 0.75) {
+        this._timePercentEvent.PLAY_REACHED_75 = true;
+        this._sendAnalytics(KavaEventModel.PLAY_REACHED_75_PERCENT);
+      }
+      if (!this._timePercentEvent.PLAY_REACHED_100 && percent === 1) {
+        this._timePercentEvent.PLAY_REACHED_100 = true;
+        this._sendAnalytics(KavaEventModel.PLAY_REACHED_100_PERCENT);
+      }
     }
   }
 
