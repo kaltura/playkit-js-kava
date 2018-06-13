@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.2.2"></a>
+## [0.2.2](https://github.com/kaltura/playkit-js-kava/compare/v0.2.1...v0.2.2) (2018-06-13)
+
+
+### Bug Fixes
+
+* **FEC-8305:** In Live videos there are progress events sent (11-14)  ([#9](https://github.com/kaltura/playkit-js-kava/issues/9)) ([3f38242](https://github.com/kaltura/playkit-js-kava/commit/3f38242))
+* **FEC-8306:** No 'Play request' events are sent in web ([#10](https://github.com/kaltura/playkit-js-kava/issues/10)) ([a78647f](https://github.com/kaltura/playkit-js-kava/commit/a78647f))
+* **FEC-8307:** Error event is triggered also when non-critical event occurs ([#8](https://github.com/kaltura/playkit-js-kava/issues/8)) ([e6c0e0b](https://github.com/kaltura/playkit-js-kava/commit/e6c0e0b))
+* **FEC-8308:** audio track changes are not reproted ([#7](https://github.com/kaltura/playkit-js-kava/issues/7)) ([295d2d3](https://github.com/kaltura/playkit-js-kava/commit/295d2d3))
+* **FEC-8309:** playTimeSum value in View event is incorrect (not accumulative ([#11](https://github.com/kaltura/playkit-js-kava/issues/11)) ([e58a9e5](https://github.com/kaltura/playkit-js-kava/commit/e58a9e5))
+* **FEC-8311:** Live with DVR - when seeking back (more then dvrThreshold) the playbackType is not "dvr" ([#12](https://github.com/kaltura/playkit-js-kava/issues/12)) ([7e7be8b](https://github.com/kaltura/playkit-js-kava/commit/7e7be8b))
+
+
+
 <a name="0.2.1"></a>
 ## [0.2.1](https://github.com/kaltura/playkit-js-kava/compare/v0.2.0...v0.2.1) (2018-06-12)
 

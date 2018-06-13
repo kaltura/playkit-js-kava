@@ -1,6 +1,6 @@
 {
   "name": "playkit-js-kava",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "main": "dist/playkit-kava.js",
   "scripts": {
     "clean": "rm -rf ./dist",
