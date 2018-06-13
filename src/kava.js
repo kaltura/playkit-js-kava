@@ -203,7 +203,9 @@ export default class Kava extends BasePlugin {
     const rates = this._getRates();
     const activeTracks = this.player.getActiveTracks();
     this._rateHandler.setRates(rates);
-    this._rateHandler.setCurrent(activeTracks.video.bandwidth);
+    if (activeTracks.video) {
+      this._rateHandler.setCurrent(activeTracks.video.bandwidth);
+    }
     if (activeTracks.audio) {
       this._model.updateModel({language: activeTracks.audio.language});
     }
@@ -319,9 +321,9 @@ export default class Kava extends BasePlugin {
   }
 
   _onError(event: FakeEvent): void {
-    this._model.updateModel({errorCode: event.payload.code});
-    this._sendAnalytics(KavaEventModel.ERROR);
     if (event.payload && event.payload.severity === PKError.Severity.CRITICAL) {
+      this._model.updateModel({errorCode: event.payload.code});
+      this._sendAnalytics(KavaEventModel.ERROR);
       this.reset();
     }
   }
