@@ -163,7 +163,6 @@ export default class Kava extends BasePlugin {
     this.eventManager.listen(this.player, this.player.Event.ENDED, () => this._onEnded());
     this.eventManager.listen(this.player, this.player.Event.TIME_UPDATE, () => this._onTimeUpdate());
     this.eventManager.listen(this.player, this.player.Event.VIDEO_TRACK_CHANGED, event => this._onVideoTrackChanged(event));
-    this.eventManager.listen(this.player, this.player.Event.ABR_MODE_CHANGED, event => this._onAbrModeChanged(event));
     this.eventManager.listen(this.player, this.player.Event.AUDIO_TRACK_CHANGED, event => this._onAudioTrackChanged(event));
     this.eventManager.listen(this.player, this.player.Event.TEXT_TRACK_CHANGED, event => this._onTextTrackChanged(event));
     this.eventManager.listen(this.player, this.player.Event.PLAYER_STATE_CHANGED, event => this._onPlayerStateChanged(event));
@@ -271,17 +270,9 @@ export default class Kava extends BasePlugin {
   _onVideoTrackChanged(event: FakeEvent): void {
     const videoTrack = event.payload.selectedVideoTrack;
     this._rateHandler.setCurrent(videoTrack.bandwidth);
-    if (!this.player.isAdaptiveBitrateEnabled()) {
-      this._sendAnalytics(KavaEventModel.SOURCE_SELECTED);
-    } else {
+    if (this.player.isAdaptiveBitrateEnabled()) {
       this._sendAnalytics(KavaEventModel.FLAVOR_SWITCH);
-    }
-  }
-
-  _onAbrModeChanged(event: FakeEvent) {
-    const mode = event.payload.mode;
-    if (mode === this.player.AbrMode.AUTO) {
-      this._rateHandler.setCurrent(0);
+    } else {
       this._sendAnalytics(KavaEventModel.SOURCE_SELECTED);
     }
   }
