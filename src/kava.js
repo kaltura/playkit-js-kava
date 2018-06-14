@@ -388,16 +388,16 @@ export default class Kava extends BasePlugin {
   }
 
   _getPlaybackType(): string {
-    if (this.player.isLive() && this.player.isDvr()) {
-      const distanceFromLiveEdge = this.player.duration - this.player.currentTime;
-      if (distanceFromLiveEdge >= this.config.dvrThreshold) {
-        return 'dvr';
+    if (this.player.isLive()) {
+      if (this.player.isDvr()) {
+        const distanceFromLiveEdge = this.player.duration - this.player.currentTime;
+        if (distanceFromLiveEdge >= this.config.dvrThreshold) {
+          return 'dvr';
+        }
       }
+      return 'live';
     }
-    if (this.player.config.sources.type) {
-      return this.player.config.sources.type.toString().toLowerCase();
-    }
-    return '';
+    return 'vod';
   }
 
   _validate(): boolean {
