@@ -369,10 +369,13 @@ export default class Kava extends BasePlugin {
 
   _getPosition(): number {
     if (this.player.isLive()) {
-      if (this.player.duration - this.player.currentTime < 1) {
-        return 0;
+      if (!Number.isNaN(this.player.duration)) {
+        if (this.player.duration - this.player.currentTime < 1) {
+          return 0;
+        }
+        return -(this.player.duration - this.player.currentTime);
       }
-      return -(this.player.duration - this.player.currentTime);
+      return 0;
     }
     return this.player.currentTime;
   }
