@@ -19,7 +19,7 @@ PlayKit JS Kava is written in [ECMAScript6], statically analysed using [Flow] an
 
 The plugin requires [PlayKit JS Player] to be loaded first.
 
-[Kaltura Player JS]: https://github.com/kaltura/kaltura-player-js
+[kaltura player js]: https://github.com/kaltura/kaltura-player-js
 
 ### Installing
 
