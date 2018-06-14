@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.2.3"></a>
+## [0.2.3](https://github.com/kaltura/playkit-js-kava/compare/v0.2.2...v0.2.3) (2018-06-14)
+
+
+### Bug Fixes
+
+* **FEC-8313:** When playing audio entry playbackType is not "vod" ([#15](https://github.com/kaltura/playkit-js-kava/issues/15)) ([9f70dc6](https://github.com/kaltura/playkit-js-kava/commit/9f70dc6))
+* **FEC-8317:** impression event and the followup events the position value is NAN ([#13](https://github.com/kaltura/playkit-js-kava/issues/13)) ([8afa119](https://github.com/kaltura/playkit-js-kava/commit/8afa119))
+* **FEC-8320:** SOURCE_SELECTED event triggered on user selection of ABR mode ([#16](https://github.com/kaltura/playkit-js-kava/issues/16)) ([3ca02c8](https://github.com/kaltura/playkit-js-kava/commit/3ca02c8))
+
+
+
 <a name="0.2.2"></a>
 ## [0.2.2](https://github.com/kaltura/playkit-js-kava/compare/v0.2.1...v0.2.2) (2018-06-13)
 
