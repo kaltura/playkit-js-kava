@@ -6,11 +6,9 @@
  */
 export default class KavaRateHandler {
   _rates: Array<Object> = [];
-  _isSwitchedToAbrMode: boolean = false;
 
   constructor() {
     this._rates = [];
-    this._isSwitchedToAbrMode = false;
   }
 
   /**
@@ -37,14 +35,10 @@ export default class KavaRateHandler {
    * @returns {void}
    */
   setCurrent(rate: number): void {
-    if (rate === 0) {
-      this._isSwitchedToAbrMode = true;
-    } else {
-      this._rates.forEach(o => (o.active = false));
-      const obj = this._rates.find(o => o.rate === rate);
-      if (obj) {
-        obj.active = true;
-      }
+    this._rates.forEach(o => (o.active = false));
+    const obj = this._rates.find(o => o.rate === rate);
+    if (obj) {
+      obj.active = true;
     }
   }
 
@@ -54,10 +48,6 @@ export default class KavaRateHandler {
    * @returns {number} - The current rate.
    */
   getCurrent(): number {
-    if (this._isSwitchedToAbrMode) {
-      this._isSwitchedToAbrMode = false;
-      return 0;
-    }
     const current = this._rates.find(o => o.active);
     return current ? current.rate : -1;
   }
