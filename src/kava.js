@@ -20,6 +20,7 @@ export default class Kava extends BasePlugin {
   _viewEventEnabled: boolean;
   _firstPlayRequestTime: number;
   _bufferStartTime: number;
+  _previousCurrentTime: number;
   _isFirstPlay: boolean;
   _isEnded: boolean;
   _isPaused: boolean;
@@ -102,6 +103,7 @@ export default class Kava extends BasePlugin {
   }
 
   _resetFlags(): void {
+    this._previousCurrentTime = 0;
     this._isFirstPlay = true;
     this._isEnded = false;
     this._isPaused = false;
@@ -128,12 +130,10 @@ export default class Kava extends BasePlugin {
     if (!this._validate()) {
       return;
     }
-
     if (this._isBuffering) {
       this._updateBufferModel();
       this._bufferStartTime = Date.now();
     }
-
     const model = this._model.getModel(eventObj);
     OVPAnalyticsService.trackEvent(this.config.serviceUrl, model)
       .doHttpRequest()
@@ -229,6 +229,7 @@ export default class Kava extends BasePlugin {
   }
 
   _onSeeking(): void {
+    this._previousCurrentTime = this.player.currentTime;
     this._model.updateModel({targetPosition: this.player.currentTime});
     this._sendAnalytics(KavaEventModel.SEEK);
   }
@@ -247,6 +248,7 @@ export default class Kava extends BasePlugin {
 
   _onTimeUpdate(): void {
     if (!this.player.isLive()) {
+      this._updatePlayTimeSumModel();
       const percent = this.player.currentTime / this.player.duration;
       if (!this._timePercentEvent.PLAY_REACHED_25 && percent >= 0.25) {
         this._timePercentEvent.PLAY_REACHED_25 = true;
@@ -333,7 +335,13 @@ export default class Kava extends BasePlugin {
   }
 
   _updatePlayTimeSumModel(): void {
-    const delta = this.config.viewEventCountdown - this._model.getBufferTime();
+    let delta;
+    if (this.player.isLive()) {
+      delta = this.config.viewEventCountdown - this._model.getBufferTime();
+    } else {
+      delta = this.player.currentTime - this._previousCurrentTime;
+      this._previousCurrentTime = this.player.currentTime;
+    }
     this._model.updateModel({playTimeSum: this._model.getPlayTimeSum() + delta});
   }
 
