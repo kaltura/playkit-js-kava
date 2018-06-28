@@ -1,5 +1,5 @@
 // @flow
-import KavaModel from './kava-model';
+import {KavaModel} from './kava-model';
 
 export const KavaEventModel: {[event: string]: KavaEvent} = {
   VIEW: {
