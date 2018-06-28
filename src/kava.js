@@ -26,6 +26,7 @@ export default class Kava extends BasePlugin {
   _isPaused: boolean;
   _isBuffering: boolean;
   _timePercentEvent: {[time: string]: boolean};
+  _isPlaying: boolean;
 
   /**
    * The default config of the plugin.
@@ -104,6 +105,7 @@ export default class Kava extends BasePlugin {
 
   _resetFlags(): void {
     this._previousCurrentTime = 0;
+    this._isPlaying = false;
     this._isFirstPlay = true;
     this._isEnded = false;
     this._isPaused = false;
@@ -158,6 +160,7 @@ export default class Kava extends BasePlugin {
     this.eventManager.listen(this.player, this.player.Event.FIRST_PLAY, () => this._onFirstPlay());
     this.eventManager.listen(this.player, this.player.Event.TRACKS_CHANGED, () => this._setInitialTracks());
     this.eventManager.listen(this.player, this.player.Event.PLAYING, () => this._onPlaying());
+    this.eventManager.listen(this.player, this.player.Event.PLAYBACK_STARTED, () => (this._isPlaying = true));
     this.eventManager.listen(this.player, this.player.Event.SEEKING, () => this._onSeeking());
     this.eventManager.listen(this.player, this.player.Event.PAUSE, () => this._onPause());
     this.eventManager.listen(this.player, this.player.Event.ENDED, () => this._onEnded());
@@ -286,9 +289,11 @@ export default class Kava extends BasePlugin {
   }
 
   _onTextTrackChanged(event: FakeEvent): void {
-    const textTrack = event.payload.selectedTextTrack;
-    this._model.updateModel({caption: textTrack.language});
-    this._sendAnalytics(KavaEventModel.CAPTIONS);
+    if (this._isPlaying) {
+      const textTrack = event.payload.selectedTextTrack;
+      this._model.updateModel({caption: textTrack.language});
+      this._sendAnalytics(KavaEventModel.CAPTIONS);
+    }
   }
 
   _onError(event: FakeEvent): void {
