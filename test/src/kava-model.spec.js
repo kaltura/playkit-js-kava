@@ -25,11 +25,12 @@ const ab = 3,
   cap = 'cap',
   ec = 200,
   jt = 1213,
-  tp = '12';
+  tp = '12',
+  pc = 'pc',
+  av = 'av';
 
 describe('KavaModel', () => {
   let model;
-  let sandbox;
   const eventModel = {
     MY_EVENT: {
       type: 'MY_EVENT',
@@ -45,23 +46,6 @@ describe('KavaModel', () => {
   };
 
   beforeEach(() => {
-    sandbox = sinon.sandbox.create();
-    sandbox.stub(KavaModel.prototype, 'getActualBitrate').callsFake(() => ab);
-    sandbox.stub(KavaModel.prototype, 'getAverageBitrate').callsFake(() => avb);
-    sandbox.stub(KavaModel.prototype, 'getPartnerId').callsFake(() => pid);
-    sandbox.stub(KavaModel.prototype, 'getEntryId').callsFake(() => eid);
-    sandbox.stub(KavaModel.prototype, 'getSessionId').callsFake(() => sid);
-    sandbox.stub(KavaModel.prototype, 'getReferrer').callsFake(() => referrer);
-    sandbox.stub(KavaModel.prototype, 'getClientVer').callsFake(() => cv);
-    sandbox.stub(KavaModel.prototype, 'getClientTag').callsFake(() => ct);
-    sandbox.stub(KavaModel.prototype, 'getKS').callsFake(() => ks);
-    sandbox.stub(KavaModel.prototype, 'getUIConfId').callsFake(() => uic);
-    sandbox.stub(KavaModel.prototype, 'getCustomVar1').callsFake(() => cv1);
-    sandbox.stub(KavaModel.prototype, 'getCustomVar2').callsFake(() => cv2);
-    sandbox.stub(KavaModel.prototype, 'getCustomVar3').callsFake(() => cv3);
-    sandbox.stub(KavaModel.prototype, 'getPosition').callsFake(() => pos);
-    sandbox.stub(KavaModel.prototype, 'getDeliveryType').callsFake(() => del);
-    sandbox.stub(KavaModel.prototype, 'getPlaybackType').callsFake(() => pback);
     model = new KavaModel({
       sessionStartTime: sst,
       eventIndex: ei,
@@ -74,10 +58,25 @@ describe('KavaModel', () => {
       joinTime: jt,
       targetPosition: tp
     });
-  });
-
-  afterEach(() => {
-    sandbox.restore();
+    model.getActualBitrate = () => ab;
+    model.getAverageBitrate = () => avb;
+    model.getPartnerId = () => pid;
+    model.getEntryId = () => eid;
+    model.getSessionId = () => sid;
+    model.getReferrer = () => referrer;
+    model.getClientVer = () => cv;
+    model.getClientTag = () => ct;
+    model.getKS = () => ks;
+    model.getUIConfId = () => uic;
+    model.getCustomVar1 = () => cv1;
+    model.getCustomVar2 = () => cv2;
+    model.getCustomVar3 = () => cv3;
+    model.getPosition = () => pos;
+    model.getDeliveryType = () => del;
+    model.getPlaybackType = () => pback;
+    model.getPlaybackType = () => pback;
+    model.getPlaybackContext = () => pc;
+    model.getApplicationVersion = () => av;
   });
 
   it('should update the model', function() {
@@ -107,7 +106,9 @@ describe('KavaModel', () => {
       ks: ks,
       uiConfId: uic,
       sessionStartTime: sst,
-      customVar2: cv2
+      customVar2: cv2,
+      playbackContext: pc,
+      applicationVersion: av
     });
   });
 });
