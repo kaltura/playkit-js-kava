@@ -66,11 +66,6 @@ describe('KavaRateHandler', function() {
       rateHandler.setCurrent(1080);
       rateHandler.getCurrent().should.equal(1080);
     });
-
-    it('should set the zero bitrate', () => {
-      rateHandler.setCurrent(0);
-      rateHandler.getCurrent().should.equal(0);
-    });
   });
 
   describe('getAverage', () => {
