@@ -96,6 +96,7 @@ describe('KavaPlugin', function() {
       },
       plugins: {
         kava: {
+          referrer: 'referrer',
           serviceUrl: '//analytics.kaltura.com/api_v3/index.php',
           viewEventCountdown: 10,
           resetSessionCountdown: 30,
@@ -131,14 +132,14 @@ describe('KavaPlugin', function() {
       sandbox.restore();
     });
 
-    function validateCommonParmas(params, eventIndex) {
+    function validateCommonParams(params, eventIndex) {
       params.eventType.should.equal(eventIndex);
       params.partnerId.should.equal(config.session.partnerId.toString());
       params.entryId.should.equal(config.id);
       params.sessionId.should.equal(config.session.id);
       params.eventIndex.should.equal(1);
       params.ks.should.equal(config.session.ks);
-      params.referrer.should.equal(btoa(document.referrer));
+      params.referrer.should.equal(btoa(config.plugins.kava.referrer));
       params.deliveryType.should.equal('url');
       params.playbackType.should.equal('vod');
       (!!params.sessionStartTime).should.be.false;
@@ -150,7 +151,7 @@ describe('KavaPlugin', function() {
     it('should send IMPRESSION event', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
         if (params.eventType !== KavaEventModel.IMPRESSION.index) return;
-        validateCommonParmas(params, KavaEventModel.IMPRESSION.index);
+        validateCommonParams(params, KavaEventModel.IMPRESSION.index);
         done();
       });
       setupPlayer(config);
@@ -161,7 +162,7 @@ describe('KavaPlugin', function() {
     it('should send PLAY_REQUEST event', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
         if (params.eventType !== KavaEventModel.PLAY_REQUEST.index) return;
-        validateCommonParmas(params, KavaEventModel.PLAY_REQUEST.index);
+        validateCommonParams(params, KavaEventModel.PLAY_REQUEST.index);
         done();
       });
       setupPlayer(config);
@@ -172,7 +173,7 @@ describe('KavaPlugin', function() {
     it('should send PLAY event', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
         if (params.eventType !== KavaEventModel.PLAY.index) return;
-        validateCommonParmas(params, KavaEventModel.PLAY.index);
+        validateCommonParams(params, KavaEventModel.PLAY.index);
         params.bufferTime.should.exist;
         params.bufferTimeSum.should.exist;
         params.actualBitrate.should.exist;
@@ -187,7 +188,7 @@ describe('KavaPlugin', function() {
     it('should send RESUME event', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
         if (params.eventType !== KavaEventModel.RESUME.index) return;
-        validateCommonParmas(params, KavaEventModel.RESUME.index);
+        validateCommonParams(params, KavaEventModel.RESUME.index);
         params.bufferTime.should.exist;
         params.bufferTimeSum.should.exist;
         params.actualBitrate.should.exist;
@@ -211,7 +212,7 @@ describe('KavaPlugin', function() {
     it('should send PAUSE event', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
         if (params.eventType !== KavaEventModel.PAUSE.index) return;
-        validateCommonParmas(params, KavaEventModel.PAUSE.index);
+        validateCommonParams(params, KavaEventModel.PAUSE.index);
         kava._timer._stopped.should.be.true;
         done();
       });
@@ -228,7 +229,7 @@ describe('KavaPlugin', function() {
     it('should send REPLAY event', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
         if (params.eventType !== KavaEventModel.REPLAY.index) return;
-        validateCommonParmas(params, KavaEventModel.REPLAY.index);
+        validateCommonParams(params, KavaEventModel.REPLAY.index);
         done();
       });
       setupPlayer(config);
@@ -249,7 +250,7 @@ describe('KavaPlugin', function() {
     it('should send SEEK event', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
         if (params.eventType !== KavaEventModel.SEEK.index) return;
-        validateCommonParmas(params, KavaEventModel.SEEK.index);
+        validateCommonParams(params, KavaEventModel.SEEK.index);
         params.targetPosition.should.exist;
         done();
       });
@@ -266,7 +267,7 @@ describe('KavaPlugin', function() {
     it('should send PLAY_REACHED_25_PERCENT event', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
         if (params.eventType !== KavaEventModel.PLAY_REACHED_25_PERCENT.index) return;
-        validateCommonParmas(params, KavaEventModel.PLAY_REACHED_25_PERCENT.index);
+        validateCommonParams(params, KavaEventModel.PLAY_REACHED_25_PERCENT.index);
         done();
       });
       setupPlayer(config);
@@ -282,7 +283,7 @@ describe('KavaPlugin', function() {
     it('should send PLAY_REACHED_50_PERCENT event', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
         if (params.eventType !== KavaEventModel.PLAY_REACHED_50_PERCENT.index) return;
-        validateCommonParmas(params, KavaEventModel.PLAY_REACHED_50_PERCENT.index);
+        validateCommonParams(params, KavaEventModel.PLAY_REACHED_50_PERCENT.index);
         done();
       });
       setupPlayer(config);
@@ -298,7 +299,7 @@ describe('KavaPlugin', function() {
     it('should send PLAY_REACHED_75_PERCENT event', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
         if (params.eventType !== KavaEventModel.PLAY_REACHED_75_PERCENT.index) return;
-        validateCommonParmas(params, KavaEventModel.PLAY_REACHED_75_PERCENT.index);
+        validateCommonParams(params, KavaEventModel.PLAY_REACHED_75_PERCENT.index);
         done();
       });
       setupPlayer(config);
@@ -314,14 +315,14 @@ describe('KavaPlugin', function() {
     it('should send PLAY_REACHED_100_PERCENT event', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
         if (params.eventType !== KavaEventModel.PLAY_REACHED_100_PERCENT.index) return;
-        validateCommonParmas(params, KavaEventModel.PLAY_REACHED_100_PERCENT.index);
+        validateCommonParams(params, KavaEventModel.PLAY_REACHED_100_PERCENT.index);
         done();
       });
       setupPlayer(config);
       kava = getKavaPlugin();
       const onPlaying = () => {
         player.removeEventListener(player.Event.PLAYING, onPlaying);
-        player.currentTime = player.duration;
+        player.currentTime = player.duration - 1;
       };
       player.addEventListener(player.Event.PLAYING, onPlaying);
       player.play();
@@ -330,7 +331,7 @@ describe('KavaPlugin', function() {
     it('should send SOURCE_SELECTED event', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
         if (params.eventType !== KavaEventModel.SOURCE_SELECTED.index) return;
-        validateCommonParmas(params, KavaEventModel.SOURCE_SELECTED.index);
+        validateCommonParams(params, KavaEventModel.SOURCE_SELECTED.index);
         params.actualBitrate.should.equal(480256);
         done();
         return new RequestBuilder();
@@ -346,7 +347,7 @@ describe('KavaPlugin', function() {
     it('should send FLAVOR_SWITCH event', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
         if (params.eventType !== KavaEventModel.FLAVOR_SWITCH.index) return;
-        validateCommonParmas(params, KavaEventModel.FLAVOR_SWITCH.index);
+        validateCommonParams(params, KavaEventModel.FLAVOR_SWITCH.index);
         params.actualBitrate.should.equal(480256);
         done();
         return new RequestBuilder();
@@ -362,7 +363,7 @@ describe('KavaPlugin', function() {
     it('should send AUDIO_SELECTED event', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
         if (params.eventType !== KavaEventModel.AUDIO_SELECTED.index) return;
-        validateCommonParmas(params, KavaEventModel.AUDIO_SELECTED.index);
+        validateCommonParams(params, KavaEventModel.AUDIO_SELECTED.index);
         params.language.should.equal('heb');
         done();
       });
@@ -374,7 +375,7 @@ describe('KavaPlugin', function() {
 
     it('should send CAPTIONS event', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
-        validateCommonParmas(params, KavaEventModel.CAPTIONS.index);
+        validateCommonParams(params, KavaEventModel.CAPTIONS.index);
         params.caption.should.equal('eng');
         done();
       });
@@ -386,7 +387,7 @@ describe('KavaPlugin', function() {
 
     it('should send ERROR event', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
-        validateCommonParmas(params, KavaEventModel.ERROR.index);
+        validateCommonParams(params, KavaEventModel.ERROR.index);
         params.errorCode.should.equal(200);
         done();
       });
@@ -398,7 +399,7 @@ describe('KavaPlugin', function() {
 
     it('should send VIEW event', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
-        validateCommonParmas(params, KavaEventModel.VIEW.index);
+        validateCommonParams(params, KavaEventModel.VIEW.index);
         params.playTimeSum.should.exist;
         params.bufferTime.should.exist;
         params.bufferTimeSum.should.exist;
@@ -479,7 +480,7 @@ describe('KavaPlugin', function() {
           setTimeout(resolve, 1000);
           return Promise.resolve({
             time: 12345,
-            viewEventEnabled: false
+            viewEventsEnabled: false
           });
         });
         setupPlayer(config);
