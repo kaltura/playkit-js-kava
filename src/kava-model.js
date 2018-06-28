@@ -6,7 +6,7 @@ import {getEventModel} from './kava-event-model';
  * @constructor
  * @param {?Object} - Initial model.
  */
-export default class KavaModel {
+class KavaModel {
   sessionStartTime: number;
   eventIndex: number;
   playTimeSum: number;
@@ -140,3 +140,5 @@ export default class KavaModel {
     return getEventModel(eventObj, this);
   }
 }
+
+export {KavaModel};

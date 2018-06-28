@@ -1,4 +1,4 @@
-import KavaRateHandler from '../../src/kava-rate-handler';
+import {KavaRateHandler} from '../../src/kava-rate-handler';
 
 describe('KavaRateHandler', function() {
   let rateHandler;
