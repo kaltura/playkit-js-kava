@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.2.4"></a>
+## [0.2.4](https://github.com/kaltura/playkit-js-kava/compare/v0.2.3...v0.2.4) (2018-06-28)
+
+
+### Bug Fixes
+
+* **FEC-8322:** In view event the position and playTimeSum are not equal when stream playing continuously ([#17](https://github.com/kaltura/playkit-js-kava/issues/17)) ([1476ee2](https://github.com/kaltura/playkit-js-kava/commit/1476ee2))
+
+
+
 <a name="0.2.3"></a>
 ## [0.2.3](https://github.com/kaltura/playkit-js-kava/compare/v0.2.2...v0.2.3) (2018-06-14)
 
