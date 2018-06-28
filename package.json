@@ -69,7 +69,7 @@
     "lint-staged": "^7.2.0",
     "mocha": "^3.2.0",
     "mocha-cli": "^1.0.1",
-    "playkit-js": "https://github.com/kaltura/playkit-js.git#master",
+    "playkit-js": "https://github.com/kaltura/playkit-js.git#v0.31.1",
     "playkit-js-providers": "https://github.com/kaltura/playkit-js-providers.git#master",
     "pre-push": "^0.1.1",
     "prettier": "^1.13.5",
@@ -82,7 +82,7 @@
     "webpack-dev-server": "latest"
   },
   "peerDependencies": {
-    "playkit-js": "https://github.com/kaltura/playkit-js.git#master",
+    "playkit-js": "https://github.com/kaltura/playkit-js.git#v0.31.1",
     "playkit-js-providers": "https://github.com/kaltura/playkit-js-providers.git#master"
   },
   "keywords": [],
