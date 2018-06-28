@@ -1,4 +1,4 @@
-import KavaModel from '../../src/kava-model';
+import {KavaModel} from '../../src/kava-model';
 
 const ab = 3,
   avb = 5,
