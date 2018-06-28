@@ -414,7 +414,7 @@ describe('KavaPlugin', function() {
     });
   });
 
-  describe.skip('Server Response', () => {
+  describe('Server Response', () => {
     let sandbox;
     const config = {
       sources: {
