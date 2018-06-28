@@ -8,7 +8,7 @@ const SECOND: number = 1000;
  * @constructor
  * @param {Object} config - The timer config.
  */
-export default class KavaTimer extends FakeEventTarget {
+class KavaTimer extends FakeEventTarget {
   _resetCounter: number;
   _eventCounter: number;
   _intervalId: ?number;
@@ -100,3 +100,5 @@ export default class KavaTimer extends FakeEventTarget {
     }
   }
 }
+
+export {KavaTimer};

@@ -4,7 +4,7 @@
  * Manage the video rates for the KAVA plugin.
  * @constructor
  */
-export default class KavaRateHandler {
+class KavaRateHandler {
   _rates: Array<Object> = [];
 
   constructor() {
@@ -97,3 +97,5 @@ export default class KavaRateHandler {
     this._rates = [];
   }
 }
+
+export {KavaRateHandler};
