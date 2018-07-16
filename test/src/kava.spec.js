@@ -139,7 +139,7 @@ describe('KavaPlugin', function() {
       params.sessionId.should.equal(config.session.id);
       params.eventIndex.should.equal(1);
       params.ks.should.equal(config.session.ks);
-      params.referrer.should.equal(btoa(config.plugins.kava.referrer));
+      params.referrer.should.equal(config.plugins.kava.referrer);
       params.deliveryType.should.equal('url');
       params.playbackType.should.equal('vod');
       (!!params.sessionStartTime).should.be.false;
