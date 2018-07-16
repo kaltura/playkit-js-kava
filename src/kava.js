@@ -360,7 +360,7 @@ class Kava extends BasePlugin {
     this._model.getClientTag = () => 'html5:v' + this.config.playerVersion;
     this._model.getKS = () => this.config.ks;
     this._model.getUIConfId = () => this.config.uiConfId;
-    this._model.getReferrer = () => btoa(this.config.referrer);
+    this._model.getReferrer = () => this.config.referrer;
     this._model.getCustomVar1 = () => this.config.customVar1;
     this._model.getCustomVar2 = () => this.config.customVar2;
     this._model.getCustomVar3 = () => this.config.customVar3;
