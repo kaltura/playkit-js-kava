@@ -332,7 +332,7 @@ describe('KavaPlugin', function() {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
         if (params.eventType !== KavaEventModel.SOURCE_SELECTED.index) return;
         validateCommonParams(params, KavaEventModel.SOURCE_SELECTED.index);
-        params.actualBitrate.should.equal(480256);
+        params.actualBitrate.should.equal(480256 / 1024);
         done();
         return new RequestBuilder();
       });
@@ -348,7 +348,7 @@ describe('KavaPlugin', function() {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
         if (params.eventType !== KavaEventModel.FLAVOR_SWITCH.index) return;
         validateCommonParams(params, KavaEventModel.FLAVOR_SWITCH.index);
-        params.actualBitrate.should.equal(480256);
+        params.actualBitrate.should.equal(480256 / 1024);
         done();
         return new RequestBuilder();
       });
