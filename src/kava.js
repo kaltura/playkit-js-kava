@@ -7,6 +7,13 @@ import {KavaTimer} from './kava-timer';
 import {KavaModel} from './kava-model';
 
 /**
+ * The bps to kbps divsor
+ * @type {number}
+ * @const
+ */
+const DIVIDER: number = 1024;
+
+/**
  * KAVA (Kaltura Advanced Analytics) plugin class.
  * @constructor
  * @param {string} name - The plugin name.
@@ -174,7 +181,7 @@ class Kava extends BasePlugin {
   _getRates(): Array<number> {
     const rates = [];
     const videoTracks = this.player.getTracks(this.player.Track.VIDEO);
-    videoTracks.forEach(videoTrack => rates.push(videoTrack.bandwidth));
+    videoTracks.forEach(videoTrack => rates.push(videoTrack.bandwidth / DIVIDER));
     return rates;
   }
 
@@ -183,7 +190,7 @@ class Kava extends BasePlugin {
     const activeTracks = this.player.getActiveTracks();
     this._rateHandler.setRates(rates);
     if (activeTracks.video) {
-      this._rateHandler.setCurrent(activeTracks.video.bandwidth);
+      this._rateHandler.setCurrent(activeTracks.video.bandwidth / DIVIDER);
     }
     if (activeTracks.audio) {
       this._model.updateModel({language: activeTracks.audio.language});
@@ -274,7 +281,7 @@ class Kava extends BasePlugin {
 
   _onVideoTrackChanged(event: FakeEvent): void {
     const videoTrack = event.payload.selectedVideoTrack;
-    this._rateHandler.setCurrent(videoTrack.bandwidth);
+    this._rateHandler.setCurrent(videoTrack.bandwidth / DIVIDER);
     if (this.player.isAdaptiveBitrateEnabled()) {
       this._sendAnalytics(KavaEventModel.FLAVOR_SWITCH);
     } else {
