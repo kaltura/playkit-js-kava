@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.2.6"></a>
+## [0.2.6](https://github.com/kaltura/playkit-js-kava/compare/v0.2.5...v0.2.6) (2018-07-23)
+
+
+### Bug Fixes
+
+* **FEC-8414:** referrer should not be base64 encoded ([#20](https://github.com/kaltura/playkit-js-kava/issues/20)) ([5d52ca9](https://github.com/kaltura/playkit-js-kava/commit/5d52ca9))
+* **FEC-8415:** kava should report bitrate in kbps ([#21](https://github.com/kaltura/playkit-js-kava/issues/21)) ([fc52347](https://github.com/kaltura/playkit-js-kava/commit/fc52347))
+
+
+
 <a name="0.2.5"></a>
 ## [0.2.5](https://github.com/kaltura/playkit-js-kava/compare/v0.2.4...v0.2.5) (2018-07-02)
 
