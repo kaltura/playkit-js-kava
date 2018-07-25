@@ -1,5 +1,6 @@
 // @flow
 import {getEventModel} from './kava-event-model';
+import {Utils} from 'playkit-js';
 
 /**
  * The KAVA model that stores data.
@@ -137,7 +138,13 @@ class KavaModel {
    * @returns {Object} - The event model.
    */
   getModel(eventObj: KavaEvent): Object {
-    return getEventModel(eventObj, this);
+    const model = getEventModel(eventObj, this);
+    Object.keys(model).forEach(key => {
+      if (Utils.Number.isFloat(model[key])) {
+        model[key] = Number.parseFloat(model[key].toFixed(2));
+      }
+    });
+    return model;
   }
 }
 
