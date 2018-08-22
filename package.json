@@ -26,6 +26,9 @@
       "git add"
     ]
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "devDependencies": {
     "babel-cli": "^6.18.0",
     "babel-core": "^6.18.2",
@@ -99,5 +102,8 @@
   "bugs": {
     "url": "https://github.com/kaltura/playkit-js-kava/issues"
   },
-  "homepage": "https://github.com/kaltura/playkit-js-kava#readme"
+  "homepage": "https://github.com/kaltura/playkit-js-kava#readme",
+  "kcc": {
+    "name": "playkit-kava"
+  }
 }
