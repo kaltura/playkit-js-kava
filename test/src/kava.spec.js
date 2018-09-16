@@ -1,6 +1,6 @@
 import '../../src/index.js';
-import {loadPlayer} from 'playkit-js';
-import * as TestUtils from 'playkit-js/test/src/utils/test-utils';
+import {loadPlayer} from '@playkit-js/playkit-js';
+import * as TestUtils from './utils/test-utils';
 import {OVPAnalyticsService, RequestBuilder} from 'playkit-js-providers/dist/playkit-analytics-service';
 import {KavaEventModel} from '../../src/kava-event-model';
 

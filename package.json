@@ -30,6 +30,7 @@
     "access": "public"
   },
   "devDependencies": {
+    "@playkit-js/playkit-js": "^0.37.0",
     "babel-cli": "^6.18.0",
     "babel-core": "^6.18.2",
     "babel-eslint": "^7.1.1",
@@ -68,7 +69,6 @@
     "lint-staged": "^7.2.0",
     "mocha": "^3.2.0",
     "mocha-cli": "^1.0.1",
-    "playkit-js": "https://github.com/kaltura/playkit-js.git#v0.33.0",
     "playkit-js-providers": "https://github.com/kaltura/playkit-js-providers.git#master",
     "pre-push": "^0.1.1",
     "prettier": "^1.13.5",
@@ -81,7 +81,7 @@
     "webpack-dev-server": "latest"
   },
   "peerDependencies": {
-    "playkit-js": "https://github.com/kaltura/playkit-js.git#v0.33.0",
+    "@playkit-js/playkit-js": "^0.37.0",
     "playkit-js-providers": "https://github.com/kaltura/playkit-js-providers.git#master"
   },
   "keywords": [

@@ -1,5 +1,5 @@
 // @flow
-import {BasePlugin, Error as PKError, FakeEvent} from 'playkit-js';
+import {BasePlugin, Error as PKError, FakeEvent} from '@playkit-js/playkit-js';
 import {OVPAnalyticsService} from 'playkit-js-providers/dist/playkit-analytics-service';
 import {KavaEventModel} from './kava-event-model';
 import {KavaRateHandler} from './kava-rate-handler';
