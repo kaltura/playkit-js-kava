@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.2.7"></a>
+## [0.2.7](https://github.com/kaltura/playkit-js-kava/compare/v0.2.6...v0.2.7) (2018-09-16)
+
+
+### Bug Fixes
+
+* use FIRST_PLAYING event instead of PLAYBACK_STARTED ([#24](https://github.com/kaltura/playkit-js-kava/issues/24)) ([3484b09](https://github.com/kaltura/playkit-js-kava/commit/3484b09))
+
+
+
 <a name="0.2.6"></a>
 ## [0.2.6](https://github.com/kaltura/playkit-js-kava/compare/v0.2.5...v0.2.6) (2018-07-23)
 
