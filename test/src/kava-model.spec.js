@@ -4,6 +4,7 @@ const ab = 3,
   avb = 5,
   pid = 'partner',
   eid = 'entry',
+  plid = 'playlist',
   sid = 'session',
   referrer = 'http://referrer',
   cv = 'version',
@@ -62,6 +63,7 @@ describe('KavaModel', () => {
     model.getAverageBitrate = () => avb;
     model.getPartnerId = () => pid;
     model.getEntryId = () => eid;
+    model.getPlaylistId = () => plid;
     model.getSessionId = () => sid;
     model.getReferrer = () => referrer;
     model.getClientVer = () => cv;
@@ -95,6 +97,7 @@ describe('KavaModel', () => {
       eventType: eventModel.MY_EVENT.index,
       partnerId: pid,
       entryId: eid,
+      playlistId: plid,
       sessionId: sid,
       eventIndex: ei,
       referrer: referrer,
