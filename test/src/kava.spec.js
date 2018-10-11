@@ -104,6 +104,7 @@ describe('KavaPlugin', function() {
           playerName: 'kaltura-player-js',
           partnerId: '1091',
           entryId: '0_wifqaipd',
+          playlistId: '12345678',
           entryType: 'Vod',
           sessionId: 'c15be273-0f1b-10a3-4fc9-d7a53eebee85:b66abd37-e2e2-a22e-86ac-7859592e754b',
           ks: 'Njk0ZmI4MzBiOTJiMGZhN2NmNTAwYWQyZGM2M2Y0YjkxMGRiZGI3MXwxMDkxOzEwOTE7MTUxNzkyMjgxMzswOzE1MTc4MzY0MTMuMTM4OzA7dmlldzoqLHdpZGdldDoxOzs='
@@ -136,6 +137,7 @@ describe('KavaPlugin', function() {
       params.eventType.should.equal(eventIndex);
       params.partnerId.should.equal(config.session.partnerId.toString());
       params.entryId.should.equal(config.id);
+      params.playlistId.should.equal(config.plugins.kava.playlistId);
       params.sessionId.should.equal(config.session.id);
       params.eventIndex.should.equal(1);
       params.ks.should.equal(config.session.ks);
