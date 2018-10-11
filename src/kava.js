@@ -362,6 +362,7 @@ class Kava extends BasePlugin {
     this._model.getAverageBitrate = () => this._rateHandler.getAverage();
     this._model.getPartnerId = () => this.config.partnerId;
     this._model.getEntryId = () => this.config.entryId;
+    this._model.getPlaylistId = () => this.config.playlistId;
     this._model.getSessionId = () => this.config.sessionId;
     this._model.getClientVer = () => this.config.playerVersion;
     this._model.getClientTag = () => 'html5:v' + this.config.playerVersion;
@@ -413,22 +414,22 @@ class Kava extends BasePlugin {
 
   _validate(): boolean {
     if (!this.config.partnerId) {
-      Kava._logMissingParam('partnerId');
+      this._logMissingParam('partnerId');
       return false;
     }
     if (!this.config.entryId) {
-      Kava._logMissingParam('entryId');
+      this._logMissingParam('entryId');
       return false;
     }
     return true;
   }
 
-  static _getTimeDifferenceInSeconds(time): number {
-    return (Date.now() - time) / 1000.0;
+  _logMissingParam(missingParam: string): void {
+    this.logger.warn(`Kava analytics block report because of missing param ${missingParam}`);
   }
 
-  static _logMissingParam(missingParam: string): void {
-    this.logger.warn(`Kava analytics block report because of missing param ${missingParam}`);
+  static _getTimeDifferenceInSeconds(time): number {
+    return (Date.now() - time) / 1000.0;
   }
 }
 
