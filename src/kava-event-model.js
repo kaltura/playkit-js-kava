@@ -145,6 +145,9 @@ export function getEventModel(eventObj: KavaEvent, model: KavaModel): Object {
   if (model.getUIConfId()) {
     commonModel.uiConfId = model.getUIConfId();
   }
+  if (model.getPlaylistId()) {
+    commonModel.playlistId = model.getPlaylistId();
+  }
   if (model.getCustomVar1()) {
     commonModel.customVar1 = model.getCustomVar1();
   }

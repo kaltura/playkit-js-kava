@@ -21,6 +21,7 @@ class KavaModel {
   getAverageBitrate: Function;
   getPartnerId: Function;
   getEntryId: Function;
+  getPlaylistId: Function;
   getSessionId: Function;
   getClientVer: Function;
   getClientTag: Function;
