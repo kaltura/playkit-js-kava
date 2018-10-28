@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.3.0"></a>
+# [0.3.0](https://github.com/kaltura/playkit-js-kava/compare/v0.2.7...v0.3.0) (2018-10-28)
+
+
+### Features
+
+* **FEC-8452:** playlist ([#25](https://github.com/kaltura/playkit-js-kava/issues/25)) ([d0363fe](https://github.com/kaltura/playkit-js-kava/commit/d0363fe))
+
+
+
 <a name="0.2.7"></a>
 ## [0.2.7](https://github.com/kaltura/playkit-js-kava/compare/v0.2.6...v0.2.7) (2018-09-16)
 
