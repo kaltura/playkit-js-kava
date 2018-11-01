@@ -33,12 +33,12 @@ Type: [Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Globa
 ```javascript
 // Default config
 {
-serviceUrl: '//analytics.kaltura.com/api_v3/index.php',
-viewEventCountdown: 30,
-resetSessionCountdown: 30,
-dvrThreshold: 120,
-applicationVersion: '',
-playbackContext: ''
+  serviceUrl: '//analytics.kaltura.com/api_v3/index.php',
+  viewEventCountdown: 30,
+  resetSessionCountdown: 30,
+  dvrThreshold: 120,
+  applicationVersion: '',
+  playbackContext: ''
 }
 ```
 

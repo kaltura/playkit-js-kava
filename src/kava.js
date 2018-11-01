@@ -165,7 +165,10 @@ class Kava extends BasePlugin {
     const model = this._model.getModel(eventObj);
     if (typeof this.config.tamperAnalyticsHandler === 'function') {
       const sendRequest = this.config.tamperAnalyticsHandler(model);
-      if (!sendRequest) return;
+      if (!sendRequest) {
+        this.logger.debug('Cancel KAVA request', model);
+        return;
+      }
     }
     this.logger.debug(`Sending KAVA event ${model.eventType}:${eventObj.type}`);
     this.sendAnalytics(model);
