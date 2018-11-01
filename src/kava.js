@@ -6,19 +6,14 @@ import {KavaRateHandler} from './kava-rate-handler';
 import {KavaTimer} from './kava-timer';
 import {KavaModel} from './kava-model';
 
-/**
- * The bps to kbps divsor
- * @type {number}
- * @const
- */
 const DIVIDER: number = 1024;
 
 /**
- * KAVA (Kaltura Advanced Analytics) plugin class.
- * @constructor
+ * Kaltura Advanced Analytics plugin.
+ * @class Kava
  * @param {string} name - The plugin name.
  * @param {Player} player - The player instance.
- * @param {Object} config - The plugin config.
+ * @param {KavaConfigObject} config - The plugin config.
  */
 class Kava extends BasePlugin {
   _model: KavaModel;
@@ -36,9 +31,10 @@ class Kava extends BasePlugin {
   _isPlaying: boolean;
 
   /**
-   * The default config of the plugin.
+   * Default config of the plugin.
    * @type {Object}
    * @static
+   * @memberof Kava
    */
   static defaultConfig: Object = {
     serviceUrl: '//analytics.kaltura.com/api_v3/index.php',
@@ -50,16 +46,15 @@ class Kava extends BasePlugin {
   };
 
   /**
-   * Runs the plugin validation logic.
-   * @type {Object}
    * @static
-   * @return {boolean} - Whether the plugin is valid or not.
+   * @return {boolean} - Whether the plugin is valid in the current environment.
+   * @memberof Kava
    */
   static isValid(): boolean {
     return true;
   }
 
-  constructor(name: string, player: Player, config: Object) {
+  constructor(name: string, player: Player, config: KavaConfigObject) {
     super(name, player, config);
     this._rateHandler = new KavaRateHandler();
     this._model = new KavaModel();
@@ -80,9 +75,10 @@ class Kava extends BasePlugin {
   }
 
   /**
-   * Runs the destroy logic of the plugin.
-   * @public
+   * Destroys the plugin.
    * @return {void}
+   * @memberof Kava
+   * @instance
    */
   destroy(): void {
     this.eventManager.destroy();
@@ -91,9 +87,10 @@ class Kava extends BasePlugin {
   }
 
   /**
-   * Runs the reset logic of the plugin.
-   * @public
+   * Reset the plugin.
    * @return {void}
+   * @memberof Kava
+   * @instance
    */
   reset(): void {
     this.eventManager.removeAll();
@@ -108,6 +105,20 @@ class Kava extends BasePlugin {
       playTimeSum: 0.0,
       sessionStartTime: null
     });
+  }
+
+  /**
+   * Sends KAVA analytics event to analytics service.
+   * @param {Object} model - Event model.
+   * @returns {void}
+   * @instance
+   * @memberof Kava
+   */
+  sendAnalytics(model: Object): void {
+    OVPAnalyticsService.trackEvent(this.config.serviceUrl, model)
+      .doHttpRequest()
+      .then(response => this._handleServerResponseSuccess(response, model), err => this._handleServerResponseFailed(err, model));
+    this._model.updateModel({eventIndex: this._model.getEventIndex() + 1});
   }
 
   _resetFlags(): void {
@@ -144,18 +155,24 @@ class Kava extends BasePlugin {
       this._bufferStartTime = Date.now();
     }
     const model = this._model.getModel(eventObj);
-    OVPAnalyticsService.trackEvent(this.config.serviceUrl, model)
-      .doHttpRequest()
-      .then(
-        response => {
-          this.logger.debug(`KAVA event sent`, eventObj.type, model);
-          this._updateSessionStartTimeModel(response);
-        },
-        err => {
-          this.logger.error(`Failed to send KAVA event`, eventObj.type, model, err);
-        }
-      );
-    this._model.updateModel({eventIndex: this._model.getEventIndex() + 1});
+    if (typeof this.config.tamperAnalyticsHandler === 'function') {
+      const sendRequest = this.config.tamperAnalyticsHandler(model);
+      if (!sendRequest) {
+        this.logger.debug('Cancel KAVA request', model);
+        return;
+      }
+    }
+    this.logger.debug(`Sending KAVA event ${model.eventType}:${eventObj.type}`);
+    this.sendAnalytics(model);
+  }
+
+  _handleServerResponseSuccess(response: Object, model: Object): void {
+    this.logger.debug(`KAVA event sent`, model);
+    this._updateSessionStartTimeModel(response);
+  }
+
+  _handleServerResponseFailed(err: Object, model: Object): void {
+    this.logger.error(`Failed to send KAVA event`, model, err);
   }
 
   _addBindings(): void {
