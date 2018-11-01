@@ -56,16 +56,13 @@ var config = {
     partnerId: {PARTNER_ID}
     ...
   },
-  player: {
-   plugins: {
-     kava: {
-        ...
-     }
-    ...
-   }
+  plugins: {
+    kava: {
+       ...
+    }
    ...
   }
- ...
+...
 };
 var player = KalturaPlayer.setup(config);
 player.loadMedia({
@@ -79,7 +76,7 @@ player.loadMedia({
 
 ### Table of Contents
 
-- [Configuration](./docs/configuration.md)
+- [Configuration & API](docs/configuration-api.md)
 - [Events](./docs/kava-events.md)
 - [Parameters](./docs/kava-parameters.md)
 

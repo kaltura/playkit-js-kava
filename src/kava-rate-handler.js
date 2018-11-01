@@ -2,7 +2,8 @@
 
 /**
  * Manage the video rates for the KAVA plugin.
- * @constructor
+ * @private
+ * @class KavaRateHandler
  */
 class KavaRateHandler {
   _rates: Array<Object> = [];
@@ -14,8 +15,9 @@ class KavaRateHandler {
   /**
    * Sets the video rates.
    * @param {Array<number>} rates - The video rates.
-   * @public
    * @returns {void}
+   * @memberof KavaRateHandler
+   * @instance
    */
   setRates(rates: Array<number>): void {
     this._rates = [];
@@ -31,8 +33,9 @@ class KavaRateHandler {
   /**
    * Sets the current rate.
    * @param {number} rate - The current rate.
-   * @public
    * @returns {void}
+   * @memberof KavaRateHandler
+   * @instance
    */
   setCurrent(rate: number): void {
     this._rates.forEach(o => (o.active = false));
@@ -44,8 +47,9 @@ class KavaRateHandler {
 
   /**
    * Gets the current rate.
-   * @public
    * @returns {number} - The current rate.
+   * @memberof KavaRateHandler
+   * @instance
    */
   getCurrent(): number {
     const current = this._rates.find(o => o.active);
@@ -54,8 +58,9 @@ class KavaRateHandler {
 
   /**
    * Increases the duration of the current rate.
-   * @public
    * @returns {void}
+   * @memberof KavaRateHandler
+   * @instance
    */
   countCurrent(): void {
     const current = this._rates.find(o => o.active);
@@ -66,8 +71,9 @@ class KavaRateHandler {
 
   /**
    * Gets the average rate.
-   * @public
    * @returns {number} - The average rate.
+   * @memberof KavaRateHandler
+   * @instance
    */
   getAverage(): number {
     let totalDuration = 0;
@@ -81,8 +87,9 @@ class KavaRateHandler {
 
   /**
    * Resets the duration of all rates.
-   * @public
    * @returns {void}
+   * @memberof KavaRateHandler
+   * @instance
    */
   reset(): void {
     this._rates.forEach(o => (o.duration = 0));
@@ -90,8 +97,9 @@ class KavaRateHandler {
 
   /**
    * Destroys the class.
-   * @public
    * @returns {void}
+   * @memberof KavaRateHandler
+   * @instance
    */
   destroy(): void {
     this._rates = [];

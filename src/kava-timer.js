@@ -5,7 +5,8 @@ const SECOND: number = 1000;
 
 /**
  * Mange a timer and dispatches related events.
- * @constructor
+ * @private
+ * @class KavaTimer
  * @param {Object} config - The timer config.
  */
 class KavaTimer extends FakeEventTarget {
@@ -28,8 +29,9 @@ class KavaTimer extends FakeEventTarget {
 
   /**
    * Starts the timer interval.
-   * @public
    * @returns {void}
+   * @memberof KavaTimer
+   * @instance
    */
   start(): void {
     this._clearTimeout();
@@ -41,8 +43,9 @@ class KavaTimer extends FakeEventTarget {
 
   /**
    * Continues the timer to dispatch REPORT.
-   * @public
    * @returns {void}
+   * @memberof KavaTimer
+   * @instance
    */
   resume(): void {
     this._stopped = false;
@@ -51,16 +54,18 @@ class KavaTimer extends FakeEventTarget {
 
   /**
    * Stops the timer from dispatch REPORT and starts the timer to dispatch RESET.
-   * @public
    * @returns {void}
+   * @memberof KavaTimer
+   * @instance
    */
   stop(): void {
     this._stopped = true;
   }
 
   /**
-   * @public
    * @returns {boolean} - Whether the timer is stopped.
+   * @memberof KavaTimer
+   * @instance
    */
   isStopped(): boolean {
     return this._stopped;
@@ -68,8 +73,9 @@ class KavaTimer extends FakeEventTarget {
 
   /**
    * Destroys the timer.
-   * @public
    * @returns {void}
+   * @memberof KavaTimer
+   * @instance
    */
   destroy(): void {
     this._clearTimeout();

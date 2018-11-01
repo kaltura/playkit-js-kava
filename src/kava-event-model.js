@@ -118,6 +118,7 @@ export const KavaEventModel: {[event: string]: KavaEvent} = {
 
 /**
  * Gets the full event model for a certain event object including the common params.
+ * @private
  * @param {KavaEvent} eventObj - The event model.
  * @param {KavaModel} model - The plugin model store.
  * @returns {Object} - The full event model.
