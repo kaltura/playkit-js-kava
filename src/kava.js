@@ -42,15 +42,7 @@ class Kava extends BasePlugin {
     resetSessionCountdown: 30,
     dvrThreshold: 120,
     playbackContext: '',
-    applicationVersion: '',
-
-    tamperAnalyticsHandler: function(model) {
-      model.myCustomFlag = true;
-      if (model.eventType !== 2) {
-        return true;
-      }
-      return false;
-    }
+    applicationVersion: ''
   };
 
   /**
