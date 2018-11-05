@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.4.0"></a>
+# [0.4.0](https://github.com/kaltura/playkit-js-kava/compare/v0.3.0...v0.4.0) (2018-11-05)
+
+
+### Features
+
+* **FEC-8629:** add hooks to kava to enable analytics event tampering and sending custom events ([#26](https://github.com/kaltura/playkit-js-kava/issues/26)) ([fdcc08d](https://github.com/kaltura/playkit-js-kava/commit/fdcc08d))
+
+
+
 <a name="0.3.0"></a>
 # [0.3.0](https://github.com/kaltura/playkit-js-kava/compare/v0.2.7...v0.3.0) (2018-10-28)
 
