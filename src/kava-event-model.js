@@ -1,7 +1,15 @@
 // @flow
 import {KavaModel} from './kava-model';
 
+/**
+ * @name KavaEventType
+ * @enum
+ */
 export const KavaEventModel: {[event: string]: KavaEvent} = {
+  /**
+   * @type {string} VIEW
+   * @memberof KavaEventType
+   */
   VIEW: {
     type: 'VIEW',
     index: 99,
@@ -13,16 +21,28 @@ export const KavaEventModel: {[event: string]: KavaEvent} = {
       averageBitrate: model.getAverageBitrate()
     })
   },
+  /**
+   * @type {string} IMPRESSION
+   * @memberof KavaEventType
+   */
   IMPRESSION: {
     type: 'IMPRESSION',
     index: 1,
     getEventModel: () => ({})
   },
+  /**
+   * @type {string} PLAY_REQUEST
+   * @memberof KavaEventType
+   */
   PLAY_REQUEST: {
     type: 'PLAY_REQUEST',
     index: 2,
     getEventModel: () => ({})
   },
+  /**
+   * @type {string} PLAY
+   * @memberof KavaEventType
+   */
   PLAY: {
     type: 'PLAY',
     index: 3,
@@ -33,6 +53,10 @@ export const KavaEventModel: {[event: string]: KavaEvent} = {
       joinTime: model.getJoinTime()
     })
   },
+  /**
+   * @type {string} RESUME
+   * @memberof KavaEventType
+   */
   RESUME: {
     type: 'RESUME',
     index: 4,
@@ -42,16 +66,28 @@ export const KavaEventModel: {[event: string]: KavaEvent} = {
       actualBitrate: model.getActualBitrate()
     })
   },
+  /**
+   * @type {string} PAUSE
+   * @memberof KavaEventType
+   */
   PAUSE: {
     type: 'PAUSE',
     index: 33,
     getEventModel: () => ({})
   },
+  /**
+   * @type {string} REPLAY
+   * @memberof KavaEventType
+   */
   REPLAY: {
     type: 'REPLAY',
     index: 34,
     getEventModel: () => ({})
   },
+  /**
+   * @type {string} SEEK
+   * @memberof KavaEventType
+   */
   SEEK: {
     type: 'SEEK',
     index: 35,
@@ -59,26 +95,46 @@ export const KavaEventModel: {[event: string]: KavaEvent} = {
       targetPosition: model.getTargetPosition()
     })
   },
+  /**
+   * @type {string} PLAY_REACHED_25_PERCENT
+   * @memberof KavaEventType
+   */
   PLAY_REACHED_25_PERCENT: {
     type: 'PLAY_REACHED_25_PERCENT',
     index: 11,
     getEventModel: () => ({})
   },
+  /**
+   * @type {string} PLAY_REACHED_50_PERCENT
+   * @memberof KavaEventType
+   */
   PLAY_REACHED_50_PERCENT: {
     type: 'PLAY_REACHED_50_PERCENT',
     index: 12,
     getEventModel: () => ({})
   },
+  /**
+   * @type {string} PLAY_REACHED_75_PERCENT
+   * @memberof KavaEventType
+   */
   PLAY_REACHED_75_PERCENT: {
     type: 'PLAY_REACHED_75_PERCENT',
     index: 13,
     getEventModel: () => ({})
   },
+  /**
+   * @type {string} PLAY_REACHED_100_PERCENT
+   * @memberof KavaEventType
+   */
   PLAY_REACHED_100_PERCENT: {
     type: 'PLAY_REACHED_100_PERCENT',
     index: 14,
     getEventModel: () => ({})
   },
+  /**
+   * @type {string} SOURCE_SELECTED
+   * @memberof KavaEventType
+   */
   SOURCE_SELECTED: {
     type: 'SOURCE_SELECTED',
     index: 39,
@@ -86,6 +142,10 @@ export const KavaEventModel: {[event: string]: KavaEvent} = {
       actualBitrate: model.getActualBitrate()
     })
   },
+  /**
+   * @type {string} AUDIO_SELECTED
+   * @memberof KavaEventType
+   */
   AUDIO_SELECTED: {
     type: 'AUDIO_SELECTED',
     index: 42,
@@ -93,6 +153,10 @@ export const KavaEventModel: {[event: string]: KavaEvent} = {
       language: model.getLanguage()
     })
   },
+  /**
+   * @type {string} FLAVOR_SWITCH
+   * @memberof KavaEventType
+   */
   FLAVOR_SWITCH: {
     type: 'FLAVOR_SWITCH',
     index: 43,
@@ -100,6 +164,10 @@ export const KavaEventModel: {[event: string]: KavaEvent} = {
       actualBitrate: model.getActualBitrate()
     })
   },
+  /**
+   * @type {string} CAPTIONS
+   * @memberof KavaEventType
+   */
   CAPTIONS: {
     type: 'CAPTIONS',
     index: 38,
@@ -107,6 +175,10 @@ export const KavaEventModel: {[event: string]: KavaEvent} = {
       caption: model.getCaption()
     })
   },
+  /**
+   * @type {string} ERROR
+   * @memberof KavaEventType
+   */
   ERROR: {
     type: 'ERROR',
     index: 98,
@@ -115,6 +187,11 @@ export const KavaEventModel: {[event: string]: KavaEvent} = {
     })
   }
 };
+
+export const KavaEventType: {[event: string]: string} = (eventType => {
+  Object.keys(KavaEventModel).forEach(k => (eventType[k] = k));
+  return eventType;
+})({});
 
 /**
  * Gets the full event model for a certain event object including the common params.

@@ -1,7 +1,7 @@
 // @flow
-import {BasePlugin, Error as PKError, FakeEvent} from '@playkit-js/playkit-js';
+import {BasePlugin, Error as PKError, FakeEvent, Utils} from '@playkit-js/playkit-js';
 import {OVPAnalyticsService} from 'playkit-js-providers/dist/playkit-analytics-service';
-import {KavaEventModel} from './kava-event-model';
+import {KavaEventModel, KavaEventType} from './kava-event-model';
 import {KavaRateHandler} from './kava-rate-handler';
 import {KavaTimer} from './kava-timer';
 import {KavaModel} from './kava-model';
@@ -105,6 +105,32 @@ class Kava extends BasePlugin {
       playTimeSum: 0.0,
       sessionStartTime: null
     });
+  }
+
+  /**
+   * Gets the model object for a certain event.
+   * @param {string} event - Event name.
+   * @returns {Object} - Model object.
+   * @instance
+   * @memberof Kava
+   * @example
+   * const kava = player.plugins.kava;
+   * const viewModel = kava.getEventModel(kava.EventType.VIEW);
+   * kava.sendAnalytics(viewModel);
+   */
+  getEventModel(event: string): ?Object {
+    if (event) {
+      return this._model.getModel(KavaEventModel[event]);
+    }
+  }
+
+  /**
+   * @returns {KavaEventType} - The kava events list.
+   * @instance
+   * @memberof Kava
+   */
+  get EventType(): {[event: string]: string} {
+    return Utils.Object.copyDeep(KavaEventType);
   }
 
   /**
