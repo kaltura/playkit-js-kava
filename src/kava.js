@@ -1,7 +1,7 @@
 // @flow
-import {BasePlugin, Error as PKError, FakeEvent} from '@playkit-js/playkit-js';
+import {BasePlugin, Error as PKError, FakeEvent, Utils} from '@playkit-js/playkit-js';
 import {OVPAnalyticsService} from 'playkit-js-providers/dist/playkit-analytics-service';
-import {KavaEventModel} from './kava-event-model';
+import {KavaEventModel, KavaEventType} from './kava-event-model';
 import {KavaRateHandler} from './kava-rate-handler';
 import {KavaTimer} from './kava-timer';
 import {KavaModel} from './kava-model';
@@ -108,17 +108,62 @@ class Kava extends BasePlugin {
   }
 
   /**
-   * Sends KAVA analytics event to analytics service.
-   * @param {Object} model - Event model.
-   * @returns {void}
+   * Gets the model object for a certain event.
+   * @param {string} event - Event name.
+   * @returns {Object} - Model object.
+   * @instance
+   * @memberof Kava
+   * @example
+   * const kava = player.plugins.kava;
+   * const viewModel = kava.getEventModel(kava.EventType.VIEW);
+   * kava.sendAnalytics(viewModel);
+   */
+  getEventModel(event: string): ?Object {
+    if (event) {
+      return this._model.getModel(KavaEventModel[event]);
+    }
+  }
+
+  /**
+   * @returns {KavaEventType} - The kava events list.
    * @instance
    * @memberof Kava
    */
-  sendAnalytics(model: Object): void {
-    OVPAnalyticsService.trackEvent(this.config.serviceUrl, model)
-      .doHttpRequest()
-      .then(response => this._handleServerResponseSuccess(response, model), err => this._handleServerResponseFailed(err, model));
-    this._model.updateModel({eventIndex: this._model.getEventIndex() + 1});
+  get EventType(): {[event: string]: string} {
+    return Utils.Object.copyDeep(KavaEventType);
+  }
+
+  /**
+   * Sends KAVA analytics event to analytics service.
+   * @param {Object} model - Event model.
+   * @returns {Promise} - Promise to indicate request succeed or failed.
+   * @instance
+   * @memberof Kava
+   * @example
+   * player.plugins.kava.sendAnalytics({...})
+   * .then(() => {
+   *   console.log('kava analytics sent successfully');
+   * })
+   * .catch(e => {
+   *   console.log('kava analytics send failed', e);
+   * });
+   */
+  sendAnalytics(model: Object): Promise<*> {
+    return new Promise((resolve, reject) => {
+      OVPAnalyticsService.trackEvent(this.config.serviceUrl, model)
+        .doHttpRequest()
+        .then(
+          response => {
+            this._handleServerResponseSuccess(response, model);
+            resolve();
+          },
+          err => {
+            this._handleServerResponseFailed(err, model);
+            reject(err);
+          }
+        );
+      this._model.updateModel({eventIndex: this._model.getEventIndex() + 1});
+    });
   }
 
   _resetFlags(): void {
