@@ -136,15 +136,34 @@ class Kava extends BasePlugin {
   /**
    * Sends KAVA analytics event to analytics service.
    * @param {Object} model - Event model.
-   * @returns {void}
+   * @returns {Promise} - Promise to indicate request succeed or failed.
    * @instance
    * @memberof Kava
+   * @example
+   * player.plugins.kava.sendAnalytics({...})
+   * .then(() => {
+   *   console.log('kava analytics sent successfully');
+   * })
+   * .catch(e => {
+   *   console.log('kava analytics send failed', e);
+   * });
    */
-  sendAnalytics(model: Object): void {
-    OVPAnalyticsService.trackEvent(this.config.serviceUrl, model)
-      .doHttpRequest()
-      .then(response => this._handleServerResponseSuccess(response, model), err => this._handleServerResponseFailed(err, model));
-    this._model.updateModel({eventIndex: this._model.getEventIndex() + 1});
+  sendAnalytics(model: Object): Promise<*> {
+    return new Promise((resolve, reject) => {
+      OVPAnalyticsService.trackEvent(this.config.serviceUrl, model)
+        .doHttpRequest()
+        .then(
+          response => {
+            this._handleServerResponseSuccess(response, model);
+            resolve();
+          },
+          err => {
+            this._handleServerResponseFailed(err, model);
+            reject(err);
+          }
+        );
+      this._model.updateModel({eventIndex: this._model.getEventIndex() + 1});
+    });
   }
 
   _resetFlags(): void {
