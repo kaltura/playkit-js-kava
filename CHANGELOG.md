@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.5.0"></a>
+# [0.5.0](https://github.com/kaltura/playkit-js-kava/compare/v0.4.0...v0.5.0) (2018-11-11)
+
+
+### Features
+
+* event model and event type API ([#27](https://github.com/kaltura/playkit-js-kava/issues/27)) ([0d47045](https://github.com/kaltura/playkit-js-kava/commit/0d47045))
+
+
+
 <a name="0.4.0"></a>
 # [0.4.0](https://github.com/kaltura/playkit-js-kava/compare/v0.3.0...v0.4.0) (2018-11-05)
 
