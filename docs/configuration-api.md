@@ -15,47 +15,49 @@
   - [PLAY][11]
   - [RESUME][12]
   - [PAUSE][13]
-  - [REPLAY][14]
-  - [SEEK][15]
-  - [PLAY_REACHED_25_PERCENT][16]
-  - [PLAY_REACHED_50_PERCENT][17]
-  - [PLAY_REACHED_75_PERCENT][18]
-  - [PLAY_REACHED_100_PERCENT][19]
-  - [SOURCE_SELECTED][20]
-  - [AUDIO_SELECTED][21]
-  - [FLAVOR_SWITCH][22]
-  - [CAPTIONS][23]
-  - [ERROR][24]
-- [Kava][25]
-  - [Parameters][26]
-  - [destroy][27]
-  - [reset][28]
-  - [getEventModel][29]
-    - [Parameters][30]
-    - [Examples][31]
-  - [EventType][32]
-  - [sendAnalytics][33]
-    - [Parameters][34]
-    - [Examples][35]
-  - [defaultConfig][36]
-  - [isValid][37]
+  - [BUFFER_START][14]
+  - [BUFFER_END][15]
+  - [REPLAY][16]
+  - [SEEK][17]
+  - [PLAY_REACHED_25_PERCENT][18]
+  - [PLAY_REACHED_50_PERCENT][19]
+  - [PLAY_REACHED_75_PERCENT][20]
+  - [PLAY_REACHED_100_PERCENT][21]
+  - [SOURCE_SELECTED][22]
+  - [AUDIO_SELECTED][23]
+  - [FLAVOR_SWITCH][24]
+  - [CAPTIONS][25]
+  - [ERROR][26]
+- [Kava][27]
+  - [Parameters][28]
+  - [destroy][29]
+  - [reset][30]
+  - [getEventModel][31]
+    - [Parameters][32]
+    - [Examples][33]
+  - [EventType][34]
+  - [sendAnalytics][35]
+    - [Parameters][36]
+    - [Examples][37]
+  - [defaultConfig][38]
+  - [isValid][39]
 
 ## KavaConfigObject
 
-Type: [Object][38]
+Type: [Object][40]
 
 ### Properties
 
-- `serviceUrl` **[string][39]?** The Kaltura API server.
-- `viewEventCountdown` **[number][40]?** The interval in seconds that VIEW event will be sent.
-- `resetSessionCountdown` **[number][40]?** The interval in seconds that Kava session will be reset.
-- `dvrThreshold` **[number][40]?** Threshold in seconds from the live edge.
-- `applicationVersion` **[string][39]?** Used to send the application version from which the user is playing the entry.
-- `playbackContext` **[string][39]?** Used to send the id of the category from which the user is playing the entry.
-- `tamperAnalyticsHandler` **[Function][41]?** An optional handler to implement. Can be used to manipulate the model data before analytics event sent, or to cancel a certain analytics request.
-- `customVar1` **[Object][38]?** Custom objects field.
-- `customVar2` **[Object][38]?** Custom objects field.
-- `customVar3` **[Object][38]?** Custom objects field.
+- `serviceUrl` **[string][41]?** The Kaltura API server.
+- `viewEventCountdown` **[number][42]?** The interval in seconds that VIEW event will be sent.
+- `resetSessionCountdown` **[number][42]?** The interval in seconds that Kava session will be reset.
+- `dvrThreshold` **[number][42]?** Threshold in seconds from the live edge.
+- `applicationVersion` **[string][41]?** Used to send the application version from which the user is playing the entry.
+- `playbackContext` **[string][41]?** Used to send the id of the category from which the user is playing the entry.
+- `tamperAnalyticsHandler` **[Function][43]?** An optional handler to implement. Can be used to manipulate the model data before analytics event sent, or to cancel a certain analytics request.
+- `customVar1` **[Object][40]?** Custom objects field.
+- `customVar2` **[Object][40]?** Custom objects field.
+- `customVar3` **[Object][40]?** Custom objects field.
 
 ### Examples
 
@@ -75,7 +77,7 @@ Type: [Object][38]
 
 #### Parameters
 
-- `model` **[Object][38]** Event model
+- `model` **[Object][40]** Event model
 
 #### Examples
 
@@ -90,77 +92,85 @@ tamperAnalyticsHandler: function (model) {
    }
 ```
 
-Returns **[boolean][42]** Should send the request or not.
+Returns **[boolean][44]** Should send the request or not.
 
 ## KavaEventType
 
 ### VIEW
 
-Type: [string][39]
+Type: [string][41]
 
 ### IMPRESSION
 
-Type: [string][39]
+Type: [string][41]
 
 ### PLAY_REQUEST
 
-Type: [string][39]
+Type: [string][41]
 
 ### PLAY
 
-Type: [string][39]
+Type: [string][41]
 
 ### RESUME
 
-Type: [string][39]
+Type: [string][41]
 
 ### PAUSE
 
-Type: [string][39]
+Type: [string][41]
+
+### BUFFER_START
+
+Type: [string][41]
+
+### BUFFER_END
+
+Type: [string][41]
 
 ### REPLAY
 
-Type: [string][39]
+Type: [string][41]
 
 ### SEEK
 
-Type: [string][39]
+Type: [string][41]
 
 ### PLAY_REACHED_25_PERCENT
 
-Type: [string][39]
+Type: [string][41]
 
 ### PLAY_REACHED_50_PERCENT
 
-Type: [string][39]
+Type: [string][41]
 
 ### PLAY_REACHED_75_PERCENT
 
-Type: [string][39]
+Type: [string][41]
 
 ### PLAY_REACHED_100_PERCENT
 
-Type: [string][39]
+Type: [string][41]
 
 ### SOURCE_SELECTED
 
-Type: [string][39]
+Type: [string][41]
 
 ### AUDIO_SELECTED
 
-Type: [string][39]
+Type: [string][41]
 
 ### FLAVOR_SWITCH
 
-Type: [string][39]
+Type: [string][41]
 
 ### CAPTIONS
 
-Type: [string][39]
+Type: [string][41]
 
 ### ERROR
 
-Type: [string][39]
+Type: [string][41]
 
 ## Kava
 
@@ -168,9 +178,9 @@ Kaltura Advanced Analytics plugin.
 
 ### Parameters
 
-- `name` **[string][39]** The plugin name.
+- `name` **[string][41]** The plugin name.
 - `player` **Player** The player instance.
-- `config` **[KavaConfigObject][43]** The plugin config.
+- `config` **[KavaConfigObject][45]** The plugin config.
 
 ### destroy
 
@@ -190,7 +200,7 @@ Gets the model object for a certain event.
 
 #### Parameters
 
-- `event` **[string][39]** Event name.
+- `event` **[string][41]** Event name.
 
 #### Examples
 
@@ -200,11 +210,11 @@ const viewModel = kava.getEventModel(kava.EventType.VIEW);
 kava.sendAnalytics(viewModel);
 ```
 
-Returns **[Object][38]** Model object.
+Returns **[Object][40]** Model object.
 
 ### EventType
 
-Returns **[KavaEventType][44]** The kava events list.
+Returns **[KavaEventType][46]** The kava events list.
 
 ### sendAnalytics
 
@@ -212,7 +222,7 @@ Sends KAVA analytics event to analytics service.
 
 #### Parameters
 
-- `model` **[Object][38]** Event model.
+- `model` **[Object][40]** Event model.
 
 #### Examples
 
@@ -226,17 +236,17 @@ player.plugins.kava.sendAnalytics({...})
 });
 ```
 
-Returns **[Promise][45]** Promise to indicate request succeed or failed.
+Returns **[Promise][47]** Promise to indicate request succeed or failed.
 
 ### defaultConfig
 
 Default config of the plugin.
 
-Type: [Object][38]
+Type: [Object][40]
 
 ### isValid
 
-Returns **[boolean][42]** Whether the plugin is valid in the current environment.
+Returns **[boolean][44]** Whether the plugin is valid in the current environment.
 
 [1]: #kavaconfigobject
 [2]: #properties
@@ -251,35 +261,37 @@ Returns **[boolean][42]** Whether the plugin is valid in the current environment
 [11]: #play
 [12]: #resume
 [13]: #pause
-[14]: #replay
-[15]: #seek
-[16]: #play_reached_25_percent
-[17]: #play_reached_50_percent
-[18]: #play_reached_75_percent
-[19]: #play_reached_100_percent
-[20]: #source_selected
-[21]: #audio_selected
-[22]: #flavor_switch
-[23]: #captions
-[24]: #error
-[25]: #kava
-[26]: #parameters-1
-[27]: #destroy
-[28]: #reset
-[29]: #geteventmodel
-[30]: #parameters-2
-[31]: #examples-2
-[32]: #eventtype
-[33]: #sendanalytics
-[34]: #parameters-3
-[35]: #examples-3
-[36]: #defaultconfig
-[37]: #isvalid
-[38]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object
-[39]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
-[40]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number
-[41]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function
-[42]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean
-[43]: #kavaconfigobject
-[44]: #kavaeventtype
-[45]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise
+[14]: #buffer_start
+[15]: #buffer_end
+[16]: #replay
+[17]: #seek
+[18]: #play_reached_25_percent
+[19]: #play_reached_50_percent
+[20]: #play_reached_75_percent
+[21]: #play_reached_100_percent
+[22]: #source_selected
+[23]: #audio_selected
+[24]: #flavor_switch
+[25]: #captions
+[26]: #error
+[27]: #kava
+[28]: #parameters-1
+[29]: #destroy
+[30]: #reset
+[31]: #geteventmodel
+[32]: #parameters-2
+[33]: #examples-2
+[34]: #eventtype
+[35]: #sendanalytics
+[36]: #parameters-3
+[37]: #examples-3
+[38]: #defaultconfig
+[39]: #isvalid
+[40]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object
+[41]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String
+[42]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Number
+[43]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function
+[44]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean
+[45]: #kavaconfigobject
+[46]: #kavaeventtype
+[47]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise

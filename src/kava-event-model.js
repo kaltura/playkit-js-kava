@@ -76,6 +76,24 @@ export const KavaEventModel: {[event: string]: KavaEvent} = {
     getEventModel: () => ({})
   },
   /**
+   * @type {string} BUFFER_START
+   * @memberof KavaEventType
+   */
+  BUFFER_START: {
+    type: 'BUFFER_START',
+    index: 45,
+    getEventModel: () => ({})
+  },
+  /**
+   * @type {string} BUFFER_END
+   * @memberof KavaEventType
+   */
+  BUFFER_END: {
+    type: 'BUFFER_END',
+    index: 46,
+    getEventModel: () => ({})
+  },
+  /**
    * @type {string} REPLAY
    * @memberof KavaEventType
    */
