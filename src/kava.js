@@ -379,12 +379,12 @@ class Kava extends BasePlugin {
     if (oldState.type === this.player.State.BUFFERING) {
       this._isBuffering = false;
       this._updateBufferModel();
-      this._sendAnalytics(KavaEventType.BUFFER_END);
+      this._sendAnalytics(KavaEventModel.BUFFER_END);
     }
     if (newState.type === this.player.State.BUFFERING) {
       this._isBuffering = true;
       this._bufferStartTime = Date.now();
-      this._sendAnalytics(KavaEventType.BUFFER_START);
+      this._sendAnalytics(KavaEventModel.BUFFER_START);
     }
   }
 
