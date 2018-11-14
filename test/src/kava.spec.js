@@ -414,6 +414,46 @@ describe('KavaPlugin', function() {
       kava = getKavaPlugin();
       player.play();
     });
+
+    it('should send BUFFER_START event', done => {
+      sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
+        validateCommonParams(params, KavaEventModel.BUFFER_START.index);
+        done();
+        return new RequestBuilder();
+      });
+      setupPlayer(config);
+      kava = getKavaPlugin();
+      kava._onPlayerStateChanged({
+        payload: {
+          oldState: {
+            type: 'playing'
+          },
+          newState: {
+            type: 'buffering'
+          }
+        }
+      });
+    });
+
+    it('should send BUFFER_END event', done => {
+      sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
+        validateCommonParams(params, KavaEventModel.BUFFER_END.index);
+        done();
+        return new RequestBuilder();
+      });
+      setupPlayer(config);
+      kava = getKavaPlugin();
+      kava._onPlayerStateChanged({
+        payload: {
+          newState: {
+            type: 'playing'
+          },
+          oldState: {
+            type: 'buffering'
+          }
+        }
+      });
+    });
   });
 
   describe('Server Response', () => {
