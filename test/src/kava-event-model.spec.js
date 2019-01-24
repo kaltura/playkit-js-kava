@@ -173,4 +173,16 @@ describe('KavaEventModel', () => {
       errorCode: fakeModel.getErrorCode()
     });
   });
+
+  it('BUFFER_START', () => {
+    KavaEventModel.BUFFER_START.type.should.equal('BUFFER_START');
+    KavaEventModel.BUFFER_START.index.should.equal(45);
+    KavaEventModel.BUFFER_START.getEventModel(fakeModel).should.deep.equal({});
+  });
+
+  it('BUFFER_END', () => {
+    KavaEventModel.BUFFER_END.type.should.equal('BUFFER_END');
+    KavaEventModel.BUFFER_END.index.should.equal(46);
+    KavaEventModel.BUFFER_END.getEventModel(fakeModel).should.deep.equal({});
+  });
 });
