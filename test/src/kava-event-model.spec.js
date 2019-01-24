@@ -53,7 +53,9 @@ describe('KavaEventModel', () => {
       bufferTime: fakeModel.getBufferTime(),
       bufferTimeSum: fakeModel.getBufferTimeSum(),
       actualBitrate: fakeModel.getActualBitrate(),
-      averageBitrate: fakeModel.getAverageBitrate()
+      averageBitrate: fakeModel.getAverageBitrate(),
+      captionsLanguage: fakeModel.getCaption(),
+      audioLanguage: fakeModel.getLanguage()
     });
   });
 
