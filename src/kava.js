@@ -318,7 +318,6 @@ class Kava extends BasePlugin {
     this._model.updateModel({bufferTime: 0});
   }
 
-  /**/
   _onTimeUpdate(): void {
     if (!this.player.isLive()) {
       this._updatePlayTimeSumModel();
