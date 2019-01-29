@@ -321,7 +321,7 @@ class Kava extends BasePlugin {
   _onTimeUpdate(): void {
     if (!this.player.isLive()) {
       this._updatePlayTimeSumModel();
-      const percent = this.player.currentTime / this.player.duration;
+      const percent = parseFloat((this.player.currentTime / this.player.duration).toFixed(2));
       if (!this._timePercentEvent.PLAY_REACHED_25 && percent >= 0.25) {
         this._timePercentEvent.PLAY_REACHED_25 = true;
         this._sendAnalytics(KavaEventModel.PLAY_REACHED_25_PERCENT);
