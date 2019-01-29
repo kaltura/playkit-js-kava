@@ -334,7 +334,7 @@ class Kava extends BasePlugin {
         this._timePercentEvent.PLAY_REACHED_75 = true;
         this._sendAnalytics(KavaEventModel.PLAY_REACHED_75_PERCENT);
       }
-      if (!this._timePercentEvent.PLAY_REACHED_100 && percent === 1) {
+      if (!this._timePercentEvent.PLAY_REACHED_100 && percent >= 1) {
         this._timePercentEvent.PLAY_REACHED_100 = true;
         this._sendAnalytics(KavaEventModel.PLAY_REACHED_100_PERCENT);
       }
