@@ -29,6 +29,7 @@ class Kava extends BasePlugin {
   _isBuffering: boolean;
   _timePercentEvent: {[time: string]: boolean};
   _isPlaying: boolean;
+  _loadStartTime: number;
 
   /**
    * Default config of the plugin.
@@ -226,7 +227,7 @@ class Kava extends BasePlugin {
     this.eventManager.listen(this._timer, KavaTimer.Event.RESET, () => this._resetSession());
     this.eventManager.listen(this.player, this.player.Event.SOURCE_SELECTED, () => this._onSourceSelected());
     this.eventManager.listen(this.player, this.player.Event.ERROR, event => this._onError(event));
-    this.eventManager.listen(this.player, this.player.Event.FIRST_PLAY, () => this._onFirstPlay());
+    this.eventManager.listen(this.player, this.player.Event.PLAY_REQUESTED, () => this._onPlayRequested());
     this.eventManager.listen(this.player, this.player.Event.TRACKS_CHANGED, () => this._setInitialTracks());
     this.eventManager.listen(this.player, this.player.Event.PLAYING, () => this._onPlaying());
     this.eventManager.listen(this.player, this.player.Event.FIRST_PLAYING, () => (this._isPlaying = true));
@@ -238,6 +239,8 @@ class Kava extends BasePlugin {
     this.eventManager.listen(this.player, this.player.Event.AUDIO_TRACK_CHANGED, event => this._onAudioTrackChanged(event));
     this.eventManager.listen(this.player, this.player.Event.TEXT_TRACK_CHANGED, event => this._onTextTrackChanged(event));
     this.eventManager.listen(this.player, this.player.Event.PLAYER_STATE_CHANGED, event => this._onPlayerStateChanged(event));
+    this.eventManager.listen(this.player, this.player.Event.CAN_PLAY, () => this._onCanPlay());
+    this.eventManager.listen(this.player, this.player.Event.LOAD_START, () => (this._loadStartTime = Date.now()));
   }
 
   _getRates(): Array<number> {
@@ -291,9 +294,17 @@ class Kava extends BasePlugin {
     }
   }
 
-  _onFirstPlay(): void {
-    this._firstPlayRequestTime = Date.now();
-    this._sendAnalytics(KavaEventModel.PLAY_REQUEST);
+  _onCanPlay(): void {
+    this._model.updateModel({
+      canPlayTime: Kava._getTimeDifferenceInSeconds(this._loadStartTime)
+    });
+  }
+
+  _onPlayRequested(): void {
+    if (!this._firstPlayRequestTime) {
+      this._firstPlayRequestTime = Date.now();
+      this._sendAnalytics(KavaEventModel.PLAY_REQUEST);
+    }
   }
 
   _onSourceSelected(): void {
