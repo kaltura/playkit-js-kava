@@ -52,7 +52,8 @@ export const KavaEventModel: {[event: string]: KavaEvent} = {
       bufferTime: model.getBufferTime(),
       bufferTimeSum: model.getBufferTimeSum(),
       actualBitrate: model.getActualBitrate(),
-      joinTime: model.getJoinTime()
+      joinTime: model.getJoinTime(),
+      canPlay: model.getCanPlayTime()
     })
   },
   /**

@@ -17,6 +17,7 @@ class KavaModel {
   caption: string;
   errorCode: number;
   joinTime: number;
+  canPlayTime: number;
   targetPosition: number;
   getActualBitrate: Function;
   getAverageBitrate: Function;
@@ -37,6 +38,7 @@ class KavaModel {
   getPlaybackType: Function;
   getPlaybackContext: Function;
   getApplicationVersion: Function;
+  getCanPlayTime: Function;
 
   constructor(model?: Object) {
     if (model) {
@@ -52,6 +54,10 @@ class KavaModel {
    */
   getPlayTimeSum(): number {
     return this.playTimeSum;
+  }
+
+  getCanPlayTime(): number {
+    return this.canPlayTime;
   }
 
   /**
