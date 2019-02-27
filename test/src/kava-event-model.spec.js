@@ -1,6 +1,10 @@
 import {KavaEventModel} from '../../src/kava-event-model';
 
 class FakeModel {
+  getCanPlayTime() {
+    return 10;
+  }
+
   getPlayTimeSum() {
     return 10;
   }
@@ -78,7 +82,8 @@ describe('KavaEventModel', () => {
       bufferTime: fakeModel.getBufferTime(),
       bufferTimeSum: fakeModel.getBufferTimeSum(),
       actualBitrate: fakeModel.getActualBitrate(),
-      joinTime: fakeModel.getJoinTime()
+      joinTime: fakeModel.getJoinTime(),
+      canPlay: fakeModel.getCanPlayTime()
     });
   });
 
