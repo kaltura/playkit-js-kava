@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.7.0"></a>
+# [0.7.0](https://github.com/kaltura/playkit-js-kava/compare/v0.6.1...v0.7.0) (2019-02-27)
+
+
+### Features
+
+* **FEC-8803:** add 'canPlay' param to the 'play' event ([#31](https://github.com/kaltura/playkit-js-kava/issues/31)) ([6b1eab7](https://github.com/kaltura/playkit-js-kava/commit/6b1eab7))
+
+
+
 <a name="0.6.1"></a>
 ## [0.6.1](https://github.com/kaltura/playkit-js-kava/compare/v0.6.0...v0.6.1) (2019-01-30)
 
