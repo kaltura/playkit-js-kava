@@ -309,10 +309,8 @@ class Kava extends BasePlugin {
   }
 
   _onPlaybackStart(): void {
-    if (!this._firstPlayRequestTime) {
-      this._firstPlayRequestTime = Date.now();
-      this._sendAnalytics(KavaEventModel.PLAY_REQUEST);
-    }
+    this._firstPlayRequestTime = Date.now();
+    this._sendAnalytics(KavaEventModel.PLAY_REQUEST);
   }
 
   _onSourceSelected(): void {
