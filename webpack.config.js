@@ -36,6 +36,7 @@ module.exports = {
     filename: '[name].js',
     library: ['KalturaPlayer', 'plugins', 'kava'],
     libraryTarget: 'umd',
+    umdNamedDefine: true,
     devtoolModuleFilenameTemplate: './kava/[resource-path]'
   },
   devtool: 'source-map',
