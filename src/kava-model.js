@@ -133,12 +133,20 @@ class KavaModel {
 
   /**
    * Gets the error additional data.
-   * @returns {any} - The error data.
+   * @returns {string} - The stringifyed error data.
    * @memberof KavaModel
    * @instance
    */
-  getErrorDetails(): any {
-    return this.errorDetails;
+  getErrorDetails(): string {
+    let retVal: string = '';
+    if (this.errorDetails) {
+      try {
+        retVal = JSON.stringify(this.errorDetails);
+      } catch (e) {
+        // do nothing
+      }
+    }
+    return retVal;
   }
 
   /**
