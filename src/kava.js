@@ -384,7 +384,7 @@ class Kava extends BasePlugin {
 
   _onError(event: FakeEvent): void {
     if (event.payload && event.payload.severity === PKError.Severity.CRITICAL) {
-      this._model.updateModel({errorCode: event.payload.code});
+      this._model.updateModel({errorCode: event.payload.code, errorDetails: event.payload.data});
       this._sendAnalytics(KavaEventModel.ERROR);
       this.reset();
     }

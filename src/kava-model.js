@@ -16,6 +16,7 @@ class KavaModel {
   language: string;
   caption: string;
   errorCode: number;
+  errorDetails: any;
   joinTime: number;
   canPlayTime: number;
   targetPosition: number;
@@ -128,6 +129,16 @@ class KavaModel {
    */
   getErrorCode(): number {
     return this.errorCode;
+  }
+
+  /**
+   * Gets the error additional data.
+   * @returns {any} - The error data.
+   * @memberof KavaModel
+   * @instance
+   */
+  getErrorDetails(): any {
+    return this.errorDetails;
   }
 
   /**
