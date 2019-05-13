@@ -19,7 +19,7 @@ class KavaModel {
   joinTime: number;
   canPlayTime: number;
   targetPosition: number;
-  segmentDownloadTime: number;
+  bandwidth: number;
   getActualBitrate: Function;
   getAverageBitrate: Function;
   getPartnerId: Function;
@@ -122,13 +122,13 @@ class KavaModel {
   }
 
   /**
-   * Gets the maximum segment download time (seconds).
-   * @returns {number} - The maximum segment download time.
+   * Gets the average bandwidth since last report.
+   * @returns {number} - The bandwidth in kbps
    * @memberof KavaModel
    * @instance
    */
-  getSegmentDownloadTime(): number {
-    return this.segmentDownloadTime;
+  getBandwidth(): number {
+    return this.bandwidth;
   }
 
   /**

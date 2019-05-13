@@ -30,7 +30,8 @@ class Kava extends BasePlugin {
   _timePercentEvent: {[time: string]: boolean};
   _isPlaying: boolean;
   _loadStartTime: number;
-  _maxSegmentDownloadTime: number = 0;
+  _totalSegmentsDownloadTime: number = 0;
+  _totalSegmentsDownloadBytes: number = 0;
   _maxManifestDownloadTime: number = 0;
 
   /**
@@ -281,10 +282,12 @@ class Kava extends BasePlugin {
     if (this._viewEventEnabled) {
       this._updatePlayTimeSumModel();
       this._model.updateModel({
-        segmentDownloadTime: this._maxSegmentDownloadTime,
+        bandwidth:
+          this._totalSegmentsDownloadTime > 0 ? Math.round((this._totalSegmentsDownloadBytes * 8) / this._totalSegmentsDownloadTime) / 1000 : 0,
         manifestDownloadTime: this._maxManifestDownloadTime
       });
-      this._maxSegmentDownloadTime = 0;
+      this._totalSegmentsDownloadTime = 0;
+      this._totalSegmentsDownloadBytes = 0;
       this._maxManifestDownloadTime = 0;
       this._sendAnalytics(KavaEventModel.VIEW);
     } else {
@@ -370,7 +373,8 @@ class Kava extends BasePlugin {
 
   _onFragLoaded(event: FakeEvent): void {
     const seconds = Math.round(event.payload.miliSeconds) / 1000;
-    this._maxSegmentDownloadTime = Math.max(seconds, this._maxSegmentDownloadTime);
+    this._totalSegmentsDownloadTime += seconds;
+    this._totalSegmentsDownloadBytes += event.payload.bytes;
   }
 
   _onManifestLoaded(event: FakeEvent): void {

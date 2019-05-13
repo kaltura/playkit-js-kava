@@ -21,7 +21,7 @@ export const KavaEventModel: {[event: string]: KavaEvent} = {
       averageBitrate: model.getAverageBitrate(),
       audioLanguage: model.getLanguage(),
       captionsLanguage: model.getCaption(),
-      segmentDownloadTime: model.getSegmentDownloadTime()
+      bandwidth: model.getBandwidth()
     })
   },
   /**
