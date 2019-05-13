@@ -19,6 +19,7 @@ class KavaModel {
   joinTime: number;
   canPlayTime: number;
   targetPosition: number;
+  segmentDownloadTime: number;
   getActualBitrate: Function;
   getAverageBitrate: Function;
   getPartnerId: Function;
@@ -118,6 +119,16 @@ class KavaModel {
    */
   getCaption(): string {
     return this.caption;
+  }
+
+  /**
+   * Gets the maximum segment download time (seconds).
+   * @returns {number} - The maximum segment download time.
+   * @memberof KavaModel
+   * @instance
+   */
+  getSegmentDownloadTime(): number {
+    return this.segmentDownloadTime;
   }
 
   /**

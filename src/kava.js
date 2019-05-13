@@ -30,6 +30,7 @@ class Kava extends BasePlugin {
   _timePercentEvent: {[time: string]: boolean};
   _isPlaying: boolean;
   _loadStartTime: number;
+  _maxSegmentDownloadTime: number = 0;
 
   /**
    * Default config of the plugin.
@@ -228,6 +229,7 @@ class Kava extends BasePlugin {
     this.eventManager.listen(this.player, this.player.Event.SOURCE_SELECTED, () => this._onSourceSelected());
     this.eventManager.listen(this.player, this.player.Event.ERROR, event => this._onError(event));
     this.eventManager.listen(this.player, this.player.Event.FIRST_PLAY, () => this._onFirstPlay());
+    this.eventManager.listen(this.player, this.player.Event.FRAG_LOADED, event => this._onFragLoaded(event));
     this.eventManager.listen(this.player, this.player.Event.TRACKS_CHANGED, () => this._setInitialTracks());
     this.eventManager.listen(this.player, this.player.Event.PLAYING, () => this._onPlaying());
     this.eventManager.listen(this.player, this.player.Event.FIRST_PLAYING, () => this._onFirstPlaying());
@@ -276,6 +278,8 @@ class Kava extends BasePlugin {
   _onReport(): void {
     if (this._viewEventEnabled) {
       this._updatePlayTimeSumModel();
+      this._model.updateModel({segmentDownloadTime: this._maxSegmentDownloadTime});
+      this._maxSegmentDownloadTime = 0;
       this._sendAnalytics(KavaEventModel.VIEW);
     } else {
       this.logger.warn(`VIEW event blocked because server response of viewEventsEnabled=false`);
@@ -356,6 +360,11 @@ class Kava extends BasePlugin {
         this._sendAnalytics(KavaEventModel.PLAY_REACHED_100_PERCENT);
       }
     }
+  }
+
+  _onFragLoaded(event: FakeEvent): void {
+    const seconds = Math.round(event.payload.miliSeconds) / 1000;
+    this._maxSegmentDownloadTime = Math.max(seconds, this._maxSegmentDownloadTime);
   }
 
   _onVideoTrackChanged(event: FakeEvent): void {
