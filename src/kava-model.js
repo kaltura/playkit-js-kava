@@ -20,6 +20,7 @@ class KavaModel {
   canPlayTime: number;
   targetPosition: number;
   bandwidth: number;
+  soundMode: SoundMode;
   getActualBitrate: Function;
   getAverageBitrate: Function;
   getPartnerId: Function;
@@ -132,6 +133,16 @@ class KavaModel {
   }
 
   /**
+   * Gets the sound mode of the player.
+   * @returns {SoundMode} - 1: sound off, 2: sound on
+   * @memberof KavaModel
+   * @instance
+   */
+  getSoundMode(): SoundMode {
+    return this.soundMode;
+  }
+
+  /**
    * Gets the error code.
    * @returns {number} - The error code.
    * @memberof KavaModel
@@ -184,4 +195,9 @@ class KavaModel {
   }
 }
 
-export {KavaModel};
+const SoundMode = {
+  SOUND_OFF: 1,
+  SOUND_ON: 2
+};
+
+export {KavaModel, SoundMode};

@@ -4,7 +4,7 @@ import {OVPAnalyticsService} from 'playkit-js-providers/dist/playkit-analytics-s
 import {KavaEventModel, KavaEventType} from './kava-event-model';
 import {KavaRateHandler} from './kava-rate-handler';
 import {KavaTimer} from './kava-timer';
-import {KavaModel} from './kava-model';
+import {KavaModel, SoundMode} from './kava-model';
 
 const DIVIDER: number = 1024;
 
@@ -284,7 +284,8 @@ class Kava extends BasePlugin {
       this._model.updateModel({
         bandwidth:
           this._totalSegmentsDownloadTime > 0 ? Math.round((this._totalSegmentsDownloadBytes * 8) / this._totalSegmentsDownloadTime) / 1000 : 0,
-        manifestDownloadTime: this._maxManifestDownloadTime
+        manifestDownloadTime: this._maxManifestDownloadTime,
+        soundMode: this.player.muted ? SoundMode.SOUND_OFF : SoundMode.SOUND_ON
       });
       this._totalSegmentsDownloadTime = 0;
       this._totalSegmentsDownloadBytes = 0;
