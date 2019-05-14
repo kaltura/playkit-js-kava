@@ -23,7 +23,8 @@ export const KavaEventModel: {[event: string]: KavaEvent} = {
       captionsLanguage: model.getCaption(),
       bandwidth: model.getBandwidth(),
       soundMode: model.getSoundMode(),
-      tabMode: model.getTabMode()
+      tabMode: model.getTabMode(),
+      availableBuffer: model.getAvailableBuffer()
     })
   },
   /**

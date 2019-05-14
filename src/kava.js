@@ -278,6 +278,25 @@ class Kava extends BasePlugin {
     }
   }
 
+  /**
+   * calculates the available buffer length
+   * @returns {number} the remaining buffer length of the current played time
+   * @private
+   */
+  _getAvailableBuffer(): number {
+    let retVal = 0;
+    if (this.player.getVideoElement() && this.player.getVideoElement().buffered) {
+      const buffered = this.player.getVideoElement().buffered;
+      for (let i = 0; i < buffered.length; i++) {
+        // find the relevant buffer time range containing the current time
+        if (buffered.start(i) <= this.player.getVideoElement().currentTime && this.player.getVideoElement().currentTime <= buffered.end(i)) {
+          retVal = buffered.end(i) - this.player.getVideoElement().currentTime;
+        }
+      }
+    }
+    return retVal;
+  }
+
   _onReport(): void {
     if (this._viewEventEnabled) {
       this._updatePlayTimeSumModel();
@@ -286,7 +305,8 @@ class Kava extends BasePlugin {
           this._totalSegmentsDownloadTime > 0 ? Math.round((this._totalSegmentsDownloadBytes * 8) / this._totalSegmentsDownloadTime) / 1000 : 0,
         manifestDownloadTime: this._maxManifestDownloadTime,
         soundMode: this.player.muted ? SoundMode.SOUND_OFF : SoundMode.SOUND_ON,
-        tabMode: document.hasFocus() ? TabMode.TAB_FOCUSED : TabMode.TAB_NOT_FOCUSED
+        tabMode: document.hasFocus() ? TabMode.TAB_FOCUSED : TabMode.TAB_NOT_FOCUSED,
+        availableBuffer: this._getAvailableBuffer()
       });
       this._totalSegmentsDownloadTime = 0;
       this._totalSegmentsDownloadBytes = 0;

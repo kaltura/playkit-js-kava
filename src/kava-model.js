@@ -20,6 +20,7 @@ class KavaModel {
   canPlayTime: number;
   targetPosition: number;
   bandwidth: number;
+  availableBuffer: number;
   soundMode: SoundMode;
   tabMode: TabMode;
   getActualBitrate: Function;
@@ -131,6 +132,16 @@ class KavaModel {
    */
   getBandwidth(): number {
     return this.bandwidth;
+  }
+
+  /**
+   * Gets the availble buffer length.
+   * @returns {number} - buffer length of the current played video location
+   * @memberof KavaModel
+   * @instance
+   */
+  getAvailableBuffer(): number {
+    return this.availableBuffer;
   }
 
   /**
