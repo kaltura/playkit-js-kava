@@ -21,6 +21,7 @@ class KavaModel {
   targetPosition: number;
   bandwidth: number;
   soundMode: SoundMode;
+  tabMode: TabMode;
   getActualBitrate: Function;
   getAverageBitrate: Function;
   getPartnerId: Function;
@@ -134,12 +135,22 @@ class KavaModel {
 
   /**
    * Gets the sound mode of the player.
-   * @returns {SoundMode} - 1: sound off, 2: sound on
+   * @returns {SoundMode} the state of the sound (muted ot not)
    * @memberof KavaModel
    * @instance
    */
   getSoundMode(): SoundMode {
     return this.soundMode;
+  }
+
+  /**
+   * Gets the Tab mode of the browser.
+   * @returns {TabMode} the state of the tab (focused or not)
+   * @memberof KavaModel
+   * @instance
+   */
+  getTabMode(): TabMode {
+    return this.tabMode;
   }
 
   /**
@@ -200,4 +211,9 @@ const SoundMode = {
   SOUND_ON: 2
 };
 
-export {KavaModel, SoundMode};
+const TabMode = {
+  TAB_NOT_FOCUSED: 1,
+  TAB_FOCUSED: 2
+};
+
+export {KavaModel, SoundMode, TabMode};
