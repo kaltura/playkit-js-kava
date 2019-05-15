@@ -232,6 +232,7 @@ class Kava extends BasePlugin {
     this.eventManager.listen(this.player, this.player.Event.ERROR, event => this._onError(event));
     this.eventManager.listen(this.player, this.player.Event.FIRST_PLAY, () => this._onFirstPlay());
     this.eventManager.listen(this.player, this.player.Event.FRAG_LOADED, event => this._onFragLoaded(event));
+    this.eventManager.listen(this.player, this.player.Event.FPS_DROP, event => this._onFPSDrop(event));
     this.eventManager.listen(this.player, this.player.Event.MANIFEST_LOADED, event => this._onManifestLoaded(event));
     this.eventManager.listen(this.player, this.player.Event.TRACKS_CHANGED, () => this._setInitialTracks());
     this.eventManager.listen(this.player, this.player.Event.PLAYING, () => this._onPlaying());
@@ -285,12 +286,12 @@ class Kava extends BasePlugin {
    */
   _getAvailableBuffer(): number {
     let retVal = 0;
-    if (this.player.getVideoElement() && this.player.getVideoElement().buffered) {
-      const buffered = this.player.getVideoElement().buffered;
+    if (this.player.buffered) {
+      const buffered = this.player.buffered;
       for (let i = 0; i < buffered.length; i++) {
         // find the relevant buffer time range containing the current time
-        if (buffered.start(i) <= this.player.getVideoElement().currentTime && this.player.getVideoElement().currentTime <= buffered.end(i)) {
-          retVal = buffered.end(i) - this.player.getVideoElement().currentTime;
+        if (buffered.start(i) <= this.player.currentTime && this.player.currentTime <= buffered.end(i)) {
+          retVal = buffered.end(i) - this.player.currentTime;
         }
       }
     }
@@ -393,6 +394,10 @@ class Kava extends BasePlugin {
     }
   }
 
+  _onFPSDrop(event: FakeEvent): void {
+    this.logger.debug('_onFPSDrop' + event);
+  }
+
   _onFragLoaded(event: FakeEvent): void {
     const seconds = Math.round(event.payload.miliSeconds) / 1000;
     this._totalSegmentsDownloadTime += seconds;
@@ -401,7 +406,6 @@ class Kava extends BasePlugin {
 
   _onManifestLoaded(event: FakeEvent): void {
     const seconds = Math.round(event.payload.miliSeconds) / 1000;
-    this.logger.debug('manifest:' + seconds);
     this._maxManifestDownloadTime = Math.max(seconds, this._maxManifestDownloadTime);
   }
 
