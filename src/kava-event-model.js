@@ -22,6 +22,7 @@ export const KavaEventModel: {[event: string]: KavaEvent} = {
       audioLanguage: model.getLanguage(),
       captionsLanguage: model.getCaption(),
       bandwidth: model.getBandwidth(),
+      manifestDownloadTime: model.getMaxManifestDownloadTime(),
       soundMode: model.getSoundMode(),
       tabMode: model.getTabMode(),
       availableBuffer: model.getAvailableBuffer()

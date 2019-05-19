@@ -30,9 +30,6 @@ class Kava extends BasePlugin {
   _timePercentEvent: {[time: string]: boolean};
   _isPlaying: boolean;
   _loadStartTime: number;
-  _totalSegmentsDownloadTime: number = 0;
-  _totalSegmentsDownloadBytes: number = 0;
-  _maxManifestDownloadTime: number = 0;
 
   /**
    * Default config of the plugin.
@@ -232,7 +229,6 @@ class Kava extends BasePlugin {
     this.eventManager.listen(this.player, this.player.Event.ERROR, event => this._onError(event));
     this.eventManager.listen(this.player, this.player.Event.FIRST_PLAY, () => this._onFirstPlay());
     this.eventManager.listen(this.player, this.player.Event.FRAG_LOADED, event => this._onFragLoaded(event));
-    this.eventManager.listen(this.player, this.player.Event.FPS_DROP, event => this._onFPSDrop(event));
     this.eventManager.listen(this.player, this.player.Event.MANIFEST_LOADED, event => this._onManifestLoaded(event));
     this.eventManager.listen(this.player, this.player.Event.TRACKS_CHANGED, () => this._setInitialTracks());
     this.eventManager.listen(this.player, this.player.Event.PLAYING, () => this._onPlaying());
@@ -302,21 +298,19 @@ class Kava extends BasePlugin {
     if (this._viewEventEnabled) {
       this._updatePlayTimeSumModel();
       this._model.updateModel({
-        bandwidth:
-          this._totalSegmentsDownloadTime > 0 ? Math.round((this._totalSegmentsDownloadBytes * 8) / this._totalSegmentsDownloadTime) / 1000 : 0,
-        manifestDownloadTime: this._maxManifestDownloadTime,
-        soundMode: this.player.muted ? SoundMode.SOUND_OFF : SoundMode.SOUND_ON,
+        soundMode: this.player.muted || this.player.volume === 0 ? SoundMode.SOUND_OFF : SoundMode.SOUND_ON,
         tabMode: document.hasFocus() ? TabMode.TAB_FOCUSED : TabMode.TAB_NOT_FOCUSED,
         availableBuffer: this._getAvailableBuffer()
       });
-      this._totalSegmentsDownloadTime = 0;
-      this._totalSegmentsDownloadBytes = 0;
-      this._maxManifestDownloadTime = 0;
       this._sendAnalytics(KavaEventModel.VIEW);
     } else {
       this.logger.warn(`VIEW event blocked because server response of viewEventsEnabled=false`);
     }
-    this._model.updateModel({bufferTime: 0});
+    this._model.updateModel({
+      totalSegmentsDownloadTime: 0,
+      totalSegmentsDownloadBytes: 0,
+      bufferTime: 0
+    });
   }
 
   _onPlaying(): void {
@@ -394,19 +388,19 @@ class Kava extends BasePlugin {
     }
   }
 
-  _onFPSDrop(event: FakeEvent): void {
-    this.logger.debug('_onFPSDrop' + event);
-  }
-
   _onFragLoaded(event: FakeEvent): void {
     const seconds = Math.round(event.payload.miliSeconds) / 1000;
-    this._totalSegmentsDownloadTime += seconds;
-    this._totalSegmentsDownloadBytes += event.payload.bytes;
+    this._model.updateModel({
+      totalSegmentsDownloadTime: this._model.totalSegmentsDownloadTime + seconds,
+      totalSegmentsDownloadBytes: this._model.totalSegmentsDownloadBytes + event.payload.bytes
+    });
   }
 
   _onManifestLoaded(event: FakeEvent): void {
     const seconds = Math.round(event.payload.miliSeconds) / 1000;
-    this._maxManifestDownloadTime = Math.max(seconds, this._maxManifestDownloadTime);
+    this._model.updateModel({
+      maxManifestDownloadTime: Math.max(seconds, this._model.maxManifestDownloadTime)
+    });
   }
 
   _onVideoTrackChanged(event: FakeEvent): void {

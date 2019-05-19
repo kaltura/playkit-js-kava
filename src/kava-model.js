@@ -19,7 +19,9 @@ class KavaModel {
   joinTime: number;
   canPlayTime: number;
   targetPosition: number;
-  bandwidth: number;
+  totalSegmentsDownloadTime: number = 0;
+  totalSegmentsDownloadBytes: number = 0;
+  maxManifestDownloadTime: number = 0;
   availableBuffer: number;
   soundMode: SoundMode;
   tabMode: TabMode;
@@ -131,7 +133,17 @@ class KavaModel {
    * @instance
    */
   getBandwidth(): number {
-    return this.bandwidth;
+    return this.totalSegmentsDownloadTime > 0 ? Math.round((this.totalSegmentsDownloadBytes * 8) / this.totalSegmentsDownloadTime) / 1000 : 0;
+  }
+
+  /**
+   * Returns the longest manifest download time in seconds
+   * @returns {number} - manifest max download time in seconds
+   * @memberof KavaModel
+   * @instance
+   */
+  getMaxManifestDownloadTime(): number {
+    return this.maxManifestDownloadTime;
   }
 
   /**
