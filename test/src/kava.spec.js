@@ -3,6 +3,9 @@ import {loadPlayer} from '@playkit-js/playkit-js';
 import * as TestUtils from './utils/test-utils';
 import {OVPAnalyticsService, RequestBuilder} from 'playkit-js-providers/dist/playkit-analytics-service';
 import {KavaEventModel} from '../../src/kava-event-model';
+import FakeEvent from '@playkit-js/playkit-js/src/event/fake-event';
+import {CustomEventType} from '@playkit-js/playkit-js/src/event/event-type';
+import {SoundMode, TabMode} from '../../src/kava-model';
 
 const targetId = 'player-placeholder_kava.spec';
 
@@ -401,18 +404,84 @@ describe('KavaPlugin', function() {
 
     it('should send VIEW event', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
+        if (params.eventType !== KavaEventModel.VIEW.index) return;
         validateCommonParams(params, KavaEventModel.VIEW.index);
         params.playTimeSum.should.exist;
         params.bufferTime.should.exist;
         params.bufferTimeSum.should.exist;
         params.actualBitrate.should.exist;
         params.averageBitrate.should.exist;
+        params.bandwidth.should.equal(0);
+        params.manifestDownloadTime.should.equal(0);
+        params.tabMode.should.equal(TabMode.TAB_FOCUSED);
+        params.soundMode.should.equal(SoundMode.SOUND_ON);
         done();
         return new RequestBuilder();
       });
       setupPlayer(config);
       kava = getKavaPlugin();
       player.play();
+    });
+
+    it('should send VIEW event with manifest download time and bandwidth', done => {
+      const DUMMY_MANIFEST_DOWNLOAD_TIME = 57;
+      const FRAG1_DOWNLOAD_TIME = 100;
+      const FRAG2_DOWNLOAD_TIME = 20;
+      const FRAG1_BYTES = 2000;
+      const FRAG2_BYTES = 20000;
+      sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
+        if (params.eventType !== KavaEventModel.VIEW.index) return;
+        params.manifestDownloadTime.should.equal(DUMMY_MANIFEST_DOWNLOAD_TIME / 1000);
+        const TOTAL_SECONDS = (FRAG1_DOWNLOAD_TIME + FRAG2_DOWNLOAD_TIME) / 1000;
+        params.bandwidth.should.equal(Math.round(((FRAG1_BYTES + FRAG2_BYTES) * 8) / TOTAL_SECONDS) / 1000);
+        done();
+        return new RequestBuilder();
+      });
+      setupPlayer(config);
+      kava = getKavaPlugin();
+      player.play();
+      player.dispatchEvent(new FakeEvent(CustomEventType.MANIFEST_LOADED, {miliSeconds: DUMMY_MANIFEST_DOWNLOAD_TIME}));
+      player.dispatchEvent(new FakeEvent(CustomEventType.FRAG_LOADED, {miliSeconds: FRAG1_DOWNLOAD_TIME, bytes: FRAG1_BYTES}));
+      player.dispatchEvent(new FakeEvent(CustomEventType.FRAG_LOADED, {miliSeconds: FRAG2_DOWNLOAD_TIME, bytes: FRAG2_BYTES}));
+    });
+
+    it('should send VIEW event with volume set to 0', done => {
+      sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
+        if (params.eventType !== KavaEventModel.VIEW.index) return;
+        params.soundMode.should.equal(SoundMode.SOUND_OFF);
+        done();
+        return new RequestBuilder();
+      });
+      setupPlayer(config);
+      kava = getKavaPlugin();
+      player.play();
+      player.volume = 0;
+    });
+
+    it('should send VIEW event with sound muted', done => {
+      sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
+        if (params.eventType !== KavaEventModel.VIEW.index) return;
+        params.soundMode.should.equal(SoundMode.SOUND_OFF);
+        done();
+        return new RequestBuilder();
+      });
+      setupPlayer(config);
+      kava = getKavaPlugin();
+      player.play();
+      player.muted = true;
+    });
+
+    it('should send VIEW event with tab mode off focus', done => {
+      sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
+        if (params.eventType !== KavaEventModel.VIEW.index) return;
+        params.tabMode.should.equal(TabMode.TAB_NOT_FOCUSED);
+        done();
+        return new RequestBuilder();
+      });
+      setupPlayer(config);
+      kava = getKavaPlugin();
+      player.play();
+      window.blur();
     });
 
     it('should send BUFFER_START event', done => {
