@@ -438,7 +438,8 @@ class Kava extends BasePlugin {
     const seconds = Math.round(event.payload.miliSeconds) / 1000;
     this._model.updateModel({
       totalSegmentsDownloadTime: this._model.totalSegmentsDownloadTime + seconds,
-      totalSegmentsDownloadBytes: this._model.totalSegmentsDownloadBytes + event.payload.bytes
+      totalSegmentsDownloadBytes: this._model.totalSegmentsDownloadBytes + event.payload.bytes,
+      maxSegmentDownloadTime: Math.max(seconds, this._model.maxSegmentDownloadTime)
     });
   }
 

@@ -30,6 +30,9 @@ export const KavaEventModel: {[event: string]: KavaEvent} = {
       if (model.getMaxManifestDownloadTime() != null) {
         retval.manifestDownloadTime = model.getMaxManifestDownloadTime();
       }
+      if (model.getSegmentDownloadTime() != null) {
+        retval.segmentDownloadTime = model.getSegmentDownloadTime();
+      }
       if (model.getBandwidth()) {
         retval.bandwidth = model.getBandwidth();
       }

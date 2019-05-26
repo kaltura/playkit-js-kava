@@ -21,6 +21,7 @@ class KavaModel {
   targetPosition: number;
   totalSegmentsDownloadTime: number = 0;
   totalSegmentsDownloadBytes: number = 0;
+  maxSegmentDownloadTime: ?number = null;
   maxManifestDownloadTime: ?number = null;
   availableBuffer: number;
   droppedFramesRatio: ?number = null;
@@ -145,6 +146,16 @@ class KavaModel {
    */
   getMaxManifestDownloadTime(): ?number {
     return this.maxManifestDownloadTime;
+  }
+
+  /**
+   * Returns the longest segment download time in seconds
+   * @returns {number} - segment max download time in seconds
+   * @memberof KavaModel
+   * @instance
+   */
+  getSegmentDownloadTime(): ?number {
+    return this.maxSegmentDownloadTime;
   }
 
   /**

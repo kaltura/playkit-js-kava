@@ -68,6 +68,10 @@ class FakeModel {
   getDroppedFramesRatio() {
     return 0.01;
   }
+
+  getSegmentDownloadTime() {
+    return 0.3;
+  }
 }
 
 describe('KavaEventModel', () => {
@@ -89,7 +93,8 @@ describe('KavaEventModel', () => {
       droppedFramesRatio: fakeModel.getDroppedFramesRatio(),
       manifestDownloadTime: fakeModel.getMaxManifestDownloadTime(),
       soundMode: fakeModel.getSoundMode(),
-      tabMode: fakeModel.getTabMode()
+      tabMode: fakeModel.getTabMode(),
+      segmentDownloadTime: fakeModel.getSegmentDownloadTime()
     });
   });
 

@@ -406,9 +406,7 @@ describe('KavaPlugin', function() {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
         if (params.eventType !== KavaEventModel.VIEW.index) return;
         validateCommonParams(params, KavaEventModel.VIEW.index);
-        // Please notice that from version 11.x of should.js keys checks that the keys exist and not exactly these keys exist
-        // when upgrading to version 11.x and above - the check should change to should.have.only.keys
-        params.should.have.keys(
+        params.should.have.all.keys(
           'audioLanguage',
           'availableBuffer',
           'bufferTime',
@@ -419,6 +417,7 @@ describe('KavaPlugin', function() {
           'clientTag',
           'clientVer',
           'deliveryType',
+          'droppedFramesRatio',
           'entryId',
           'eventIndex',
           'eventType',
@@ -443,7 +442,7 @@ describe('KavaPlugin', function() {
       player.play();
     });
 
-    it('should send VIEW event with manifest download time and bandwidth', done => {
+    it('should send VIEW event with manifest download time, segment download time and bandwidth', done => {
       const DUMMY_MANIFEST_DOWNLOAD_TIME = 57;
       const FRAG1_DOWNLOAD_TIME = 100;
       const FRAG2_DOWNLOAD_TIME = 20;
@@ -454,6 +453,7 @@ describe('KavaPlugin', function() {
         params.manifestDownloadTime.should.equal(DUMMY_MANIFEST_DOWNLOAD_TIME / 1000);
         const TOTAL_SECONDS = (FRAG1_DOWNLOAD_TIME + FRAG2_DOWNLOAD_TIME) / 1000;
         params.bandwidth.should.equal(Math.round(((FRAG1_BYTES + FRAG2_BYTES) * 8) / TOTAL_SECONDS) / 1000);
+        params.segmentDownloadTime.should.equal(FRAG1_DOWNLOAD_TIME / 1000);
         done();
         return new RequestBuilder();
       });
