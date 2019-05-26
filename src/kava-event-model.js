@@ -13,20 +13,32 @@ export const KavaEventModel: {[event: string]: KavaEvent} = {
   VIEW: {
     type: 'VIEW',
     index: 99,
-    getEventModel: (model: KavaModel) => ({
-      playTimeSum: model.getPlayTimeSum(),
-      bufferTime: model.getBufferTime(),
-      bufferTimeSum: model.getBufferTimeSum(),
-      actualBitrate: model.getActualBitrate(),
-      averageBitrate: model.getAverageBitrate(),
-      audioLanguage: model.getLanguage(),
-      captionsLanguage: model.getCaption(),
-      bandwidth: model.getBandwidth(),
-      manifestDownloadTime: model.getMaxManifestDownloadTime(),
-      soundMode: model.getSoundMode(),
-      tabMode: model.getTabMode(),
-      availableBuffer: model.getAvailableBuffer()
-    })
+    getEventModel: (model: KavaModel) => {
+      const retval = {
+        playTimeSum: model.getPlayTimeSum(),
+        bufferTime: model.getBufferTime(),
+        bufferTimeSum: model.getBufferTimeSum(),
+        actualBitrate: model.getActualBitrate(),
+        averageBitrate: model.getAverageBitrate(),
+        audioLanguage: model.getLanguage(),
+        captionsLanguage: model.getCaption(),
+        soundMode: model.getSoundMode(),
+        tabMode: model.getTabMode(),
+        availableBuffer: model.getAvailableBuffer()
+      };
+
+      if (model.getMaxManifestDownloadTime() != null) {
+        retval.manifestDownloadTime = model.getMaxManifestDownloadTime();
+      }
+      if (model.getBandwidth()) {
+        retval.bandwidth = model.getBandwidth();
+      }
+      if (model.getDroppedFramesRatio() != null) {
+        retval.droppedFramesRatio = model.getDroppedFramesRatio();
+      }
+
+      return retval;
+    }
   },
   /**
    * @type {string} IMPRESSION

@@ -406,13 +406,33 @@ describe('KavaPlugin', function() {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
         if (params.eventType !== KavaEventModel.VIEW.index) return;
         validateCommonParams(params, KavaEventModel.VIEW.index);
-        params.playTimeSum.should.exist;
-        params.bufferTime.should.exist;
-        params.bufferTimeSum.should.exist;
-        params.actualBitrate.should.exist;
-        params.averageBitrate.should.exist;
-        params.bandwidth.should.equal(0);
-        params.manifestDownloadTime.should.equal(0);
+        // Please notice that from version 11.x of should.js keys checks that the keys exist and not exactly these keys exist
+        // when upgrading to version 11.x and above - the check should change to should.have.only.keys
+        params.should.have.keys(
+          'audioLanguage',
+          'availableBuffer',
+          'bufferTime',
+          'bufferTimeSum',
+          'actualBitrate',
+          'averageBitrate',
+          'captionsLanguage',
+          'clientTag',
+          'clientVer',
+          'deliveryType',
+          'entryId',
+          'eventIndex',
+          'eventType',
+          'ks',
+          'partnerId',
+          'playTimeSum',
+          'playbackType',
+          'playlistId',
+          'position',
+          'referrer',
+          'sessionId',
+          'soundMode',
+          'tabMode'
+        );
         params.tabMode.should.equal(TabMode.TAB_FOCUSED);
         params.soundMode.should.equal(SoundMode.SOUND_ON);
         done();

@@ -30,6 +30,8 @@ class Kava extends BasePlugin {
   _timePercentEvent: {[time: string]: boolean};
   _isPlaying: boolean;
   _loadStartTime: number;
+  _lastDroppedFrames: number = 0;
+  _lastTotalFrames: number = 0;
 
   /**
    * Default config of the plugin.
@@ -294,13 +296,57 @@ class Kava extends BasePlugin {
     return retVal;
   }
 
+  /**
+   * calculates the dropped frames ratio since last call
+   * @returns {number} the ratio between dropped frames and the total frames
+   * @private
+   */
+  _getDroppedFramesRatio(): number {
+    let retVal = -1;
+    const droppedAndDecoded: ?[number, number] = this._getDroppedAndDecodedFrames();
+    if (droppedAndDecoded) {
+      let droppedFramesDelta: number;
+      let totalFramesDelta: number;
+      const lastDroppedFrames = droppedAndDecoded[0];
+      const lastTotalFrames = droppedAndDecoded[1];
+      droppedFramesDelta = lastDroppedFrames - this._lastDroppedFrames;
+      totalFramesDelta = lastTotalFrames - this._lastTotalFrames;
+      retVal = Math.round((droppedFramesDelta / totalFramesDelta) * 1000) / 1000;
+
+      this._lastTotalFrames = lastTotalFrames;
+      this._lastDroppedFrames = lastDroppedFrames;
+    }
+    return retVal;
+  }
+
+  /**
+   * returns dropped and total frames from the VideoPlaybackQuality Interface of the browser (if supported)
+   * @returns {number} {number} the number of video frames dropped and total video frames (created and dropped)
+   * since the creation of the associated HTMLVideoElement
+   * @private
+   */
+  _getDroppedAndDecodedFrames(): ?[number, number] {
+    if (typeof this.player.getVideoElement().getVideoPlaybackQuality === 'function') {
+      const videoPlaybackQuality = this.player.getVideoElement().getVideoPlaybackQuality();
+      return [videoPlaybackQuality.droppedVideoFrames, videoPlaybackQuality.totalVideoFrames];
+    } else if (
+      typeof this.player.getVideoElement().webkitDroppedFrameCount == 'number' &&
+      typeof this.player.getVideoElement().webkitDecodedFrameCount == 'number'
+    ) {
+      return [this.player.getVideoElement().webkitDroppedFrameCount, this.player.getVideoElement().webkitDecodedFrameCount];
+    } else {
+      return null;
+    }
+  }
+
   _onReport(): void {
     if (this._viewEventEnabled) {
       this._updatePlayTimeSumModel();
       this._model.updateModel({
         soundMode: this.player.muted || this.player.volume === 0 ? SoundMode.SOUND_OFF : SoundMode.SOUND_ON,
         tabMode: document.hasFocus() ? TabMode.TAB_FOCUSED : TabMode.TAB_NOT_FOCUSED,
-        availableBuffer: this._getAvailableBuffer()
+        availableBuffer: this._getAvailableBuffer(),
+        droppedFramesRatio: this._getDroppedFramesRatio()
       });
       this._sendAnalytics(KavaEventModel.VIEW);
     } else {

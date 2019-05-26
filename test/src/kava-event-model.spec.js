@@ -64,6 +64,10 @@ class FakeModel {
   getAvailableBuffer() {
     return 2;
   }
+
+  getDroppedFramesRatio() {
+    return 0.01;
+  }
 }
 
 describe('KavaEventModel', () => {
@@ -82,6 +86,7 @@ describe('KavaEventModel', () => {
       audioLanguage: fakeModel.getLanguage(),
       availableBuffer: fakeModel.getAvailableBuffer(),
       bandwidth: fakeModel.getBandwidth(),
+      droppedFramesRatio: fakeModel.getDroppedFramesRatio(),
       manifestDownloadTime: fakeModel.getMaxManifestDownloadTime(),
       soundMode: fakeModel.getSoundMode(),
       tabMode: fakeModel.getTabMode()

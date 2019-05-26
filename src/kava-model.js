@@ -21,8 +21,9 @@ class KavaModel {
   targetPosition: number;
   totalSegmentsDownloadTime: number = 0;
   totalSegmentsDownloadBytes: number = 0;
-  maxManifestDownloadTime: number = 0;
+  maxManifestDownloadTime: ?number = null;
   availableBuffer: number;
+  droppedFramesRatio: ?number = null;
   soundMode: SoundMode;
   tabMode: TabMode;
   getActualBitrate: Function;
@@ -142,7 +143,7 @@ class KavaModel {
    * @memberof KavaModel
    * @instance
    */
-  getMaxManifestDownloadTime(): number {
+  getMaxManifestDownloadTime(): ?number {
     return this.maxManifestDownloadTime;
   }
 
@@ -154,6 +155,15 @@ class KavaModel {
    */
   getAvailableBuffer(): number {
     return this.availableBuffer;
+  }
+  /**
+   * Gets the dropped frames ratio since last view event.
+   * @returns {number} - dropped frames ratio since last view event
+   * @memberof KavaModel
+   * @instance
+   */
+  getDroppedFramesRatio(): ?number {
+    return this.droppedFramesRatio;
   }
 
   /**
