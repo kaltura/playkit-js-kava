@@ -27,6 +27,7 @@ class KavaModel {
   droppedFramesRatio: ?number = null;
   soundMode: SoundMode;
   tabMode: TabMode;
+  playerJSLoadTime: ?number = null;
   getActualBitrate: Function;
   getAverageBitrate: Function;
   getPartnerId: Function;
@@ -86,6 +87,20 @@ class KavaModel {
    */
   getBufferTimeSum(): number {
     return this.bufferTimeSum;
+  }
+
+  /**
+   * Gets the player bundle js load duration time
+   * @returns {number} - The player js load duration time
+   * @memberof KavaModel
+   * @instance
+   */
+  getPlayerJSLoadTime(): ?number {
+    if (this.playerJSLoadTime) {
+      return Math.round(this.playerJSLoadTime * 1000) / 1000;
+    } else {
+      return null;
+    }
   }
 
   /**

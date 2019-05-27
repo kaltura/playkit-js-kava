@@ -50,7 +50,13 @@ export const KavaEventModel: {[event: string]: KavaEvent} = {
   IMPRESSION: {
     type: 'IMPRESSION',
     index: 1,
-    getEventModel: () => ({})
+    getEventModel: (model: KavaModel) => {
+      const retval = {};
+      if (model.getPlayerJSLoadTime() != null) {
+        retval.playerJSLoadTime = model.getPlayerJSLoadTime();
+      }
+      return retval;
+    }
   },
   /**
    * @type {string} PLAY_REQUEST

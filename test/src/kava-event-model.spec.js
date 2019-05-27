@@ -72,6 +72,10 @@ class FakeModel {
   getSegmentDownloadTime() {
     return 0.3;
   }
+
+  getPlayerJSLoadTime() {
+    return 0.23;
+  }
 }
 
 describe('KavaEventModel', () => {
@@ -101,7 +105,9 @@ describe('KavaEventModel', () => {
   it('IMPRESSION', () => {
     KavaEventModel.IMPRESSION.type.should.equal('IMPRESSION');
     KavaEventModel.IMPRESSION.index.should.equal(1);
-    KavaEventModel.IMPRESSION.getEventModel(fakeModel).should.deep.equal({});
+    KavaEventModel.IMPRESSION.getEventModel(fakeModel).should.deep.equal({
+      playerJSLoadTime: fakeModel.getPlayerJSLoadTime()
+    });
   });
 
   it('PLAY_REQUEST', () => {

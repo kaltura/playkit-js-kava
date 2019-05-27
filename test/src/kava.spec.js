@@ -164,6 +164,26 @@ describe('KavaPlugin', function() {
       player.play();
     });
 
+    it('should send IMPRESSION event with playerJSLoadTime', done => {
+      config.session.uiConfId = 15215933;
+      let xmlHttp = new XMLHttpRequest();
+      xmlHttp.open(
+        'GET',
+        'http://qa-apache-php7.dev.kaltura.com/p/1091/sp/109100/embedPlaykitJs/uiconf_id/15215933/partner_id/1091/versions/',
+        false
+      ); // false for synchronous request
+      xmlHttp.send(null);
+      sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
+        if (params.eventType !== KavaEventModel.IMPRESSION.index) return;
+        validateCommonParams(params, KavaEventModel.IMPRESSION.index);
+        params.playerJSLoadTime.should.above(0);
+        done();
+      });
+      setupPlayer(config);
+      kava = getKavaPlugin();
+      player.play();
+    });
+
     it('should send PLAY_REQUEST event', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
         if (params.eventType !== KavaEventModel.PLAY_REQUEST.index) return;
