@@ -72,7 +72,6 @@
     "lint-staged": "^7.2.0",
     "mocha": "^3.2.0",
     "mocha-cli": "^1.0.1",
-    "playkit-js-providers": "https://github.com/kaltura/playkit-js-providers.git#master",
     "pre-push": "^0.1.1",
     "prettier": "^1.13.5",
     "sinon": "^2.0.0",
@@ -84,8 +83,7 @@
     "webpack-dev-server": "latest"
   },
   "peerDependencies": {
-    "@playkit-js/playkit-js": "^0.37.0",
-    "playkit-js-providers": "https://github.com/kaltura/playkit-js-providers.git#master"
+    "@playkit-js/playkit-js": "^0.37.0"
   },
   "keywords": [
     "kaltura",
@@ -108,5 +106,8 @@
   "homepage": "https://github.com/kaltura/playkit-js-kava#readme",
   "kcc": {
     "name": "playkit-kava"
+  },
+  "dependencies": {
+    "@playkit-js/ovp-provider": "^1.0.0"
   }
 }

@@ -2,6 +2,21 @@
 # yarn lockfile v1
 
 
+"@playkit-js/core-provider@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@playkit-js/core-provider/-/core-provider-1.0.0.tgz#e641b853eca2f6cb2ad6a753e7d6de591a30ca56"
+  integrity sha512-dMWFv5+FwqKvUnf46lH2qfk69VLam901ypRzYkaYgjoU3GNQzv4TNIbk2lTjOTo5OLRvQivNXPXUYa+SYPH5Ug==
+  dependencies:
+    js-logger "^1.3.0"
+
+"@playkit-js/ovp-provider@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@playkit-js/ovp-provider/-/ovp-provider-1.0.0.tgz#17eeeced36eaf669cf7305bcd07b0a3e1afd89cb"
+  integrity sha512-fU5tOGL4vh7kK4c/M67RhFkWV3iMZFAhhPBTq4sZxBk8Ty73bp68S7Uv/YJbAKiB2HmBoHgirTFNBgVXeMXK0w==
+  dependencies:
+    "@playkit-js/core-provider" "^1.0.0"
+    js-logger "^1.3.0"
+
 "@playkit-js/playkit-js@^0.37.0":
   version "0.37.0"
   resolved "https://registry.yarnpkg.com/@playkit-js/playkit-js/-/playkit-js-0.37.0.tgz#2249594fc04becd4c9bc0a6d171077a0b5d40823"
@@ -6122,12 +6137,6 @@ pkg-dir@^2.0.0:
   resolved "https://registry.yarnpkg.com/pkg-dir/-/pkg-dir-2.0.0.tgz#f6d5d1109e19d63edf428e0bd57e12777615334b"
   dependencies:
     find-up "^2.1.0"
-
-"playkit-js-providers@https://github.com/kaltura/playkit-js-providers.git#master":
-  version "2.7.0"
-  resolved "https://github.com/kaltura/playkit-js-providers.git#cbbb5cfe4dc5c39f8b4e48706be6c0f63c6f873e"
-  dependencies:
-    js-logger "^1.3.0"
 
 please-upgrade-node@^3.0.2:
   version "3.0.2"
