@@ -108,6 +108,7 @@
     "name": "playkit-kava"
   },
   "dependencies": {
-    "@playkit-js/ovp-provider": "^1.0.0"
+    "@playkit-js/ovp-provider": "^1.0.0",
+    "source-map-loader": "^0.2.4"
   }
 }

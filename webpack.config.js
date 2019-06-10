@@ -14,7 +14,7 @@ const plugins = [
 ];
 
 if (PROD) {
-  plugins.push(new webpack.optimize.UglifyJsPlugin({sourceMap: true}));
+  // plugins.push(new webpack.optimize.UglifyJsPlugin({sourceMap: true}));
 } else {
   plugins.push(
     new CopyWebpackPlugin([
@@ -51,6 +51,11 @@ module.exports = {
           }
         ],
         exclude: [/node_modules/]
+      },
+      {
+        test: /\.js$/,
+        use: ['source-map-loader'],
+        enforce: 'pre'
       },
       {
         test: /\.js$/,
