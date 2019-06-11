@@ -23,10 +23,12 @@ export const KavaEventModel: {[event: string]: KavaEvent} = {
         audioLanguage: model.getLanguage(),
         captionsLanguage: model.getCaption(),
         soundMode: model.getSoundMode(),
-        tabMode: model.getTabMode(),
-        availableBuffer: model.getAvailableBuffer()
+        tabMode: model.getTabMode()
       };
 
+      if (!isNaN(model.getForwardBufferHealth())) {
+        retval.forwardBufferHealth = model.getForwardBufferHealth();
+      }
       if (model.getMaxManifestDownloadTime() != null) {
         retval.manifestDownloadTime = model.getMaxManifestDownloadTime();
       }
@@ -38,6 +40,10 @@ export const KavaEventModel: {[event: string]: KavaEvent} = {
       }
       if (model.getDroppedFramesRatio() != null) {
         retval.droppedFramesRatio = model.getDroppedFramesRatio();
+      }
+
+      if (!isNaN(model.getTargetBuffer())) {
+        retval.targetBuffer = model.getTargetBuffer();
       }
 
       return retval;

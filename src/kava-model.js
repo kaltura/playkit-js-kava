@@ -19,11 +19,12 @@ class KavaModel {
   joinTime: number;
   canPlayTime: number;
   targetPosition: number;
+  targetBuffer: number;
   totalSegmentsDownloadTime: number = 0;
   totalSegmentsDownloadBytes: number = 0;
   maxSegmentDownloadTime: ?number = null;
   maxManifestDownloadTime: ?number = null;
-  availableBuffer: number;
+  forwardBufferHealth: number;
   droppedFramesRatio: ?number = null;
   soundMode: SoundMode;
   tabMode: TabMode;
@@ -124,6 +125,16 @@ class KavaModel {
   }
 
   /**
+   * Gets the target buffer
+   * @returns {number} - The target buffer in seconds.
+   * @memberof KavaModel
+   * @instance
+   */
+  getTargetBuffer(): number {
+    return this.targetBuffer;
+  }
+
+  /**
    * Gets an audio language.
    * @returns {string} - The audio language.
    * @memberof KavaModel
@@ -174,13 +185,13 @@ class KavaModel {
   }
 
   /**
-   * Gets the availble buffer length.
-   * @returns {number} - buffer length of the current played video location
+   * Gets the forward buffer health ratio.
+   * @returns {number} - the ratio between the available buffer and the target buffer
    * @memberof KavaModel
    * @instance
    */
-  getAvailableBuffer(): number {
-    return this.availableBuffer;
+  getForwardBufferHealth(): number {
+    return this.forwardBufferHealth;
   }
   /**
    * Gets the dropped frames ratio since last view event.

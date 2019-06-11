@@ -75,6 +75,14 @@ class Kava extends BasePlugin {
       bufferTimeSum: 0.0,
       playTimeSum: 0.0
     });
+
+    // check the Resource Timing API is supported in the browser and we have a uiConfId
+    if (performance && this.config && this.config.uiConfId) {
+      let entries = performance.getEntriesByType('resource').filter(entry => entry.name.match('embedPlaykitJs.*' + this.config.uiConfId));
+      if (entries.length > 0) {
+        this._model.updateModel({playerJSLoadTime: entries[entries.length - 1].duration});
+      }
+    }
   }
 
   /**
@@ -278,20 +286,45 @@ class Kava extends BasePlugin {
   }
 
   /**
-   * calculates the available buffer length
-   * @returns {number} the remaining buffer length of the current played time
+   * gets the available buffer length
+   * @returns {number} the remaining buffer length of the current played time range
    * @private
    */
   _getAvailableBuffer(): number {
-    let retVal = 0;
-    if (this.player.buffered) {
-      const buffered = this.player.buffered;
-      for (let i = 0; i < buffered.length; i++) {
-        // find the relevant buffer time range containing the current time
-        if (buffered.start(i) <= this.player.currentTime && this.player.currentTime <= buffered.end(i)) {
-          retVal = buffered.end(i) - this.player.currentTime;
-        }
-      }
+    let retVal = NaN;
+    if (this.player.stats) {
+      retVal = this.player.stats.availableBuffer;
+    }
+    return retVal;
+  }
+
+  /**
+   * calculates the forward buffer health ratio
+   * @returns {number} the ratio between available buffer and the target buffer
+   * @private
+   */
+  _getForwardBufferHealth(): number {
+    let retVal = NaN;
+    let availableBuffer = this._getAvailableBuffer();
+    let targetBuffer = this._getTargetBuffer();
+
+    if (!isNaN(targetBuffer)) {
+      // considering playback left to the target calculation
+      retVal = Math.round((availableBuffer * 1000) / targetBuffer) / 1000;
+    }
+
+    return retVal;
+  }
+
+  /**
+   * get the target buffer length from the player
+   * @returns {number} the target buffer in seconds
+   * @private
+   */
+  _getTargetBuffer(): number {
+    let retVal = NaN;
+    if (this.player.stats) {
+      retVal = this.player.stats.targetBuffer;
     }
     return retVal;
   }
@@ -345,7 +378,8 @@ class Kava extends BasePlugin {
       this._model.updateModel({
         soundMode: this.player.muted || this.player.volume === 0 ? SoundMode.SOUND_OFF : SoundMode.SOUND_ON,
         tabMode: document.hasFocus() ? TabMode.TAB_FOCUSED : TabMode.TAB_NOT_FOCUSED,
-        availableBuffer: this._getAvailableBuffer(),
+        forwardBufferHealth: this._getForwardBufferHealth(),
+        targetBuffer: this._getTargetBuffer(),
         droppedFramesRatio: this._getDroppedFramesRatio()
       });
       this._sendAnalytics(KavaEventModel.VIEW);
@@ -390,16 +424,6 @@ class Kava extends BasePlugin {
   }
 
   _onSourceSelected(): void {
-    // check the Resource Timing API is supported in the browser and we have a uiConfId
-    if (performance && this.player.config && this.player.config.session && this.player.config.session.uiConfId) {
-      let entries = performance
-        .getEntriesByType('resource')
-        .filter(entry => entry.name.match('embedPlaykitJs.*' + this.player.config.session.uiConfId));
-      if (entries.length > 0) {
-        this._model.updateModel({playerJSLoadTime: entries[entries.length - 1].duration});
-      }
-    }
-
     this._sendAnalytics(KavaEventModel.IMPRESSION);
   }
 

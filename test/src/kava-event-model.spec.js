@@ -76,6 +76,14 @@ class FakeModel {
   getPlayerJSLoadTime() {
     return 0.23;
   }
+
+  getForwardBufferHealth() {
+    return 0.9;
+  }
+
+  getTargetBuffer() {
+    return 30;
+  }
 }
 
 describe('KavaEventModel', () => {
@@ -92,13 +100,14 @@ describe('KavaEventModel', () => {
       averageBitrate: fakeModel.getAverageBitrate(),
       captionsLanguage: fakeModel.getCaption(),
       audioLanguage: fakeModel.getLanguage(),
-      availableBuffer: fakeModel.getAvailableBuffer(),
       bandwidth: fakeModel.getBandwidth(),
       droppedFramesRatio: fakeModel.getDroppedFramesRatio(),
       manifestDownloadTime: fakeModel.getMaxManifestDownloadTime(),
       soundMode: fakeModel.getSoundMode(),
       tabMode: fakeModel.getTabMode(),
-      segmentDownloadTime: fakeModel.getSegmentDownloadTime()
+      segmentDownloadTime: fakeModel.getSegmentDownloadTime(),
+      forwardBufferHealth: fakeModel.getForwardBufferHealth(),
+      targetBuffer: fakeModel.getTargetBuffer()
     });
   });
 

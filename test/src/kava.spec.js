@@ -165,21 +165,43 @@ describe('KavaPlugin', function() {
     });
 
     it('should send IMPRESSION event with playerJSLoadTime', done => {
-      config.session.uiConfId = 15215933;
-      let xmlHttp = new XMLHttpRequest();
-      xmlHttp.open(
-        'GET',
-        'http://qa-apache-php7.dev.kaltura.com/p/1091/sp/109100/embedPlaykitJs/uiconf_id/15215933/partner_id/1091/versions/',
-        false
-      ); // false for synchronous request
-      xmlHttp.send(null);
+      sandbox.stub(window.performance, 'getEntriesByType').callsFake(() => {
+        return [
+          {
+            name: 'https://qa-apache-php7.dev.kaltura.com/p/1091/sp/109100/embedPlaykitJs/uiconf_id/15215933/partner_id/1091/versions/',
+            entryType: 'resource',
+            startTime: 118.6400000001413,
+            duration: 149.8900000001413,
+            initiatorType: 'script',
+            nextHopProtocol: 'http/1.1',
+            workerStart: 0,
+            redirectStart: 0,
+            redirectEnd: 0,
+            fetchStart: 118.6400000001413,
+            domainLookupStart: 0,
+            domainLookupEnd: 0,
+            connectStart: 0,
+            connectEnd: 0,
+            secureConnectionStart: 0,
+            requestStart: 0,
+            responseStart: 0,
+            responseEnd: 268.5300000002826,
+            transferSize: 0,
+            encodedBodySize: 0,
+            decodedBodySize: 0,
+            serverTiming: []
+          }
+        ];
+      });
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
         if (params.eventType !== KavaEventModel.IMPRESSION.index) return;
         validateCommonParams(params, KavaEventModel.IMPRESSION.index);
-        params.playerJSLoadTime.should.above(0);
+        params.playerJSLoadTime.should.equal(149.89);
         done();
       });
-      setupPlayer(config);
+      let configClone = JSON.parse(JSON.stringify(config));
+      configClone.plugins.kava.uiConfId = 15215933;
+      setupPlayer(configClone);
       kava = getKavaPlugin();
       player.play();
     });
@@ -428,7 +450,6 @@ describe('KavaPlugin', function() {
         validateCommonParams(params, KavaEventModel.VIEW.index);
         params.should.have.all.keys(
           'audioLanguage',
-          'availableBuffer',
           'bufferTime',
           'bufferTimeSum',
           'actualBitrate',
@@ -511,17 +532,23 @@ describe('KavaPlugin', function() {
       player.muted = true;
     });
 
-    it('should send VIEW event with tab mode off focus', done => {
+    it('should send VIEW event with forwardBufferHealth and targetBuffer', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
         if (params.eventType !== KavaEventModel.VIEW.index) return;
-        params.tabMode.should.equal(TabMode.TAB_NOT_FOCUSED);
+        params.targetBuffer.should.equal(30);
+        params.forwardBufferHealth.should.equal(0.5);
         done();
         return new RequestBuilder();
       });
       setupPlayer(config);
       kava = getKavaPlugin();
       player.play();
-      window.blur();
+      sandbox.stub(player, 'stats').get(() => {
+        return {
+          targetBuffer: 30,
+          availableBuffer: 15
+        };
+      });
     });
 
     it('should send BUFFER_START event', done => {
