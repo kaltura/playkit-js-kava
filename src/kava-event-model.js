@@ -204,7 +204,8 @@ export const KavaEventModel: {[event: string]: KavaEvent} = {
     type: 'ERROR',
     index: 98,
     getEventModel: (model: KavaModel) => ({
-      errorCode: model.getErrorCode()
+      errorCode: model.getErrorCode(),
+      errorDetails: model.getErrorDetails()
     })
   }
 };
