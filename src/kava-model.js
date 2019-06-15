@@ -170,7 +170,7 @@ class KavaModel {
    * @memberof KavaModel
    * @instance
    */
-  getMaxManifestDownloadTime(): ?number {
+  getMaxManifestDownloadTime(): number {
     return this.maxManifestDownloadTime;
   }
 
@@ -180,7 +180,7 @@ class KavaModel {
    * @memberof KavaModel
    * @instance
    */
-  getSegmentDownloadTime(): ?number {
+  getSegmentDownloadTime(): number {
     return this.maxSegmentDownloadTime;
   }
 

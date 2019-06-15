@@ -29,10 +29,10 @@ export const KavaEventModel: {[event: string]: KavaEvent} = {
       if (!isNaN(model.getForwardBufferHealth())) {
         eventModel.forwardBufferHealth = model.getForwardBufferHealth();
       }
-      if (model.getMaxManifestDownloadTime() != null) {
+      if (model.getMaxManifestDownloadTime() > 0) {
         eventModel.manifestDownloadTime = model.getMaxManifestDownloadTime();
       }
-      if (model.getSegmentDownloadTime() != null) {
+      if (model.getSegmentDownloadTime() > 0) {
         eventModel.segmentDownloadTime = model.getSegmentDownloadTime();
       }
       if (model.getBandwidth()) {
