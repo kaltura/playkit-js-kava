@@ -22,12 +22,12 @@ class KavaModel {
   targetBuffer: number;
   totalSegmentsDownloadTime: number = 0;
   totalSegmentsDownloadBytes: number = 0;
-  maxSegmentDownloadTime: ?number = null;
-  maxManifestDownloadTime: ?number = null;
+  maxSegmentDownloadTime: number = 0;
+  maxManifestDownloadTime: number = 0;
   forwardBufferHealth: number;
   droppedFramesRatio: ?number = null;
-  soundMode: SoundMode;
-  tabMode: TabMode;
+  soundMode: typeof SoundMode;
+  tabMode: typeof TabMode;
   playerJSLoadTime: ?number = null;
   getActualBitrate: Function;
   getAverageBitrate: Function;
@@ -209,7 +209,7 @@ class KavaModel {
    * @memberof KavaModel
    * @instance
    */
-  getSoundMode(): SoundMode {
+  getSoundMode(): typeof SoundMode {
     return this.soundMode;
   }
 
@@ -219,7 +219,7 @@ class KavaModel {
    * @memberof KavaModel
    * @instance
    */
-  getTabMode(): TabMode {
+  getTabMode(): typeof TabMode {
     return this.tabMode;
   }
 

@@ -14,7 +14,7 @@ export const KavaEventModel: {[event: string]: KavaEvent} = {
     type: 'VIEW',
     index: 99,
     getEventModel: (model: KavaModel) => {
-      const retval = {
+      const eventModel: {[name: string]: any} = {
         playTimeSum: model.getPlayTimeSum(),
         bufferTime: model.getBufferTime(),
         bufferTimeSum: model.getBufferTimeSum(),
@@ -27,26 +27,26 @@ export const KavaEventModel: {[event: string]: KavaEvent} = {
       };
 
       if (!isNaN(model.getForwardBufferHealth())) {
-        retval.forwardBufferHealth = model.getForwardBufferHealth();
+        eventModel.forwardBufferHealth = model.getForwardBufferHealth();
       }
       if (model.getMaxManifestDownloadTime() != null) {
-        retval.manifestDownloadTime = model.getMaxManifestDownloadTime();
+        eventModel.manifestDownloadTime = model.getMaxManifestDownloadTime();
       }
       if (model.getSegmentDownloadTime() != null) {
-        retval.segmentDownloadTime = model.getSegmentDownloadTime();
+        eventModel.segmentDownloadTime = model.getSegmentDownloadTime();
       }
       if (model.getBandwidth()) {
-        retval.bandwidth = model.getBandwidth();
+        eventModel.bandwidth = model.getBandwidth();
       }
       if (model.getDroppedFramesRatio() != null) {
-        retval.droppedFramesRatio = model.getDroppedFramesRatio();
+        eventModel.droppedFramesRatio = model.getDroppedFramesRatio();
       }
 
       if (!isNaN(model.getTargetBuffer())) {
-        retval.targetBuffer = model.getTargetBuffer();
+        eventModel.targetBuffer = model.getTargetBuffer();
       }
 
-      return retval;
+      return eventModel;
     }
   },
   /**
@@ -57,11 +57,11 @@ export const KavaEventModel: {[event: string]: KavaEvent} = {
     type: 'IMPRESSION',
     index: 1,
     getEventModel: (model: KavaModel) => {
-      const retval = {};
+      const eventModel = {};
       if (model.getPlayerJSLoadTime() != null) {
-        retval.playerJSLoadTime = model.getPlayerJSLoadTime();
+        eventModel.playerJSLoadTime = model.getPlayerJSLoadTime();
       }
-      return retval;
+      return eventModel;
     }
   },
   /**

@@ -291,11 +291,11 @@ class Kava extends BasePlugin {
    * @private
    */
   _getAvailableBuffer(): number {
-    let retVal = NaN;
+    let availableBuffer = NaN;
     if (this.player.stats) {
-      retVal = this.player.stats.availableBuffer;
+      availableBuffer = this.player.stats.availableBuffer;
     }
-    return retVal;
+    return availableBuffer;
   }
 
   /**
@@ -304,16 +304,16 @@ class Kava extends BasePlugin {
    * @private
    */
   _getForwardBufferHealth(): number {
-    let retVal = NaN;
+    let forwardBufferHealth = NaN;
     let availableBuffer = this._getAvailableBuffer();
     let targetBuffer = this._getTargetBuffer();
 
     if (!isNaN(targetBuffer)) {
       // considering playback left to the target calculation
-      retVal = Math.round((availableBuffer * 1000) / targetBuffer) / 1000;
+      forwardBufferHealth = Math.round((availableBuffer * 1000) / targetBuffer) / 1000;
     }
 
-    return retVal;
+    return forwardBufferHealth;
   }
 
   /**
@@ -322,11 +322,11 @@ class Kava extends BasePlugin {
    * @private
    */
   _getTargetBuffer(): number {
-    let retVal = NaN;
+    let targetBuffer = NaN;
     if (this.player.stats) {
-      retVal = this.player.stats.targetBuffer;
+      targetBuffer = this.player.stats.targetBuffer;
     }
-    return retVal;
+    return targetBuffer;
   }
 
   /**
@@ -335,7 +335,7 @@ class Kava extends BasePlugin {
    * @private
    */
   _getDroppedFramesRatio(): number {
-    let retVal = -1;
+    let droppedFrames = -1;
     const droppedAndDecoded: ?[number, number] = this._getDroppedAndDecodedFrames();
     if (droppedAndDecoded) {
       let droppedFramesDelta: number;
@@ -344,12 +344,12 @@ class Kava extends BasePlugin {
       const lastTotalFrames = droppedAndDecoded[1];
       droppedFramesDelta = lastDroppedFrames - this._lastDroppedFrames;
       totalFramesDelta = lastTotalFrames - this._lastTotalFrames;
-      retVal = Math.round((droppedFramesDelta / totalFramesDelta) * 1000) / 1000;
+      droppedFrames = Math.round((droppedFramesDelta / totalFramesDelta) * 1000) / 1000;
 
       this._lastTotalFrames = lastTotalFrames;
       this._lastDroppedFrames = lastDroppedFrames;
     }
-    return retVal;
+    return droppedFrames;
   }
 
   /**
