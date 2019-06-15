@@ -1,10 +1,8 @@
 import '../../src/index.js';
-import {loadPlayer} from '@playkit-js/playkit-js';
+import {loadPlayer, FakeEvent, CustomEventType} from '@playkit-js/playkit-js';
 import * as TestUtils from './utils/test-utils';
 import {OVPAnalyticsService, RequestBuilder} from 'playkit-js-providers/dist/playkit-analytics-service';
 import {KavaEventModel} from '../../src/kava-event-model';
-import FakeEvent from '@playkit-js/playkit-js/src/event/fake-event';
-import {CustomEventType} from '@playkit-js/playkit-js/src/event/event-type';
 import {SoundMode, TabMode} from '../../src/kava-model';
 
 const targetId = 'player-placeholder_kava.spec';
