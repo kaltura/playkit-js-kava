@@ -48,6 +48,46 @@ class FakeModel {
   getAverageBitrate() {
     return 600;
   }
+
+  getBandwidth() {
+    return 3000;
+  }
+
+  getMaxManifestDownloadTime() {
+    return 100;
+  }
+
+  getSoundMode() {
+    return 1;
+  }
+
+  getTabMode() {
+    return 1;
+  }
+
+  getAvailableBuffer() {
+    return 2;
+  }
+
+  getDroppedFramesRatio() {
+    return 0.01;
+  }
+
+  getSegmentDownloadTime() {
+    return 0.3;
+  }
+
+  getPlayerJSLoadTime() {
+    return 0.23;
+  }
+
+  getForwardBufferHealth() {
+    return 0.9;
+  }
+
+  getTargetBuffer() {
+    return 30;
+  }
 }
 
 describe('KavaEventModel', () => {
@@ -63,14 +103,24 @@ describe('KavaEventModel', () => {
       actualBitrate: fakeModel.getActualBitrate(),
       averageBitrate: fakeModel.getAverageBitrate(),
       captionsLanguage: fakeModel.getCaption(),
-      audioLanguage: fakeModel.getLanguage()
+      audioLanguage: fakeModel.getLanguage(),
+      bandwidth: fakeModel.getBandwidth(),
+      droppedFramesRatio: fakeModel.getDroppedFramesRatio(),
+      manifestDownloadTime: fakeModel.getMaxManifestDownloadTime(),
+      soundMode: fakeModel.getSoundMode(),
+      tabMode: fakeModel.getTabMode(),
+      segmentDownloadTime: fakeModel.getSegmentDownloadTime(),
+      forwardBufferHealth: fakeModel.getForwardBufferHealth(),
+      targetBuffer: fakeModel.getTargetBuffer()
     });
   });
 
   it('IMPRESSION', () => {
     KavaEventModel.IMPRESSION.type.should.equal('IMPRESSION');
     KavaEventModel.IMPRESSION.index.should.equal(1);
-    KavaEventModel.IMPRESSION.getEventModel(fakeModel).should.deep.equal({});
+    KavaEventModel.IMPRESSION.getEventModel(fakeModel).should.deep.equal({
+      playerJSLoadTime: fakeModel.getPlayerJSLoadTime()
+    });
   });
 
   it('PLAY_REQUEST', () => {

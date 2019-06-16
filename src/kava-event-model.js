@@ -13,15 +13,41 @@ export const KavaEventModel: {[event: string]: KavaEvent} = {
   VIEW: {
     type: 'VIEW',
     index: 99,
-    getEventModel: (model: KavaModel) => ({
-      playTimeSum: model.getPlayTimeSum(),
-      bufferTime: model.getBufferTime(),
-      bufferTimeSum: model.getBufferTimeSum(),
-      actualBitrate: model.getActualBitrate(),
-      averageBitrate: model.getAverageBitrate(),
-      audioLanguage: model.getLanguage(),
-      captionsLanguage: model.getCaption()
-    })
+    getEventModel: (model: KavaModel) => {
+      const eventModel: {[name: string]: any} = {
+        playTimeSum: model.getPlayTimeSum(),
+        bufferTime: model.getBufferTime(),
+        bufferTimeSum: model.getBufferTimeSum(),
+        actualBitrate: model.getActualBitrate(),
+        averageBitrate: model.getAverageBitrate(),
+        audioLanguage: model.getLanguage(),
+        captionsLanguage: model.getCaption(),
+        soundMode: model.getSoundMode(),
+        tabMode: model.getTabMode()
+      };
+
+      if (!isNaN(model.getForwardBufferHealth())) {
+        eventModel.forwardBufferHealth = model.getForwardBufferHealth();
+      }
+      if (model.getMaxManifestDownloadTime() > 0) {
+        eventModel.manifestDownloadTime = model.getMaxManifestDownloadTime();
+      }
+      if (model.getSegmentDownloadTime() > 0) {
+        eventModel.segmentDownloadTime = model.getSegmentDownloadTime();
+      }
+      if (model.getBandwidth()) {
+        eventModel.bandwidth = model.getBandwidth();
+      }
+      if (model.getDroppedFramesRatio() != null) {
+        eventModel.droppedFramesRatio = model.getDroppedFramesRatio();
+      }
+
+      if (!isNaN(model.getTargetBuffer())) {
+        eventModel.targetBuffer = model.getTargetBuffer();
+      }
+
+      return eventModel;
+    }
   },
   /**
    * @type {string} IMPRESSION
@@ -30,7 +56,13 @@ export const KavaEventModel: {[event: string]: KavaEvent} = {
   IMPRESSION: {
     type: 'IMPRESSION',
     index: 1,
-    getEventModel: () => ({})
+    getEventModel: (model: KavaModel) => {
+      const eventModel = {};
+      if (model.getPlayerJSLoadTime() != null) {
+        eventModel.playerJSLoadTime = model.getPlayerJSLoadTime();
+      }
+      return eventModel;
+    }
   },
   /**
    * @type {string} PLAY_REQUEST
