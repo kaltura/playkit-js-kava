@@ -77,10 +77,10 @@ class Kava extends BasePlugin {
     });
 
     // check the Resource Timing API is supported in the browser and we have a uiConfId
-    if (performance && this.config && this.config.uiConfId) {
-      let entries = performance.getEntriesByType('resource').filter(entry => entry.name.match('embedPlaykitJs.*' + this.config.uiConfId));
-      if (entries.length > 0) {
-        this._model.updateModel({playerJSLoadTime: entries[entries.length - 1].duration});
+    if (performance && this.config.uiConfId) {
+      let entry = performance.getEntriesByType('resource').find(entry => entry.name.match('embedPlaykitJs.*' + this.config.uiConfId));
+      if (entry) {
+        this._model.updateModel({playerJSLoadTime: entry.duration});
       }
     }
   }
