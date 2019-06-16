@@ -5,9 +5,11 @@ import {Kava} from './kava';
 declare var __VERSION__: string;
 declare var __NAME__: string;
 
-export {Kava as Plugin};
+const VERSION = __VERSION__;
+const NAME = __NAME__;
+
+export {Kava as Plugin, VERSION, NAME};
 export {KavaEventType as EventType} from './kava-event-model';
-export {__VERSION__ as VERSION, __NAME__ as NAME};
 
 const pluginName: string = 'kava';
 

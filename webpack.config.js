@@ -1,9 +1,7 @@
 'use strict';
 
 const webpack = require('webpack');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 const path = require('path');
-const PROD = process.env.NODE_ENV === 'production';
 const packageData = require('./package.json');
 
 const plugins = [
@@ -13,61 +11,29 @@ const plugins = [
   })
 ];
 
-if (PROD) {
-  plugins.push(new webpack.optimize.UglifyJsPlugin({sourceMap: true}));
-} else {
-  plugins.push(
-    new CopyWebpackPlugin([
-      {
-        from: '',
-        to: '.'
-      }
-    ])
-  );
-}
-
 module.exports = {
   context: __dirname + '/src',
-  entry: {
-    'playkit-kava': 'index.js'
-  },
+  entry: {'playkit-kava': 'index.js'},
   output: {
     path: __dirname + '/dist',
     filename: '[name].js',
-    library: ['KalturaPlayer', 'plugins', 'kava'],
+    library: ['playkit', 'plugins', 'kava'],
     libraryTarget: 'umd',
     umdNamedDefine: true,
-    devtoolModuleFilenameTemplate: './kava/[resource-path]'
+    devtoolModuleFilenameTemplate: './playkit/plugins/kava/[resource-path]'
   },
   devtool: 'source-map',
   plugins: plugins,
   module: {
-    rules: [
-      {
-        test: /\.js$/,
-        use: [
-          {
-            loader: 'babel-loader'
-          }
-        ],
-        exclude: [/node_modules/]
-      },
-      {
-        test: /\.js$/,
-        exclude: [/node_modules/],
-        enforce: 'pre',
-        use: [
-          {
-            loader: 'eslint-loader',
-            options: {
-              rules: {
-                semi: 0
-              }
-            }
-          }
-        ]
-      }
-    ]
+    rules: [{
+      test: /\.js$/,
+      exclude: /node_modules/,
+      use: [
+        'babel-loader',
+        'source-map-loader',
+        'eslint-loader',
+      ]
+    }]
   },
   devServer: {
     contentBase: __dirname + '/src'
@@ -80,13 +46,7 @@ module.exports = {
       commonjs: '@playkit-js/playkit-js',
       commonjs2: '@playkit-js/playkit-js',
       amd: 'playkit-js',
-      root: ['KalturaPlayer', 'core']
-    },
-    'playkit-js-providers': {
-      commonjs: 'playkit-js-providers',
-      commonjs2: 'playkit-js-providers',
-      amd: 'playkit-js-providers',
-      root: ['KalturaPlayer', 'providers']
+      root: ['playkit', 'core']
     }
   }
 };
