@@ -377,7 +377,7 @@ class Kava extends BasePlugin {
       this._updatePlayTimeSumModel();
       this._model.updateModel({
         soundMode: this.player.muted || this.player.volume === 0 ? SoundMode.SOUND_OFF : SoundMode.SOUND_ON,
-        tabMode: document.hasFocus() ? TabMode.TAB_FOCUSED : TabMode.TAB_NOT_FOCUSED,
+        tabMode: this._isDocumentHidden() ? TabMode.TAB_NOT_FOCUSED : TabMode.TAB_FOCUSED,
         forwardBufferHealth: this._getForwardBufferHealth(),
         targetBuffer: this._getTargetBuffer(),
         droppedFramesRatio: this._getDroppedFramesRatio()
@@ -637,6 +637,22 @@ class Kava extends BasePlugin {
 
   static _getTimeDifferenceInSeconds(time): number {
     return (Date.now() - time) / 1000.0;
+  }
+
+  _isDocumentHidden(): boolean {
+    let hidden = '';
+    if (typeof document.hidden !== 'undefined') {
+      // Opera 12.10 and Firefox 18 and later support
+      hidden = 'hidden';
+    } else if (typeof document.msHidden !== 'undefined') {
+      hidden = 'msHidden';
+    } else if (typeof document.webkitHidden !== 'undefined') {
+      hidden = 'webkitHidden';
+    } else {
+      return false;
+    }
+    // $FlowFixMe
+    return document[hidden];
   }
 }
 
