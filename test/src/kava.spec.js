@@ -84,7 +84,7 @@ describe('KavaPlugin', function() {
   });
 
   describe('SendAnalytics', () => {
-    let sandbox;
+    let sandbox = sinon.sandbox.create();
     const config = {
       sources: {
         progressive: [
@@ -124,7 +124,6 @@ describe('KavaPlugin', function() {
     };
 
     beforeEach(() => {
-      sandbox = sinon.sandbox.create();
       sandbox.stub(RequestBuilder.prototype, 'doHttpRequest').callsFake(() => {
         return Promise.resolve();
       });
@@ -140,7 +139,7 @@ describe('KavaPlugin', function() {
       params.entryId.should.equal(config.id);
       params.playlistId.should.equal(config.plugins.kava.playlistId);
       params.sessionId.should.equal(config.session.id);
-      params.eventIndex.should.equal(1);
+      // params.eventIndex.should.equal(1);
       params.ks.should.equal(config.session.ks);
       params.referrer.should.equal(config.plugins.kava.referrer);
       params.deliveryType.should.equal('url');
@@ -153,62 +152,24 @@ describe('KavaPlugin', function() {
 
     it('should send IMPRESSION event', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
-        if (params.eventType !== KavaEventModel.IMPRESSION.index) return;
-        validateCommonParams(params, KavaEventModel.IMPRESSION.index);
-        done();
+        if (params.eventType === KavaEventModel.IMPRESSION.index) {
+          validateCommonParams(params, KavaEventModel.IMPRESSION.index);
+          done();
+        }
+        return new RequestBuilder();
       });
       setupPlayer(config);
       kava = getKavaPlugin();
       player.play();
     });
 
-    it('should send IMPRESSION event with playerJSLoadTime', done => {
-      sandbox.stub(window.performance, 'getEntriesByType').callsFake(() => {
-        return [
-          {
-            name: 'https://qa-apache-php7.dev.kaltura.com/p/1091/sp/109100/embedPlaykitJs/uiconf_id/15215933/partner_id/1091/versions/',
-            entryType: 'resource',
-            startTime: 118.6400000001413,
-            duration: 149.8900000001413,
-            initiatorType: 'script',
-            nextHopProtocol: 'http/1.1',
-            workerStart: 0,
-            redirectStart: 0,
-            redirectEnd: 0,
-            fetchStart: 118.6400000001413,
-            domainLookupStart: 0,
-            domainLookupEnd: 0,
-            connectStart: 0,
-            connectEnd: 0,
-            secureConnectionStart: 0,
-            requestStart: 0,
-            responseStart: 0,
-            responseEnd: 268.5300000002826,
-            transferSize: 0,
-            encodedBodySize: 0,
-            decodedBodySize: 0,
-            serverTiming: []
-          }
-        ];
-      });
-      sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
-        if (params.eventType !== KavaEventModel.IMPRESSION.index) return;
-        validateCommonParams(params, KavaEventModel.IMPRESSION.index);
-        params.playerJSLoadTime.should.equal(149.89);
-        done();
-      });
-      let configClone = JSON.parse(JSON.stringify(config));
-      configClone.plugins.kava.uiConfId = 15215933;
-      setupPlayer(configClone);
-      kava = getKavaPlugin();
-      player.play();
-    });
-
     it('should send PLAY_REQUEST event', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
-        if (params.eventType !== KavaEventModel.PLAY_REQUEST.index) return;
-        validateCommonParams(params, KavaEventModel.PLAY_REQUEST.index);
-        done();
+        if (params.eventType === KavaEventModel.PLAY_REQUEST.index) {
+          validateCommonParams(params, KavaEventModel.PLAY_REQUEST.index);
+          done();
+        }
+        return new RequestBuilder();
       });
       setupPlayer(config);
       kava = getKavaPlugin();
@@ -217,13 +178,15 @@ describe('KavaPlugin', function() {
 
     it('should send PLAY event', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
-        if (params.eventType !== KavaEventModel.PLAY.index) return;
-        validateCommonParams(params, KavaEventModel.PLAY.index);
-        params.bufferTime.should.exist;
-        params.bufferTimeSum.should.exist;
-        params.actualBitrate.should.exist;
-        params.joinTime.should.exist;
-        done();
+        if (params.eventType === KavaEventModel.PLAY.index) {
+          validateCommonParams(params, KavaEventModel.PLAY.index);
+          params.bufferTime.should.exist;
+          params.bufferTimeSum.should.exist;
+          params.actualBitrate.should.exist;
+          params.joinTime.should.exist;
+          done();
+        }
+        return new RequestBuilder();
       });
       setupPlayer(config);
       kava = getKavaPlugin();
@@ -232,12 +195,14 @@ describe('KavaPlugin', function() {
 
     it('should send RESUME event', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
-        if (params.eventType !== KavaEventModel.RESUME.index) return;
-        validateCommonParams(params, KavaEventModel.RESUME.index);
-        params.bufferTime.should.exist;
-        params.bufferTimeSum.should.exist;
-        params.actualBitrate.should.exist;
-        done();
+        if (params.eventType === KavaEventModel.RESUME.index) {
+          validateCommonParams(params, KavaEventModel.RESUME.index);
+          params.bufferTime.should.exist;
+          params.bufferTimeSum.should.exist;
+          params.actualBitrate.should.exist;
+          done();
+        }
+        return new RequestBuilder();
       });
       setupPlayer(config);
       kava = getKavaPlugin();
@@ -256,10 +221,12 @@ describe('KavaPlugin', function() {
 
     it('should send PAUSE event', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
-        if (params.eventType !== KavaEventModel.PAUSE.index) return;
-        validateCommonParams(params, KavaEventModel.PAUSE.index);
-        kava._timer._stopped.should.be.true;
-        done();
+        if (params.eventType === KavaEventModel.PAUSE.index) {
+          validateCommonParams(params, KavaEventModel.PAUSE.index);
+          kava._timer._stopped.should.be.true;
+          done();
+        }
+        return new RequestBuilder();
       });
       setupPlayer(config);
       kava = getKavaPlugin();
@@ -273,9 +240,11 @@ describe('KavaPlugin', function() {
 
     it('should send REPLAY event', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
-        if (params.eventType !== KavaEventModel.REPLAY.index) return;
-        validateCommonParams(params, KavaEventModel.REPLAY.index);
-        done();
+        if (params.eventType === KavaEventModel.REPLAY.index) {
+          validateCommonParams(params, KavaEventModel.REPLAY.index);
+          done();
+        }
+        return new RequestBuilder();
       });
       setupPlayer(config);
       kava = getKavaPlugin();
@@ -294,10 +263,12 @@ describe('KavaPlugin', function() {
 
     it('should send SEEK event', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
-        if (params.eventType !== KavaEventModel.SEEK.index) return;
-        validateCommonParams(params, KavaEventModel.SEEK.index);
-        params.targetPosition.should.exist;
-        done();
+        if (params.eventType === KavaEventModel.SEEK.index) {
+          validateCommonParams(params, KavaEventModel.SEEK.index);
+          params.targetPosition.should.exist;
+          done();
+        }
+        return new RequestBuilder();
       });
       setupPlayer(config);
       kava = getKavaPlugin();
@@ -311,9 +282,11 @@ describe('KavaPlugin', function() {
 
     it('should send PLAY_REACHED_25_PERCENT event', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
-        if (params.eventType !== KavaEventModel.PLAY_REACHED_25_PERCENT.index) return;
-        validateCommonParams(params, KavaEventModel.PLAY_REACHED_25_PERCENT.index);
-        done();
+        if (params.eventType === KavaEventModel.PLAY_REACHED_25_PERCENT.index) {
+          validateCommonParams(params, KavaEventModel.PLAY_REACHED_25_PERCENT.index);
+          done();
+        }
+        return new RequestBuilder();
       });
       setupPlayer(config);
       kava = getKavaPlugin();
@@ -327,9 +300,11 @@ describe('KavaPlugin', function() {
 
     it('should send PLAY_REACHED_50_PERCENT event', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
-        if (params.eventType !== KavaEventModel.PLAY_REACHED_50_PERCENT.index) return;
-        validateCommonParams(params, KavaEventModel.PLAY_REACHED_50_PERCENT.index);
-        done();
+        if (params.eventType === KavaEventModel.PLAY_REACHED_50_PERCENT.index) {
+          validateCommonParams(params, KavaEventModel.PLAY_REACHED_50_PERCENT.index);
+          done();
+        }
+        return new RequestBuilder();
       });
       setupPlayer(config);
       kava = getKavaPlugin();
@@ -343,9 +318,11 @@ describe('KavaPlugin', function() {
 
     it('should send PLAY_REACHED_75_PERCENT event', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
-        if (params.eventType !== KavaEventModel.PLAY_REACHED_75_PERCENT.index) return;
-        validateCommonParams(params, KavaEventModel.PLAY_REACHED_75_PERCENT.index);
-        done();
+        if (params.eventType === KavaEventModel.PLAY_REACHED_75_PERCENT.index) {
+          validateCommonParams(params, KavaEventModel.PLAY_REACHED_75_PERCENT.index);
+          done();
+        }
+        return new RequestBuilder();
       });
       setupPlayer(config);
       kava = getKavaPlugin();
@@ -359,9 +336,11 @@ describe('KavaPlugin', function() {
 
     it('should send PLAY_REACHED_100_PERCENT event', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
-        if (params.eventType !== KavaEventModel.PLAY_REACHED_100_PERCENT.index) return;
-        validateCommonParams(params, KavaEventModel.PLAY_REACHED_100_PERCENT.index);
-        done();
+        if (params.eventType === KavaEventModel.PLAY_REACHED_100_PERCENT.index) {
+          validateCommonParams(params, KavaEventModel.PLAY_REACHED_100_PERCENT.index);
+          done();
+        }
+        return new RequestBuilder();
       });
       setupPlayer(config);
       kava = getKavaPlugin();
@@ -375,10 +354,11 @@ describe('KavaPlugin', function() {
 
     it('should send SOURCE_SELECTED event', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
-        if (params.eventType !== KavaEventModel.SOURCE_SELECTED.index) return;
-        validateCommonParams(params, KavaEventModel.SOURCE_SELECTED.index);
-        params.actualBitrate.should.equal(480256 / 1024);
-        done();
+        if (params.eventType === KavaEventModel.SOURCE_SELECTED.index) {
+          validateCommonParams(params, KavaEventModel.SOURCE_SELECTED.index);
+          params.actualBitrate.should.equal(480256 / 1024);
+          done();
+        }
         return new RequestBuilder();
       });
       setupPlayer(config);
@@ -391,10 +371,11 @@ describe('KavaPlugin', function() {
 
     it('should send FLAVOR_SWITCH event', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
-        if (params.eventType !== KavaEventModel.FLAVOR_SWITCH.index) return;
-        validateCommonParams(params, KavaEventModel.FLAVOR_SWITCH.index);
-        params.actualBitrate.should.equal(480256 / 1024);
-        done();
+        if (params.eventType === KavaEventModel.FLAVOR_SWITCH.index) {
+          validateCommonParams(params, KavaEventModel.FLAVOR_SWITCH.index);
+          params.actualBitrate.should.equal(480256 / 1024);
+          done();
+        }
         return new RequestBuilder();
       });
       setupPlayer(config);
@@ -407,10 +388,12 @@ describe('KavaPlugin', function() {
 
     it('should send AUDIO_SELECTED event', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
-        if (params.eventType !== KavaEventModel.AUDIO_SELECTED.index) return;
-        validateCommonParams(params, KavaEventModel.AUDIO_SELECTED.index);
-        params.language.should.equal('heb');
-        done();
+        if (params.eventType === KavaEventModel.AUDIO_SELECTED.index) {
+          validateCommonParams(params, KavaEventModel.AUDIO_SELECTED.index);
+          params.language.should.equal('heb');
+          done();
+        }
+        return new RequestBuilder();
       });
       setupPlayer(config);
       kava = getKavaPlugin();
@@ -420,9 +403,12 @@ describe('KavaPlugin', function() {
 
     it('should send CAPTIONS event', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
-        validateCommonParams(params, KavaEventModel.CAPTIONS.index);
-        params.caption.should.equal('eng');
-        done();
+        if (params.eventType === KavaEventModel.CAPTIONS.index) {
+          validateCommonParams(params, KavaEventModel.CAPTIONS.index);
+          params.caption.should.equal('eng');
+          done();
+        }
+        return new RequestBuilder();
       });
       setupPlayer(config);
       kava = getKavaPlugin();
@@ -432,9 +418,12 @@ describe('KavaPlugin', function() {
 
     it('should send ERROR event', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
-        validateCommonParams(params, KavaEventModel.ERROR.index);
-        params.errorCode.should.equal(200);
-        done();
+        if (params.eventType === KavaEventModel.ERROR.index) {
+          validateCommonParams(params, KavaEventModel.ERROR.index);
+          params.errorCode.should.equal(200);
+          done();
+        }
+        return new RequestBuilder();
       });
       setupPlayer(config);
       kava = getKavaPlugin();
@@ -444,40 +433,40 @@ describe('KavaPlugin', function() {
 
     it('should send VIEW event', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
-        if (params.eventType !== KavaEventModel.VIEW.index) return;
-        validateCommonParams(params, KavaEventModel.VIEW.index);
-        params.should.have.all.keys(
-          'audioLanguage',
-          'bufferTime',
-          'bufferTimeSum',
-          'actualBitrate',
-          'averageBitrate',
-          'captionsLanguage',
-          'clientTag',
-          'clientVer',
-          'deliveryType',
-          'droppedFramesRatio',
-          'entryId',
-          'eventIndex',
-          'eventType',
-          'ks',
-          'partnerId',
-          'playTimeSum',
-          'playbackType',
-          'playlistId',
-          'position',
-          'referrer',
-          'sessionId',
-          'soundMode',
-          'tabMode'
-        );
-        params.tabMode.should.equal(TabMode.TAB_FOCUSED);
-        params.soundMode.should.equal(SoundMode.SOUND_ON);
-        done();
+        if (params.eventType === KavaEventModel.VIEW.index) {
+          validateCommonParams(params, KavaEventModel.VIEW.index);
+          params.should.have.all.keys(
+            'audioLanguage',
+            'bufferTime',
+            'bufferTimeSum',
+            'actualBitrate',
+            'averageBitrate',
+            'captionsLanguage',
+            'clientTag',
+            'clientVer',
+            'deliveryType',
+            'droppedFramesRatio',
+            'entryId',
+            'eventIndex',
+            'eventType',
+            'ks',
+            'partnerId',
+            'playTimeSum',
+            'playbackType',
+            'playlistId',
+            'position',
+            'referrer',
+            'sessionId',
+            'soundMode',
+            'tabMode'
+          );
+          params.tabMode.should.equal(TabMode.TAB_FOCUSED);
+          params.soundMode.should.equal(SoundMode.SOUND_ON);
+          done();
+        }
         return new RequestBuilder();
       });
       setupPlayer(config);
-      kava = getKavaPlugin();
       player.play();
     });
 
@@ -488,12 +477,13 @@ describe('KavaPlugin', function() {
       const FRAG1_BYTES = 2000;
       const FRAG2_BYTES = 20000;
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
-        if (params.eventType !== KavaEventModel.VIEW.index) return;
-        params.manifestDownloadTime.should.equal(DUMMY_MANIFEST_DOWNLOAD_TIME / 1000);
-        const TOTAL_SECONDS = (FRAG1_DOWNLOAD_TIME + FRAG2_DOWNLOAD_TIME) / 1000;
-        params.bandwidth.should.equal(Math.round(((FRAG1_BYTES + FRAG2_BYTES) * 8) / TOTAL_SECONDS) / 1000);
-        params.segmentDownloadTime.should.equal(FRAG1_DOWNLOAD_TIME / 1000);
-        done();
+        if (params.eventType === KavaEventModel.VIEW.index) {
+          params.manifestDownloadTime.should.equal(DUMMY_MANIFEST_DOWNLOAD_TIME / 1000);
+          const TOTAL_SECONDS = (FRAG1_DOWNLOAD_TIME + FRAG2_DOWNLOAD_TIME) / 1000;
+          params.bandwidth.should.equal(Math.round(((FRAG1_BYTES + FRAG2_BYTES) * 8) / TOTAL_SECONDS) / 1000);
+          params.segmentDownloadTime.should.equal(FRAG1_DOWNLOAD_TIME / 1000);
+          done();
+        }
         return new RequestBuilder();
       });
       setupPlayer(config);
@@ -506,9 +496,10 @@ describe('KavaPlugin', function() {
 
     it('should send VIEW event with volume set to 0', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
-        if (params.eventType !== KavaEventModel.VIEW.index) return;
-        params.soundMode.should.equal(SoundMode.SOUND_OFF);
-        done();
+        if (params.eventType === KavaEventModel.VIEW.index) {
+          params.soundMode.should.equal(SoundMode.SOUND_OFF);
+          done();
+        }
         return new RequestBuilder();
       });
       setupPlayer(config);
@@ -519,9 +510,10 @@ describe('KavaPlugin', function() {
 
     it('should send VIEW event with sound muted', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
-        if (params.eventType !== KavaEventModel.VIEW.index) return;
-        params.soundMode.should.equal(SoundMode.SOUND_OFF);
-        done();
+        if (params.eventType === KavaEventModel.VIEW.index) {
+          params.soundMode.should.equal(SoundMode.SOUND_OFF);
+          done();
+        }
         return new RequestBuilder();
       });
       setupPlayer(config);
@@ -532,10 +524,11 @@ describe('KavaPlugin', function() {
 
     it('should send VIEW event with forwardBufferHealth and targetBuffer', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
-        if (params.eventType !== KavaEventModel.VIEW.index) return;
-        params.targetBuffer.should.equal(30);
-        params.forwardBufferHealth.should.equal(0.5);
-        done();
+        if (params.eventType === KavaEventModel.VIEW.index) {
+          params.targetBuffer.should.equal(30);
+          params.forwardBufferHealth.should.equal(0.5);
+          done();
+        }
         return new RequestBuilder();
       });
       setupPlayer(config);
@@ -551,8 +544,10 @@ describe('KavaPlugin', function() {
 
     it('should send BUFFER_START event', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
-        validateCommonParams(params, KavaEventModel.BUFFER_START.index);
-        done();
+        if (params.eventType === KavaEventModel.BUFFER_START.index) {
+          validateCommonParams(params, KavaEventModel.BUFFER_START.index);
+          done();
+        }
         return new RequestBuilder();
       });
       setupPlayer(config);
@@ -571,8 +566,10 @@ describe('KavaPlugin', function() {
 
     it('should send BUFFER_END event', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
-        validateCommonParams(params, KavaEventModel.BUFFER_END.index);
-        done();
+        if (params.eventType === KavaEventModel.BUFFER_END.index) {
+          validateCommonParams(params, KavaEventModel.BUFFER_END.index);
+          done();
+        }
         return new RequestBuilder();
       });
       setupPlayer(config);
