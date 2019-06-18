@@ -477,9 +477,7 @@ describe('KavaPlugin', function() {
     });
 
     it('should send VIEW event', done => {
-      sandbox.stub(navigator.connection, 'effectiveType').callsFake(() => {
-        return '2g';
-      });
+      sandbox.stub(window.navigator.connection, 'effectiveType').value('2g');
 
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
         if (params.eventType === KavaEventModel.VIEW.index) {

@@ -23,8 +23,7 @@ export const KavaEventModel: {[event: string]: KavaEvent} = {
         audioLanguage: model.getLanguage(),
         captionsLanguage: model.getCaption(),
         soundMode: model.getSoundMode(),
-        tabMode: model.getTabMode(),
-        networkConnectionType: model.getNetworkConnectionType()
+        tabMode: model.getTabMode()
       };
 
       if (!isNaN(model.getForwardBufferHealth())) {
@@ -45,6 +44,10 @@ export const KavaEventModel: {[event: string]: KavaEvent} = {
 
       if (!isNaN(model.getTargetBuffer())) {
         eventModel.targetBuffer = model.getTargetBuffer();
+      }
+
+      if (model.networkConnectionType != '') {
+        eventModel.networkConnectionType = model.getNetworkConnectionType();
       }
 
       return eventModel;

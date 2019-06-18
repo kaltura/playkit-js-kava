@@ -381,7 +381,10 @@ class Kava extends BasePlugin {
         forwardBufferHealth: this._getForwardBufferHealth(),
         targetBuffer: this._getTargetBuffer(),
         droppedFramesRatio: this._getDroppedFramesRatio(),
-        networkConnectionType: navigator.connection.effectiveType
+        networkConnectionType:
+          window.navigator && window.navigator.connection && window.navigator.connection.effectiveType
+            ? window.navigator.connection.effectiveType
+            : ''
       });
       this._sendAnalytics(KavaEventModel.VIEW);
     } else {
