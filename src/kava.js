@@ -380,7 +380,8 @@ class Kava extends BasePlugin {
         tabMode: this._isDocumentHidden() ? TabMode.TAB_NOT_FOCUSED : TabMode.TAB_FOCUSED,
         forwardBufferHealth: this._getForwardBufferHealth(),
         targetBuffer: this._getTargetBuffer(),
-        droppedFramesRatio: this._getDroppedFramesRatio()
+        droppedFramesRatio: this._getDroppedFramesRatio(),
+        networkConnectionType: navigator.connection.effectiveType
       });
       this._sendAnalytics(KavaEventModel.VIEW);
     } else {

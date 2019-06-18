@@ -29,6 +29,7 @@ class KavaModel {
   droppedFramesRatio: ?number = null;
   soundMode: typeof SoundMode;
   tabMode: typeof TabMode;
+  networkConnectionType: string;
   playerJSLoadTime: ?number = null;
   getActualBitrate: Function;
   getAverageBitrate: Function;
@@ -222,6 +223,16 @@ class KavaModel {
    */
   getTabMode(): typeof TabMode {
     return this.tabMode;
+  }
+
+  /**
+   * Gets the The effectiveType read-only property of the NetworkInformation interface (from navigator)
+   * @returns {string} the effective type of the connection meaning one of 'slow-2g', '2g', '3g', or '4g'
+   * @memberof KavaModel
+   * @instance
+   */
+  getNetworkConnectionType(): string {
+    return this.networkConnectionType;
   }
 
   /**

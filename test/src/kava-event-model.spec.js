@@ -88,6 +88,10 @@ class FakeModel {
   getTargetBuffer() {
     return 30;
   }
+
+  getNetworkConnectionType() {
+    return '4g';
+  }
 }
 
 describe('KavaEventModel', () => {
@@ -111,7 +115,8 @@ describe('KavaEventModel', () => {
       tabMode: fakeModel.getTabMode(),
       segmentDownloadTime: fakeModel.getSegmentDownloadTime(),
       forwardBufferHealth: fakeModel.getForwardBufferHealth(),
-      targetBuffer: fakeModel.getTargetBuffer()
+      targetBuffer: fakeModel.getTargetBuffer(),
+      networkConnectionType: fakeModel.getNetworkConnectionType()
     });
   });
 

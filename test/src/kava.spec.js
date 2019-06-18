@@ -163,6 +163,51 @@ describe('KavaPlugin', function() {
       player.play();
     });
 
+    it('should send IMPRESSION event with playerJSLoadTime', done => {
+      sandbox.stub(window.performance, 'getEntriesByType').callsFake(() => {
+        return [
+          {
+            name: 'https://qa-apache-php7.dev.kaltura.com/p/1091/sp/109100/embedPlaykitJs/uiconf_id/15215933/partner_id/1091/versions/',
+            entryType: 'resource',
+            startTime: 118.6400000001413,
+            duration: 149.8900000001413,
+            initiatorType: 'script',
+            nextHopProtocol: 'http/1.1',
+            workerStart: 0,
+            redirectStart: 0,
+            redirectEnd: 0,
+            fetchStart: 118.6400000001413,
+            domainLookupStart: 0,
+            domainLookupEnd: 0,
+            connectStart: 0,
+            connectEnd: 0,
+            secureConnectionStart: 0,
+            requestStart: 0,
+            responseStart: 0,
+            responseEnd: 268.5300000002826,
+            transferSize: 0,
+            encodedBodySize: 0,
+            decodedBodySize: 0,
+            serverTiming: []
+          }
+        ];
+      });
+      sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
+        if (params.eventType == KavaEventModel.IMPRESSION.index) {
+          validateCommonParams(params, KavaEventModel.IMPRESSION.index);
+          params.playerJSLoadTime.should.equal(149.89);
+          done();
+        }
+        return new RequestBuilder();
+      });
+
+      let configClone = JSON.parse(JSON.stringify(config));
+      configClone.plugins.kava.uiConfId = 15215933;
+      setupPlayer(configClone);
+      kava = getKavaPlugin();
+      player.play();
+    });
+
     it('should send PLAY_REQUEST event', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
         if (params.eventType === KavaEventModel.PLAY_REQUEST.index) {
@@ -432,6 +477,10 @@ describe('KavaPlugin', function() {
     });
 
     it('should send VIEW event', done => {
+      sandbox.stub(navigator.connection, 'effectiveType').callsFake(() => {
+        return '2g';
+      });
+
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
         if (params.eventType === KavaEventModel.VIEW.index) {
           validateCommonParams(params, KavaEventModel.VIEW.index);
@@ -458,8 +507,10 @@ describe('KavaPlugin', function() {
             'referrer',
             'sessionId',
             'soundMode',
-            'tabMode'
+            'tabMode',
+            'networkConnectionType'
           );
+          params.networkConnectionType.should.equal('2g');
           params.tabMode.should.equal(TabMode.TAB_FOCUSED);
           params.soundMode.should.equal(SoundMode.SOUND_ON);
           done();
