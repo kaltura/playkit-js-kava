@@ -46,6 +46,14 @@ export const KavaEventModel: {[event: string]: KavaEvent} = {
         eventModel.targetBuffer = model.getTargetBuffer();
       }
 
+      if (model.getNetworkConnectionType() !== '') {
+        eventModel.networkConnectionType = model.getNetworkConnectionType();
+      }
+
+      if (model.getNetworkConnectionOverhead()) {
+        eventModel.networkConnectionOverhead = model.getNetworkConnectionOverhead();
+      }
+
       return eventModel;
     }
   },

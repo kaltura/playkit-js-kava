@@ -380,7 +380,11 @@ class Kava extends BasePlugin {
         tabMode: this._isDocumentHidden() ? TabMode.TAB_NOT_FOCUSED : TabMode.TAB_FOCUSED,
         forwardBufferHealth: this._getForwardBufferHealth(),
         targetBuffer: this._getTargetBuffer(),
-        droppedFramesRatio: this._getDroppedFramesRatio()
+        droppedFramesRatio: this._getDroppedFramesRatio(),
+        networkConnectionType:
+          window.navigator && window.navigator.connection && window.navigator.connection.effectiveType
+            ? window.navigator.connection.effectiveType
+            : ''
       });
       this._sendAnalytics(KavaEventModel.VIEW);
     } else {
@@ -389,6 +393,9 @@ class Kava extends BasePlugin {
     this._model.updateModel({
       totalSegmentsDownloadTime: 0,
       totalSegmentsDownloadBytes: 0,
+      maxManifestDownloadTime: 0,
+      maxSegmentDownloadTime: 0,
+      maxNetworkConnectionOverhead: 0,
       bufferTime: 0
     });
   }
@@ -470,10 +477,17 @@ class Kava extends BasePlugin {
 
   _onFragLoaded(event: FakeEvent): void {
     const seconds = Math.round(event.payload.miliSeconds) / 1000;
+    const fragResourceTimings = performance && performance.getEntriesByType('resource').filter(entry => entry.name == event.payload.url);
+    const lastFragResourceTiming: ?Object =
+      fragResourceTimings && fragResourceTimings.length ? fragResourceTimings[fragResourceTimings.length - 1] : null;
+
     this._model.updateModel({
       totalSegmentsDownloadTime: this._model.totalSegmentsDownloadTime + seconds,
       totalSegmentsDownloadBytes: this._model.totalSegmentsDownloadBytes + event.payload.bytes,
-      maxSegmentDownloadTime: Math.max(seconds, this._model.maxSegmentDownloadTime)
+      maxSegmentDownloadTime: Math.max(seconds, this._model.maxSegmentDownloadTime),
+      maxNetworkConnectionOverhead: lastFragResourceTiming
+        ? Math.max(this._model.maxNetworkConnectionOverhead, lastFragResourceTiming.connectEnd - lastFragResourceTiming.domainLookupStart)
+        : 0
     });
   }
 
