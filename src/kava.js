@@ -478,7 +478,8 @@ class Kava extends BasePlugin {
   _onFragLoaded(event: FakeEvent): void {
     const seconds = Math.round(event.payload.miliSeconds) / 1000;
     const fragResourceTimings = performance && performance.getEntriesByType('resource').filter(entry => entry.name == event.payload.url);
-    const lastFragResourceTiming = fragResourceTimings && fragResourceTimings.length ? fragResourceTimings[fragResourceTimings.length - 1] : null;
+    const lastFragResourceTiming: ?Object =
+      fragResourceTimings && fragResourceTimings.length ? fragResourceTimings[fragResourceTimings.length - 1] : null;
 
     this._model.updateModel({
       totalSegmentsDownloadTime: this._model.totalSegmentsDownloadTime + seconds,
