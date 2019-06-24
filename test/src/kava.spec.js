@@ -519,7 +519,37 @@ describe('KavaPlugin', function() {
       player.play();
     });
 
-    it('should send VIEW event with manifest download time, segment download time and bandwidth', done => {
+    it('should send VIEW event with manifest download time, segment download time, bandwidth, networkConnectionOverhead', done => {
+      sandbox.stub(window.performance, 'getEntriesByType').callsFake(() => {
+        return [
+          {
+            name:
+              'http://il-wowza-centos-rec-01.dev.kaltura.com:8080/live/hls/p/1091/e/0_f8re4ujs/sd/10000/t/UrZp3SpmAU9V74Zf6HVFyQ/seg-61468856-s32-v1-a1.ts',
+            entryType: 'resource',
+            startTime: 118.6400000001413,
+            duration: 149.8900000001413,
+            initiatorType: 'script',
+            nextHopProtocol: 'http/1.1',
+            workerStart: 0,
+            redirectStart: 0,
+            redirectEnd: 0,
+            fetchStart: 118.6400000001413,
+            domainLookupStart: 20.2,
+            domainLookupEnd: 0,
+            connectStart: 0,
+            connectEnd: 120.5,
+            secureConnectionStart: 0,
+            requestStart: 0,
+            responseStart: 0,
+            responseEnd: 268.5300000002826,
+            transferSize: 0,
+            encodedBodySize: 0,
+            decodedBodySize: 0,
+            serverTiming: []
+          }
+        ];
+      });
+
       const DUMMY_MANIFEST_DOWNLOAD_TIME = 57;
       const FRAG1_DOWNLOAD_TIME = 100;
       const FRAG2_DOWNLOAD_TIME = 20;
@@ -531,6 +561,7 @@ describe('KavaPlugin', function() {
           const TOTAL_SECONDS = (FRAG1_DOWNLOAD_TIME + FRAG2_DOWNLOAD_TIME) / 1000;
           params.bandwidth.should.equal(Math.round(((FRAG1_BYTES + FRAG2_BYTES) * 8) / TOTAL_SECONDS) / 1000);
           params.segmentDownloadTime.should.equal(FRAG1_DOWNLOAD_TIME / 1000);
+          params.networkConnectionOverhead.should.equal(0.1);
           done();
         }
         return new RequestBuilder();
@@ -539,7 +570,14 @@ describe('KavaPlugin', function() {
       kava = getKavaPlugin();
       player.play();
       player.dispatchEvent(new FakeEvent(CustomEventType.MANIFEST_LOADED, {miliSeconds: DUMMY_MANIFEST_DOWNLOAD_TIME}));
-      player.dispatchEvent(new FakeEvent(CustomEventType.FRAG_LOADED, {miliSeconds: FRAG1_DOWNLOAD_TIME, bytes: FRAG1_BYTES}));
+      player.dispatchEvent(
+        new FakeEvent(CustomEventType.FRAG_LOADED, {
+          miliSeconds: FRAG1_DOWNLOAD_TIME,
+          bytes: FRAG1_BYTES,
+          url:
+            'http://il-wowza-centos-rec-01.dev.kaltura.com:8080/live/hls/p/1091/e/0_f8re4ujs/sd/10000/t/UrZp3SpmAU9V74Zf6HVFyQ/seg-61468856-s32-v1-a1.ts'
+        })
+      );
       player.dispatchEvent(new FakeEvent(CustomEventType.FRAG_LOADED, {miliSeconds: FRAG2_DOWNLOAD_TIME, bytes: FRAG2_BYTES}));
     });
 

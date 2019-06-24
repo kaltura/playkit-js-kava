@@ -488,7 +488,7 @@ class Kava extends BasePlugin {
       maxSegmentDownloadTime: Math.max(seconds, this._model.maxSegmentDownloadTime),
       maxNetworkConnectionOverhead: lastFragResourceTiming
         ? Math.max(this._model.maxNetworkConnectionOverhead, lastFragResourceTiming.connectEnd - lastFragResourceTiming.domainLookupStart)
-        : 0
+        : this._model.maxNetworkConnectionOverhead
     });
   }
 
