@@ -240,6 +240,7 @@ class Kava extends BasePlugin {
     this.eventManager.listen(this.player, this.player.Event.FIRST_PLAY, () => this._onFirstPlay());
     this.eventManager.listen(this.player, this.player.Event.FRAG_LOADED, event => this._onFragLoaded(event));
     this.eventManager.listen(this.player, this.player.Event.MANIFEST_LOADED, event => this._onManifestLoaded(event));
+    this.eventManager.listen(this.player, this.player.Event.TIMED_METADATA, event => this._onTimedMetadataLoaded(event));
     this.eventManager.listen(this.player, this.player.Event.TRACKS_CHANGED, () => this._setInitialTracks());
     this.eventManager.listen(this.player, this.player.Event.PLAYING, () => this._onPlaying());
     this.eventManager.listen(this.player, this.player.Event.FIRST_PLAYING, () => this._onFirstPlaying());
@@ -496,6 +497,17 @@ class Kava extends BasePlugin {
     this._model.updateModel({
       maxManifestDownloadTime: Math.max(seconds, this._model.maxManifestDownloadTime)
     });
+  }
+
+  _onTimedMetadataLoaded(event: FakeEvent): void {
+    const id3TagCues = event.payload.cues.filter(entry => entry.track && entry.track.label == 'id3');
+    if (id3TagCues.length) {
+      try {
+        this._model.updateModel({flavorParamsId: Number(JSON.parse(id3TagCues[id3TagCues.length - 1].value.data).sequenceId)});
+      } catch (e) {
+        this.logger.debug('error parsing id3');
+      }
+    }
   }
 
   _onVideoTrackChanged(event: FakeEvent): void {

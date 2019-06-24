@@ -53,6 +53,9 @@ export const KavaEventModel: {[event: string]: KavaEvent} = {
       if (model.getNetworkConnectionOverhead()) {
         eventModel.networkConnectionOverhead = model.getNetworkConnectionOverhead();
       }
+      if (!isNaN(model.getFlavorParamsId())) {
+        eventModel.flavorParamsId = model.getFlavorParamsId();
+      }
 
       return eventModel;
     }

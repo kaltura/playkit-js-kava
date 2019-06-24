@@ -96,6 +96,10 @@ class FakeModel {
   getNetworkConnectionOverhead() {
     return '0.12';
   }
+
+  getFlavorParamsId() {
+    return 32;
+  }
 }
 
 describe('KavaEventModel', () => {
@@ -121,7 +125,8 @@ describe('KavaEventModel', () => {
       forwardBufferHealth: fakeModel.getForwardBufferHealth(),
       targetBuffer: fakeModel.getTargetBuffer(),
       networkConnectionType: fakeModel.getNetworkConnectionType(),
-      networkConnectionOverhead: fakeModel.getNetworkConnectionOverhead()
+      networkConnectionOverhead: fakeModel.getNetworkConnectionOverhead(),
+      flavorParamsId: fakeModel.getFlavorParamsId()
     });
   });
 

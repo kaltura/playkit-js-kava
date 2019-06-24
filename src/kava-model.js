@@ -30,6 +30,7 @@ class KavaModel {
   soundMode: typeof SoundMode;
   tabMode: typeof TabMode;
   maxNetworkConnectionOverhead: number = 0;
+  flavorParamsId: number = NaN;
   networkConnectionType: string;
   playerJSLoadTime: ?number = null;
   getActualBitrate: Function;
@@ -255,6 +256,16 @@ class KavaModel {
    */
   getErrorCode(): number {
     return this.errorCode;
+  }
+
+  /**
+   * Gets the flavor id from ID3 tag in the packager
+   * @returns {number} - The flavor id.
+   * @memberof KavaModel
+   * @instance
+   */
+  getFlavorParamsId(): number {
+    return this.flavorParamsId;
   }
 
   /**
