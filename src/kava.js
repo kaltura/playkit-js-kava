@@ -7,7 +7,7 @@ import {KavaTimer} from './kava-timer';
 import {KavaModel, SoundMode, TabMode} from './kava-model';
 
 const DIVIDER: number = 1024;
-const ID3_TRACK_LABEL: number = 'id3';
+const ID3_TRACK_LABEL: string = 'id3';
 
 /**
  * Kaltura Advanced Analytics plugin.
