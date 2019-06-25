@@ -562,6 +562,7 @@ describe('KavaPlugin', function() {
           params.bandwidth.should.equal(Math.round(((FRAG1_BYTES + FRAG2_BYTES) * 8) / TOTAL_SECONDS) / 1000);
           params.segmentDownloadTime.should.equal(FRAG1_DOWNLOAD_TIME / 1000);
           params.networkConnectionOverhead.should.equal(0.1);
+          params.flavorParamsId.should.equal(36);
           done();
         }
         return new RequestBuilder();
@@ -569,6 +570,21 @@ describe('KavaPlugin', function() {
       setupPlayer(config);
       kava = getKavaPlugin();
       player.play();
+      player.dispatchEvent(
+        new FakeEvent(CustomEventType.TIMED_METADATA, {
+          cues: [
+            {
+              value: {
+                key: 'TEXT',
+                data: '{"timestamp":1561448342872,"sequenceId":"36"}'
+              },
+              track: {
+                label: 'id3'
+              }
+            }
+          ]
+        })
+      );
       player.dispatchEvent(new FakeEvent(CustomEventType.MANIFEST_LOADED, {miliSeconds: DUMMY_MANIFEST_DOWNLOAD_TIME}));
       player.dispatchEvent(
         new FakeEvent(CustomEventType.FRAG_LOADED, {
