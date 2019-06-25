@@ -7,6 +7,7 @@ import {KavaTimer} from './kava-timer';
 import {KavaModel, SoundMode, TabMode} from './kava-model';
 
 const DIVIDER: number = 1024;
+const ID3_TRACK_LABEL: number = 'id3';
 
 /**
  * Kaltura Advanced Analytics plugin.
@@ -500,7 +501,7 @@ class Kava extends BasePlugin {
   }
 
   _onTimedMetadataLoaded(event: FakeEvent): void {
-    const id3TagCues = event.payload.cues.filter(entry => entry.track && entry.track.label == 'id3');
+    const id3TagCues = event.payload.cues.filter(entry => entry.track && entry.track.label === ID3_TRACK_LABEL);
     if (id3TagCues.length) {
       try {
         this._model.updateModel({flavorParamsId: Number(JSON.parse(id3TagCues[id3TagCues.length - 1].value.data).sequenceId)});
