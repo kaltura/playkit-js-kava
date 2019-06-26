@@ -523,8 +523,7 @@ describe('KavaPlugin', function() {
       sandbox.stub(window.performance, 'getEntriesByType').callsFake(() => {
         return [
           {
-            name:
-              'http://il-wowza-centos-rec-01.dev.kaltura.com:8080/live/hls/p/1091/e/0_f8re4ujs/sd/10000/t/UrZp3SpmAU9V74Zf6HVFyQ/seg-61468856-s32-v1-a1.ts',
+            name: 'http://www.somesite.com/movie.ts',
             entryType: 'resource',
             startTime: 118.6400000001413,
             duration: 149.8900000001413,
@@ -590,8 +589,7 @@ describe('KavaPlugin', function() {
         new FakeEvent(CustomEventType.FRAG_LOADED, {
           miliSeconds: FRAG1_DOWNLOAD_TIME,
           bytes: FRAG1_BYTES,
-          url:
-            'http://il-wowza-centos-rec-01.dev.kaltura.com:8080/live/hls/p/1091/e/0_f8re4ujs/sd/10000/t/UrZp3SpmAU9V74Zf6HVFyQ/seg-61468856-s32-v1-a1.ts'
+          url: 'http://www.somesite.com/movie.ts'
         })
       );
       player.dispatchEvent(new FakeEvent(CustomEventType.FRAG_LOADED, {miliSeconds: FRAG2_DOWNLOAD_TIME, bytes: FRAG2_BYTES}));
