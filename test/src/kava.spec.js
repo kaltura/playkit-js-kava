@@ -592,7 +592,9 @@ describe('KavaPlugin', function() {
           url: 'http://www.somesite.com/movie.ts'
         })
       );
-      player.dispatchEvent(new FakeEvent(CustomEventType.FRAG_LOADED, {miliSeconds: FRAG2_DOWNLOAD_TIME, bytes: FRAG2_BYTES}));
+      player.dispatchEvent(
+        new FakeEvent(CustomEventType.FRAG_LOADED, {miliSeconds: FRAG2_DOWNLOAD_TIME, bytes: FRAG2_BYTES, url: 'http://www.somesite.com/movie2.ts'})
+      );
     });
 
     it('should send VIEW event with volume set to 0', done => {
