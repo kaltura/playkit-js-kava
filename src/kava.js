@@ -506,7 +506,7 @@ class Kava extends BasePlugin {
       try {
         this._model.updateModel({flavorParamsId: Number(JSON.parse(id3TagCues[id3TagCues.length - 1].value.data).sequenceId)});
       } catch (e) {
-        this.logger.debug('error parsing id3');
+        this.logger.debug('error parsing id3', e);
       }
     }
   }
