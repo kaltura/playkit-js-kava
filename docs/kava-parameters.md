@@ -219,6 +219,18 @@ Kava parameters are additional data that is sent with Kava event and represent r
 
 ---
 
+<a id="manifestDownloadTime"></a>`manifestDownloadTime` - Longest manifest download time in seconds.
+- Should be in format of float (second.milliSecond).
+- The value is calculated from the last VIEW event.
+
+---
+
+<a id="forwardBufferHealth"></a>`forwardBufferHealth` - Ratio between available buffer and target buffer.
+- Should be in format of float (second.milliSecond).
+- The value represents the state when the VIEW event is sent.
+
+---
+
 <a id="averageBitrate"></a>`averageBitrate` - Average of all [`actualBitrate`](#actualBitrate) for the current Kava session.
 
 - When Kava session expired/reset should be reset to the initial value = 0.
