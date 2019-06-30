@@ -519,7 +519,36 @@ describe('KavaPlugin', function() {
       player.play();
     });
 
-    it('should send VIEW event with manifest download time, segment download time and bandwidth', done => {
+    it('should send VIEW event with manifest download time, segment download time, bandwidth, networkConnectionOverhead', done => {
+      sandbox.stub(window.performance, 'getEntriesByType').callsFake(() => {
+        return [
+          {
+            name: 'http://www.somesite.com/movie.ts',
+            entryType: 'resource',
+            startTime: 118.6400000001413,
+            duration: 149.8900000001413,
+            initiatorType: 'script',
+            nextHopProtocol: 'http/1.1',
+            workerStart: 0,
+            redirectStart: 0,
+            redirectEnd: 0,
+            fetchStart: 118.6400000001413,
+            domainLookupStart: 20.2,
+            domainLookupEnd: 0,
+            connectStart: 0,
+            connectEnd: 120.5,
+            secureConnectionStart: 0,
+            requestStart: 0,
+            responseStart: 0,
+            responseEnd: 268.5300000002826,
+            transferSize: 0,
+            encodedBodySize: 0,
+            decodedBodySize: 0,
+            serverTiming: []
+          }
+        ];
+      });
+
       const DUMMY_MANIFEST_DOWNLOAD_TIME = 57;
       const FRAG1_DOWNLOAD_TIME = 100;
       const FRAG2_DOWNLOAD_TIME = 20;
@@ -531,6 +560,8 @@ describe('KavaPlugin', function() {
           const TOTAL_SECONDS = (FRAG1_DOWNLOAD_TIME + FRAG2_DOWNLOAD_TIME) / 1000;
           params.bandwidth.should.equal(Math.round(((FRAG1_BYTES + FRAG2_BYTES) * 8) / TOTAL_SECONDS) / 1000);
           params.segmentDownloadTime.should.equal(FRAG1_DOWNLOAD_TIME / 1000);
+          params.networkConnectionOverhead.should.equal(0.1);
+          params.flavorParamsId.should.equal(36);
           done();
         }
         return new RequestBuilder();
@@ -538,9 +569,32 @@ describe('KavaPlugin', function() {
       setupPlayer(config);
       kava = getKavaPlugin();
       player.play();
+      player.dispatchEvent(
+        new FakeEvent(CustomEventType.TIMED_METADATA, {
+          cues: [
+            {
+              value: {
+                key: 'TEXT',
+                data: '{"timestamp":1561448342872,"sequenceId":"36"}'
+              },
+              track: {
+                label: 'id3'
+              }
+            }
+          ]
+        })
+      );
       player.dispatchEvent(new FakeEvent(CustomEventType.MANIFEST_LOADED, {miliSeconds: DUMMY_MANIFEST_DOWNLOAD_TIME}));
-      player.dispatchEvent(new FakeEvent(CustomEventType.FRAG_LOADED, {miliSeconds: FRAG1_DOWNLOAD_TIME, bytes: FRAG1_BYTES}));
-      player.dispatchEvent(new FakeEvent(CustomEventType.FRAG_LOADED, {miliSeconds: FRAG2_DOWNLOAD_TIME, bytes: FRAG2_BYTES}));
+      player.dispatchEvent(
+        new FakeEvent(CustomEventType.FRAG_LOADED, {
+          miliSeconds: FRAG1_DOWNLOAD_TIME,
+          bytes: FRAG1_BYTES,
+          url: 'http://www.somesite.com/movie.ts'
+        })
+      );
+      player.dispatchEvent(
+        new FakeEvent(CustomEventType.FRAG_LOADED, {miliSeconds: FRAG2_DOWNLOAD_TIME, bytes: FRAG2_BYTES, url: 'http://www.somesite.com/movie2.ts'})
+      );
     });
 
     it('should send VIEW event with volume set to 0', done => {

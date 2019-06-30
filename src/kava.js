@@ -7,6 +7,7 @@ import {KavaTimer} from './kava-timer';
 import {KavaModel, SoundMode, TabMode} from './kava-model';
 
 const DIVIDER: number = 1024;
+const ID3_TRACK_LABEL: string = 'id3';
 
 /**
  * Kaltura Advanced Analytics plugin.
@@ -240,6 +241,7 @@ class Kava extends BasePlugin {
     this.eventManager.listen(this.player, this.player.Event.FIRST_PLAY, () => this._onFirstPlay());
     this.eventManager.listen(this.player, this.player.Event.FRAG_LOADED, event => this._onFragLoaded(event));
     this.eventManager.listen(this.player, this.player.Event.MANIFEST_LOADED, event => this._onManifestLoaded(event));
+    this.eventManager.listen(this.player, this.player.Event.TIMED_METADATA, event => this._onTimedMetadataLoaded(event));
     this.eventManager.listen(this.player, this.player.Event.TRACKS_CHANGED, () => this._setInitialTracks());
     this.eventManager.listen(this.player, this.player.Event.PLAYING, () => this._onPlaying());
     this.eventManager.listen(this.player, this.player.Event.FIRST_PLAYING, () => this._onFirstPlaying());
@@ -487,7 +489,7 @@ class Kava extends BasePlugin {
       maxSegmentDownloadTime: Math.max(seconds, this._model.maxSegmentDownloadTime),
       maxNetworkConnectionOverhead: lastFragResourceTiming
         ? Math.max(this._model.maxNetworkConnectionOverhead, lastFragResourceTiming.connectEnd - lastFragResourceTiming.domainLookupStart)
-        : 0
+        : this._model.maxNetworkConnectionOverhead
     });
   }
 
@@ -496,6 +498,17 @@ class Kava extends BasePlugin {
     this._model.updateModel({
       maxManifestDownloadTime: Math.max(seconds, this._model.maxManifestDownloadTime)
     });
+  }
+
+  _onTimedMetadataLoaded(event: FakeEvent): void {
+    const id3TagCues = event.payload.cues.filter(entry => entry.track && entry.track.label === ID3_TRACK_LABEL);
+    if (id3TagCues.length) {
+      try {
+        this._model.updateModel({flavorParamsId: Number(JSON.parse(id3TagCues[id3TagCues.length - 1].value.data).sequenceId)});
+      } catch (e) {
+        this.logger.debug('error parsing id3', e);
+      }
+    }
   }
 
   _onVideoTrackChanged(event: FakeEvent): void {
