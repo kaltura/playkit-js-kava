@@ -243,6 +243,27 @@ Kava parameters are additional data that is sent with Kava event and represent r
 
 ---
 
+<a id="networkConnectionType"></a>`networkConnectionType` - The effective type of the connection.
+- A String containing one of 'slow-2g', '2g', '3g', or '4g'.
+
+---
+
+<a id="networkConnectionOverhead"></a>`networkConnectionOverhead` - Max dns+ssl+tcp resolving time of the video segments.
+- Should be in format of float (second.milliSecond).
+- The value is calculated from the last VIEW event.
+
+---
+
+<a id="playerJSLoadTime"></a>`playerJSLoadTime` - Javascript/player Load time.
+- Should be in format of float (second.milliSecond).
+
+---
+
+<a id="flavorParamsId"></a>`flavorParamsId` - The flavor params Id.
+- Should be in format of integer.
+
+---
+
 <a id="averageBitrate"></a>`averageBitrate` - Average of all [`actualBitrate`](#actualBitrate) for the current Kava session.
 
 - When Kava session expired/reset should be reset to the initial value = 0.
