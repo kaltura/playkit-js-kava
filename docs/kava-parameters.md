@@ -231,6 +231,18 @@ Kava parameters are additional data that is sent with Kava event and represent r
 
 ---
 
+<a id="targetBuffer"></a>`targetBuffer` - The target buffer of the player.
+- Should be in format of float (second.milliSecond).
+- The value represents the state when the VIEW event is sent.
+
+---
+
+<a id="droppedFramesRatio"></a>`droppedFramesRatio` - Ratio between dropped frames and rendered frames.
+- Should be in format of float (second.milliSecond).
+- The value is calculated from the last VIEW event.
+
+---
+
 <a id="averageBitrate"></a>`averageBitrate` - Average of all [`actualBitrate`](#actualBitrate) for the current Kava session.
 
 - When Kava session expired/reset should be reset to the initial value = 0.
