@@ -188,6 +188,37 @@ Kava parameters are additional data that is sent with Kava event and represent r
 
 ---
 
+<a id="segmentDownloadTime"></a>`segmentDownloadTime` - Longest segment download time in seconds.
+
+- Should be in format of float (second.milliSecond).
+- The value is calculated from the last VIEW event.
+
+---
+
+<a id="bandwidth"></a>`bandwidth` - Average bandwidth in seconds.
+
+- kbps in format of float (second.milliSecond).
+- The value is calculated from the last VIEW event.
+
+---
+
+<a id="tabMode"></a>`tabMode` - Is tab focused or not.
+- Possible values
+  - 1 - Tab not focused
+  - 2 - Tab focused
+- The value represents the state when the VIEW event is sent.
+
+---
+
+<a id="soundMode"></a>`soundMode` - Is sound muted or not.
+- Possible values
+  - 1 - Sound off
+  - 2 - Sound on
+- Sound is cosidered off if muted or volume is set to 0
+- The value represents the state when the VIEW event is sent.
+
+---
+
 <a id="averageBitrate"></a>`averageBitrate` - Average of all [`actualBitrate`](#actualBitrate) for the current Kava session.
 
 - When Kava session expired/reset should be reset to the initial value = 0.
