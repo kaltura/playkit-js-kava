@@ -250,6 +250,17 @@ export const KavaEventModel: {[event: string]: KavaEvent} = {
       errorCode: model.getErrorCode(),
       errorDetails: model.getErrorDetails()
     })
+  },
+  /**
+   * @type {string} AD_STARTED
+   * @memberof KavaEventType
+   */
+  AD_STARTED: {
+    type: 'AD_STARTED',
+    index: 9999,
+    getEventModel: (model: KavaModel) => {
+      return model.getAdCommonModel();
+    }
   }
 };
 

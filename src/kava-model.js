@@ -31,6 +31,11 @@ class KavaModel {
   tabMode: typeof TabMode;
   maxNetworkConnectionOverhead: number = 0;
   flavorParamsId: number = NaN;
+  adId: number = NaN;
+  adPosition: number = NaN;
+  adBreakType: string = '';
+  adSystem: string = '';
+  adTitle: string = '';
   networkConnectionType: string;
   playerJSLoadTime: ?number = null;
   getActualBitrate: Function;
@@ -269,6 +274,56 @@ class KavaModel {
   }
 
   /**
+   * Gets the ad id
+   * @returns {number} - The ad id.
+   * @memberof KavaModel
+   * @instance
+   */
+  getAdId(): number {
+    return this.adId;
+  }
+
+  /**
+   * Gets the ad position
+   * @returns {number} - The ad position inside the ads break.
+   * @memberof KavaModel
+   * @instance
+   */
+  getAdPosition(): number {
+    return this.adPosition;
+  }
+
+  /**
+   * Gets the ad break type
+   * @returns {string} - preroll / midroll / postroll.
+   * @memberof KavaModel
+   * @instance
+   */
+  getAdBreakType(): string {
+    return this.adBreakType;
+  }
+
+  /**
+   * Gets the ad system
+   * @returns {string} - ad system
+   * @memberof KavaModel
+   * @instance
+   */
+  getAdSystem(): string {
+    return this.adSystem;
+  }
+
+  /**
+   * Gets the ad title
+   * @returns {string} - ad title
+   * @memberof KavaModel
+   * @instance
+   */
+  getAdTitle(): string {
+    return this.adTitle;
+  }
+
+  /**
    * Gets the error additional data.
    * @returns {string} - The stringifyed error data.
    * @memberof KavaModel
@@ -326,6 +381,38 @@ class KavaModel {
    */
   getModel(eventObj: KavaEvent): Object {
     return getEventModel(eventObj, this);
+  }
+
+  /**
+   * Gets the common ad model
+   * @param {KavaModel} model -
+   * @returns {Object} - the common ad model
+   * @memberof KavaModel
+   * @instance
+   */
+  getAdCommonModel(): Object {
+    const adModel: Object = {};
+
+    if (!isNaN(this.getAdId())) {
+      adModel.adId = this.getAdId();
+    }
+
+    if (!isNaN(this.getAdPosition())) {
+      adModel.adPosition = this.getAdPosition();
+    }
+
+    if (this.getAdBreakType() != '') {
+      adModel.adBreakType = this.getAdBreakType();
+    }
+
+    if (this.getAdSystem() != '') {
+      adModel.adSystem = this.getAdSystem();
+    }
+
+    if (this.getAdTitle() != '') {
+      adModel.adTitle = this.getAdTitle();
+    }
+    return adModel;
   }
 }
 

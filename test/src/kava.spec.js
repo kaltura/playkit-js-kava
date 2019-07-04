@@ -688,6 +688,41 @@ describe('KavaPlugin', function() {
         }
       });
     });
+
+    it('should send AD_STARTED event', done => {
+      sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
+        if (params.eventType === KavaEventModel.AD_STARTED.index) {
+          validateCommonParams(params, KavaEventModel.AD_STARTED.index);
+          params.adBreakType.should.equal('preroll');
+          params.adId.should.equal(123);
+          params.adTitle.should.equal('Title Test');
+          params.adPosition.should.equal(1);
+          params.adSystem.should.equal('GDFP');
+          done();
+        }
+        return new RequestBuilder();
+      });
+      setupPlayer(config);
+      kava = getKavaPlugin();
+      kava._onAdBreakStarted({
+        payload: {
+          adBreak: {
+            _type: 'preroll'
+          }
+        }
+      });
+
+      kava._onAdStarted({
+        payload: {
+          ad: {
+            _id: 123,
+            _title: 'Title Test',
+            _position: 1,
+            _system: 'GDFP'
+          }
+        }
+      });
+    });
   });
 
   describe('Server Response', () => {
