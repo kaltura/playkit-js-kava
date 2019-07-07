@@ -5,6 +5,7 @@ import {KavaEventModel, KavaEventType} from './kava-event-model';
 import {KavaRateHandler} from './kava-rate-handler';
 import {KavaTimer} from './kava-timer';
 import {KavaModel, SoundMode, TabMode} from './kava-model';
+import {KavaAds} from './kava-ads';
 
 const DIVIDER: number = 1024;
 const ID3_TRACK_LABEL: string = 'id3';
@@ -33,6 +34,7 @@ class Kava extends BasePlugin {
   _loadStartTime: number;
   _lastDroppedFrames: number = 0;
   _lastTotalFrames: number = 0;
+  _adsKava: KavaAds;
 
   /**
    * Default config of the plugin.
@@ -62,6 +64,7 @@ class Kava extends BasePlugin {
     super(name, player, config);
     this._rateHandler = new KavaRateHandler();
     this._model = new KavaModel();
+    this._adsKava = new KavaAds(this.eventManager, player, this, this._model, this._sendAnalytics.bind(this));
     this._setModelDelegates();
     this._timer = new KavaTimer({
       resetCounter: this.config.resetSessionCountdown,
@@ -255,11 +258,9 @@ class Kava extends BasePlugin {
     this.eventManager.listen(this.player, this.player.Event.PLAYER_STATE_CHANGED, event => this._onPlayerStateChanged(event));
     this.eventManager.listen(this.player, this.player.Event.CAN_PLAY, () => this._onCanPlay());
     this.eventManager.listen(this.player, this.player.Event.LOAD_START, () => this._onLoadStart());
-    this.eventManager.listen(this.player, this.player.Event.AD_STARTED, event => this._onAdStarted(event));
-    this.eventManager.listen(this.player, this.player.Event.AD_COMPLETED, () => this._onAdCompleted());
-    this.eventManager.listen(this.player, this.player.Event.AD_SKIPPED, () => this._onAdSkipped());
-    this.eventManager.listen(this.player, this.player.Event.AD_BREAK_START, event => this._onAdBreakStarted(event));
-    this.eventManager.listen(this.player, this.player.Event.AD_BREAK_END, () => this._onAdBreakEnd());
+    if (this._adsKava) {
+      this._adsKava.addBindings();
+    }
   }
 
   _onFirstPlaying(): void {
@@ -546,43 +547,6 @@ class Kava extends BasePlugin {
       this._sendAnalytics(KavaEventModel.ERROR);
       this.reset();
     }
-  }
-
-  _onAdCompleted(): void {
-    this.logger.debug('_onAdCompleted');
-    this._clearAdStartedModelData();
-  }
-
-  _onAdSkipped(): void {
-    this.logger.debug('_onAdSkipped');
-    this._clearAdStartedModelData();
-  }
-
-  _clearAdStartedModelData() {
-    this._model.updateModel({adId: NaN});
-    this._model.updateModel({adTitle: ''});
-    this._model.updateModel({adPosition: NaN});
-    this._model.updateModel({adSystem: ''});
-  }
-
-  _onAdStarted(event: FakeEvent): void {
-    this.logger.debug('_onAdStarted', event.payload.ad._id);
-    this._model.updateModel({adId: event.payload.ad._id});
-    this._model.updateModel({adTitle: event.payload.ad._title});
-    this._model.updateModel({adPosition: event.payload.ad._position});
-    this._model.updateModel({adSystem: event.payload.ad._system});
-
-    this._sendAnalytics(KavaEventModel.AD_STARTED);
-  }
-
-  _onAdBreakEnd(): void {
-    this.logger.debug('_onAdBreakEnd');
-    this._model.updateModel({adBreakType: ''});
-  }
-
-  _onAdBreakStarted(event: FakeEvent): void {
-    this.logger.debug('_onAdBreakStarted', event.payload.adBreak._type);
-    this._model.updateModel({adBreakType: event.payload.adBreak._type});
   }
 
   _onPlayerStateChanged(event: FakeEvent): void {
