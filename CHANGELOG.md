@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.10.0"></a>
+# [0.10.0](https://github.com/kaltura/playkit-js-kava/compare/v0.7.1...v0.10.0) (2019-07-07)
+
+
+### Features
+
+* **FEC-8975:** adding QoS Data to enhance KAVA ([#35](https://github.com/kaltura/playkit-js-kava/issues/35)) ([e1e4eda](https://github.com/kaltura/playkit-js-kava/commit/e1e4eda))
+* **FEC-8975:** QoS Kava Enhancements - leftovers ([#36](https://github.com/kaltura/playkit-js-kava/issues/36)) ([e10ab36](https://github.com/kaltura/playkit-js-kava/commit/e10ab36))
+* **FEC-9071:** add errorDetails field to kava error reporting ([#34](https://github.com/kaltura/playkit-js-kava/issues/34)) ([67ca77e](https://github.com/kaltura/playkit-js-kava/commit/67ca77e))
+* **FEC-9139:** adding flavorParamsId ([#37](https://github.com/kaltura/playkit-js-kava/issues/37)) ([0817b70](https://github.com/kaltura/playkit-js-kava/commit/0817b70))
+
+
+
 <a name="0.9.0"></a>
 # [0.9.0](https://github.com/kaltura/playkit-js-kava/compare/v0.8.0...v0.9.0) (2019-06-23)
 
