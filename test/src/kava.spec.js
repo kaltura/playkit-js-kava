@@ -698,6 +698,7 @@ describe('KavaPlugin', function() {
           params.adTitle.should.equal('Title Test');
           params.adPosition.should.equal(1);
           params.adSystem.should.equal('GDFP');
+          params.advertiserName.should.equal('Advertiser dummy');
           done();
         }
         return new RequestBuilder();
@@ -718,7 +719,8 @@ describe('KavaPlugin', function() {
             _id: 123,
             _title: 'Title Test',
             _position: 1,
-            _system: 'GDFP'
+            _system: 'GDFP',
+            _advertiserName: 'Advertiser dummy'
           }
         }
       });

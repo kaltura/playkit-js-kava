@@ -36,6 +36,7 @@ class KavaAds {
     this._model.updateModel({adTitle: ''});
     this._model.updateModel({adPosition: NaN});
     this._model.updateModel({adSystem: ''});
+    this._model.updateModel({advertiserName: ''});
   }
   _onAdSkipped(): void {
     this._kava.logger.debug('_onAdSkipped');
@@ -47,6 +48,7 @@ class KavaAds {
     this._model.updateModel({adTitle: event.payload.ad._title});
     this._model.updateModel({adPosition: event.payload.ad._position});
     this._model.updateModel({adSystem: event.payload.ad._system});
+    this._model.updateModel({advertiserName: event.payload.ad._advertiserName});
 
     this._sendAnalytics(KavaEventModel.AD_STARTED);
   }

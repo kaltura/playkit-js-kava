@@ -35,6 +35,7 @@ class KavaModel {
   adPosition: number = NaN;
   adBreakType: string = '';
   adSystem: string = '';
+  advertiserName: string = '';
   adTitle: string = '';
   networkConnectionType: string;
   playerJSLoadTime: ?number = null;
@@ -314,6 +315,16 @@ class KavaModel {
   }
 
   /**
+   * Gets the advertiser name
+   * @returns {string} - advertiser name
+   * @memberof KavaModel
+   * @instance
+   */
+  getAdvertiserName(): string {
+    return this.advertiserName;
+  }
+
+  /**
    * Gets the ad title
    * @returns {string} - ad title
    * @memberof KavaModel
@@ -407,6 +418,9 @@ class KavaModel {
 
     if (this.getAdSystem() != '') {
       adModel.adSystem = this.getAdSystem();
+    }
+    if (this.getAdvertiserName() != '') {
+      adModel.advertiserName = this.getAdvertiserName();
     }
 
     if (this.getAdTitle() != '') {
