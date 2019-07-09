@@ -1,7 +1,8 @@
 // @flow
 import {EventManager, FakeEvent, Player} from '@playkit-js/playkit-js';
-import {KavaEventModel} from './kava-event-model';
 import {KavaModel} from './kava-model';
+import {KavaAdEventModel} from './kava-ad-event-model';
+
 import {Kava} from './kava';
 class KavaAds {
   _eventManager: EventManager;
@@ -50,7 +51,7 @@ class KavaAds {
     this._model.updateModel({adSystem: event.payload.ad._system});
     this._model.updateModel({advertiserName: event.payload.ad._advertiserName});
 
-    this._sendAnalytics(KavaEventModel.AD_STARTED);
+    this._sendAnalytics(KavaAdEventModel.AD_STARTED);
   }
 
   _onAdBreakEnd(): void {

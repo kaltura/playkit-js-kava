@@ -6,6 +6,7 @@ import {KavaRateHandler} from './kava-rate-handler';
 import {KavaTimer} from './kava-timer';
 import {KavaModel, SoundMode, TabMode} from './kava-model';
 import {KavaAds} from './kava-ads';
+import {KavaAdEventType} from './kava-ad-event-model';
 
 const DIVIDER: number = 1024;
 const ID3_TRACK_LABEL: string = 'id3';
@@ -146,6 +147,14 @@ class Kava extends BasePlugin {
    */
   get EventType(): {[event: string]: string} {
     return Utils.Object.copyDeep(KavaEventType);
+  }
+  /**
+   * @returns {KavaAdEventType} - The kava ad events list.
+   * @instance
+   * @memberof Kava
+   */
+  get AdEventType(): {[event: string]: string} {
+    return Utils.Object.copyDeep(KavaAdEventType);
   }
 
   /**
