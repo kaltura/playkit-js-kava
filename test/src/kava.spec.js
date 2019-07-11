@@ -3,6 +3,7 @@ import {loadPlayer, FakeEvent, CustomEventType} from '@playkit-js/playkit-js';
 import * as TestUtils from './utils/test-utils';
 import {OVPAnalyticsService, RequestBuilder} from 'playkit-js-providers/dist/playkit-analytics-service';
 import {KavaEventModel} from '../../src/kava-event-model';
+import {KavaAdEventModel} from '../../src/kava-ad-event-model';
 import {SoundMode, TabMode} from '../../src/kava-model';
 
 const targetId = 'player-placeholder_kava.spec';
@@ -691,21 +692,25 @@ describe('KavaPlugin', function() {
 
     it('should send AD_STARTED event', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
-        if (params.eventType === KavaEventModel.AD_STARTED.index) {
-          validateCommonParams(params, KavaEventModel.AD_STARTED.index);
-          params.adBreakType.should.equal('preroll');
-          params.adId.should.equal(123);
-          params.adTitle.should.equal('Title Test');
-          params.adPosition.should.equal(1);
-          params.adSystem.should.equal('GDFP');
-          params.advertiserName.should.equal('Advertiser dummy');
-          done();
+        try {
+          if (params.eventType === KavaAdEventModel.AD_STARTED.index) {
+            validateCommonParams(params, KavaAdEventModel.AD_STARTED.index);
+            params.adBreakType.should.equal('preroll');
+            params.adId.should.equal(123);
+            params.adTitle.should.equal('Title Test');
+            params.adPosition.should.equal(1);
+            params.adSystem.should.equal('GDFP');
+            params.advertiserName.should.equal('Advertiser dummy');
+            done();
+          }
+        } catch (e) {
+          done(e);
+          return new RequestBuilder();
         }
-        return new RequestBuilder();
       });
       setupPlayer(config);
       kava = getKavaPlugin();
-      kava._onAdBreakStarted({
+      kava._adsKava._onAdBreakStarted({
         payload: {
           adBreak: {
             _type: 'preroll'
@@ -713,7 +718,7 @@ describe('KavaPlugin', function() {
         }
       });
 
-      kava._onAdStarted({
+      kava._adsKava._onAdStarted({
         payload: {
           ad: {
             _id: 123,
@@ -724,6 +729,214 @@ describe('KavaPlugin', function() {
           }
         }
       });
+    });
+
+    it('should send AD_FIRST_QUARTILE event', done => {
+      sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
+        try {
+          if (params.eventType === KavaAdEventModel.AD_FIRST_QUARTILE.index) {
+            validateCommonParams(params, KavaAdEventModel.AD_FIRST_QUARTILE.index);
+            params.adBreakType.should.equal('preroll');
+            params.adId.should.equal(123);
+            params.adTitle.should.equal('Title Test');
+            params.adPosition.should.equal(1);
+            params.adSystem.should.equal('GDFP');
+            params.advertiserName.should.equal('Advertiser dummy');
+            done();
+          }
+        } catch (e) {
+          done(e);
+          return new RequestBuilder();
+        }
+      });
+      setupPlayer(config);
+      kava = getKavaPlugin();
+      kava._adsKava._onAdBreakStarted({
+        payload: {
+          adBreak: {
+            _type: 'preroll'
+          }
+        }
+      });
+
+      kava._adsKava._onAdStarted({
+        payload: {
+          ad: {
+            _id: 123,
+            _title: 'Title Test',
+            _position: 1,
+            _system: 'GDFP',
+            _advertiserName: 'Advertiser dummy'
+          }
+        }
+      });
+      kava._adsKava._onAdFirstQuartile();
+    });
+
+    it('should send AD_MID_POINT event', done => {
+      sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
+        try {
+          if (params.eventType === KavaAdEventModel.AD_MID_POINT.index) {
+            validateCommonParams(params, KavaAdEventModel.AD_MID_POINT.index);
+            params.adBreakType.should.equal('preroll');
+            params.adId.should.equal(123);
+            params.adTitle.should.equal('Title Test');
+            params.adPosition.should.equal(1);
+            params.adSystem.should.equal('GDFP');
+            params.advertiserName.should.equal('Advertiser dummy');
+            done();
+          }
+        } catch (e) {
+          done(e);
+          return new RequestBuilder();
+        }
+      });
+      setupPlayer(config);
+      kava = getKavaPlugin();
+      kava._adsKava._onAdBreakStarted({
+        payload: {
+          adBreak: {
+            _type: 'preroll'
+          }
+        }
+      });
+
+      kava._adsKava._onAdStarted({
+        payload: {
+          ad: {
+            _id: 123,
+            _title: 'Title Test',
+            _position: 1,
+            _system: 'GDFP',
+            _advertiserName: 'Advertiser dummy'
+          }
+        }
+      });
+      kava._adsKava._onAdMidPoint();
+    });
+
+    it('should send AD_THIRD_QUARTILE event', done => {
+      sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
+        try {
+          if (params.eventType === KavaAdEventModel.AD_THIRD_QUARTILE.index) {
+            validateCommonParams(params, KavaAdEventModel.AD_THIRD_QUARTILE.index);
+            params.adBreakType.should.equal('preroll');
+            params.adId.should.equal(123);
+            params.adTitle.should.equal('Title Test');
+            params.adPosition.should.equal(1);
+            params.adSystem.should.equal('GDFP');
+            params.advertiserName.should.equal('Advertiser dummy');
+            done();
+          }
+        } catch (e) {
+          done(e);
+          return new RequestBuilder();
+        }
+      });
+      setupPlayer(config);
+      kava = getKavaPlugin();
+      kava._adsKava._onAdBreakStarted({
+        payload: {
+          adBreak: {
+            _type: 'preroll'
+          }
+        }
+      });
+
+      kava._adsKava._onAdStarted({
+        payload: {
+          ad: {
+            _id: 123,
+            _title: 'Title Test',
+            _position: 1,
+            _system: 'GDFP',
+            _advertiserName: 'Advertiser dummy'
+          }
+        }
+      });
+      kava._adsKava._onAdThirdQuartile();
+    });
+    it('should send AD_COMPLETED event', done => {
+      sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
+        try {
+          if (params.eventType === KavaAdEventModel.AD_COMPLETED.index) {
+            validateCommonParams(params, KavaAdEventModel.AD_COMPLETED.index);
+            params.adBreakType.should.equal('preroll');
+            params.adId.should.equal(123);
+            params.adTitle.should.equal('Title Test');
+            params.adPosition.should.equal(1);
+            params.adSystem.should.equal('GDFP');
+            params.advertiserName.should.equal('Advertiser dummy');
+            done();
+          }
+        } catch (e) {
+          done(e);
+          return new RequestBuilder();
+        }
+      });
+      setupPlayer(config);
+      kava = getKavaPlugin();
+      kava._adsKava._onAdBreakStarted({
+        payload: {
+          adBreak: {
+            _type: 'preroll'
+          }
+        }
+      });
+
+      kava._adsKava._onAdStarted({
+        payload: {
+          ad: {
+            _id: 123,
+            _title: 'Title Test',
+            _position: 1,
+            _system: 'GDFP',
+            _advertiserName: 'Advertiser dummy'
+          }
+        }
+      });
+      kava._adsKava._onAdCompleted();
+    });
+    it('should send AD_SKIPPED event', done => {
+      sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
+        try {
+          if (params.eventType === KavaAdEventModel.AD_SKIPPED.index) {
+            validateCommonParams(params, KavaAdEventModel.AD_SKIPPED.index);
+            params.adBreakType.should.equal('preroll');
+            params.adId.should.equal(123);
+            params.adTitle.should.equal('Title Test');
+            params.adPosition.should.equal(1);
+            params.adSystem.should.equal('GDFP');
+            params.advertiserName.should.equal('Advertiser dummy');
+            done();
+          }
+        } catch (e) {
+          done(e);
+          return new RequestBuilder();
+        }
+      });
+      setupPlayer(config);
+      kava = getKavaPlugin();
+      kava._adsKava._onAdBreakStarted({
+        payload: {
+          adBreak: {
+            _type: 'preroll'
+          }
+        }
+      });
+
+      kava._adsKava._onAdStarted({
+        payload: {
+          ad: {
+            _id: 123,
+            _title: 'Title Test',
+            _position: 1,
+            _system: 'GDFP',
+            _advertiserName: 'Advertiser dummy'
+          }
+        }
+      });
+      kava._adsKava._onAdSkipped();
     });
   });
 

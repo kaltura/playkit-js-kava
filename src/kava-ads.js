@@ -21,14 +21,18 @@ class KavaAds {
 
   addBindings(): void {
     this._eventManager.listen(this._player, this._player.Event.AD_STARTED, event => this._onAdStarted(event));
-    this._eventManager.listen(this._player, this._player.Event.AD_COMPLETED, () => this._onAdCompleted());
     this._eventManager.listen(this._player, this._player.Event.AD_SKIPPED, () => this._onAdSkipped());
     this._eventManager.listen(this._player, this._player.Event.AD_BREAK_START, event => this._onAdBreakStarted(event));
     this._eventManager.listen(this._player, this._player.Event.AD_BREAK_END, () => this._onAdBreakEnd());
+    this._eventManager.listen(this._player, this._player.Event.AD_FIRST_QUARTILE, () => this._onAdFirstQuartile());
+    this._eventManager.listen(this._player, this._player.Event.AD_MIDPOINT, () => this._onAdMidPoint());
+    this._eventManager.listen(this._player, this._player.Event.AD_THIRD_QUARTILE, () => this._onAdThirdQuartile());
+    this._eventManager.listen(this._player, this._player.Event.AD_COMPLETED, () => this._onAdCompleted());
   }
 
   _onAdCompleted(): void {
-    this._kava._logger.debug('_onAdCompleted');
+    this._kava.logger.debug('_onAdCompleted');
+    this._sendAnalytics(KavaAdEventModel.AD_COMPLETED);
     this._clearAdStartedModelData();
   }
 
@@ -41,6 +45,7 @@ class KavaAds {
   }
   _onAdSkipped(): void {
     this._kava.logger.debug('_onAdSkipped');
+    this._sendAnalytics(KavaAdEventModel.AD_SKIPPED);
     this._clearAdStartedModelData();
   }
   _onAdStarted(event: FakeEvent): void {
@@ -52,6 +57,18 @@ class KavaAds {
     this._model.updateModel({advertiserName: event.payload.ad._advertiserName});
 
     this._sendAnalytics(KavaAdEventModel.AD_STARTED);
+  }
+
+  _onAdFirstQuartile(): void {
+    this._sendAnalytics(KavaAdEventModel.AD_FIRST_QUARTILE);
+  }
+
+  _onAdMidPoint(): void {
+    this._sendAnalytics(KavaAdEventModel.AD_MID_POINT);
+  }
+
+  _onAdThirdQuartile(): void {
+    this._sendAnalytics(KavaAdEventModel.AD_THIRD_QUARTILE);
   }
 
   _onAdBreakEnd(): void {
