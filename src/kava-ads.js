@@ -20,7 +20,8 @@ class KavaAds {
   }
 
   addBindings(): void {
-    this._eventManager.listen(this._player, this._player.Event.AD_STARTED, event => this._onAdStarted(event));
+    this._eventManager.listen(this._player, this._player.Event.AD_LOADED, event => this._onAdLoaded(event));
+    this._eventManager.listen(this._player, this._player.Event.AD_STARTED, () => this._onAdStarted());
     this._eventManager.listen(this._player, this._player.Event.AD_SKIPPED, () => this._onAdSkipped());
     this._eventManager.listen(this._player, this._player.Event.AD_BREAK_START, event => this._onAdBreakStarted(event));
     this._eventManager.listen(this._player, this._player.Event.AD_BREAK_END, () => this._onAdBreakEnd());
@@ -28,6 +29,17 @@ class KavaAds {
     this._eventManager.listen(this._player, this._player.Event.AD_MIDPOINT, () => this._onAdMidPoint());
     this._eventManager.listen(this._player, this._player.Event.AD_THIRD_QUARTILE, () => this._onAdThirdQuartile());
     this._eventManager.listen(this._player, this._player.Event.AD_COMPLETED, () => this._onAdCompleted());
+  }
+
+  _onAdLoaded(event: FakeEvent): void {
+    this._kava.logger.debug('_onAdLoaded', event);
+    this._model.updateModel({adId: event.payload.ad._id});
+    this._model.updateModel({adTitle: event.payload.ad._title});
+    this._model.updateModel({adPosition: event.payload.ad._position});
+    this._model.updateModel({adSystem: event.payload.ad._system});
+    this._model.updateModel({advertiserName: event.payload.ad._advertiserName});
+    this._model.updateModel({adBreakType: event.payload.adType});
+    this._sendAnalytics(KavaAdEventModel.AD_IMPRESSION);
   }
 
   _onAdCompleted(): void {
@@ -48,14 +60,8 @@ class KavaAds {
     this._sendAnalytics(KavaAdEventModel.AD_SKIPPED);
     this._clearAdStartedModelData();
   }
-  _onAdStarted(event: FakeEvent): void {
-    this._kava.logger.debug('_onAdStarted', event.payload.ad._id);
-    this._model.updateModel({adId: event.payload.ad._id});
-    this._model.updateModel({adTitle: event.payload.ad._title});
-    this._model.updateModel({adPosition: event.payload.ad._position});
-    this._model.updateModel({adSystem: event.payload.ad._system});
-    this._model.updateModel({advertiserName: event.payload.ad._advertiserName});
-
+  _onAdStarted(): void {
+    this._kava.logger.debug('_onAdStarted');
     this._sendAnalytics(KavaAdEventModel.AD_STARTED);
   }
 
@@ -78,7 +84,6 @@ class KavaAds {
 
   _onAdBreakStarted(event: FakeEvent): void {
     this._kava.logger.debug('_onAdBreakStarted', event.payload.adBreak._type);
-    this._model.updateModel({adBreakType: event.payload.adBreak._type});
   }
 }
 

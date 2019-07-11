@@ -2,6 +2,18 @@
 import {KavaModel} from './kava-model';
 export const KavaAdEventModel: {[event: string]: KavaEvent} = {
   /**
+   * @type {string} AD_IMPRESSION
+   * @memberof KavaAdEventType
+   */
+  AD_IMPRESSION: {
+    type: 'AD_IMPRESSION',
+    index: 8999,
+    getEventModel: (model: KavaModel) => {
+      return model.getAdCommonModel();
+    }
+  },
+
+  /**
    * @type {string} AD_STARTED
    * @memberof KavaAdEventType
    */

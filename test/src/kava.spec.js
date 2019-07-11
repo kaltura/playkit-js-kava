@@ -690,6 +690,39 @@ describe('KavaPlugin', function() {
       });
     });
 
+    it('should send AD_IMPRESSION event', done => {
+      sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
+        try {
+          if (params.eventType === KavaAdEventModel.AD_IMPRESSION.index) {
+            validateCommonParams(params, KavaAdEventModel.AD_IMPRESSION.index);
+            params.adBreakType.should.equal('preroll');
+            params.adId.should.equal(123);
+            params.adTitle.should.equal('Title Test');
+            params.adPosition.should.equal(1);
+            params.adSystem.should.equal('GDFP');
+            params.advertiserName.should.equal('Advertiser dummy');
+            done();
+          }
+        } catch (e) {
+          done(e);
+          return new RequestBuilder();
+        }
+      });
+      setupPlayer(config);
+      kava = getKavaPlugin();
+      kava._adsKava._onAdLoaded({
+        payload: {
+          ad: {
+            _id: 123,
+            _title: 'Title Test',
+            _position: 1,
+            _system: 'GDFP',
+            _advertiserName: 'Advertiser dummy'
+          },
+          adType: 'preroll'
+        }
+      });
+    });
     it('should send AD_STARTED event', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
         try {
@@ -710,15 +743,7 @@ describe('KavaPlugin', function() {
       });
       setupPlayer(config);
       kava = getKavaPlugin();
-      kava._adsKava._onAdBreakStarted({
-        payload: {
-          adBreak: {
-            _type: 'preroll'
-          }
-        }
-      });
-
-      kava._adsKava._onAdStarted({
+      kava._adsKava._onAdLoaded({
         payload: {
           ad: {
             _id: 123,
@@ -726,11 +751,12 @@ describe('KavaPlugin', function() {
             _position: 1,
             _system: 'GDFP',
             _advertiserName: 'Advertiser dummy'
-          }
+          },
+          adType: 'preroll'
         }
       });
+      kava._adsKava._onAdStarted();
     });
-
     it('should send AD_FIRST_QUARTILE event', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
         try {
@@ -751,15 +777,7 @@ describe('KavaPlugin', function() {
       });
       setupPlayer(config);
       kava = getKavaPlugin();
-      kava._adsKava._onAdBreakStarted({
-        payload: {
-          adBreak: {
-            _type: 'preroll'
-          }
-        }
-      });
-
-      kava._adsKava._onAdStarted({
+      kava._adsKava._onAdLoaded({
         payload: {
           ad: {
             _id: 123,
@@ -767,12 +785,12 @@ describe('KavaPlugin', function() {
             _position: 1,
             _system: 'GDFP',
             _advertiserName: 'Advertiser dummy'
-          }
+          },
+          adType: 'preroll'
         }
       });
       kava._adsKava._onAdFirstQuartile();
     });
-
     it('should send AD_MID_POINT event', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
         try {
@@ -793,15 +811,7 @@ describe('KavaPlugin', function() {
       });
       setupPlayer(config);
       kava = getKavaPlugin();
-      kava._adsKava._onAdBreakStarted({
-        payload: {
-          adBreak: {
-            _type: 'preroll'
-          }
-        }
-      });
-
-      kava._adsKava._onAdStarted({
+      kava._adsKava._onAdLoaded({
         payload: {
           ad: {
             _id: 123,
@@ -809,12 +819,12 @@ describe('KavaPlugin', function() {
             _position: 1,
             _system: 'GDFP',
             _advertiserName: 'Advertiser dummy'
-          }
+          },
+          adType: 'preroll'
         }
       });
       kava._adsKava._onAdMidPoint();
     });
-
     it('should send AD_THIRD_QUARTILE event', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
         try {
@@ -835,15 +845,7 @@ describe('KavaPlugin', function() {
       });
       setupPlayer(config);
       kava = getKavaPlugin();
-      kava._adsKava._onAdBreakStarted({
-        payload: {
-          adBreak: {
-            _type: 'preroll'
-          }
-        }
-      });
-
-      kava._adsKava._onAdStarted({
+      kava._adsKava._onAdLoaded({
         payload: {
           ad: {
             _id: 123,
@@ -851,7 +853,8 @@ describe('KavaPlugin', function() {
             _position: 1,
             _system: 'GDFP',
             _advertiserName: 'Advertiser dummy'
-          }
+          },
+          adType: 'preroll'
         }
       });
       kava._adsKava._onAdThirdQuartile();
@@ -876,15 +879,7 @@ describe('KavaPlugin', function() {
       });
       setupPlayer(config);
       kava = getKavaPlugin();
-      kava._adsKava._onAdBreakStarted({
-        payload: {
-          adBreak: {
-            _type: 'preroll'
-          }
-        }
-      });
-
-      kava._adsKava._onAdStarted({
+      kava._adsKava._onAdLoaded({
         payload: {
           ad: {
             _id: 123,
@@ -892,7 +887,8 @@ describe('KavaPlugin', function() {
             _position: 1,
             _system: 'GDFP',
             _advertiserName: 'Advertiser dummy'
-          }
+          },
+          adType: 'preroll'
         }
       });
       kava._adsKava._onAdCompleted();
@@ -917,15 +913,7 @@ describe('KavaPlugin', function() {
       });
       setupPlayer(config);
       kava = getKavaPlugin();
-      kava._adsKava._onAdBreakStarted({
-        payload: {
-          adBreak: {
-            _type: 'preroll'
-          }
-        }
-      });
-
-      kava._adsKava._onAdStarted({
+      kava._adsKava._onAdLoaded({
         payload: {
           ad: {
             _id: 123,
@@ -933,7 +921,8 @@ describe('KavaPlugin', function() {
             _position: 1,
             _system: 'GDFP',
             _advertiserName: 'Advertiser dummy'
-          }
+          },
+          adType: 'preroll'
         }
       });
       kava._adsKava._onAdSkipped();
