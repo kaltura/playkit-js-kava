@@ -94,6 +94,7 @@ export const KavaAdEventModel: {[event: string]: KavaEvent} = {
     getEventModel: (model: KavaModel) => {
       let adModel = model.getAdCommonModel();
       adModel.adErrorCode = model.getAdErrorCode();
+      adModel.adCurrentTime = model.getAdCurrentTime();
       return adModel;
     }
   }

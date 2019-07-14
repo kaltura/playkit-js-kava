@@ -38,6 +38,7 @@ class KavaModel {
   advertiserName: string = '';
   adTitle: string = '';
   adErrorCode: number;
+  adCurrentTime: number = 0;
   networkConnectionType: string;
   playerJSLoadTime: ?number = null;
   getActualBitrate: Function;
@@ -272,6 +273,16 @@ class KavaModel {
    */
   getAdErrorCode(): number {
     return this.adErrorCode;
+  }
+
+  /**
+   * Gets the ad current time.
+   * @returns {number} - The ad error code.
+   * @memberof KavaModel
+   * @instance
+   */
+  getAdCurrentTime(): number {
+    return this.adCurrentTime;
   }
 
   /**

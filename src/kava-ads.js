@@ -24,6 +24,7 @@ class KavaAds {
     this._eventManager.listen(this._player, this._player.Event.AD_STARTED, () => this._onAdStarted());
     this._eventManager.listen(this._player, this._player.Event.AD_SKIPPED, () => this._onAdSkipped());
     this._eventManager.listen(this._player, this._player.Event.AD_BREAK_START, event => this._onAdBreakStarted(event));
+    this._eventManager.listen(this._player, this._player.Event.AD_PROGRESS, event => this._onAdProgress(event));
     this._eventManager.listen(this._player, this._player.Event.AD_ERROR, event => this._onAdError(event));
     this._eventManager.listen(this._player, this._player.Event.AD_BREAK_END, () => this._onAdBreakEnd());
     this._eventManager.listen(this._player, this._player.Event.AD_FIRST_QUARTILE, () => this._onAdFirstQuartile());
@@ -47,6 +48,7 @@ class KavaAds {
     this._kava.logger.debug('_onAdCompleted');
     this._sendAnalytics(KavaAdEventModel.AD_COMPLETED);
     this._clearAdStartedModelData();
+    this._model.updateModel({adCurrentTime: 0});
   }
 
   _clearAdStartedModelData() {
@@ -60,6 +62,7 @@ class KavaAds {
     this._kava.logger.debug('_onAdSkipped');
     this._sendAnalytics(KavaAdEventModel.AD_SKIPPED);
     this._clearAdStartedModelData();
+    this._model.updateModel({adCurrentTime: 0});
   }
   _onAdStarted(): void {
     this._kava.logger.debug('_onAdStarted');
@@ -81,6 +84,10 @@ class KavaAds {
   _onAdBreakEnd(): void {
     this._kava.logger.debug('_onAdBreakEnd');
     this._model.updateModel({adBreakType: ''});
+  }
+
+  _onAdProgress(event: FakeEvent): void {
+    this._model.updateModel({adCurrentTime: event.payload.adProgress.currentTime});
   }
 
   _onAdBreakStarted(event: FakeEvent): void {
