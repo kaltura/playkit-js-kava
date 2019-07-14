@@ -268,7 +268,7 @@ Kava parameters are additional data that is sent with Kava event and represent r
 
 ---
 
-<a id="flavorParamsId"></a>`flavorParamsId` - The flavor params Id.
+<a id="flavorParamsId"></a>`flavorParamsId` - The flavor params Id of the currently playing rendition, only valid for Kaltura live streams.
 
 - Should be in format of integer.
 
