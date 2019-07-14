@@ -262,7 +262,7 @@ Kava parameters are additional data that is sent with Kava event and represent r
 
 ---
 
-<a id="playerJSLoadTime"></a>`playerJSLoadTime` - Javascript/player Load time.
+<a id="playerJSLoadTime"></a>`playerJSLoadTime` - the player library load time.
 
 - Should be in format of float (second.milliSecond).
 
