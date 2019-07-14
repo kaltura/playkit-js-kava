@@ -262,13 +262,13 @@ Kava parameters are additional data that is sent with Kava event and represent r
 
 ---
 
-<a id="playerJSLoadTime"></a>`playerJSLoadTime` - Javascript/player Load time.
+<a id="playerJSLoadTime"></a>`playerJSLoadTime` - the player library load time.
 
 - Should be in format of float (second.milliSecond).
 
 ---
 
-<a id="flavorParamsId"></a>`flavorParamsId` - The flavor params Id.
+<a id="flavorParamsId"></a>`flavorParamsId` - The flavor params Id of the currently playing rendition, only valid for Kaltura live streams.
 
 - Should be in format of integer.
 
