@@ -195,7 +195,7 @@ Kava parameters are additional data that is sent with Kava event and represent r
 
 ---
 
-<a id="bandwidth"></a>`bandwidth` - Average bandwidth in seconds.
+<a id="bandwidth"></a>`bandwidth` - Average bandwidth in kbps.
 
 - kbps in format of float (second.milliSecond).
 - The value is calculated from the last VIEW event.
