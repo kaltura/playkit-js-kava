@@ -230,7 +230,7 @@ Kava parameters are additional data that is sent with Kava event and represent r
 
 <a id="forwardBufferHealth"></a>`forwardBufferHealth` - Ratio between available buffer and target buffer.
 
-- Should be in format of float (second.milliSecond).
+- Should be in format of float (between 0 to 1).
 - The value represents the state when the VIEW event is sent.
 
 ---
