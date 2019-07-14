@@ -216,7 +216,7 @@ Kava parameters are additional data that is sent with Kava event and represent r
 - Possible values
   - 1 - Sound off
   - 2 - Sound on
-- Sound is cosidered off if muted or volume is set to 0
+- Sound is considered off if muted or volume is set to 0
 - The value represents the state when the VIEW event is sent.
 
 ---
