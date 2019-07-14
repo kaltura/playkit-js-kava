@@ -734,6 +734,7 @@ describe('KavaPlugin', function() {
             params.adPosition.should.equal(1);
             params.adSystem.should.equal('GDFP');
             params.advertiserName.should.equal('Advertiser dummy');
+            params.adJoinTime.should.be.gt(0);
             done();
           }
         } catch (e) {

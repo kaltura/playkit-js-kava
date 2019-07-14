@@ -21,7 +21,12 @@ export const KavaAdEventModel: {[event: string]: KavaEvent} = {
     type: 'AD_STARTED',
     index: 9000,
     getEventModel: (model: KavaModel) => {
-      return model.getAdCommonModel();
+      let adModel = model.getAdCommonModel();
+      if (model.getAdImpressionTimeStamp()) {
+        adModel.adJoinTime = (Date.now() - model.getAdImpressionTimeStamp()) / 1000;
+      }
+
+      return adModel;
     }
   },
 

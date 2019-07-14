@@ -10,6 +10,7 @@ class KavaAds {
   _kava: Kava;
   _model: KavaModel;
   _sendAnalytics: Function;
+  _impressionTimeStamp: number = 0;
 
   constructor(eventManager: EventManager, player: Player, kava: Kava, model: KavaModel, sendAnalytics: Function) {
     this._eventManager = eventManager;
@@ -41,6 +42,7 @@ class KavaAds {
     this._model.updateModel({adSystem: event.payload.ad._system});
     this._model.updateModel({advertiserName: event.payload.ad._advertiserName});
     this._model.updateModel({adBreakType: event.payload.adType});
+    this._model.updateModel({adImpressionTimeStamp: Date.now()});
     this._sendAnalytics(KavaAdEventModel.AD_IMPRESSION);
   }
 
@@ -48,6 +50,7 @@ class KavaAds {
     this._kava.logger.debug('_onAdCompleted');
     this._sendAnalytics(KavaAdEventModel.AD_COMPLETED);
     this._clearAdStartedModelData();
+    this._model.updateModel({adCurrentTime: 0});
     this._model.updateModel({adCurrentTime: 0});
   }
 
@@ -57,6 +60,7 @@ class KavaAds {
     this._model.updateModel({adPosition: NaN});
     this._model.updateModel({adSystem: ''});
     this._model.updateModel({advertiserName: ''});
+    this._model.updateModel({adImpressionTimeStamp: 0});
   }
   _onAdSkipped(): void {
     this._kava.logger.debug('_onAdSkipped');

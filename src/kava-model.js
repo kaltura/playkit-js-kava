@@ -39,6 +39,7 @@ class KavaModel {
   adTitle: string = '';
   adErrorCode: number;
   adCurrentTime: number = 0;
+  adImpressionTimeStamp: number = 0;
   networkConnectionType: string;
   playerJSLoadTime: ?number = null;
   getActualBitrate: Function;
@@ -283,6 +284,15 @@ class KavaModel {
    */
   getAdCurrentTime(): number {
     return this.adCurrentTime;
+  }
+  /**
+   * Gets the ad impression timestamp.
+   * @returns {number} - The ad impression timestamp.
+   * @memberof KavaModel
+   * @instance
+   */
+  getAdImpressionTimeStamp(): number {
+    return this.adImpressionTimeStamp;
   }
 
   /**
