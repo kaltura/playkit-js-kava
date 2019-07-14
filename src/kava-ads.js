@@ -92,6 +92,8 @@ class KavaAds {
 
   _onAdBreakStarted(event: FakeEvent): void {
     this._kava.logger.debug('_onAdBreakStarted', event.payload.adBreak._type);
+    // the type might be deprecated in the impression so this will be a fallback
+    this._model.updateModel({adBreakType: event.payload.adBreak._type});
   }
 
   _onAdError(event: FakeEvent): void {
