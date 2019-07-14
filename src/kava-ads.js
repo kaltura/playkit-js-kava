@@ -24,6 +24,7 @@ class KavaAds {
     this._eventManager.listen(this._player, this._player.Event.AD_STARTED, () => this._onAdStarted());
     this._eventManager.listen(this._player, this._player.Event.AD_SKIPPED, () => this._onAdSkipped());
     this._eventManager.listen(this._player, this._player.Event.AD_BREAK_START, event => this._onAdBreakStarted(event));
+    this._eventManager.listen(this._player, this._player.Event.AD_ERROR, event => this._onAdError(event));
     this._eventManager.listen(this._player, this._player.Event.AD_BREAK_END, () => this._onAdBreakEnd());
     this._eventManager.listen(this._player, this._player.Event.AD_FIRST_QUARTILE, () => this._onAdFirstQuartile());
     this._eventManager.listen(this._player, this._player.Event.AD_MIDPOINT, () => this._onAdMidPoint());
@@ -84,6 +85,13 @@ class KavaAds {
 
   _onAdBreakStarted(event: FakeEvent): void {
     this._kava.logger.debug('_onAdBreakStarted', event.payload.adBreak._type);
+  }
+
+  _onAdError(event: FakeEvent): void {
+    this._kava.logger.debug('_onAdError', event);
+    this._model.updateModel({adErrorCode: event.payload.code});
+    this._sendAnalytics(KavaAdEventModel.AD_ERROR);
+    this._model.updateModel({adErrorCode: NaN});
   }
 }
 
