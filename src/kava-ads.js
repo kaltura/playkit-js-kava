@@ -33,6 +33,7 @@ class KavaAds {
     this._eventManager.listen(this._player, this._player.Event.AD_THIRD_QUARTILE, () => this._onAdThirdQuartile());
     this._eventManager.listen(this._player, this._player.Event.AD_COMPLETED, () => this._onAdCompleted());
     this._eventManager.listen(this._player, this._player.Event.AD_BUFFERING, () => this._onAdBuffering());
+    this._eventManager.listen(this._player, this._player.Event.AD_CLICKED, () => this._onAdClicked());
   }
 
   _onAdLoaded(event: FakeEvent): void {
@@ -50,6 +51,9 @@ class KavaAds {
   _onAdBuffering(): void {
     this._sendAnalytics(KavaAdEventModel.AD_BUFFER_START);
     this._isBuffering = true;
+  }
+  _onAdClicked(): void {
+    this._sendAnalytics(KavaAdEventModel.AD_CLICKED);
   }
 
   _onAdCompleted(): void {

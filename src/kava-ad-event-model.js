@@ -127,6 +127,17 @@ export const KavaAdEventModel: {[event: string]: KavaEvent} = {
     getEventModel: (model: KavaModel) => {
       return model.getAdCommonModel();
     }
+  },
+  /**
+   * @type {string} AD_CLICKED
+   * @memberof KavaAdEventType
+   */
+  AD_CLICKED: {
+    type: 'AD_CLICKED',
+    index: 9009,
+    getEventModel: (model: KavaModel) => {
+      return model.getAdCommonModel();
+    }
   }
 };
 
