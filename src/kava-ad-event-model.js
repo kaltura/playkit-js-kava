@@ -89,6 +89,7 @@ export const KavaAdEventModel: {[event: string]: KavaEvent} = {
       return model.getAdCommonModel();
     }
   },
+
   /**
    * @type {string} AD_ERROR
    * @memberof KavaAdEventType
@@ -101,6 +102,30 @@ export const KavaAdEventModel: {[event: string]: KavaEvent} = {
       adModel.adErrorCode = model.getAdErrorCode();
       adModel.adCurrentTime = model.getAdCurrentTime();
       return adModel;
+    }
+  },
+
+  /**
+   * @type {string} AD_BUFFER_START
+   * @memberof KavaAdEventType
+   */
+  AD_BUFFER_START: {
+    type: 'AD_BUFFER_START',
+    index: 9007,
+    getEventModel: (model: KavaModel) => {
+      return model.getAdCommonModel();
+    }
+  },
+
+  /**
+   * @type {string} AD_BUFFER_END
+   * @memberof KavaAdEventType
+   */
+  AD_BUFFER_END: {
+    type: 'AD_BUFFER_END',
+    index: 9008,
+    getEventModel: (model: KavaModel) => {
+      return model.getAdCommonModel();
     }
   }
 };

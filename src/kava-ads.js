@@ -10,7 +10,7 @@ class KavaAds {
   _kava: Kava;
   _model: KavaModel;
   _sendAnalytics: Function;
-  _impressionTimeStamp: number = 0;
+  _isBuffering: boolean = false;
 
   constructor(eventManager: EventManager, player: Player, kava: Kava, model: KavaModel, sendAnalytics: Function) {
     this._eventManager = eventManager;
@@ -32,6 +32,7 @@ class KavaAds {
     this._eventManager.listen(this._player, this._player.Event.AD_MIDPOINT, () => this._onAdMidPoint());
     this._eventManager.listen(this._player, this._player.Event.AD_THIRD_QUARTILE, () => this._onAdThirdQuartile());
     this._eventManager.listen(this._player, this._player.Event.AD_COMPLETED, () => this._onAdCompleted());
+    this._eventManager.listen(this._player, this._player.Event.AD_BUFFERING, () => this._onAdBuffering());
   }
 
   _onAdLoaded(event: FakeEvent): void {
@@ -44,6 +45,11 @@ class KavaAds {
     this._model.updateModel({adBreakType: event.payload.adType});
     this._model.updateModel({adImpressionTimeStamp: Date.now()});
     this._sendAnalytics(KavaAdEventModel.AD_IMPRESSION);
+  }
+
+  _onAdBuffering(): void {
+    this._sendAnalytics(KavaAdEventModel.AD_BUFFER_START);
+    this._isBuffering = true;
   }
 
   _onAdCompleted(): void {
@@ -61,6 +67,7 @@ class KavaAds {
     this._model.updateModel({adSystem: ''});
     this._model.updateModel({advertiserName: ''});
     this._model.updateModel({adImpressionTimeStamp: 0});
+    this._isBuffering = false;
   }
   _onAdSkipped(): void {
     this._kava.logger.debug('_onAdSkipped');
@@ -92,6 +99,10 @@ class KavaAds {
 
   _onAdProgress(event: FakeEvent): void {
     this._model.updateModel({adCurrentTime: event.payload.adProgress.currentTime});
+    if (this._isBuffering) {
+      this._sendAnalytics(KavaAdEventModel.AD_BUFFER_END);
+      this._isBuffering = false;
+    }
   }
 
   _onAdBreakStarted(event: FakeEvent): void {
@@ -105,6 +116,7 @@ class KavaAds {
     this._model.updateModel({adErrorCode: event.payload.code});
     this._sendAnalytics(KavaAdEventModel.AD_ERROR);
     this._model.updateModel({adErrorCode: NaN});
+    this._clearAdStartedModelData();
   }
 }
 
