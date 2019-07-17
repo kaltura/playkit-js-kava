@@ -60,24 +60,25 @@ class KavaAds {
     this._kava.logger.debug('_onAdCompleted');
     this._sendAnalytics(KavaAdEventModel.AD_COMPLETED);
     this._clearAdStartedModelData();
-    this._model.updateModel({adCurrentTime: 0});
-    this._model.updateModel({adCurrentTime: 0});
   }
 
   _clearAdStartedModelData() {
-    this._model.updateModel({adId: NaN});
-    this._model.updateModel({adTitle: ''});
-    this._model.updateModel({adPosition: NaN});
-    this._model.updateModel({adSystem: ''});
-    this._model.updateModel({advertiserName: ''});
-    this._model.updateModel({adImpressionTimeStamp: 0});
+    this._model.updateModel({
+      adId: NaN,
+      adTitle: '',
+      adPosition: NaN,
+      adSystem: '',
+      advertiserName: '',
+      adImpressionTimeStamp: 0,
+      adCurrentTime: 0
+    });
+
     this._isBuffering = false;
   }
   _onAdSkipped(): void {
     this._kava.logger.debug('_onAdSkipped');
     this._sendAnalytics(KavaAdEventModel.AD_SKIPPED);
     this._clearAdStartedModelData();
-    this._model.updateModel({adCurrentTime: 0});
   }
   _onAdStarted(): void {
     this._kava.logger.debug('_onAdStarted');
