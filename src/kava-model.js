@@ -31,6 +31,15 @@ class KavaModel {
   tabMode: typeof TabMode;
   maxNetworkConnectionOverhead: number = 0;
   flavorParamsId: number = NaN;
+  adId: number = NaN;
+  adPosition: number = NaN;
+  adBreakType: string = '';
+  adSystem: string = '';
+  advertiserName: string = '';
+  adTitle: string = '';
+  adErrorCode: number;
+  adCurrentTime: number = 0;
+  adImpressionTimeStamp: number = 0;
   networkConnectionType: string;
   playerJSLoadTime: ?number = null;
   getActualBitrate: Function;
@@ -257,6 +266,34 @@ class KavaModel {
   getErrorCode(): number {
     return this.errorCode;
   }
+  /**
+   * Gets the ad error code.
+   * @returns {number} - The ad error code.
+   * @memberof KavaModel
+   * @instance
+   */
+  getAdErrorCode(): number {
+    return this.adErrorCode;
+  }
+
+  /**
+   * Gets the ad current time.
+   * @returns {number} - The ad error code.
+   * @memberof KavaModel
+   * @instance
+   */
+  getAdCurrentTime(): number {
+    return this.adCurrentTime;
+  }
+  /**
+   * Gets the ad impression timestamp.
+   * @returns {number} - The ad impression timestamp.
+   * @memberof KavaModel
+   * @instance
+   */
+  getAdImpressionTimeStamp(): number {
+    return this.adImpressionTimeStamp;
+  }
 
   /**
    * Gets the flavor id from ID3 tag in the packager
@@ -266,6 +303,66 @@ class KavaModel {
    */
   getFlavorParamsId(): number {
     return this.flavorParamsId;
+  }
+
+  /**
+   * Gets the ad id
+   * @returns {number} - The ad id.
+   * @memberof KavaModel
+   * @instance
+   */
+  getAdId(): number {
+    return this.adId;
+  }
+
+  /**
+   * Gets the ad position
+   * @returns {number} - The ad position inside the ads break.
+   * @memberof KavaModel
+   * @instance
+   */
+  getAdPosition(): number {
+    return this.adPosition;
+  }
+
+  /**
+   * Gets the ad break type
+   * @returns {string} - preroll / midroll / postroll.
+   * @memberof KavaModel
+   * @instance
+   */
+  getAdBreakType(): string {
+    return this.adBreakType;
+  }
+
+  /**
+   * Gets the ad system
+   * @returns {string} - ad system
+   * @memberof KavaModel
+   * @instance
+   */
+  getAdSystem(): string {
+    return this.adSystem;
+  }
+
+  /**
+   * Gets the advertiser name
+   * @returns {string} - advertiser name
+   * @memberof KavaModel
+   * @instance
+   */
+  getAdvertiserName(): string {
+    return this.advertiserName;
+  }
+
+  /**
+   * Gets the ad title
+   * @returns {string} - ad title
+   * @memberof KavaModel
+   * @instance
+   */
+  getAdTitle(): string {
+    return this.adTitle;
   }
 
   /**
@@ -326,6 +423,41 @@ class KavaModel {
    */
   getModel(eventObj: KavaEvent): Object {
     return getEventModel(eventObj, this);
+  }
+
+  /**
+   * Gets the common ad model
+   * @param {KavaModel} model -
+   * @returns {Object} - the common ad model
+   * @memberof KavaModel
+   * @instance
+   */
+  getAdCommonModel(): Object {
+    const adModel: Object = {};
+
+    if (!isNaN(this.getAdId())) {
+      adModel.adId = this.getAdId();
+    }
+
+    if (!isNaN(this.getAdPosition())) {
+      adModel.adPosition = this.getAdPosition();
+    }
+
+    if (this.getAdBreakType() != '') {
+      adModel.adBreakType = this.getAdBreakType();
+    }
+
+    if (this.getAdSystem() != '') {
+      adModel.adSystem = this.getAdSystem();
+    }
+    if (this.getAdvertiserName() != '') {
+      adModel.advertiserName = this.getAdvertiserName();
+    }
+
+    if (this.getAdTitle() != '') {
+      adModel.adTitle = this.getAdTitle();
+    }
+    return adModel;
   }
 }
 

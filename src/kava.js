@@ -5,6 +5,8 @@ import {KavaEventModel, KavaEventType} from './kava-event-model';
 import {KavaRateHandler} from './kava-rate-handler';
 import {KavaTimer} from './kava-timer';
 import {KavaModel, SoundMode, TabMode} from './kava-model';
+import {KavaAds} from './kava-ads';
+import {KavaAdEventType} from './kava-ad-event-model';
 
 const DIVIDER: number = 1024;
 const TEXT_TYPE: string = 'TEXT';
@@ -33,6 +35,7 @@ class Kava extends BasePlugin {
   _loadStartTime: number;
   _lastDroppedFrames: number = 0;
   _lastTotalFrames: number = 0;
+  _adsKava: KavaAds;
 
   /**
    * Default config of the plugin.
@@ -62,6 +65,7 @@ class Kava extends BasePlugin {
     super(name, player, config);
     this._rateHandler = new KavaRateHandler();
     this._model = new KavaModel();
+    this._adsKava = new KavaAds(this.eventManager, player, this, this._model, this._sendAnalytics.bind(this));
     this._setModelDelegates();
     this._timer = new KavaTimer({
       resetCounter: this.config.resetSessionCountdown,
@@ -144,6 +148,14 @@ class Kava extends BasePlugin {
   get EventType(): {[event: string]: string} {
     return Utils.Object.copyDeep(KavaEventType);
   }
+  /**
+   * @returns {KavaAdEventType} - The kava ad events list.
+   * @instance
+   * @memberof Kava
+   */
+  get AdEventType(): {[event: string]: string} {
+    return Utils.Object.copyDeep(KavaAdEventType);
+  }
 
   /**
    * Sends KAVA analytics event to analytics service.
@@ -224,7 +236,7 @@ class Kava extends BasePlugin {
   }
 
   _handleServerResponseSuccess(response: Object, model: Object): void {
-    this.logger.debug(`KAVA event sent`, model);
+    this.logger.debug(`KAVA event ${model.eventType} sent`, model);
     this._updateSessionStartTimeModel(response);
   }
 
@@ -255,6 +267,9 @@ class Kava extends BasePlugin {
     this.eventManager.listen(this.player, this.player.Event.PLAYER_STATE_CHANGED, event => this._onPlayerStateChanged(event));
     this.eventManager.listen(this.player, this.player.Event.CAN_PLAY, () => this._onCanPlay());
     this.eventManager.listen(this.player, this.player.Event.LOAD_START, () => this._onLoadStart());
+    if (this._adsKava) {
+      this._adsKava.addBindings();
+    }
   }
 
   _onFirstPlaying(): void {
