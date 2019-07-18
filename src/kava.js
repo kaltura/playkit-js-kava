@@ -33,7 +33,7 @@ class Kava extends BasePlugin {
   _loadStartTime: number;
   _lastDroppedFrames: number = 0;
   _lastTotalFrames: number = 0;
-  _performaceObserver: window.PerformanceObserver;
+  _performanceObserver: window.PerformanceObserver;
   _performanceEntries: window.PerformanceEntry[] = [];
   _pendingFragLoadedEvents: FakeEvent[] = [];
   _fragLoadedFiredOnce: boolean = false;
@@ -88,11 +88,6 @@ class Kava extends BasePlugin {
         this._model.updateModel({playerJSLoadTime: entry.duration});
       }
     }
-
-    if (window.PerformanceObserver) {
-      this._performaceObserver = new window.PerformanceObserver(this._handleNewPerformanceEntries.bind(this));
-      this._performaceObserver.observe({entryTypes: ['resource']});
-    }
   }
 
   _handleNewPerformanceEntries(list: window.PerformanceObserverEntryList) {
@@ -116,6 +111,9 @@ class Kava extends BasePlugin {
     this.eventManager.destroy();
     this._timer.destroy();
     this._rateHandler.destroy();
+    this._performanceObserver.disconnect();
+    this._performanceEntries = [];
+    this._pendingFragLoadedEvents = [];
   }
 
   /**
@@ -137,6 +135,22 @@ class Kava extends BasePlugin {
       playTimeSum: 0.0,
       sessionStartTime: null
     });
+    this._performanceObserver.disconnect();
+    this._performanceEntries = [];
+    this._pendingFragLoadedEvents = [];
+  }
+
+  /**
+   * loadMedia of the plugin.
+   * @return {void}
+   * @memberof Kava
+   * @instance
+   */
+  loadMedia(): void {
+    if (window.PerformanceObserver) {
+      this._performanceObserver = new window.PerformanceObserver(this._handleNewPerformanceEntries.bind(this));
+      this._performanceObserver.observe({entryTypes: ['resource']});
+    }
   }
 
   /**
@@ -279,8 +293,8 @@ class Kava extends BasePlugin {
 
   _onFirstPlaying(): void {
     this._isPlaying = true;
-    if (!this._fragLoadedFiredOnce && this._performaceObserver) {
-      this._performaceObserver.disconnect();
+    if (!this._fragLoadedFiredOnce && this._performanceObserver) {
+      this._performanceObserver.disconnect();
       this.logger.debug("This adapter / media doesn't fire fragLoaded - disconnect performance observer");
     }
   }
@@ -502,7 +516,9 @@ class Kava extends BasePlugin {
   }
 
   _onFragLoaded(event: FakeEvent): void {
-    if (!this._fragLoadedFiredOnce) this._fragLoadedFiredOnce = true;
+    if (!this._fragLoadedFiredOnce) {
+      this._fragLoadedFiredOnce = true;
+    }
     this._handleFragLoadedEvent(event);
   }
 
@@ -519,7 +535,7 @@ class Kava extends BasePlugin {
           this._performanceEntries.length - (lastIndexOftheFragment + 1)
         );
       }
-    } else if (this._performaceObserver) {
+    } else if (this._performanceObserver) {
       this._pendingFragLoadedEvents.push(event);
     } else {
       this._updateFragLoadedStats(event, 0);
