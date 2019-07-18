@@ -281,7 +281,7 @@ class Kava extends BasePlugin {
     this._isPlaying = true;
     if (!this._fragLoadedFiredOnce && this._performaceObserver) {
       this._performaceObserver.disconnect();
-      this.logger.debug("This adapter / media doesn't fire fragLoaded");
+      this.logger.debug("This adapter / media doesn't fire fragLoaded - disconnect performance observer");
     }
   }
 
