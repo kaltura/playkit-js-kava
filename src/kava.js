@@ -109,6 +109,10 @@ class Kava extends BasePlugin {
    */
   destroy(): void {
     this.eventManager.destroy();
+    this._reset();
+  }
+
+  _reset(): void {
     this._timer.destroy();
     this._rateHandler.destroy();
     this._performanceObserver.disconnect();
@@ -124,8 +128,6 @@ class Kava extends BasePlugin {
    */
   reset(): void {
     this.eventManager.removeAll();
-    this._rateHandler.destroy();
-    this._timer.destroy();
     this._resetFlags();
     this._addBindings();
     this._model.updateModel({
@@ -135,9 +137,7 @@ class Kava extends BasePlugin {
       playTimeSum: 0.0,
       sessionStartTime: null
     });
-    this._performanceObserver.disconnect();
-    this._performanceEntries = [];
-    this._pendingFragLoadedEvents = [];
+    this._reset();
   }
 
   /**
