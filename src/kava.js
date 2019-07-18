@@ -97,7 +97,7 @@ class Kava extends BasePlugin {
     }
     while (this._pendingFragLoadedEvents.length) {
       // handle frag loaded events which haven't been added to the entry list yet
-      this._handleFragLoadedEvent(this._pendingFragLoadedEvents.pop());
+      this._handleFragPerformanceObserver(this._pendingFragLoadedEvents.pop());
     }
   }
 
@@ -519,15 +519,16 @@ class Kava extends BasePlugin {
     if (!this._fragLoadedFiredOnce) {
       this._fragLoadedFiredOnce = true;
     }
-    this._handleFragLoadedEvent(event);
+    this._updateFragLoadedStats(event);
+    this._handleFragPerformanceObserver(event.payload.url);
   }
 
-  _handleFragLoadedEvent(event: FakeEvent): void {
-    const fragResourceTimings = this._performanceEntries.filter(entry => entry.name == event.payload.url);
+  _handleFragPerformanceObserver(url: string): void {
+    const fragResourceTimings = this._performanceEntries.filter(entry => entry.name == url);
     const lastFragResourceTiming: ?Object =
       fragResourceTimings && fragResourceTimings.length ? fragResourceTimings[fragResourceTimings.length - 1] : null;
     if (lastFragResourceTiming) {
-      this._updateFragLoadedStats(event, lastFragResourceTiming.connectEnd - lastFragResourceTiming.domainLookupStart);
+      this._updateMaxNetworkConnectionOverhead(lastFragResourceTiming.connectEnd - lastFragResourceTiming.domainLookupStart);
       const lastIndexOftheFragment: number = this._performanceEntries.indexOf(lastFragResourceTiming);
       if (lastIndexOftheFragment > -1 && lastIndexOftheFragment < this._performanceEntries.length) {
         this._performanceEntries = this._performanceEntries.splice(
@@ -537,17 +538,20 @@ class Kava extends BasePlugin {
       }
     } else if (this._performanceObserver) {
       this._pendingFragLoadedEvents.push(event);
-    } else {
-      this._updateFragLoadedStats(event, 0);
     }
   }
-  _updateFragLoadedStats(event: FakeEvent, networkConnectionOverhead: number): void {
+  _updateMaxNetworkConnectionOverhead(networkConnectionOverhead: number): void {
+    this._model.updateModel({
+      maxNetworkConnectionOverhead: Math.max(this._model.maxNetworkConnectionOverhead, networkConnectionOverhead)
+    });
+  }
+
+  _updateFragLoadedStats(event: FakeEvent): void {
     const seconds = Math.round(event.payload.miliSeconds) / 1000;
     this._model.updateModel({
       totalSegmentsDownloadTime: this._model.totalSegmentsDownloadTime + seconds,
       totalSegmentsDownloadBytes: this._model.totalSegmentsDownloadBytes + event.payload.bytes,
-      maxSegmentDownloadTime: Math.max(seconds, this._model.maxSegmentDownloadTime),
-      maxNetworkConnectionOverhead: Math.max(this._model.maxNetworkConnectionOverhead, networkConnectionOverhead)
+      maxSegmentDownloadTime: Math.max(seconds, this._model.maxSegmentDownloadTime)
     });
   }
 
