@@ -33,6 +33,10 @@ class Kava extends BasePlugin {
   _loadStartTime: number;
   _lastDroppedFrames: number = 0;
   _lastTotalFrames: number = 0;
+  _performaceObserver: window.PerformanceObserver;
+  _performanceEntries: window.PerformanceEntry[] = [];
+  _pendingFragLoadedEvents: FakeEvent[] = [];
+  _fragLoadedFiredOnce: boolean = false;
 
   /**
    * Default config of the plugin.
@@ -83,6 +87,22 @@ class Kava extends BasePlugin {
       if (entry) {
         this._model.updateModel({playerJSLoadTime: entry.duration});
       }
+    }
+
+    if (window.PerformanceObserver) {
+      this._performaceObserver = new window.PerformanceObserver(this._handleNewPerformanceEntries.bind(this));
+      this._performaceObserver.observe({entryTypes: ['resource']});
+    }
+  }
+
+  _handleNewPerformanceEntries(list: window.PerformanceObserverEntryList) {
+    let perfEntries = list.getEntries();
+    for (let i = 0; i < perfEntries.length; i++) {
+      this._performanceEntries.push(perfEntries[i]);
+    }
+    while (this._pendingFragLoadedEvents.length) {
+      // handle frag loaded events which haven't been added to the entry list yet
+      this._handleFragLoadedEvent(this._pendingFragLoadedEvents.pop());
     }
   }
 
@@ -259,6 +279,10 @@ class Kava extends BasePlugin {
 
   _onFirstPlaying(): void {
     this._isPlaying = true;
+    if (!this._fragLoadedFiredOnce && this._performaceObserver) {
+      this._performaceObserver.disconnect();
+      this.logger.debug("This adapter / media doesn't fire fragLoaded");
+    }
   }
 
   _onLoadStart(): void {
@@ -478,18 +502,36 @@ class Kava extends BasePlugin {
   }
 
   _onFragLoaded(event: FakeEvent): void {
-    const seconds = Math.round(event.payload.miliSeconds) / 1000;
-    const fragResourceTimings = performance && performance.getEntriesByType('resource').filter(entry => entry.name == event.payload.url);
+    if (!this._fragLoadedFiredOnce) this._fragLoadedFiredOnce = true;
+    this._handleFragLoadedEvent(event);
+  }
+
+  _handleFragLoadedEvent(event: FakeEvent): void {
+    const fragResourceTimings = this._performanceEntries.filter(entry => entry.name == event.payload.url);
     const lastFragResourceTiming: ?Object =
       fragResourceTimings && fragResourceTimings.length ? fragResourceTimings[fragResourceTimings.length - 1] : null;
-
+    if (lastFragResourceTiming) {
+      this._updateFragLoadedStats(event, lastFragResourceTiming.connectEnd - lastFragResourceTiming.domainLookupStart);
+      const lastIndexOftheFragment: number = this._performanceEntries.indexOf(lastFragResourceTiming);
+      if (lastIndexOftheFragment > -1 && lastIndexOftheFragment < this._performanceEntries.length) {
+        this._performanceEntries = this._performanceEntries.splice(
+          lastIndexOftheFragment + 1,
+          this._performanceEntries.length - (lastIndexOftheFragment + 1)
+        );
+      }
+    } else if (this._performaceObserver) {
+      this._pendingFragLoadedEvents.push(event);
+    } else {
+      this._updateFragLoadedStats(event, 0);
+    }
+  }
+  _updateFragLoadedStats(event: FakeEvent, networkConnectionOverhead: number): void {
+    const seconds = Math.round(event.payload.miliSeconds) / 1000;
     this._model.updateModel({
       totalSegmentsDownloadTime: this._model.totalSegmentsDownloadTime + seconds,
       totalSegmentsDownloadBytes: this._model.totalSegmentsDownloadBytes + event.payload.bytes,
       maxSegmentDownloadTime: Math.max(seconds, this._model.maxSegmentDownloadTime),
-      maxNetworkConnectionOverhead: lastFragResourceTiming
-        ? Math.max(this._model.maxNetworkConnectionOverhead, lastFragResourceTiming.connectEnd - lastFragResourceTiming.domainLookupStart)
-        : this._model.maxNetworkConnectionOverhead
+      maxNetworkConnectionOverhead: Math.max(this._model.maxNetworkConnectionOverhead, networkConnectionOverhead)
     });
   }
 
