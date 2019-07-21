@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.11.1"></a>
+## [0.11.1](https://github.com/kaltura/playkit-js-kava/compare/v0.11.0...v0.11.1) (2019-07-21)
+
+
+### Bug Fixes
+
+* **FEC-9237:** add app protocol for kava plugin ([#43](https://github.com/kaltura/playkit-js-kava/issues/43)) ([d84257f](https://github.com/kaltura/playkit-js-kava/commit/d84257f))
+* **FEC-9251:** the browser stuck after click Play button ([#44](https://github.com/kaltura/playkit-js-kava/issues/44)) ([9ba55f8](https://github.com/kaltura/playkit-js-kava/commit/9ba55f8))
+
+
+
 <a name="0.11.0"></a>
 # [0.11.0](https://github.com/kaltura/playkit-js-kava/compare/v0.10.0...v0.11.0) (2019-07-19)
 
