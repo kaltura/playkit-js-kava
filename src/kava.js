@@ -1,5 +1,5 @@
 // @flow
-import {BasePlugin, Error as PKError, FakeEvent, Utils} from '@playkit-js/playkit-js';
+import {BasePlugin, Error as PKError, FakeEvent, Utils, Env} from '@playkit-js/playkit-js';
 import {OVPAnalyticsService} from 'playkit-js-providers/dist/playkit-analytics-service';
 import {KavaEventModel, KavaEventType} from './kava-event-model';
 import {KavaRateHandler} from './kava-rate-handler';
@@ -33,7 +33,6 @@ class Kava extends BasePlugin {
   _loadStartTime: number;
   _lastDroppedFrames: number = 0;
   _lastTotalFrames: number = 0;
-  _appProtocol: string;
 
   /**
    * Default config of the plugin.
@@ -77,7 +76,6 @@ class Kava extends BasePlugin {
       bufferTimeSum: 0.0,
       playTimeSum: 0.0
     });
-    this._appProtocol = /^(https?:)/i.test(document.location.protocol) ? document.location.protocol : 'https:';
     // check the Resource Timing API is supported in the browser and we have a uiConfId
     if (performance && this.config.uiConfId) {
       let entry = performance.getEntriesByType('resource').find(entry => entry.name.match('embedPlaykitJs.*' + this.config.uiConfId));
@@ -163,7 +161,7 @@ class Kava extends BasePlugin {
    */
   sendAnalytics(model: Object): Promise<*> {
     return new Promise((resolve, reject) => {
-      OVPAnalyticsService.trackEvent(this._appProtocol + this.config.serviceUrl, model)
+      OVPAnalyticsService.trackEvent(Env.appProtocol + this.config.serviceUrl, model)
         .doHttpRequest()
         .then(
           response => {
