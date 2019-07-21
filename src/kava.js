@@ -520,10 +520,13 @@ class Kava extends BasePlugin {
       this._fragLoadedFiredOnce = true;
     }
     this._updateFragLoadedStats(event);
-    this._handleFragPerformanceObserver(event.payload.url);
+    const succHandle = this._handleFragPerformanceObserver(event.payload.url);
+    if (!succHandle && this._performanceObserver) {
+      this._pendingFragLoadedEvents.push(event.payload.url);
+    }
   }
 
-  _handleFragPerformanceObserver(url: string): void {
+  _handleFragPerformanceObserver(url: string): boolean {
     const fragResourceTimings = this._performanceEntries.filter(entry => entry.name == url);
     const lastFragResourceTiming: ?Object =
       fragResourceTimings && fragResourceTimings.length ? fragResourceTimings[fragResourceTimings.length - 1] : null;
@@ -536,8 +539,9 @@ class Kava extends BasePlugin {
           this._performanceEntries.length - (lastIndexOftheFragment + 1)
         );
       }
-    } else if (this._performanceObserver) {
-      this._pendingFragLoadedEvents.push(event);
+      return true;
+    } else {
+      return false;
     }
   }
   _updateMaxNetworkConnectionOverhead(networkConnectionOverhead: number): void {
