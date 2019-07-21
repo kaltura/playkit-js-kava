@@ -35,7 +35,7 @@ class Kava extends BasePlugin {
   _lastTotalFrames: number = 0;
   _performanceObserver: window.PerformanceObserver;
   _performanceEntries: window.PerformanceEntry[] = [];
-  _pendingFragLoadedEvents: FakeEvent[] = [];
+  _pendingFragLoadedUrls: string[] = [];
   _fragLoadedFiredOnce: boolean = false;
 
   /**
@@ -95,9 +95,9 @@ class Kava extends BasePlugin {
     for (let i = 0; i < perfEntries.length; i++) {
       this._performanceEntries.push(perfEntries[i]);
     }
-    while (this._pendingFragLoadedEvents.length) {
+    while (this._pendingFragLoadedUrls.length) {
       // handle frag loaded events which haven't been added to the entry list yet
-      this._handleFragPerformanceObserver(this._pendingFragLoadedEvents.pop());
+      this._handleFragPerformanceObserver(this._pendingFragLoadedUrls.pop());
     }
   }
 
@@ -117,7 +117,7 @@ class Kava extends BasePlugin {
     this._rateHandler.destroy();
     this._performanceObserver.disconnect();
     this._performanceEntries = [];
-    this._pendingFragLoadedEvents = [];
+    this._pendingFragLoadedUrls = [];
   }
 
   /**
@@ -520,10 +520,15 @@ class Kava extends BasePlugin {
       this._fragLoadedFiredOnce = true;
     }
     this._updateFragLoadedStats(event);
-    this._handleFragPerformanceObserver(event.payload.url);
+    if (this._performanceObserver) {
+      const succHandle = this._handleFragPerformanceObserver(event.payload.url);
+      if (!succHandle) {
+        this._pendingFragLoadedUrls.push(event.payload.url);
+      }
+    }
   }
 
-  _handleFragPerformanceObserver(url: string): void {
+  _handleFragPerformanceObserver(url: string): boolean {
     const fragResourceTimings = this._performanceEntries.filter(entry => entry.name == url);
     const lastFragResourceTiming: ?Object =
       fragResourceTimings && fragResourceTimings.length ? fragResourceTimings[fragResourceTimings.length - 1] : null;
@@ -536,8 +541,9 @@ class Kava extends BasePlugin {
           this._performanceEntries.length - (lastIndexOftheFragment + 1)
         );
       }
-    } else if (this._performanceObserver) {
-      this._pendingFragLoadedEvents.push(event);
+      return true;
+    } else {
+      return false;
     }
   }
   _updateMaxNetworkConnectionOverhead(networkConnectionOverhead: number): void {
