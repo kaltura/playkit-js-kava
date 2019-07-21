@@ -80,7 +80,6 @@ class Kava extends BasePlugin {
       bufferTimeSum: 0.0,
       playTimeSum: 0.0
     });
-
     // check the Resource Timing API is supported in the browser and we have a uiConfId
     if (performance && this.config.uiConfId) {
       let entry = performance.getEntriesByType('resource').find(entry => entry.name.match('embedPlaykitJs.*' + this.config.uiConfId));
@@ -196,7 +195,7 @@ class Kava extends BasePlugin {
    */
   sendAnalytics(model: Object): Promise<*> {
     return new Promise((resolve, reject) => {
-      OVPAnalyticsService.trackEvent(this.config.serviceUrl, model)
+      OVPAnalyticsService.trackEvent(Utils.Http.protocol + this.config.serviceUrl, model)
         .doHttpRequest()
         .then(
           response => {
