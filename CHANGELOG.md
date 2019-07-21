@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.11.0"></a>
+# [0.11.0](https://github.com/kaltura/playkit-js-kava/compare/v0.10.0...v0.11.0) (2019-07-19)
+
+
+### Bug Fixes
+
+* **FEC-9231:** fix flavorParamsId in native hls ([#41](https://github.com/kaltura/playkit-js-kava/issues/41)) ([3d81294](https://github.com/kaltura/playkit-js-kava/commit/3d81294))
+
+
+### Features
+
+* **FEC-9224:** refactoring networkConnectionOverhead to use PerformanceObserver ([#42](https://github.com/kaltura/playkit-js-kava/issues/42)) ([8782126](https://github.com/kaltura/playkit-js-kava/commit/8782126))
+
+
+
 <a name="0.10.0"></a>
 # [0.10.0](https://github.com/kaltura/playkit-js-kava/compare/v0.7.1...v0.10.0) (2019-07-07)
 
