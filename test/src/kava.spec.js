@@ -566,6 +566,36 @@ describe('KavaPlugin', function() {
       player.dispatchEvent(
         new FakeEvent(CustomEventType.FRAG_LOADED, {miliSeconds: FRAG2_DOWNLOAD_TIME, bytes: FRAG2_BYTES, url: 'http://www.somesite.com/movie2.ts'})
       );
+      let performanceOverserList = {};
+      performanceOverserList.getEntries = () => {
+        return [
+          {
+            name: 'http://www.somesite.com/movie.ts',
+            entryType: 'resource',
+            startTime: 118.6400000001413,
+            duration: 149.8900000001413,
+            initiatorType: 'script',
+            nextHopProtocol: 'http/1.1',
+            workerStart: 0,
+            redirectStart: 0,
+            redirectEnd: 0,
+            fetchStart: 118.6400000001413,
+            domainLookupStart: 20.2,
+            domainLookupEnd: 0,
+            connectStart: 0,
+            connectEnd: 120.5,
+            secureConnectionStart: 0,
+            requestStart: 0,
+            responseStart: 0,
+            responseEnd: 268.5300000002826,
+            transferSize: 0,
+            encodedBodySize: 0,
+            decodedBodySize: 0,
+            serverTiming: []
+          }
+        ];
+      };
+      kava._handleNewPerformanceEntries(performanceOverserList);
     });
 
     it('should send VIEW event with volume set to 0', done => {
