@@ -1,5 +1,5 @@
 // @flow
-import {BasePlugin, Error as PKError, FakeEvent, Utils, Env} from '@playkit-js/playkit-js';
+import {BasePlugin, Error as PKError, FakeEvent, Utils} from '@playkit-js/playkit-js';
 import {OVPAnalyticsService} from 'playkit-js-providers/dist/playkit-analytics-service';
 import {KavaEventModel, KavaEventType} from './kava-event-model';
 import {KavaRateHandler} from './kava-rate-handler';
@@ -161,7 +161,7 @@ class Kava extends BasePlugin {
    */
   sendAnalytics(model: Object): Promise<*> {
     return new Promise((resolve, reject) => {
-      OVPAnalyticsService.trackEvent(Env.appProtocol + this.config.serviceUrl, model)
+      OVPAnalyticsService.trackEvent(Utils.Http.protocol + this.config.serviceUrl, model)
         .doHttpRequest()
         .then(
           response => {
