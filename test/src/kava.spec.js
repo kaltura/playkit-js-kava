@@ -108,7 +108,8 @@ describe('KavaPlugin', function() {
           playlistId: '12345678',
           entryType: 'Vod',
           sessionId: 'c15be273-0f1b-10a3-4fc9-d7a53eebee85:b66abd37-e2e2-a22e-86ac-7859592e754b',
-          ks: 'Njk0ZmI4MzBiOTJiMGZhN2NmNTAwYWQyZGM2M2Y0YjkxMGRiZGI3MXwxMDkxOzEwOTE7MTUxNzkyMjgxMzswOzE1MTc4MzY0MTMuMTM4OzA7dmlldzoqLHdpZGdldDoxOzs='
+          ks: 'Njk0ZmI4MzBiOTJiMGZhN2NmNTAwYWQyZGM2M2Y0YjkxMGRiZGI3MXwxMDkxOzEwOTE7MTUxNzkyMjgxMzswOzE1MTc4MzY0MTMuMTM4OzA7dmlldzoqLHdpZGdldDoxOzs=',
+          userId: '1234'
         }
       },
       session: {
@@ -148,6 +149,7 @@ describe('KavaPlugin', function() {
       params.clientVer.should.equal(config.plugins.kava.playerVersion);
       params.clientTag.should.equal('html5:v' + config.plugins.kava.playerVersion);
       params.position.should.exist;
+      params.userId.should.equal(config.plugins.kava.userId);
     }
 
     it('should send IMPRESSION event', done => {

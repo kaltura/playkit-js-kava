@@ -33,7 +33,8 @@ type _KavaConfigObject = {
   customVar3?: Object,
   applicationVersion?: string,
   playbackContext?: string,
-  tamperAnalyticsHandler?: Function
+  tamperAnalyticsHandler?: Function,
+  userId: string
 };
 
 /**

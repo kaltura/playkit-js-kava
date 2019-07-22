@@ -78,8 +78,7 @@ class Kava extends BasePlugin {
       eventIndex: 1,
       bufferTime: 0.0,
       bufferTimeSum: 0.0,
-      playTimeSum: 0.0,
-      userId: this.config.userId
+      playTimeSum: 0.0
     });
     // check the Resource Timing API is supported in the browser and we have a uiConfId
     if (performance && this.config.uiConfId) {
@@ -679,6 +678,7 @@ class Kava extends BasePlugin {
     this._model.getPlaybackType = () => this._getPlaybackType();
     this._model.getPlaybackContext = () => this.config.playbackContext;
     this._model.getApplicationVersion = () => this.config.applicationVersion;
+    this._model.getUserId = () => this.config.userId;
   }
 
   _getPosition(): number {

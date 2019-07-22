@@ -53,6 +53,7 @@ class KavaModel {
   getPlaybackType: Function;
   getPlaybackContext: Function;
   getApplicationVersion: Function;
+  getUserId: Function;
   getCanPlayTime: Function;
 
   constructor(model?: Object) {
