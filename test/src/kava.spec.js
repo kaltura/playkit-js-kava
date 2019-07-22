@@ -482,40 +482,45 @@ describe('KavaPlugin', function() {
       sandbox.stub(window.navigator.connection, 'effectiveType').value('2g');
 
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
-        if (params.eventType === KavaEventModel.VIEW.index) {
-          validateCommonParams(params, KavaEventModel.VIEW.index);
-          params.should.have.all.keys(
-            'audioLanguage',
-            'bufferTime',
-            'bufferTimeSum',
-            'actualBitrate',
-            'averageBitrate',
-            'captionsLanguage',
-            'clientTag',
-            'clientVer',
-            'deliveryType',
-            'droppedFramesRatio',
-            'entryId',
-            'eventIndex',
-            'eventType',
-            'ks',
-            'partnerId',
-            'playTimeSum',
-            'playbackType',
-            'playlistId',
-            'position',
-            'referrer',
-            'sessionId',
-            'soundMode',
-            'tabMode',
-            'networkConnectionType'
-          );
-          params.networkConnectionType.should.equal('2g');
-          params.tabMode.should.equal(TabMode.TAB_FOCUSED);
-          params.soundMode.should.equal(SoundMode.SOUND_ON);
-          done();
+        try {
+          if (params.eventType === KavaEventModel.VIEW.index) {
+            validateCommonParams(params, KavaEventModel.VIEW.index);
+            params.should.have.all.keys(
+              'audioLanguage',
+              'bufferTime',
+              'bufferTimeSum',
+              'actualBitrate',
+              'averageBitrate',
+              'captionsLanguage',
+              'clientTag',
+              'clientVer',
+              'deliveryType',
+              'droppedFramesRatio',
+              'entryId',
+              'eventIndex',
+              'eventType',
+              'ks',
+              'partnerId',
+              'playTimeSum',
+              'playbackType',
+              'playlistId',
+              'position',
+              'referrer',
+              'sessionId',
+              'soundMode',
+              'tabMode',
+              'networkConnectionType',
+              'userId'
+            );
+            params.networkConnectionType.should.equal('2g');
+            params.tabMode.should.equal(TabMode.TAB_FOCUSED);
+            params.soundMode.should.equal(SoundMode.SOUND_ON);
+            done();
+          }
+          return new RequestBuilder();
+        } catch (err) {
+          done(err);
         }
-        return new RequestBuilder();
       });
       setupPlayer(config);
       player.play();

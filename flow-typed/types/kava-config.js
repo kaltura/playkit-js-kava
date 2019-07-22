@@ -25,6 +25,7 @@
  */
 type _KavaConfigObject = {
   serviceUrl?: string,
+  tamperAnalyticsHandler?: Function,
   viewEventCountdown?: number,
   resetSessionCountdown?: number,
   dvrThreshold?: number,
@@ -33,8 +34,7 @@ type _KavaConfigObject = {
   customVar3?: Object,
   applicationVersion?: string,
   playbackContext?: string,
-  tamperAnalyticsHandler?: Function,
-  userId: string
+  userId?: string
 };
 
 /**
