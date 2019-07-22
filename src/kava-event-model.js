@@ -306,6 +306,9 @@ export function getEventModel(eventObj: KavaEvent, model: KavaModel): Object {
   if (model.getApplicationVersion()) {
     commonModel.applicationVersion = model.getApplicationVersion();
   }
+  if (model.userId) {
+    commonModel.userId = model.userId;
+  }
   const eventModel = eventObj.getEventModel(model);
   return Object.assign(eventModel, commonModel);
 }

@@ -33,6 +33,7 @@ class KavaModel {
   flavorParamsId: number = NaN;
   networkConnectionType: string;
   playerJSLoadTime: ?number = null;
+  userId: string;
   getActualBitrate: Function;
   getAverageBitrate: Function;
   getPartnerId: Function;
