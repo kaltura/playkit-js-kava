@@ -12,7 +12,7 @@
  * @property {Object} [customVar1] - Custom objects field.
  * @property {Object} [customVar2] - Custom objects field.
  * @property {Object} [customVar3] - Custom objects field.
- * @property {string} [userId] - custom userId .
+ * @property {string} [userId] - custom user id .
  * @example
  * // Default config
  * {

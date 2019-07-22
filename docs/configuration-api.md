@@ -59,7 +59,7 @@ Type: [Object][41]
 - `customVar1` **[Object][41]?** Custom objects field.
 - `customVar2` **[Object][41]?** Custom objects field.
 - `customVar3` **[Object][41]?** Custom objects field.
-- `userId` **[string][42]?** custom userId .
+- `userId` **[string][42]?** custom user id .
 
 ### Examples
 
