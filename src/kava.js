@@ -114,7 +114,7 @@ class Kava extends BasePlugin {
   _reset(): void {
     this._timer.destroy();
     this._rateHandler.destroy();
-    if (this._performanceObserver && typeof this._performanceObserver.disconnect === 'function') {
+    if (this._performanceObserver) {
       this._performanceObserver.disconnect();
     }
     this._performanceEntries = [];
