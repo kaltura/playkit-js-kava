@@ -12,6 +12,7 @@
  * @property {Object} [customVar1] - Custom objects field.
  * @property {Object} [customVar2] - Custom objects field.
  * @property {Object} [customVar3] - Custom objects field.
+ * @property {string} [userId] - custom user id .
  * @example
  * // Default config
  * {
@@ -25,6 +26,7 @@
  */
 type _KavaConfigObject = {
   serviceUrl?: string,
+  tamperAnalyticsHandler?: Function,
   viewEventCountdown?: number,
   resetSessionCountdown?: number,
   dvrThreshold?: number,
@@ -33,7 +35,7 @@ type _KavaConfigObject = {
   customVar3?: Object,
   applicationVersion?: string,
   playbackContext?: string,
-  tamperAnalyticsHandler?: Function
+  userId?: string
 };
 
 /**

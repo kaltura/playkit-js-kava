@@ -108,7 +108,8 @@ describe('KavaPlugin', function() {
           playlistId: '12345678',
           entryType: 'Vod',
           sessionId: 'c15be273-0f1b-10a3-4fc9-d7a53eebee85:b66abd37-e2e2-a22e-86ac-7859592e754b',
-          ks: 'Njk0ZmI4MzBiOTJiMGZhN2NmNTAwYWQyZGM2M2Y0YjkxMGRiZGI3MXwxMDkxOzEwOTE7MTUxNzkyMjgxMzswOzE1MTc4MzY0MTMuMTM4OzA7dmlldzoqLHdpZGdldDoxOzs='
+          ks: 'Njk0ZmI4MzBiOTJiMGZhN2NmNTAwYWQyZGM2M2Y0YjkxMGRiZGI3MXwxMDkxOzEwOTE7MTUxNzkyMjgxMzswOzE1MTc4MzY0MTMuMTM4OzA7dmlldzoqLHdpZGdldDoxOzs=',
+          userId: '1234'
         }
       },
       session: {
@@ -148,6 +149,7 @@ describe('KavaPlugin', function() {
       params.clientVer.should.equal(config.plugins.kava.playerVersion);
       params.clientTag.should.equal('html5:v' + config.plugins.kava.playerVersion);
       params.position.should.exist;
+      params.userId.should.equal(config.plugins.kava.userId);
     }
 
     it('should send IMPRESSION event', done => {
@@ -480,40 +482,45 @@ describe('KavaPlugin', function() {
       sandbox.stub(window.navigator.connection, 'effectiveType').value('2g');
 
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
-        if (params.eventType === KavaEventModel.VIEW.index) {
-          validateCommonParams(params, KavaEventModel.VIEW.index);
-          params.should.have.all.keys(
-            'audioLanguage',
-            'bufferTime',
-            'bufferTimeSum',
-            'actualBitrate',
-            'averageBitrate',
-            'captionsLanguage',
-            'clientTag',
-            'clientVer',
-            'deliveryType',
-            'droppedFramesRatio',
-            'entryId',
-            'eventIndex',
-            'eventType',
-            'ks',
-            'partnerId',
-            'playTimeSum',
-            'playbackType',
-            'playlistId',
-            'position',
-            'referrer',
-            'sessionId',
-            'soundMode',
-            'tabMode',
-            'networkConnectionType'
-          );
-          params.networkConnectionType.should.equal('2g');
-          params.tabMode.should.equal(TabMode.TAB_FOCUSED);
-          params.soundMode.should.equal(SoundMode.SOUND_ON);
-          done();
+        try {
+          if (params.eventType === KavaEventModel.VIEW.index) {
+            validateCommonParams(params, KavaEventModel.VIEW.index);
+            params.should.have.all.keys(
+              'audioLanguage',
+              'bufferTime',
+              'bufferTimeSum',
+              'actualBitrate',
+              'averageBitrate',
+              'captionsLanguage',
+              'clientTag',
+              'clientVer',
+              'deliveryType',
+              'droppedFramesRatio',
+              'entryId',
+              'eventIndex',
+              'eventType',
+              'ks',
+              'partnerId',
+              'playTimeSum',
+              'playbackType',
+              'playlistId',
+              'position',
+              'referrer',
+              'sessionId',
+              'soundMode',
+              'tabMode',
+              'networkConnectionType',
+              'userId'
+            );
+            params.networkConnectionType.should.equal('2g');
+            params.tabMode.should.equal(TabMode.TAB_FOCUSED);
+            params.soundMode.should.equal(SoundMode.SOUND_ON);
+            done();
+          }
+          return new RequestBuilder();
+        } catch (err) {
+          done(err);
         }
-        return new RequestBuilder();
       });
       setupPlayer(config);
       player.play();

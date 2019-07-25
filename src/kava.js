@@ -680,6 +680,7 @@ class Kava extends BasePlugin {
     this._model.getPlaybackType = () => this._getPlaybackType();
     this._model.getPlaybackContext = () => this.config.playbackContext;
     this._model.getApplicationVersion = () => this.config.applicationVersion;
+    this._model.getUserId = () => this.config.userId;
   }
 
   _getPosition(): number {
