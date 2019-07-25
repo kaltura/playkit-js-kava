@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.11.2"></a>
+## [0.11.2](https://github.com/kaltura/playkit-js-kava/compare/v0.11.1...v0.11.2) (2019-07-25)
+
+
+### Bug Fixes
+
+* **FEC-9247:** add userId to kava reports ([#45](https://github.com/kaltura/playkit-js-kava/issues/45)) ([cda7469](https://github.com/kaltura/playkit-js-kava/commit/cda7469))
+* **FEC-9258:** Kaltura player tests fail when performanceObserver isn't defined ([#46](https://github.com/kaltura/playkit-js-kava/issues/46)) ([cab2327](https://github.com/kaltura/playkit-js-kava/commit/cab2327))
+
+
+
 <a name="0.11.1"></a>
 ## [0.11.1](https://github.com/kaltura/playkit-js-kava/compare/v0.11.0...v0.11.1) (2019-07-21)
 
