@@ -413,7 +413,7 @@ class Kava extends BasePlugin {
     }
   }
 
-  _networkConnectionType(): string {
+  _getNetworkConnectionType(): string {
     return window.navigator && window.navigator.connection && window.navigator.connection.effectiveType
       ? window.navigator.connection.effectiveType
       : '';
