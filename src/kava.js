@@ -413,6 +413,12 @@ class Kava extends BasePlugin {
     }
   }
 
+  _getNetworkConnectionType(): string {
+    return window.navigator && window.navigator.connection && window.navigator.connection.effectiveType
+      ? window.navigator.connection.effectiveType
+      : '';
+  }
+
   _onReport(): void {
     if (this._viewEventEnabled) {
       this._updatePlayTimeSumModel();
@@ -422,10 +428,7 @@ class Kava extends BasePlugin {
         forwardBufferHealth: this._getForwardBufferHealth(),
         targetBuffer: this._getTargetBuffer(),
         droppedFramesRatio: this._getDroppedFramesRatio(),
-        networkConnectionType:
-          window.navigator && window.navigator.connection && window.navigator.connection.effectiveType
-            ? window.navigator.connection.effectiveType
-            : ''
+        networkConnectionType: this._getNetworkConnectionType()
       });
       this._sendAnalytics(KavaEventModel.VIEW);
     } else {
@@ -446,7 +449,8 @@ class Kava extends BasePlugin {
       this._timer.start();
       this._isFirstPlay = false;
       this._model.updateModel({
-        joinTime: Kava._getTimeDifferenceInSeconds(this._firstPlayRequestTime)
+        joinTime: Kava._getTimeDifferenceInSeconds(this._firstPlayRequestTime),
+        networkConnectionType: this._getNetworkConnectionType()
       });
       this._sendAnalytics(KavaEventModel.PLAY);
     } else if (this._isEnded) {

@@ -91,13 +91,19 @@ export const KavaEventModel: {[event: string]: KavaEvent} = {
   PLAY: {
     type: 'PLAY',
     index: 3,
-    getEventModel: (model: KavaModel) => ({
-      bufferTime: model.getBufferTime(),
-      bufferTimeSum: model.getBufferTimeSum(),
-      actualBitrate: model.getActualBitrate(),
-      joinTime: model.getJoinTime(),
-      canPlay: model.getCanPlayTime()
-    })
+    getEventModel: (model: KavaModel) => {
+      const eventModel: {[name: string]: any} = {
+        bufferTime: model.getBufferTime(),
+        bufferTimeSum: model.getBufferTimeSum(),
+        actualBitrate: model.getActualBitrate(),
+        joinTime: model.getJoinTime(),
+        canPlay: model.getCanPlayTime()
+      };
+      if (model.getNetworkConnectionType() !== '') {
+        eventModel.networkConnectionType = model.getNetworkConnectionType();
+      }
+      return eventModel;
+    }
   },
   /**
    * @type {string} RESUME

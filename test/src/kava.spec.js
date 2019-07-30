@@ -231,6 +231,7 @@ describe('KavaPlugin', function() {
           params.bufferTimeSum.should.exist;
           params.actualBitrate.should.exist;
           params.joinTime.should.exist;
+          params.networkConnectionType.should.exist;
           done();
         }
         return new RequestBuilder();
