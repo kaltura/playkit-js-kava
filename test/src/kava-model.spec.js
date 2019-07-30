@@ -28,7 +28,8 @@ const ab = 3,
   jt = 1213,
   tp = '12',
   pc = 'pc',
-  av = 'av';
+  av = 'av',
+  usi = '1234';
 
 describe('KavaModel', () => {
   let model;
@@ -79,6 +80,7 @@ describe('KavaModel', () => {
     model.getPlaybackType = () => pback;
     model.getPlaybackContext = () => pc;
     model.getApplicationVersion = () => av;
+    model.getUserId = () => usi;
   });
 
   it('should update the model', function() {
@@ -111,7 +113,8 @@ describe('KavaModel', () => {
       sessionStartTime: sst,
       customVar2: cv2,
       playbackContext: pc,
-      applicationVersion: av
+      applicationVersion: av,
+      userId: usi
     });
   });
 });

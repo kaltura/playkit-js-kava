@@ -2,6 +2,87 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.11.3"></a>
+## [0.11.3](https://github.com/kaltura/playkit-js-kava/compare/v0.11.2...v0.11.3) (2019-07-30)
+
+
+### Bug Fixes
+
+* **FEC-9269:** networkConnectionType is missing in PLAY event ([#47](https://github.com/kaltura/playkit-js-kava/issues/47)) ([248693f](https://github.com/kaltura/playkit-js-kava/commit/248693f))
+
+
+
+<a name="0.11.2"></a>
+## [0.11.2](https://github.com/kaltura/playkit-js-kava/compare/v0.11.1...v0.11.2) (2019-07-25)
+
+
+### Bug Fixes
+
+* **FEC-9247:** add userId to kava reports ([#45](https://github.com/kaltura/playkit-js-kava/issues/45)) ([cda7469](https://github.com/kaltura/playkit-js-kava/commit/cda7469))
+* **FEC-9258:** Kaltura player tests fail when performanceObserver isn't defined ([#46](https://github.com/kaltura/playkit-js-kava/issues/46)) ([cab2327](https://github.com/kaltura/playkit-js-kava/commit/cab2327))
+
+
+
+<a name="0.11.1"></a>
+## [0.11.1](https://github.com/kaltura/playkit-js-kava/compare/v0.11.0...v0.11.1) (2019-07-21)
+
+
+### Bug Fixes
+
+* **FEC-9237:** add app protocol for kava plugin ([#43](https://github.com/kaltura/playkit-js-kava/issues/43)) ([d84257f](https://github.com/kaltura/playkit-js-kava/commit/d84257f))
+* **FEC-9251:** the browser stuck after click Play button ([#44](https://github.com/kaltura/playkit-js-kava/issues/44)) ([9ba55f8](https://github.com/kaltura/playkit-js-kava/commit/9ba55f8))
+
+
+
+<a name="0.11.0"></a>
+# [0.11.0](https://github.com/kaltura/playkit-js-kava/compare/v0.10.0...v0.11.0) (2019-07-19)
+
+
+### Bug Fixes
+
+* **FEC-9231:** fix flavorParamsId in native hls ([#41](https://github.com/kaltura/playkit-js-kava/issues/41)) ([3d81294](https://github.com/kaltura/playkit-js-kava/commit/3d81294))
+
+
+### Features
+
+* **FEC-9224:** refactoring networkConnectionOverhead to use PerformanceObserver ([#42](https://github.com/kaltura/playkit-js-kava/issues/42)) ([8782126](https://github.com/kaltura/playkit-js-kava/commit/8782126))
+
+
+
+<a name="0.10.0"></a>
+# [0.10.0](https://github.com/kaltura/playkit-js-kava/compare/v0.7.1...v0.10.0) (2019-07-07)
+
+
+### Features
+
+* **FEC-8975:** adding QoS Data to enhance KAVA ([#35](https://github.com/kaltura/playkit-js-kava/issues/35)) ([e1e4eda](https://github.com/kaltura/playkit-js-kava/commit/e1e4eda))
+* **FEC-8975:** QoS Kava Enhancements - leftovers ([#36](https://github.com/kaltura/playkit-js-kava/issues/36)) ([e10ab36](https://github.com/kaltura/playkit-js-kava/commit/e10ab36))
+* **FEC-9071:** add errorDetails field to kava error reporting ([#34](https://github.com/kaltura/playkit-js-kava/issues/34)) ([67ca77e](https://github.com/kaltura/playkit-js-kava/commit/67ca77e))
+* **FEC-9139:** adding flavorParamsId ([#37](https://github.com/kaltura/playkit-js-kava/issues/37)) ([0817b70](https://github.com/kaltura/playkit-js-kava/commit/0817b70))
+
+
+
+<a name="0.9.0"></a>
+# [0.9.0](https://github.com/kaltura/playkit-js-kava/compare/v0.8.0...v0.9.0) (2019-06-23)
+
+
+### Features
+
+* **FEC-8975:** QoS Kava Enhancements - leftovers ([#36](https://github.com/kaltura/playkit-js-kava/issues/36)) ([e10ab36](https://github.com/kaltura/playkit-js-kava/commit/e10ab36))
+
+
+
+<a name="0.8.0"></a>
+# [0.8.0](https://github.com/kaltura/playkit-js-kava/compare/v0.7.2...v0.8.0) (2019-06-16)
+
+
+### Features
+
+* **FEC-8975:** adding QoS Data to enhance KAVA ([#35](https://github.com/kaltura/playkit-js-kava/issues/35)) ([e1e4eda](https://github.com/kaltura/playkit-js-kava/commit/e1e4eda))
+* **FEC-9071:** add errorDetails field to kava error reporting ([#34](https://github.com/kaltura/playkit-js-kava/issues/34)) ([67ca77e](https://github.com/kaltura/playkit-js-kava/commit/67ca77e))
+
+
+
 <a name="0.7.2"></a>
 ## [0.7.2](https://github.com/kaltura/playkit-js-kava/compare/v0.7.1...v0.7.2) (2019-05-01)
 

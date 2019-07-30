@@ -4,9 +4,10 @@ import {OVPAnalyticsService} from '@playkit-js/ovp-provider/dist/services/analyt
 import {KavaEventModel, KavaEventType} from './kava-event-model';
 import {KavaRateHandler} from './kava-rate-handler';
 import {KavaTimer} from './kava-timer';
-import {KavaModel} from './kava-model';
+import {KavaModel, SoundMode, TabMode} from './kava-model';
 
 const DIVIDER: number = 1024;
+const TEXT_TYPE: string = 'TEXT';
 
 /**
  * Kaltura Advanced Analytics plugin.
@@ -30,6 +31,12 @@ class Kava extends BasePlugin {
   _timePercentEvent: {[time: string]: boolean};
   _isPlaying: boolean;
   _loadStartTime: number;
+  _lastDroppedFrames: number = 0;
+  _lastTotalFrames: number = 0;
+  _performanceObserver: window.PerformanceObserver;
+  _performanceEntries: window.PerformanceEntry[] = [];
+  _pendingFragLoadedUrls: string[] = [];
+  _fragLoadedFiredOnce: boolean = false;
 
   /**
    * Default config of the plugin.
@@ -73,6 +80,24 @@ class Kava extends BasePlugin {
       bufferTimeSum: 0.0,
       playTimeSum: 0.0
     });
+    // check the Resource Timing API is supported in the browser and we have a uiConfId
+    if (performance && this.config.uiConfId) {
+      let entry = performance.getEntriesByType('resource').find(entry => entry.name.match('embedPlaykitJs.*' + this.config.uiConfId));
+      if (entry) {
+        this._model.updateModel({playerJSLoadTime: entry.duration});
+      }
+    }
+  }
+
+  _handleNewPerformanceEntries(list: window.PerformanceObserverEntryList) {
+    let perfEntries = list.getEntries();
+    for (let i = 0; i < perfEntries.length; i++) {
+      this._performanceEntries.push(perfEntries[i]);
+    }
+    while (this._pendingFragLoadedUrls.length) {
+      // handle frag loaded events which haven't been added to the entry list yet
+      this._handleFragPerformanceObserver(this._pendingFragLoadedUrls.pop());
+    }
   }
 
   /**
@@ -83,8 +108,17 @@ class Kava extends BasePlugin {
    */
   destroy(): void {
     this.eventManager.destroy();
+    this._reset();
+  }
+
+  _reset(): void {
     this._timer.destroy();
     this._rateHandler.destroy();
+    if (this._performanceObserver) {
+      this._performanceObserver.disconnect();
+    }
+    this._performanceEntries = [];
+    this._pendingFragLoadedUrls = [];
   }
 
   /**
@@ -95,8 +129,6 @@ class Kava extends BasePlugin {
    */
   reset(): void {
     this.eventManager.removeAll();
-    this._rateHandler.destroy();
-    this._timer.destroy();
     this._resetFlags();
     this._addBindings();
     this._model.updateModel({
@@ -106,6 +138,20 @@ class Kava extends BasePlugin {
       playTimeSum: 0.0,
       sessionStartTime: null
     });
+    this._reset();
+  }
+
+  /**
+   * loadMedia of the plugin.
+   * @return {void}
+   * @memberof Kava
+   * @instance
+   */
+  loadMedia(): void {
+    if (window.PerformanceObserver) {
+      this._performanceObserver = new window.PerformanceObserver(this._handleNewPerformanceEntries.bind(this));
+      this._performanceObserver.observe({entryTypes: ['resource']});
+    }
   }
 
   /**
@@ -151,7 +197,7 @@ class Kava extends BasePlugin {
    */
   sendAnalytics(model: Object): Promise<*> {
     return new Promise((resolve, reject) => {
-      OVPAnalyticsService.trackEvent(this.config.serviceUrl, model)
+      OVPAnalyticsService.trackEvent(Utils.Http.protocol + this.config.serviceUrl, model)
         .doHttpRequest()
         .then(
           response => {
@@ -228,6 +274,9 @@ class Kava extends BasePlugin {
     this.eventManager.listen(this.player, this.player.Event.SOURCE_SELECTED, () => this._onSourceSelected());
     this.eventManager.listen(this.player, this.player.Event.ERROR, event => this._onError(event));
     this.eventManager.listen(this.player, this.player.Event.FIRST_PLAY, () => this._onFirstPlay());
+    this.eventManager.listen(this.player, this.player.Event.FRAG_LOADED, event => this._onFragLoaded(event));
+    this.eventManager.listen(this.player, this.player.Event.MANIFEST_LOADED, event => this._onManifestLoaded(event));
+    this.eventManager.listen(this.player, this.player.Event.TIMED_METADATA, event => this._onTimedMetadataLoaded(event));
     this.eventManager.listen(this.player, this.player.Event.TRACKS_CHANGED, () => this._setInitialTracks());
     this.eventManager.listen(this.player, this.player.Event.PLAYING, () => this._onPlaying());
     this.eventManager.listen(this.player, this.player.Event.FIRST_PLAYING, () => this._onFirstPlaying());
@@ -245,6 +294,10 @@ class Kava extends BasePlugin {
 
   _onFirstPlaying(): void {
     this._isPlaying = true;
+    if (!this._fragLoadedFiredOnce && this._performanceObserver) {
+      this._performanceObserver.disconnect();
+      this.logger.debug("This adapter / media doesn't fire fragLoaded - disconnect performance observer");
+    }
   }
 
   _onLoadStart(): void {
@@ -273,14 +326,122 @@ class Kava extends BasePlugin {
     }
   }
 
+  /**
+   * gets the available buffer length
+   * @returns {number} the remaining buffer length of the current played time range
+   * @private
+   */
+  _getAvailableBuffer(): number {
+    let availableBuffer = NaN;
+    if (this.player.stats) {
+      availableBuffer = this.player.stats.availableBuffer;
+    }
+    return availableBuffer;
+  }
+
+  /**
+   * calculates the forward buffer health ratio
+   * @returns {number} the ratio between available buffer and the target buffer
+   * @private
+   */
+  _getForwardBufferHealth(): number {
+    let forwardBufferHealth = NaN;
+    let availableBuffer = this._getAvailableBuffer();
+    let targetBuffer = this._getTargetBuffer();
+
+    if (!isNaN(targetBuffer)) {
+      // considering playback left to the target calculation
+      forwardBufferHealth = Math.round((availableBuffer * 1000) / targetBuffer) / 1000;
+    }
+
+    return forwardBufferHealth;
+  }
+
+  /**
+   * get the target buffer length from the player
+   * @returns {number} the target buffer in seconds
+   * @private
+   */
+  _getTargetBuffer(): number {
+    let targetBuffer = NaN;
+    if (this.player.stats) {
+      targetBuffer = this.player.stats.targetBuffer;
+    }
+    return targetBuffer;
+  }
+
+  /**
+   * calculates the dropped frames ratio since last call
+   * @returns {number} the ratio between dropped frames and the total frames
+   * @private
+   */
+  _getDroppedFramesRatio(): number {
+    let droppedFrames = -1;
+    const droppedAndDecoded: ?[number, number] = this._getDroppedAndDecodedFrames();
+    if (droppedAndDecoded) {
+      let droppedFramesDelta: number;
+      let totalFramesDelta: number;
+      const lastDroppedFrames = droppedAndDecoded[0];
+      const lastTotalFrames = droppedAndDecoded[1];
+      droppedFramesDelta = lastDroppedFrames - this._lastDroppedFrames;
+      totalFramesDelta = lastTotalFrames - this._lastTotalFrames;
+      droppedFrames = Math.round((droppedFramesDelta / totalFramesDelta) * 1000) / 1000;
+
+      this._lastTotalFrames = lastTotalFrames;
+      this._lastDroppedFrames = lastDroppedFrames;
+    }
+    return droppedFrames;
+  }
+
+  /**
+   * returns dropped and total frames from the VideoPlaybackQuality Interface of the browser (if supported)
+   * @returns {number} {number} the number of video frames dropped and total video frames (created and dropped)
+   * since the creation of the associated HTMLVideoElement
+   * @private
+   */
+  _getDroppedAndDecodedFrames(): ?[number, number] {
+    if (typeof this.player.getVideoElement().getVideoPlaybackQuality === 'function') {
+      const videoPlaybackQuality = this.player.getVideoElement().getVideoPlaybackQuality();
+      return [videoPlaybackQuality.droppedVideoFrames, videoPlaybackQuality.totalVideoFrames];
+    } else if (
+      typeof this.player.getVideoElement().webkitDroppedFrameCount == 'number' &&
+      typeof this.player.getVideoElement().webkitDecodedFrameCount == 'number'
+    ) {
+      return [this.player.getVideoElement().webkitDroppedFrameCount, this.player.getVideoElement().webkitDecodedFrameCount];
+    } else {
+      return null;
+    }
+  }
+
+  _getNetworkConnectionType(): string {
+    return window.navigator && window.navigator.connection && window.navigator.connection.effectiveType
+      ? window.navigator.connection.effectiveType
+      : '';
+  }
+
   _onReport(): void {
     if (this._viewEventEnabled) {
       this._updatePlayTimeSumModel();
+      this._model.updateModel({
+        soundMode: this.player.muted || this.player.volume === 0 ? SoundMode.SOUND_OFF : SoundMode.SOUND_ON,
+        tabMode: this._isDocumentHidden() ? TabMode.TAB_NOT_FOCUSED : TabMode.TAB_FOCUSED,
+        forwardBufferHealth: this._getForwardBufferHealth(),
+        targetBuffer: this._getTargetBuffer(),
+        droppedFramesRatio: this._getDroppedFramesRatio(),
+        networkConnectionType: this._getNetworkConnectionType()
+      });
       this._sendAnalytics(KavaEventModel.VIEW);
     } else {
       this.logger.warn(`VIEW event blocked because server response of viewEventsEnabled=false`);
     }
-    this._model.updateModel({bufferTime: 0});
+    this._model.updateModel({
+      totalSegmentsDownloadTime: 0,
+      totalSegmentsDownloadBytes: 0,
+      maxManifestDownloadTime: 0,
+      maxSegmentDownloadTime: 0,
+      maxNetworkConnectionOverhead: 0,
+      bufferTime: 0
+    });
   }
 
   _onPlaying(): void {
@@ -288,7 +449,8 @@ class Kava extends BasePlugin {
       this._timer.start();
       this._isFirstPlay = false;
       this._model.updateModel({
-        joinTime: Kava._getTimeDifferenceInSeconds(this._firstPlayRequestTime)
+        joinTime: Kava._getTimeDifferenceInSeconds(this._firstPlayRequestTime),
+        networkConnectionType: this._getNetworkConnectionType()
       });
       this._sendAnalytics(KavaEventModel.PLAY);
     } else if (this._isEnded) {
@@ -354,6 +516,70 @@ class Kava extends BasePlugin {
       if (!this._timePercentEvent.PLAY_REACHED_100 && percent === 1) {
         this._timePercentEvent.PLAY_REACHED_100 = true;
         this._sendAnalytics(KavaEventModel.PLAY_REACHED_100_PERCENT);
+      }
+    }
+  }
+
+  _onFragLoaded(event: FakeEvent): void {
+    if (!this._fragLoadedFiredOnce) {
+      this._fragLoadedFiredOnce = true;
+    }
+    this._updateFragLoadedStats(event);
+    if (this._performanceObserver) {
+      const succHandle = this._handleFragPerformanceObserver(event.payload.url);
+      if (!succHandle) {
+        this._pendingFragLoadedUrls.push(event.payload.url);
+      }
+    }
+  }
+
+  _handleFragPerformanceObserver(url: string): boolean {
+    const fragResourceTimings = this._performanceEntries.filter(entry => entry.name == url);
+    const lastFragResourceTiming: ?Object =
+      fragResourceTimings && fragResourceTimings.length ? fragResourceTimings[fragResourceTimings.length - 1] : null;
+    if (lastFragResourceTiming) {
+      this._updateMaxNetworkConnectionOverhead(lastFragResourceTiming.connectEnd - lastFragResourceTiming.domainLookupStart);
+      const lastIndexOftheFragment: number = this._performanceEntries.indexOf(lastFragResourceTiming);
+      if (lastIndexOftheFragment > -1 && lastIndexOftheFragment < this._performanceEntries.length) {
+        this._performanceEntries = this._performanceEntries.splice(
+          lastIndexOftheFragment + 1,
+          this._performanceEntries.length - (lastIndexOftheFragment + 1)
+        );
+      }
+      return true;
+    } else {
+      return false;
+    }
+  }
+  _updateMaxNetworkConnectionOverhead(networkConnectionOverhead: number): void {
+    this._model.updateModel({
+      maxNetworkConnectionOverhead: Math.max(this._model.maxNetworkConnectionOverhead, networkConnectionOverhead)
+    });
+  }
+
+  _updateFragLoadedStats(event: FakeEvent): void {
+    const seconds = Math.round(event.payload.miliSeconds) / 1000;
+    this._model.updateModel({
+      totalSegmentsDownloadTime: this._model.totalSegmentsDownloadTime + seconds,
+      totalSegmentsDownloadBytes: this._model.totalSegmentsDownloadBytes + event.payload.bytes,
+      maxSegmentDownloadTime: Math.max(seconds, this._model.maxSegmentDownloadTime)
+    });
+  }
+
+  _onManifestLoaded(event: FakeEvent): void {
+    const seconds = Math.round(event.payload.miliSeconds) / 1000;
+    this._model.updateModel({
+      maxManifestDownloadTime: Math.max(seconds, this._model.maxManifestDownloadTime)
+    });
+  }
+
+  _onTimedMetadataLoaded(event: FakeEvent): void {
+    const id3TagCues = event.payload.cues.filter(entry => entry.value && entry.value.key === TEXT_TYPE);
+    if (id3TagCues.length) {
+      try {
+        this._model.updateModel({flavorParamsId: Number(JSON.parse(id3TagCues[id3TagCues.length - 1].value.data).sequenceId)});
+      } catch (e) {
+        this.logger.debug('error parsing id3', e);
       }
     }
   }
@@ -458,6 +684,7 @@ class Kava extends BasePlugin {
     this._model.getPlaybackType = () => this._getPlaybackType();
     this._model.getPlaybackContext = () => this.config.playbackContext;
     this._model.getApplicationVersion = () => this.config.applicationVersion;
+    this._model.getUserId = () => this.config.userId;
   }
 
   _getPosition(): number {
@@ -511,6 +738,22 @@ class Kava extends BasePlugin {
 
   static _getTimeDifferenceInSeconds(time): number {
     return (Date.now() - time) / 1000.0;
+  }
+
+  _isDocumentHidden(): boolean {
+    let hidden = '';
+    if (typeof document.hidden !== 'undefined') {
+      // Opera 12.10 and Firefox 18 and later support
+      hidden = 'hidden';
+    } else if (typeof document.msHidden !== 'undefined') {
+      hidden = 'msHidden';
+    } else if (typeof document.webkitHidden !== 'undefined') {
+      hidden = 'webkitHidden';
+    } else {
+      return false;
+    }
+    // $FlowFixMe
+    return document[hidden];
   }
 }
 

@@ -1,8 +1,9 @@
 import '../../src/index.js';
-import {loadPlayer} from '@playkit-js/playkit-js';
+import {loadPlayer, FakeEvent, CustomEventType} from '@playkit-js/playkit-js';
 import * as TestUtils from './utils/test-utils';
 import {OVPAnalyticsService, RequestBuilder} from '@playkit-js/ovp-provider/dist/services/analytics';
 import {KavaEventModel} from '../../src/kava-event-model';
+import {SoundMode, TabMode} from '../../src/kava-model';
 
 const targetId = 'player-placeholder_kava.spec';
 
@@ -83,7 +84,7 @@ describe('KavaPlugin', function() {
   });
 
   describe('SendAnalytics', () => {
-    let sandbox = sinon.createSandbox();
+    let sandbox = sinon.sandbox.create();
     const config = {
       sources: {
         progressive: [
@@ -107,7 +108,8 @@ describe('KavaPlugin', function() {
           playlistId: '12345678',
           entryType: 'Vod',
           sessionId: 'c15be273-0f1b-10a3-4fc9-d7a53eebee85:b66abd37-e2e2-a22e-86ac-7859592e754b',
-          ks: 'Njk0ZmI4MzBiOTJiMGZhN2NmNTAwYWQyZGM2M2Y0YjkxMGRiZGI3MXwxMDkxOzEwOTE7MTUxNzkyMjgxMzswOzE1MTc4MzY0MTMuMTM4OzA7dmlldzoqLHdpZGdldDoxOzs='
+          ks: 'Njk0ZmI4MzBiOTJiMGZhN2NmNTAwYWQyZGM2M2Y0YjkxMGRiZGI3MXwxMDkxOzEwOTE7MTUxNzkyMjgxMzswOzE1MTc4MzY0MTMuMTM4OzA7dmlldzoqLHdpZGdldDoxOzs=',
+          userId: '1234'
         }
       },
       session: {
@@ -147,6 +149,7 @@ describe('KavaPlugin', function() {
       params.clientVer.should.equal(config.plugins.kava.playerVersion);
       params.clientTag.should.equal('html5:v' + config.plugins.kava.playerVersion);
       params.position.should.exist;
+      params.userId.should.equal(config.plugins.kava.userId);
     }
 
     it('should send IMPRESSION event', done => {
@@ -158,6 +161,51 @@ describe('KavaPlugin', function() {
         return new RequestBuilder();
       });
       setupPlayer(config);
+      kava = getKavaPlugin();
+      player.play();
+    });
+
+    it('should send IMPRESSION event with playerJSLoadTime', done => {
+      sandbox.stub(window.performance, 'getEntriesByType').callsFake(() => {
+        return [
+          {
+            name: 'https://qa-apache-php7.dev.kaltura.com/p/1091/sp/109100/embedPlaykitJs/uiconf_id/15215933/partner_id/1091/versions/',
+            entryType: 'resource',
+            startTime: 118.6400000001413,
+            duration: 149.8900000001413,
+            initiatorType: 'script',
+            nextHopProtocol: 'http/1.1',
+            workerStart: 0,
+            redirectStart: 0,
+            redirectEnd: 0,
+            fetchStart: 118.6400000001413,
+            domainLookupStart: 0,
+            domainLookupEnd: 0,
+            connectStart: 0,
+            connectEnd: 0,
+            secureConnectionStart: 0,
+            requestStart: 0,
+            responseStart: 0,
+            responseEnd: 268.5300000002826,
+            transferSize: 0,
+            encodedBodySize: 0,
+            decodedBodySize: 0,
+            serverTiming: []
+          }
+        ];
+      });
+      sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
+        if (params.eventType == KavaEventModel.IMPRESSION.index) {
+          validateCommonParams(params, KavaEventModel.IMPRESSION.index);
+          params.playerJSLoadTime.should.equal(149.89);
+          done();
+        }
+        return new RequestBuilder();
+      });
+
+      let configClone = JSON.parse(JSON.stringify(config));
+      configClone.plugins.kava.uiConfId = 15215933;
+      setupPlayer(configClone);
       kava = getKavaPlugin();
       player.play();
     });
@@ -183,6 +231,7 @@ describe('KavaPlugin', function() {
           params.bufferTimeSum.should.exist;
           params.actualBitrate.should.exist;
           params.joinTime.should.exist;
+          params.networkConnectionType.should.exist;
           done();
         }
         return new RequestBuilder();
@@ -431,14 +480,67 @@ describe('KavaPlugin', function() {
     });
 
     it('should send VIEW event', done => {
+      sandbox.stub(window.navigator.connection, 'effectiveType').value('2g');
+
+      sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
+        try {
+          if (params.eventType === KavaEventModel.VIEW.index) {
+            validateCommonParams(params, KavaEventModel.VIEW.index);
+            params.should.have.all.keys(
+              'audioLanguage',
+              'bufferTime',
+              'bufferTimeSum',
+              'actualBitrate',
+              'averageBitrate',
+              'captionsLanguage',
+              'clientTag',
+              'clientVer',
+              'deliveryType',
+              'droppedFramesRatio',
+              'entryId',
+              'eventIndex',
+              'eventType',
+              'ks',
+              'partnerId',
+              'playTimeSum',
+              'playbackType',
+              'playlistId',
+              'position',
+              'referrer',
+              'sessionId',
+              'soundMode',
+              'tabMode',
+              'networkConnectionType',
+              'userId'
+            );
+            params.networkConnectionType.should.equal('2g');
+            params.tabMode.should.equal(TabMode.TAB_FOCUSED);
+            params.soundMode.should.equal(SoundMode.SOUND_ON);
+            done();
+          }
+          return new RequestBuilder();
+        } catch (err) {
+          done(err);
+        }
+      });
+      setupPlayer(config);
+      player.play();
+    });
+
+    it('should send VIEW event with manifest download time, segment download time, bandwidth, networkConnectionOverhead', done => {
+      const DUMMY_MANIFEST_DOWNLOAD_TIME = 57;
+      const FRAG1_DOWNLOAD_TIME = 100;
+      const FRAG2_DOWNLOAD_TIME = 20;
+      const FRAG1_BYTES = 2000;
+      const FRAG2_BYTES = 20000;
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
         if (params.eventType === KavaEventModel.VIEW.index) {
-          validateCommonParams(params, KavaEventModel.VIEW.index);
-          params.playTimeSum.should.exist;
-          params.bufferTime.should.exist;
-          params.bufferTimeSum.should.exist;
-          params.actualBitrate.should.exist;
-          params.averageBitrate.should.exist;
+          params.manifestDownloadTime.should.equal(DUMMY_MANIFEST_DOWNLOAD_TIME / 1000);
+          const TOTAL_SECONDS = (FRAG1_DOWNLOAD_TIME + FRAG2_DOWNLOAD_TIME) / 1000;
+          params.bandwidth.should.equal(Math.round(((FRAG1_BYTES + FRAG2_BYTES) * 8) / TOTAL_SECONDS) / 1000);
+          params.segmentDownloadTime.should.equal(FRAG1_DOWNLOAD_TIME / 1000);
+          params.networkConnectionOverhead.should.equal(0.1);
+          params.flavorParamsId.should.equal(36);
           done();
         }
         return new RequestBuilder();
@@ -446,6 +548,110 @@ describe('KavaPlugin', function() {
       setupPlayer(config);
       kava = getKavaPlugin();
       player.play();
+      player.dispatchEvent(
+        new FakeEvent(CustomEventType.TIMED_METADATA, {
+          cues: [
+            {
+              value: {
+                key: 'TEXT',
+                data: '{"timestamp":1561448342872,"sequenceId":"36"}'
+              },
+              track: {
+                label: 'id3'
+              }
+            }
+          ]
+        })
+      );
+      player.dispatchEvent(new FakeEvent(CustomEventType.MANIFEST_LOADED, {miliSeconds: DUMMY_MANIFEST_DOWNLOAD_TIME}));
+      player.dispatchEvent(
+        new FakeEvent(CustomEventType.FRAG_LOADED, {
+          miliSeconds: FRAG1_DOWNLOAD_TIME,
+          bytes: FRAG1_BYTES,
+          url: 'http://www.somesite.com/movie.ts'
+        })
+      );
+      player.dispatchEvent(
+        new FakeEvent(CustomEventType.FRAG_LOADED, {miliSeconds: FRAG2_DOWNLOAD_TIME, bytes: FRAG2_BYTES, url: 'http://www.somesite.com/movie2.ts'})
+      );
+      let performanceOverserList = {};
+      performanceOverserList.getEntries = () => {
+        return [
+          {
+            name: 'http://www.somesite.com/movie.ts',
+            entryType: 'resource',
+            startTime: 118.6400000001413,
+            duration: 149.8900000001413,
+            initiatorType: 'script',
+            nextHopProtocol: 'http/1.1',
+            workerStart: 0,
+            redirectStart: 0,
+            redirectEnd: 0,
+            fetchStart: 118.6400000001413,
+            domainLookupStart: 20.2,
+            domainLookupEnd: 0,
+            connectStart: 0,
+            connectEnd: 120.5,
+            secureConnectionStart: 0,
+            requestStart: 0,
+            responseStart: 0,
+            responseEnd: 268.5300000002826,
+            transferSize: 0,
+            encodedBodySize: 0,
+            decodedBodySize: 0,
+            serverTiming: []
+          }
+        ];
+      };
+      kava._handleNewPerformanceEntries(performanceOverserList);
+    });
+
+    it('should send VIEW event with volume set to 0', done => {
+      sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
+        if (params.eventType === KavaEventModel.VIEW.index) {
+          params.soundMode.should.equal(SoundMode.SOUND_OFF);
+          done();
+        }
+        return new RequestBuilder();
+      });
+      setupPlayer(config);
+      kava = getKavaPlugin();
+      player.play();
+      player.volume = 0;
+    });
+
+    it('should send VIEW event with sound muted', done => {
+      sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
+        if (params.eventType === KavaEventModel.VIEW.index) {
+          params.soundMode.should.equal(SoundMode.SOUND_OFF);
+          done();
+        }
+        return new RequestBuilder();
+      });
+      setupPlayer(config);
+      kava = getKavaPlugin();
+      player.play();
+      player.muted = true;
+    });
+
+    it('should send VIEW event with forwardBufferHealth and targetBuffer', done => {
+      sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
+        if (params.eventType === KavaEventModel.VIEW.index) {
+          params.targetBuffer.should.equal(30);
+          params.forwardBufferHealth.should.equal(0.5);
+          done();
+        }
+        return new RequestBuilder();
+      });
+      setupPlayer(config);
+      kava = getKavaPlugin();
+      player.play();
+      sandbox.stub(player, 'stats').get(() => {
+        return {
+          targetBuffer: 30,
+          availableBuffer: 15
+        };
+      });
     });
 
     it('should send BUFFER_START event', done => {

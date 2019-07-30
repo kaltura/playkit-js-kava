@@ -13,15 +13,52 @@ export const KavaEventModel: {[event: string]: KavaEvent} = {
   VIEW: {
     type: 'VIEW',
     index: 99,
-    getEventModel: (model: KavaModel) => ({
-      playTimeSum: model.getPlayTimeSum(),
-      bufferTime: model.getBufferTime(),
-      bufferTimeSum: model.getBufferTimeSum(),
-      actualBitrate: model.getActualBitrate(),
-      averageBitrate: model.getAverageBitrate(),
-      audioLanguage: model.getLanguage(),
-      captionsLanguage: model.getCaption()
-    })
+    getEventModel: (model: KavaModel) => {
+      const eventModel: {[name: string]: any} = {
+        playTimeSum: model.getPlayTimeSum(),
+        bufferTime: model.getBufferTime(),
+        bufferTimeSum: model.getBufferTimeSum(),
+        actualBitrate: model.getActualBitrate(),
+        averageBitrate: model.getAverageBitrate(),
+        audioLanguage: model.getLanguage(),
+        captionsLanguage: model.getCaption(),
+        soundMode: model.getSoundMode(),
+        tabMode: model.getTabMode()
+      };
+
+      if (!isNaN(model.getForwardBufferHealth())) {
+        eventModel.forwardBufferHealth = model.getForwardBufferHealth();
+      }
+      if (model.getMaxManifestDownloadTime() > 0) {
+        eventModel.manifestDownloadTime = model.getMaxManifestDownloadTime();
+      }
+      if (model.getSegmentDownloadTime() > 0) {
+        eventModel.segmentDownloadTime = model.getSegmentDownloadTime();
+      }
+      if (model.getBandwidth()) {
+        eventModel.bandwidth = model.getBandwidth();
+      }
+      if (model.getDroppedFramesRatio() != null) {
+        eventModel.droppedFramesRatio = model.getDroppedFramesRatio();
+      }
+
+      if (!isNaN(model.getTargetBuffer())) {
+        eventModel.targetBuffer = model.getTargetBuffer();
+      }
+
+      if (model.getNetworkConnectionType() !== '') {
+        eventModel.networkConnectionType = model.getNetworkConnectionType();
+      }
+
+      if (model.getNetworkConnectionOverhead()) {
+        eventModel.networkConnectionOverhead = model.getNetworkConnectionOverhead();
+      }
+      if (!isNaN(model.getFlavorParamsId())) {
+        eventModel.flavorParamsId = model.getFlavorParamsId();
+      }
+
+      return eventModel;
+    }
   },
   /**
    * @type {string} IMPRESSION
@@ -30,7 +67,13 @@ export const KavaEventModel: {[event: string]: KavaEvent} = {
   IMPRESSION: {
     type: 'IMPRESSION',
     index: 1,
-    getEventModel: () => ({})
+    getEventModel: (model: KavaModel) => {
+      const eventModel = {};
+      if (model.getPlayerJSLoadTime() != null) {
+        eventModel.playerJSLoadTime = model.getPlayerJSLoadTime();
+      }
+      return eventModel;
+    }
   },
   /**
    * @type {string} PLAY_REQUEST
@@ -48,13 +91,19 @@ export const KavaEventModel: {[event: string]: KavaEvent} = {
   PLAY: {
     type: 'PLAY',
     index: 3,
-    getEventModel: (model: KavaModel) => ({
-      bufferTime: model.getBufferTime(),
-      bufferTimeSum: model.getBufferTimeSum(),
-      actualBitrate: model.getActualBitrate(),
-      joinTime: model.getJoinTime(),
-      canPlay: model.getCanPlayTime()
-    })
+    getEventModel: (model: KavaModel) => {
+      const eventModel: {[name: string]: any} = {
+        bufferTime: model.getBufferTime(),
+        bufferTimeSum: model.getBufferTimeSum(),
+        actualBitrate: model.getActualBitrate(),
+        joinTime: model.getJoinTime(),
+        canPlay: model.getCanPlayTime()
+      };
+      if (model.getNetworkConnectionType() !== '') {
+        eventModel.networkConnectionType = model.getNetworkConnectionType();
+      }
+      return eventModel;
+    }
   },
   /**
    * @type {string} RESUME
@@ -262,6 +311,9 @@ export function getEventModel(eventObj: KavaEvent, model: KavaModel): Object {
   }
   if (model.getApplicationVersion()) {
     commonModel.applicationVersion = model.getApplicationVersion();
+  }
+  if (model.getUserId()) {
+    commonModel.userId = model.getUserId();
   }
   const eventModel = eventObj.getEventModel(model);
   return Object.assign(eventModel, commonModel);

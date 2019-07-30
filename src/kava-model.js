@@ -20,6 +20,19 @@ class KavaModel {
   joinTime: number;
   canPlayTime: number;
   targetPosition: number;
+  targetBuffer: number;
+  totalSegmentsDownloadTime: number = 0;
+  totalSegmentsDownloadBytes: number = 0;
+  maxSegmentDownloadTime: number = 0;
+  maxManifestDownloadTime: number = 0;
+  forwardBufferHealth: number;
+  droppedFramesRatio: ?number = null;
+  soundMode: typeof SoundMode;
+  tabMode: typeof TabMode;
+  maxNetworkConnectionOverhead: number = 0;
+  flavorParamsId: number = NaN;
+  networkConnectionType: string;
+  playerJSLoadTime: ?number = null;
   getActualBitrate: Function;
   getAverageBitrate: Function;
   getPartnerId: Function;
@@ -39,6 +52,7 @@ class KavaModel {
   getPlaybackType: Function;
   getPlaybackContext: Function;
   getApplicationVersion: Function;
+  getUserId: Function;
   getCanPlayTime: Function;
 
   constructor(model?: Object) {
@@ -82,6 +96,20 @@ class KavaModel {
   }
 
   /**
+   * Gets the player bundle js load duration time
+   * @returns {number} - The player js load duration time
+   * @memberof KavaModel
+   * @instance
+   */
+  getPlayerJSLoadTime(): ?number {
+    if (this.playerJSLoadTime) {
+      return Math.round(this.playerJSLoadTime * 1000) / 1000;
+    } else {
+      return null;
+    }
+  }
+
+  /**
    * Gets the join time.
    * @returns {number} - The join time.
    * @memberof KavaModel
@@ -99,6 +127,16 @@ class KavaModel {
    */
   getTargetPosition(): number {
     return this.targetPosition;
+  }
+
+  /**
+   * Gets the target buffer
+   * @returns {number} - The target buffer in seconds.
+   * @memberof KavaModel
+   * @instance
+   */
+  getTargetBuffer(): number {
+    return this.targetBuffer;
   }
 
   /**
@@ -122,6 +160,96 @@ class KavaModel {
   }
 
   /**
+   * Gets the average bandwidth since last report.
+   * @returns {number} - The bandwidth in kbps
+   * @memberof KavaModel
+   * @instance
+   */
+  getBandwidth(): number {
+    return this.totalSegmentsDownloadTime > 0 ? Math.round((this.totalSegmentsDownloadBytes * 8) / this.totalSegmentsDownloadTime) / 1000 : 0;
+  }
+
+  /**
+   * Returns the longest manifest download time in seconds
+   * @returns {number} - manifest max download time in seconds
+   * @memberof KavaModel
+   * @instance
+   */
+  getMaxManifestDownloadTime(): number {
+    return this.maxManifestDownloadTime;
+  }
+
+  /**
+   * Returns the longest segment download time in seconds
+   * @returns {number} - segment max download time in seconds
+   * @memberof KavaModel
+   * @instance
+   */
+  getSegmentDownloadTime(): number {
+    return this.maxSegmentDownloadTime;
+  }
+
+  /**
+   * Gets the forward buffer health ratio.
+   * @returns {number} - the ratio between the available buffer and the target buffer
+   * @memberof KavaModel
+   * @instance
+   */
+  getForwardBufferHealth(): number {
+    return this.forwardBufferHealth;
+  }
+  /**
+   * Gets the dropped frames ratio since last view event.
+   * @returns {number} - dropped frames ratio since last view event
+   * @memberof KavaModel
+   * @instance
+   */
+  getDroppedFramesRatio(): ?number {
+    return this.droppedFramesRatio;
+  }
+
+  /**
+   * Gets the sound mode of the player.
+   * @returns {SoundMode} the state of the sound (muted ot not)
+   * @memberof KavaModel
+   * @instance
+   */
+  getSoundMode(): typeof SoundMode {
+    return this.soundMode;
+  }
+
+  /**
+   * Gets the Tab mode of the browser.
+   * @returns {TabMode} the state of the tab (focused or not)
+   * @memberof KavaModel
+   * @instance
+   */
+  getTabMode(): typeof TabMode {
+    return this.tabMode;
+  }
+
+  /**
+   * Gets the effectiveType read-only property of the NetworkInformation interface (from navigator)
+   * @returns {string} the effective type of the connection meaning one of 'slow-2g', '2g', '3g', or '4g'
+   * @memberof KavaModel
+   * @instance
+   */
+  getNetworkConnectionType(): string {
+    return this.networkConnectionType;
+  }
+
+  /**
+   * Gets the max dns+ssl+tcp resolving time over all video segments
+   * @returns {number} max dns+ssl+tcp in seconds
+   * @memberof KavaModel
+   * @instance
+   */
+  getNetworkConnectionOverhead(): number {
+    // convert ms to seconds in 0.xxx format
+    return Math.round(this.maxNetworkConnectionOverhead) / 1000;
+  }
+
+  /**
    * Gets the error code.
    * @returns {number} - The error code.
    * @memberof KavaModel
@@ -129,6 +257,16 @@ class KavaModel {
    */
   getErrorCode(): number {
     return this.errorCode;
+  }
+
+  /**
+   * Gets the flavor id from ID3 tag in the packager
+   * @returns {number} - The flavor id.
+   * @memberof KavaModel
+   * @instance
+   */
+  getFlavorParamsId(): number {
+    return this.flavorParamsId;
   }
 
   /**
@@ -192,4 +330,14 @@ class KavaModel {
   }
 }
 
-export {KavaModel};
+const SoundMode = {
+  SOUND_OFF: 1,
+  SOUND_ON: 2
+};
+
+const TabMode = {
+  TAB_NOT_FOCUSED: 1,
+  TAB_FOCUSED: 2
+};
+
+export {KavaModel, SoundMode, TabMode};
