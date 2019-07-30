@@ -152,7 +152,8 @@ describe('KavaEventModel', () => {
       bufferTimeSum: fakeModel.getBufferTimeSum(),
       actualBitrate: fakeModel.getActualBitrate(),
       joinTime: fakeModel.getJoinTime(),
-      canPlay: fakeModel.getCanPlayTime()
+      canPlay: fakeModel.getCanPlayTime(),
+      networkConnectionType: fakeModel.getNetworkConnectionType()
     });
   });
 
