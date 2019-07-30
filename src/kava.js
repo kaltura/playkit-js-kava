@@ -428,7 +428,7 @@ class Kava extends BasePlugin {
         forwardBufferHealth: this._getForwardBufferHealth(),
         targetBuffer: this._getTargetBuffer(),
         droppedFramesRatio: this._getDroppedFramesRatio(),
-        networkConnectionType: this._networkConnectionType()
+        networkConnectionType: this._getNetworkConnectionType()
       });
       this._sendAnalytics(KavaEventModel.VIEW);
     } else {
@@ -450,7 +450,7 @@ class Kava extends BasePlugin {
       this._isFirstPlay = false;
       this._model.updateModel({
         joinTime: Kava._getTimeDifferenceInSeconds(this._firstPlayRequestTime),
-        networkConnectionType: this._networkConnectionType()
+        networkConnectionType: this._getNetworkConnectionType()
       });
       this._sendAnalytics(KavaEventModel.PLAY);
     } else if (this._isEnded) {
