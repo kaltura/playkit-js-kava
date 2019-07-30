@@ -92,7 +92,7 @@ export const KavaEventModel: {[event: string]: KavaEvent} = {
     type: 'PLAY',
     index: 3,
     getEventModel: (model: KavaModel) => {
-      const eventModel = {
+      const eventModel: {[name: string]: any} = {
         bufferTime: model.getBufferTime(),
         bufferTimeSum: model.getBufferTimeSum(),
         actualBitrate: model.getActualBitrate(),
