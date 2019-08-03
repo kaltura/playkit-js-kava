@@ -13,6 +13,8 @@
     "pushTaggedRelease": "git push --follow-tags --no-verify origin master",
     "eslint": "eslint . --color",
     "flow": "flow check",
+    "docs:generate": "documentation build flow-typed/** src/** -f md -o docs/configuration-api.md",
+    "docs:serve": "documentation serve flow-typed/** src/** --watch",
     "precommit": "lint-staged"
   },
   "lint-staged": {
