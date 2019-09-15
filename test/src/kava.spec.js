@@ -15,7 +15,7 @@ describe('KavaPlugin', function() {
       progressive: [
         {
           mimetype: 'video/mp4',
-          url: 'http://www.html5videoplayer.net/videos/toystory.mp4'
+          url: 'https://cfvod.kaltura.com/pd/p/1740481/sp/174048100/serveFlavor/entryId/1_kbyh1guy/v/1/flavorId/1_hq6oztva/name/a.mp4'
         }
       ]
     },
@@ -706,7 +706,7 @@ describe('KavaPlugin', function() {
         progressive: [
           {
             mimetype: 'video/mp4',
-            url: 'http://www.html5videoplayer.net/videos/toystory.mp4'
+            url: 'https://cfvod.kaltura.com/pd/p/1740481/sp/174048100/serveFlavor/entryId/1_kbyh1guy/v/1/flavorId/1_hq6oztva/name/a.mp4'
           }
         ]
       },
