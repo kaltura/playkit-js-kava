@@ -235,6 +235,17 @@ export const KavaEventModel: {[event: string]: KavaEvent} = {
     })
   },
   /**
+   * @type {string} SPEED
+   * @memberof KavaEventType
+   */
+  SPEED: {
+    type: 'SPEED',
+    index: 41,
+    getEventModel: (model: KavaModel) => ({
+      playbackSpeed: model.getPlaybackSpeed()
+    })
+  },
+  /**
    * @type {string} CAPTIONS
    * @memberof KavaEventType
    */

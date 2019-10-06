@@ -288,6 +288,7 @@ class Kava extends BasePlugin {
     this.eventManager.listen(this.player, this.player.Event.AUDIO_TRACK_CHANGED, event => this._onAudioTrackChanged(event));
     this.eventManager.listen(this.player, this.player.Event.TEXT_TRACK_CHANGED, event => this._onTextTrackChanged(event));
     this.eventManager.listen(this.player, this.player.Event.PLAYER_STATE_CHANGED, event => this._onPlayerStateChanged(event));
+    this.eventManager.listen(this.player, this.player.Event.RATE_CHANGE, () => this._onPlaybackRateChanged());
     this.eventManager.listen(this.player, this.player.Event.CAN_PLAY, () => this._onCanPlay());
     this.eventManager.listen(this.player, this.player.Event.LOAD_START, () => this._onLoadStart());
   }
@@ -616,6 +617,14 @@ class Kava extends BasePlugin {
     }
   }
 
+  _onPlaybackRateChanged(): void {
+    this._model.updateModel({
+      joinTime: Kava._getTimeDifferenceInSeconds(this._firstPlayRequestTime),
+      networkConnectionType: this._getNetworkConnectionType()
+    });
+    this._sendAnalytics(KavaEventModel.SPEED);
+  }
+
   _onPlayerStateChanged(event: FakeEvent): void {
     const oldState = event.payload.oldState;
     const newState = event.payload.newState;
@@ -665,6 +674,7 @@ class Kava extends BasePlugin {
   }
 
   _setModelDelegates() {
+    this._model.getPlaybackSpeed = () => this.player.playbackRate;
     this._model.getActualBitrate = () => this._rateHandler.getCurrent();
     this._model.getAverageBitrate = () => this._rateHandler.getAverage();
     this._model.getPartnerId = () => this.config.partnerId;

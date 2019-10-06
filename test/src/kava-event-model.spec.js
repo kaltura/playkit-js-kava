@@ -100,6 +100,10 @@ class FakeModel {
   getFlavorParamsId() {
     return 32;
   }
+
+  getPlaybackSpeed() {
+    return 2;
+  }
 }
 
 describe('KavaEventModel', () => {
@@ -262,5 +266,11 @@ describe('KavaEventModel', () => {
     KavaEventModel.BUFFER_END.type.should.equal('BUFFER_END');
     KavaEventModel.BUFFER_END.index.should.equal(46);
     KavaEventModel.BUFFER_END.getEventModel(fakeModel).should.deep.equal({});
+  });
+
+  it('SPEED', () => {
+    KavaEventModel.SPEED.type.should.equal('SPEED');
+    KavaEventModel.SPEED.index.should.equal(41);
+    KavaEventModel.SPEED.getEventModel(fakeModel).should.deep.equal({playbackSpeed: 2});
   });
 });
