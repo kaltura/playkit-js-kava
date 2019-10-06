@@ -697,6 +697,19 @@ describe('KavaPlugin', function() {
         }
       });
     });
+    it('should send SPEED event', done => {
+      sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
+        if (params.eventType === KavaEventModel.SPEED.index) {
+          validateCommonParams(params, KavaEventModel.SPEED.index);
+          params.playbackSpeed.should.equal(1);
+          done();
+        }
+        return new RequestBuilder();
+      });
+      setupPlayer(config);
+      kava = getKavaPlugin();
+      kava._onPlaybackRateChanged();
+    });
   });
 
   describe('Server Response', () => {

@@ -618,10 +618,6 @@ class Kava extends BasePlugin {
   }
 
   _onPlaybackRateChanged(): void {
-    this._model.updateModel({
-      joinTime: Kava._getTimeDifferenceInSeconds(this._firstPlayRequestTime),
-      networkConnectionType: this._getNetworkConnectionType()
-    });
     this._sendAnalytics(KavaEventModel.SPEED);
   }
 
