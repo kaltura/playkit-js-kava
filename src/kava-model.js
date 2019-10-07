@@ -34,6 +34,7 @@ class KavaModel {
   networkConnectionType: string;
   playerJSLoadTime: ?number = null;
   getActualBitrate: Function;
+  getPlaybackSpeed: Function;
   getAverageBitrate: Function;
   getPartnerId: Function;
   getEntryId: Function;

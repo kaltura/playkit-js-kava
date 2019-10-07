@@ -202,6 +202,10 @@ Kava parameters are additional data that is sent with Kava event and represent r
 
 ---
 
+<a id="playbackSpeed"></a>`playbackSpeed` - the playback speed rate.
+
+---
+
 ## <a id="common_params"></a>Common Parameters
 
 The common parameters are parameters which are sent in any Kava event.

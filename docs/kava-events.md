@@ -18,6 +18,7 @@ Here you can see the list of all available KAVA Events:
 - [`FLAVOR_SWITCH`](#flavourSwitchEvent)
 - [`AUDIO_SELECTED`](#audioSelectedEvent)
 - [`CAPTIONS`](#captionsEvent)
+- [`SPEED`](#speedEvent)
 - [`ERROR`](#errorEvent)
 
 ## KAVA Events Documentation:
@@ -188,6 +189,16 @@ No matter if by seeking or regular playback.
 - Event Parameters:
   - [`COMMON_PARAMS`](./kava-parameters.md#common_params)
   - [`caption`](./kava-parameters.md#caption)
+
+---
+
+<a id="speedEvent"></a>`SPEED` - Sent when playback rate has changed.
+
+- Event ID: `41`
+- Player Event: `RATE_CHANGE`
+- Event Parameters:
+  - [`COMMON_PARAMS`](./kava-parameters.md#common_params)
+  - [`playbackSpeed`](./kava-parameters.md#playbackSpeed)
 
 ---
 
