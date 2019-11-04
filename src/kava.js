@@ -39,6 +39,7 @@ class Kava extends BasePlugin {
   _fragLoadedFiredOnce: boolean = false;
   _hiddenAttr: string;
   _visibilityChangeEventName: string;
+  _navConnection: any;
 
   /**
    * Default config of the plugin.
@@ -92,6 +93,7 @@ class Kava extends BasePlugin {
 
     this._updateSoundModeInModel();
     this._initTabMode();
+    this._initNetworkConnectionType();
   }
 
   _updateSoundModeInModel() {
@@ -427,20 +429,13 @@ class Kava extends BasePlugin {
     }
   }
 
-  _getNetworkConnectionType(): string {
-    return window.navigator && window.navigator.connection && window.navigator.connection.effectiveType
-      ? window.navigator.connection.effectiveType
-      : '';
-  }
-
   _onReport(): void {
     if (this._viewEventEnabled) {
       this._updatePlayTimeSumModel();
       this._model.updateModel({
         forwardBufferHealth: this._getForwardBufferHealth(),
         targetBuffer: this._getTargetBuffer(),
-        droppedFramesRatio: this._getDroppedFramesRatio(),
-        networkConnectionType: this._getNetworkConnectionType()
+        droppedFramesRatio: this._getDroppedFramesRatio()
       });
       this._sendAnalytics(KavaEventModel.VIEW);
     } else {
@@ -454,6 +449,21 @@ class Kava extends BasePlugin {
       maxNetworkConnectionOverhead: 0,
       bufferTime: 0
     });
+  }
+
+  _updateNetworkConnectionTypeinModel(): void {
+    this._model.updateModel({
+      networkConnectionType: this._navConnection.effectiveType
+    });
+  }
+
+  _initNetworkConnectionType(): void {
+    this._navConnection = window.navigator.connection || window.navigator.mozConnection || window.navigator.webkitConnection;
+
+    if (this._navConnection) {
+      this._navConnection.addEventListener('change', this._updateNetworkConnectionTypeinModel.bind(this));
+      this._updateNetworkConnectionTypeinModel();
+    }
   }
 
   _onPlaying(): void {
