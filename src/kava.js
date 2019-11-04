@@ -471,8 +471,7 @@ class Kava extends BasePlugin {
       this._timer.start();
       this._isFirstPlay = false;
       this._model.updateModel({
-        joinTime: Kava._getTimeDifferenceInSeconds(this._firstPlayRequestTime),
-        networkConnectionType: this._getNetworkConnectionType()
+        joinTime: Kava._getTimeDifferenceInSeconds(this._firstPlayRequestTime)
       });
       this._sendAnalytics(KavaEventModel.PLAY);
     } else if (this._isEnded) {
