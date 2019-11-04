@@ -37,6 +37,8 @@ class Kava extends BasePlugin {
   _performanceEntries: window.PerformanceEntry[] = [];
   _pendingFragLoadedUrls: string[] = [];
   _fragLoadedFiredOnce: boolean = false;
+  _hiddenAttr: string;
+  _visibilityChangeEventName: string;
 
   /**
    * Default config of the plugin.
@@ -87,6 +89,15 @@ class Kava extends BasePlugin {
         this._model.updateModel({playerJSLoadTime: entry.duration});
       }
     }
+
+    this._updateSoundModeInModel();
+    this._initTabMode();
+  }
+
+  _updateSoundModeInModel() {
+    this._model.updateModel({
+      soundMode: this.player.muted || this.player.volume === 0 ? SoundMode.SOUND_OFF : SoundMode.SOUND_ON
+    });
   }
 
   _handleNewPerformanceEntries(list: window.PerformanceObserverEntryList) {
@@ -291,6 +302,8 @@ class Kava extends BasePlugin {
     this.eventManager.listen(this.player, this.player.Event.RATE_CHANGE, () => this._onPlaybackRateChanged());
     this.eventManager.listen(this.player, this.player.Event.CAN_PLAY, () => this._onCanPlay());
     this.eventManager.listen(this.player, this.player.Event.LOAD_START, () => this._onLoadStart());
+    this.eventManager.listen(this.player, this.player.Event.VOLUME_CHANGE, () => this._updateSoundModeInModel());
+    this.eventManager.listen(this.player, this.player.Event.MUTE_CHANGE, () => this._updateSoundModeInModel());
   }
 
   _onFirstPlaying(): void {
@@ -424,8 +437,6 @@ class Kava extends BasePlugin {
     if (this._viewEventEnabled) {
       this._updatePlayTimeSumModel();
       this._model.updateModel({
-        soundMode: this.player.muted || this.player.volume === 0 ? SoundMode.SOUND_OFF : SoundMode.SOUND_ON,
-        tabMode: this._isDocumentHidden() ? TabMode.TAB_NOT_FOCUSED : TabMode.TAB_FOCUSED,
         forwardBufferHealth: this._getForwardBufferHealth(),
         targetBuffer: this._getTargetBuffer(),
         droppedFramesRatio: this._getDroppedFramesRatio(),
@@ -746,20 +757,30 @@ class Kava extends BasePlugin {
     return (Date.now() - time) / 1000.0;
   }
 
-  _isDocumentHidden(): boolean {
-    let hidden = '';
+  _updateTabModeinModel(): void {
+    this._model.updateModel({
+      // $FlowFixMe
+      tabMode: document[this._hiddenAttr] ? TabMode.TAB_NOT_FOCUSED : TabMode.TAB_FOCUSED
+    });
+  }
+
+  _initTabMode(): void {
     if (typeof document.hidden !== 'undefined') {
       // Opera 12.10 and Firefox 18 and later support
-      hidden = 'hidden';
+      this._hiddenAttr = 'hidden';
+      this._visibilityChangeEventName = 'visibilitychange';
     } else if (typeof document.msHidden !== 'undefined') {
-      hidden = 'msHidden';
+      this._hiddenAttr = 'msHidden';
+      this._visibilityChangeEventName = 'msvisibilitychange';
     } else if (typeof document.webkitHidden !== 'undefined') {
-      hidden = 'webkitHidden';
-    } else {
-      return false;
+      this._hiddenAttr = 'webkitHidden';
+      this._visibilityChangeEventName = 'webkitvisibilitychange';
     }
-    // $FlowFixMe
-    return document[hidden];
+
+    if (this._hiddenAttr !== 'undefined') {
+      document.addEventListener(this._visibilityChangeEventName, this._updateTabModeinModel.bind(this));
+      this._updateTabModeinModel();
+    }
   }
 }
 
