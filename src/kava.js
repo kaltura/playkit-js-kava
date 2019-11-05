@@ -91,7 +91,6 @@ class Kava extends BasePlugin {
       }
     }
 
-    this._updateSoundModeInModel();
     this._initTabMode();
     this._initNetworkConnectionType();
   }
@@ -468,6 +467,7 @@ class Kava extends BasePlugin {
 
   _onPlaying(): void {
     if (this._isFirstPlay) {
+      this._updateSoundModeInModel();
       this._timer.start();
       this._isFirstPlay = false;
       this._model.updateModel({
