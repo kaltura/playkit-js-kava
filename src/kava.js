@@ -785,9 +785,7 @@ class Kava extends BasePlugin {
     }
 
     if (hiddenAttr && visibilityChangeEventName) {
-      document.addEventListener(visibilityChangeEventName, () => {
-        this._updateTabModeinModel(hiddenAttr);
-      });
+      this.eventManager.listen(document, visibilityChangeEventName, () => this._updateTabModeinModel(hiddenAttr));
       this._updateTabModeinModel(hiddenAttr);
     }
   }
