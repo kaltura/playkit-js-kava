@@ -37,9 +37,6 @@ class Kava extends BasePlugin {
   _performanceEntries: window.PerformanceEntry[] = [];
   _pendingFragLoadedUrls: string[] = [];
   _fragLoadedFiredOnce: boolean = false;
-  _hiddenAttr: string;
-  _visibilityChangeEventName: string;
-  _navConnection: any;
 
   /**
    * Default config of the plugin.
@@ -90,9 +87,6 @@ class Kava extends BasePlugin {
         this._model.updateModel({playerJSLoadTime: entry.duration});
       }
     }
-
-    this._initTabMode();
-    this._initNetworkConnectionType();
   }
 
   _updateSoundModeInModel() {
@@ -305,6 +299,8 @@ class Kava extends BasePlugin {
     this.eventManager.listen(this.player, this.player.Event.LOAD_START, () => this._onLoadStart());
     this.eventManager.listen(this.player, this.player.Event.VOLUME_CHANGE, () => this._updateSoundModeInModel());
     this.eventManager.listen(this.player, this.player.Event.MUTE_CHANGE, () => this._updateSoundModeInModel());
+    this._initTabMode();
+    this._initNetworkConnectionType();
   }
 
   _onFirstPlaying(): void {
@@ -450,18 +446,18 @@ class Kava extends BasePlugin {
     });
   }
 
-  _updateNetworkConnectionTypeinModel(): void {
+  _updateNetworkConnectionTypeinModel(navConnection: any): void {
     this._model.updateModel({
-      networkConnectionType: this._navConnection.effectiveType
+      networkConnectionType: navConnection.effectiveType
     });
   }
 
   _initNetworkConnectionType(): void {
-    this._navConnection = window.navigator.connection || window.navigator.mozConnection || window.navigator.webkitConnection;
+    const navConnection = window.navigator.connection || window.navigator.mozConnection || window.navigator.webkitConnection;
 
-    if (this._navConnection) {
-      this._navConnection.addEventListener('change', this._updateNetworkConnectionTypeinModel.bind(this));
-      this._updateNetworkConnectionTypeinModel();
+    if (navConnection) {
+      this.eventManager.listen(navConnection, 'change', () => this._updateNetworkConnectionTypeinModel(navConnection));
+      this._updateNetworkConnectionTypeinModel(navConnection);
     }
   }
 
@@ -766,29 +762,33 @@ class Kava extends BasePlugin {
     return (Date.now() - time) / 1000.0;
   }
 
-  _updateTabModeinModel(): void {
+  _updateTabModeinModel(hiddenAttr: string): void {
     this._model.updateModel({
       // $FlowFixMe
-      tabMode: document[this._hiddenAttr] ? TabMode.TAB_NOT_FOCUSED : TabMode.TAB_FOCUSED
+      tabMode: document[hiddenAttr] ? TabMode.TAB_NOT_FOCUSED : TabMode.TAB_FOCUSED
     });
   }
 
   _initTabMode(): void {
+    let hiddenAttr: string;
+    let visibilityChangeEventName: string;
     if (typeof document.hidden !== 'undefined') {
       // Opera 12.10 and Firefox 18 and later support
-      this._hiddenAttr = 'hidden';
-      this._visibilityChangeEventName = 'visibilitychange';
+      hiddenAttr = 'hidden';
+      visibilityChangeEventName = 'visibilitychange';
     } else if (typeof document.msHidden !== 'undefined') {
-      this._hiddenAttr = 'msHidden';
-      this._visibilityChangeEventName = 'msvisibilitychange';
+      hiddenAttr = 'msHidden';
+      visibilityChangeEventName = 'msvisibilitychange';
     } else if (typeof document.webkitHidden !== 'undefined') {
-      this._hiddenAttr = 'webkitHidden';
-      this._visibilityChangeEventName = 'webkitvisibilitychange';
+      hiddenAttr = 'webkitHidden';
+      visibilityChangeEventName = 'webkitvisibilitychange';
     }
 
-    if (this._hiddenAttr !== 'undefined') {
-      document.addEventListener(this._visibilityChangeEventName, this._updateTabModeinModel.bind(this));
-      this._updateTabModeinModel();
+    if (hiddenAttr && visibilityChangeEventName) {
+      document.addEventListener(visibilityChangeEventName, () => {
+        this._updateTabModeinModel(hiddenAttr);
+      });
+      this._updateTabModeinModel(hiddenAttr);
     }
   }
 }
