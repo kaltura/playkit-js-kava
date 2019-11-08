@@ -89,6 +89,12 @@ class Kava extends BasePlugin {
     }
   }
 
+  _updateSoundModeInModel() {
+    this._model.updateModel({
+      soundMode: this.player.muted || this.player.volume === 0 ? SoundMode.SOUND_OFF : SoundMode.SOUND_ON
+    });
+  }
+
   _handleNewPerformanceEntries(list: window.PerformanceObserverEntryList) {
     let perfEntries = list.getEntries();
     for (let i = 0; i < perfEntries.length; i++) {
@@ -291,6 +297,10 @@ class Kava extends BasePlugin {
     this.eventManager.listen(this.player, this.player.Event.RATE_CHANGE, () => this._onPlaybackRateChanged());
     this.eventManager.listen(this.player, this.player.Event.CAN_PLAY, () => this._onCanPlay());
     this.eventManager.listen(this.player, this.player.Event.LOAD_START, () => this._onLoadStart());
+    this.eventManager.listen(this.player, this.player.Event.VOLUME_CHANGE, () => this._updateSoundModeInModel());
+    this.eventManager.listen(this.player, this.player.Event.MUTE_CHANGE, () => this._updateSoundModeInModel());
+    this._initTabMode();
+    this._initNetworkConnectionType();
   }
 
   _onFirstPlaying(): void {
@@ -414,22 +424,13 @@ class Kava extends BasePlugin {
     }
   }
 
-  _getNetworkConnectionType(): string {
-    return window.navigator && window.navigator.connection && window.navigator.connection.effectiveType
-      ? window.navigator.connection.effectiveType
-      : '';
-  }
-
   _onReport(): void {
     if (this._viewEventEnabled) {
       this._updatePlayTimeSumModel();
       this._model.updateModel({
-        soundMode: this.player.muted || this.player.volume === 0 ? SoundMode.SOUND_OFF : SoundMode.SOUND_ON,
-        tabMode: this._isDocumentHidden() ? TabMode.TAB_NOT_FOCUSED : TabMode.TAB_FOCUSED,
         forwardBufferHealth: this._getForwardBufferHealth(),
         targetBuffer: this._getTargetBuffer(),
-        droppedFramesRatio: this._getDroppedFramesRatio(),
-        networkConnectionType: this._getNetworkConnectionType()
+        droppedFramesRatio: this._getDroppedFramesRatio()
       });
       this._sendAnalytics(KavaEventModel.VIEW);
     } else {
@@ -445,13 +446,28 @@ class Kava extends BasePlugin {
     });
   }
 
+  _updateNetworkConnectionTypeinModel(navConnection: any): void {
+    this._model.updateModel({
+      networkConnectionType: navConnection.effectiveType
+    });
+  }
+
+  _initNetworkConnectionType(): void {
+    const navConnection = window.navigator.connection || window.navigator.mozConnection || window.navigator.webkitConnection;
+
+    if (navConnection) {
+      this.eventManager.listen(navConnection, 'change', () => this._updateNetworkConnectionTypeinModel(navConnection));
+      this._updateNetworkConnectionTypeinModel(navConnection);
+    }
+  }
+
   _onPlaying(): void {
     if (this._isFirstPlay) {
+      this._updateSoundModeInModel();
       this._timer.start();
       this._isFirstPlay = false;
       this._model.updateModel({
-        joinTime: Kava._getTimeDifferenceInSeconds(this._firstPlayRequestTime),
-        networkConnectionType: this._getNetworkConnectionType()
+        joinTime: Kava._getTimeDifferenceInSeconds(this._firstPlayRequestTime)
       });
       this._sendAnalytics(KavaEventModel.PLAY);
     } else if (this._isEnded) {
@@ -746,20 +762,32 @@ class Kava extends BasePlugin {
     return (Date.now() - time) / 1000.0;
   }
 
-  _isDocumentHidden(): boolean {
-    let hidden = '';
+  _updateTabModeinModel(hiddenAttr: string): void {
+    this._model.updateModel({
+      // $FlowFixMe
+      tabMode: document[hiddenAttr] ? TabMode.TAB_NOT_FOCUSED : TabMode.TAB_FOCUSED
+    });
+  }
+
+  _initTabMode(): void {
+    let hiddenAttr: string;
+    let visibilityChangeEventName: string;
     if (typeof document.hidden !== 'undefined') {
       // Opera 12.10 and Firefox 18 and later support
-      hidden = 'hidden';
+      hiddenAttr = 'hidden';
+      visibilityChangeEventName = 'visibilitychange';
     } else if (typeof document.msHidden !== 'undefined') {
-      hidden = 'msHidden';
+      hiddenAttr = 'msHidden';
+      visibilityChangeEventName = 'msvisibilitychange';
     } else if (typeof document.webkitHidden !== 'undefined') {
-      hidden = 'webkitHidden';
-    } else {
-      return false;
+      hiddenAttr = 'webkitHidden';
+      visibilityChangeEventName = 'webkitvisibilitychange';
     }
-    // $FlowFixMe
-    return document[hidden];
+
+    if (hiddenAttr && visibilityChangeEventName) {
+      this.eventManager.listen(document, visibilityChangeEventName, () => this._updateTabModeinModel(hiddenAttr));
+      this._updateTabModeinModel(hiddenAttr);
+    }
   }
 }
 
