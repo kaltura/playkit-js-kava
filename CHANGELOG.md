@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.13.0"></a>
+# [0.13.0](https://github.com/kaltura/playkit-js-kava/compare/v0.12.0...v0.13.0) (2019-11-12)
+
+
+### Features
+
+* **FEC-9220:** QoE tidbits ([#51](https://github.com/kaltura/playkit-js-kava/issues/51)) ([36b952c](https://github.com/kaltura/playkit-js-kava/commit/36b952c))
+
+
+
 <a name="0.12.0"></a>
 # [0.12.0](https://github.com/kaltura/playkit-js-kava/compare/v0.11.3...v0.12.0) (2019-10-07)
 
