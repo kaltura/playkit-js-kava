@@ -188,6 +188,92 @@ Kava parameters are additional data that is sent with Kava event and represent r
 
 ---
 
+<a id="segmentDownloadTime"></a>`segmentDownloadTime` - Longest segment download time in seconds.
+
+- Should be in format of float (second.milliSecond).
+- The value is calculated from the last VIEW event.
+
+---
+
+<a id="bandwidth"></a>`bandwidth` - Average bandwidth in kbps.
+
+- kbps in format of float.
+- The value is calculated from the last VIEW event.
+
+---
+
+<a id="tabMode"></a>`tabMode` - Is tab focused or not.
+
+- Possible values
+  - 1 - Tab not focused
+  - 2 - Tab focused
+- The value represents the state when the VIEW event is sent.
+
+---
+
+<a id="soundMode"></a>`soundMode` - Is sound muted or not.
+
+- Possible values
+  - 1 - Sound off
+  - 2 - Sound on
+- Sound is considered off if muted or volume is set to 0
+- The value represents the state when the VIEW event is sent.
+
+---
+
+<a id="manifestDownloadTime"></a>`manifestDownloadTime` - Longest manifest download time in seconds.
+
+- Should be in format of float (second.milliSecond).
+- The value is calculated from the last VIEW event.
+
+---
+
+<a id="forwardBufferHealth"></a>`forwardBufferHealth` - Ratio between available buffer and target buffer.
+
+- Should be in format of float.
+- The value represents the state when the VIEW event is sent.
+
+---
+
+<a id="targetBuffer"></a>`targetBuffer` - The target buffer of the player.
+
+- Should be in format of float (second.milliSecond).
+- The value represents the state when the VIEW event is sent.
+
+---
+
+<a id="droppedFramesRatio"></a>`droppedFramesRatio` - Ratio between dropped frames and rendered frames.
+
+- Should be in format of float (between 0 to 1).
+- The value is calculated from the last VIEW event.
+
+---
+
+<a id="networkConnectionType"></a>`networkConnectionType` - The effective type of the connection.
+
+- A String containing one of 'slow-2g', '2g', '3g', or '4g'.
+
+---
+
+<a id="networkConnectionOverhead"></a>`networkConnectionOverhead` - Max dns+ssl+tcp resolving time of the video segments.
+
+- Should be in format of float (second.milliSecond).
+- The value is calculated from the last VIEW event.
+
+---
+
+<a id="playerJSLoadTime"></a>`playerJSLoadTime` - the player library load time.
+
+- Should be in format of float (second.milliSecond).
+
+---
+
+<a id="flavorParamsId"></a>`flavorParamsId` - The flavor params Id of the currently playing rendition, only valid for Kaltura live streams.
+
+- Should be in format of integer.
+
+---
+
 <a id="averageBitrate"></a>`averageBitrate` - Average of all [`actualBitrate`](#actualBitrate) for the current Kava session.
 
 - When Kava session expired/reset should be reset to the initial value = 0.
