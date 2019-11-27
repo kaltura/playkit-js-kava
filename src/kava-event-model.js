@@ -321,7 +321,7 @@ export function getEventModel(eventObj: KavaEvent, model: KavaModel): Object {
     commonModel.playbackContext = model.getPlaybackContext();
   }
   if (model.getApplicationVersion()) {
-    commonModel.applicationVersion = model.getApplicationVersion();
+    commonModel.applicationVer = model.getApplicationVersion();
   }
   if (model.getUserId()) {
     commonModel.userId = model.getUserId();
