@@ -511,7 +511,8 @@ describe('KavaPlugin', function() {
               'soundMode',
               'tabMode',
               'networkConnectionType',
-              'userId'
+              'userId',
+              'playbackSpeed'
             );
             params.networkConnectionType.should.equal('2g');
             params.tabMode.should.equal(TabMode.TAB_FOCUSED);
