@@ -130,7 +130,8 @@ describe('KavaEventModel', () => {
       targetBuffer: fakeModel.getTargetBuffer(),
       networkConnectionType: fakeModel.getNetworkConnectionType(),
       networkConnectionOverhead: fakeModel.getNetworkConnectionOverhead(),
-      flavorParamsId: fakeModel.getFlavorParamsId()
+      flavorParamsId: fakeModel.getFlavorParamsId(),
+      playbackSpeed: fakeModel.getPlaybackSpeed()
     });
   });
 
