@@ -113,7 +113,7 @@ describe('KavaModel', () => {
       sessionStartTime: sst,
       customVar2: cv2,
       playbackContext: pc,
-      applicationVersion: av,
+      applicationVer: av,
       userId: usi
     });
   });
