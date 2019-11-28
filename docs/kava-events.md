@@ -47,7 +47,8 @@ Here we will see some explanation about each event. When does it sent and what p
   - [`networkConnectionOverhead`](./kava-parameters.md#networkConnectionOverhead)
   - [`flavorParamsId`](./kava-parameters.md#flavorParamsId)
   - [`playbackSpeed`](./kava-parameters.md#playbackSpeed)
-- Sent every 10 second of active playback (when player is paused, view timer should be paused/stopped).
+  
+- Sent on first play and every 10 seconds of active playback (when player is paused, view timer should be paused/stopped).
 - 30 seconds without VIEW event will reset KAVA session, so all the VIEW [specific parameters](#endSessionResetParams) should be reset also.
 - Server may notify Kava (via response field ["viewEventsEnabled" = false](#serverResponse)) to shut down VIEW events. When it happens, VIEW events should be blocked from sending until server decides to enable VIEW events again.
 

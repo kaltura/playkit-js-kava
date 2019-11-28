@@ -470,6 +470,7 @@ class Kava extends BasePlugin {
         joinTime: Kava._getTimeDifferenceInSeconds(this._firstPlayRequestTime)
       });
       this._sendAnalytics(KavaEventModel.PLAY);
+      this._onReport();
     } else if (this._isEnded) {
       this._timer.start();
       this._isEnded = false;

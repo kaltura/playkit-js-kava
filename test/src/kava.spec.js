@@ -528,7 +528,7 @@ describe('KavaPlugin', function() {
       player.play();
     });
 
-    it('should send VIEW event with manifest download time, segment download time, bandwidth, networkConnectionOverhead', done => {
+    it('should send first VIEW event with manifest download time, segment download time, bandwidth, networkConnectionOverhead', done => {
       const DUMMY_MANIFEST_DOWNLOAD_TIME = 57;
       const FRAG1_DOWNLOAD_TIME = 100;
       const FRAG2_DOWNLOAD_TIME = 20;
@@ -542,6 +542,7 @@ describe('KavaPlugin', function() {
           params.segmentDownloadTime.should.equal(FRAG1_DOWNLOAD_TIME / 1000);
           params.networkConnectionOverhead.should.equal(0.1);
           params.flavorParamsId.should.equal(36);
+          params.position.should.equal(0);
           done();
         }
         return new RequestBuilder();
@@ -619,6 +620,19 @@ describe('KavaPlugin', function() {
       kava = getKavaPlugin();
       player.play();
       player.volume = 0;
+    });
+
+    it('should send timed VIEW event after 10 secs', done => {
+      sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
+        if (params.eventType === KavaEventModel.VIEW.index) {
+          params.position.should.gt(config.plugins.kava.viewEventCountdown);
+          done();
+        }
+        return new RequestBuilder();
+      });
+      setupPlayer(config);
+      kava = getKavaPlugin();
+      player.play();
     });
 
     it('should send VIEW event with sound muted', done => {
