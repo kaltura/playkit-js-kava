@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.14.0"></a>
+# [0.14.0](https://github.com/kaltura/playkit-js-kava/compare/v0.13.0...v0.14.0) (2019-12-01)
+
+
+### Bug Fixes
+
+* **FEC-9485:** application version should be sent as applicationVer ([#59](https://github.com/kaltura/playkit-js-kava/issues/59)) ([498576b](https://github.com/kaltura/playkit-js-kava/commit/498576b))
+
+
+### Features
+
+* **FEC-9344:** adding playbackSpeed to view event ([#60](https://github.com/kaltura/playkit-js-kava/issues/60)) ([8eec2d9](https://github.com/kaltura/playkit-js-kava/commit/8eec2d9))
+* **FEC-9345:** send view event on first play ([#61](https://github.com/kaltura/playkit-js-kava/issues/61)) ([53e16be](https://github.com/kaltura/playkit-js-kava/commit/53e16be))
+
+
+
 <a name="0.13.0"></a>
 # [0.13.0](https://github.com/kaltura/playkit-js-kava/compare/v0.12.0...v0.13.0) (2019-11-12)
 
