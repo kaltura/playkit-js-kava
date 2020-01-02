@@ -286,7 +286,6 @@ class Kava extends BasePlugin {
     this.eventManager.listen(this.player, this.player.Event.MANIFEST_LOADED, event => this._onManifestLoaded(event));
     this.eventManager.listen(this.player, this.player.Event.TIMED_METADATA, event => this._onTimedMetadataLoaded(event));
     this.eventManager.listen(this.player, this.player.Event.TRACKS_CHANGED, () => this._setInitialTracks());
-    this.eventManager.listen(this.player, this.player.Event.PLAY, () => this._onPlay());
     this.eventManager.listen(this.player, this.player.Event.PLAYING, () => this._onPlaying());
     this.eventManager.listen(this.player, this.player.Event.FIRST_PLAYING, () => this._onFirstPlaying());
     this.eventManager.listen(this.player, this.player.Event.SEEKING, () => this._onSeeking());
@@ -464,12 +463,6 @@ class Kava extends BasePlugin {
     }
   }
 
-  _onPlay(): void {
-    if (this._canPlayOccured) {
-      this._isManualPreload = true;
-    }
-  }
-
   _onPlaying(): void {
     if (this._isFirstPlay) {
       this._updateSoundModeInModel();
@@ -502,6 +495,9 @@ class Kava extends BasePlugin {
   }
 
   _onFirstPlay(): void {
+    if (this._canPlayOccured) {
+      this._isManualPreload = true;
+    }
     this._firstPlayRequestTime = Date.now();
     this._sendAnalytics(KavaEventModel.PLAY_REQUEST);
   }
