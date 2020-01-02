@@ -37,6 +37,8 @@ class Kava extends BasePlugin {
   _performanceEntries: window.PerformanceEntry[] = [];
   _pendingFragLoadedUrls: string[] = [];
   _fragLoadedFiredOnce: boolean = false;
+  _canPlayOccured: boolean = false;
+  _isManualPreload: boolean = false;
 
   /**
    * Default config of the plugin.
@@ -284,6 +286,7 @@ class Kava extends BasePlugin {
     this.eventManager.listen(this.player, this.player.Event.MANIFEST_LOADED, event => this._onManifestLoaded(event));
     this.eventManager.listen(this.player, this.player.Event.TIMED_METADATA, event => this._onTimedMetadataLoaded(event));
     this.eventManager.listen(this.player, this.player.Event.TRACKS_CHANGED, () => this._setInitialTracks());
+    this.eventManager.listen(this.player, this.player.Event.PLAY, () => this._onPlay());
     this.eventManager.listen(this.player, this.player.Event.PLAYING, () => this._onPlaying());
     this.eventManager.listen(this.player, this.player.Event.FIRST_PLAYING, () => this._onFirstPlaying());
     this.eventManager.listen(this.player, this.player.Event.SEEKING, () => this._onSeeking());
@@ -461,13 +464,22 @@ class Kava extends BasePlugin {
     }
   }
 
+  _onPlay(): void {
+    if (this._canPlayOccured) {
+      this._isManualPreload = true;
+    }
+  }
+
   _onPlaying(): void {
     if (this._isFirstPlay) {
       this._updateSoundModeInModel();
       this._timer.start();
       this._isFirstPlay = false;
       this._model.updateModel({
-        joinTime: Kava._getTimeDifferenceInSeconds(this._firstPlayRequestTime)
+        joinTime:
+          this.player.config.playback.preload === 'auto' || this._isManualPreload
+            ? Kava._getTimeDifferenceInSeconds(this._firstPlayRequestTime)
+            : Kava._getTimeDifferenceInSeconds(this._loadStartTime)
       });
       this._sendAnalytics(KavaEventModel.PLAY);
       this._onReport();
@@ -483,6 +495,7 @@ class Kava extends BasePlugin {
   }
 
   _onCanPlay(): void {
+    this._canPlayOccured = true;
     this._model.updateModel({
       canPlayTime: Kava._getTimeDifferenceInSeconds(this._loadStartTime)
     });
