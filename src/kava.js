@@ -37,6 +37,8 @@ class Kava extends BasePlugin {
   _performanceEntries: window.PerformanceEntry[] = [];
   _pendingFragLoadedUrls: string[] = [];
   _fragLoadedFiredOnce: boolean = false;
+  _canPlayOccured: boolean = false;
+  _isManualPreload: boolean = false;
 
   /**
    * Default config of the plugin.
@@ -232,6 +234,8 @@ class Kava extends BasePlugin {
       PLAY_REACHED_75_PERCENT: false,
       PLAY_REACHED_100_PERCENT: false
     };
+    this._canPlayOccured = false;
+    this._isManualPreload = false;
   }
 
   _resetSession(): void {
@@ -466,8 +470,10 @@ class Kava extends BasePlugin {
       this._updateSoundModeInModel();
       this._timer.start();
       this._isFirstPlay = false;
+      const playRequestStartTime =
+        this.player.config.playback.preload === 'auto' || this._isManualPreload ? this._firstPlayRequestTime : this._loadStartTime;
       this._model.updateModel({
-        joinTime: Kava._getTimeDifferenceInSeconds(this._firstPlayRequestTime)
+        joinTime: Kava._getTimeDifferenceInSeconds(playRequestStartTime)
       });
       this._sendAnalytics(KavaEventModel.PLAY);
       this._onReport();
@@ -483,12 +489,16 @@ class Kava extends BasePlugin {
   }
 
   _onCanPlay(): void {
+    this._canPlayOccured = true;
     this._model.updateModel({
       canPlayTime: Kava._getTimeDifferenceInSeconds(this._loadStartTime)
     });
   }
 
   _onFirstPlay(): void {
+    if (this._canPlayOccured) {
+      this._isManualPreload = true;
+    }
     this._firstPlayRequestTime = Date.now();
     this._sendAnalytics(KavaEventModel.PLAY_REQUEST);
   }
