@@ -470,10 +470,10 @@ class Kava extends BasePlugin {
       this._updateSoundModeInModel();
       this._timer.start();
       this._isFirstPlay = false;
-      const playStartTime =
+      const playRequestStartTime =
         this.player.config.playback.preload === 'auto' || this._isManualPreload ? this._firstPlayRequestTime : this._loadStartTime;
       this._model.updateModel({
-        joinTime: Kava._getTimeDifferenceInSeconds(playStartTime)
+        joinTime: Kava._getTimeDifferenceInSeconds(playRequestStartTime)
       });
       this._sendAnalytics(KavaEventModel.PLAY);
       this._onReport();
