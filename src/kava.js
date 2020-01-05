@@ -234,6 +234,8 @@ class Kava extends BasePlugin {
       PLAY_REACHED_75_PERCENT: false,
       PLAY_REACHED_100_PERCENT: false
     };
+    this._canPlayOccured = false;
+    this._isManualPreload = false;
   }
 
   _resetSession(): void {
@@ -468,11 +470,10 @@ class Kava extends BasePlugin {
       this._updateSoundModeInModel();
       this._timer.start();
       this._isFirstPlay = false;
+      const playStartTime =
+        this.player.config.playback.preload === 'auto' || this._isManualPreload ? this._firstPlayRequestTime : this._loadStartTime;
       this._model.updateModel({
-        joinTime:
-          this.player.config.playback.preload === 'auto' || this._isManualPreload
-            ? Kava._getTimeDifferenceInSeconds(this._firstPlayRequestTime)
-            : Kava._getTimeDifferenceInSeconds(this._loadStartTime)
+        joinTime: Kava._getTimeDifferenceInSeconds(playStartTime)
       });
       this._sendAnalytics(KavaEventModel.PLAY);
       this._onReport();
