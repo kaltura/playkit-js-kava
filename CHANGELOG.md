@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.14.1"></a>
+## [0.14.1](https://github.com/kaltura/playkit-js-kava/compare/v0.14.0...v0.14.1) (2020-01-05)
+
+
+### Bug Fixes
+
+* **FEC-9575:** improve jointime calculation ([#63](https://github.com/kaltura/playkit-js-kava/issues/63)) ([c441a0e](https://github.com/kaltura/playkit-js-kava/commit/c441a0e))
+
+
+
 <a name="0.14.0"></a>
 # [0.14.0](https://github.com/kaltura/playkit-js-kava/compare/v0.13.0...v0.14.0) (2019-12-01)
 
