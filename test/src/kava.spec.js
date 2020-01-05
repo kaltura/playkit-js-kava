@@ -1,7 +1,7 @@
 import '../../src/index.js';
 import {loadPlayer, FakeEvent, CustomEventType} from '@playkit-js/playkit-js';
 import * as TestUtils from './utils/test-utils';
-import {OVPAnalyticsService, RequestBuilder} from 'playkit-js-providers/dist/playkit-analytics-service';
+import {OVPAnalyticsService, RequestBuilder} from '@playkit-js/ovp-provider/dist/services/analytics';
 import {KavaEventModel} from '../../src/kava-event-model';
 import {SoundMode, TabMode} from '../../src/kava-model';
 
@@ -765,7 +765,7 @@ describe('KavaPlugin', function() {
     };
 
     beforeEach(() => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
     });
 
     afterEach(() => {
