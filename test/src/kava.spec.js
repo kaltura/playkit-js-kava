@@ -95,6 +95,9 @@ describe('KavaPlugin', function() {
           }
         ]
       },
+      playback: {
+        preload: 'none'
+      },
       plugins: {
         kava: {
           referrer: 'referrer',
@@ -239,6 +242,109 @@ describe('KavaPlugin', function() {
       setupPlayer(config);
       kava = getKavaPlugin();
       player.play();
+    });
+
+    it('should send PLAY event and check jointime w/o preload', done => {
+      const STATIC_NOW = Date.now() + 3000;
+
+      sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
+        try {
+          if (params.eventType === KavaEventModel.PLAY.index) {
+            params.joinTime.should.not.equal(kava.constructor._getTimeDifferenceInSeconds(kava._firstPlayRequestTime));
+            params.joinTime.should.equal(kava.constructor._getTimeDifferenceInSeconds(kava._loadStartTime));
+            done();
+          }
+        } catch (err) {
+          done(err);
+        }
+
+        return new RequestBuilder();
+      });
+      setupPlayer(config);
+      kava = getKavaPlugin();
+      sandbox.stub(kava.constructor, '_getTimeDifferenceInSeconds').callsFake(time => {
+        return (STATIC_NOW - time) / 1000.0;
+      });
+
+      setTimeout(() => {
+        kava.dispatchEvent(player.Event.LOAD_START);
+      }, 200);
+      setTimeout(() => {
+        kava.dispatchEvent(player.Event.FIRST_PLAY);
+      }, 300);
+      setTimeout(() => {
+        kava.dispatchEvent(player.Event.PLAYING);
+      }, 400);
+    });
+
+    it('should send PLAY event and check jointime with auto preload', done => {
+      const STATIC_NOW = Date.now() + 3000;
+
+      sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
+        try {
+          if (params.eventType === KavaEventModel.PLAY.index) {
+            params.joinTime.should.equal(kava.constructor._getTimeDifferenceInSeconds(kava._firstPlayRequestTime));
+            params.joinTime.should.not.equal(kava.constructor._getTimeDifferenceInSeconds(kava._loadStartTime));
+            done();
+          }
+        } catch (err) {
+          done(err);
+        }
+
+        return new RequestBuilder();
+      });
+      config.playback.preload = 'auto';
+      setupPlayer(config);
+      kava = getKavaPlugin();
+      sandbox.stub(kava.constructor, '_getTimeDifferenceInSeconds').callsFake(time => {
+        return (STATIC_NOW - time) / 1000.0;
+      });
+
+      setTimeout(() => {
+        kava.dispatchEvent(player.Event.LOAD_START);
+      }, 200);
+      setTimeout(() => {
+        kava.dispatchEvent(player.Event.FIRST_PLAY);
+      }, 300);
+      setTimeout(() => {
+        kava.dispatchEvent(player.Event.PLAYING);
+      }, 400);
+    });
+
+    it('should send PLAY event and check jointime with manual preload', done => {
+      const STATIC_NOW = Date.now() + 3000;
+
+      sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
+        try {
+          if (params.eventType === KavaEventModel.PLAY.index) {
+            params.joinTime.should.equal(kava.constructor._getTimeDifferenceInSeconds(kava._firstPlayRequestTime));
+            params.joinTime.should.not.equal(kava.constructor._getTimeDifferenceInSeconds(kava._loadStartTime));
+            done();
+          }
+        } catch (err) {
+          done(err);
+        }
+
+        return new RequestBuilder();
+      });
+      setupPlayer(config);
+      kava = getKavaPlugin();
+      sandbox.stub(kava.constructor, '_getTimeDifferenceInSeconds').callsFake(time => {
+        return (STATIC_NOW - time) / 1000.0;
+      });
+
+      setTimeout(() => {
+        kava.dispatchEvent(player.Event.LOAD_START);
+      }, 100);
+      setTimeout(() => {
+        kava.dispatchEvent(player.Event.CAN_PLAY);
+      }, 200);
+      setTimeout(() => {
+        kava.dispatchEvent(player.Event.FIRST_PLAY);
+      }, 300);
+      setTimeout(() => {
+        kava.dispatchEvent(player.Event.PLAYING);
+      }, 400);
     });
 
     it('should send RESUME event', done => {
