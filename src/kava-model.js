@@ -10,6 +10,7 @@ import {getEventModel} from './kava-event-model';
 class KavaModel {
   sessionStartTime: number;
   eventIndex: number;
+  errorPosition: number;
   playTimeSum: number;
   bufferTime: number;
   bufferTimeSum: number;
@@ -299,6 +300,16 @@ class KavaModel {
   }
 
   /**
+   * Gets the error position (start or mid playing)
+   * @returns {number} - The error position - 1 for pre playing, 2 for mid stream error
+   * @memberof KavaModel
+   * @instance
+   */
+  getErrorPosition(): number {
+    return this.errorPosition;
+  }
+
+  /**
    * Gets the session start time.
    * @returns {number} - The session start time.
    * @memberof KavaModel
@@ -341,4 +352,9 @@ const TabMode = {
   TAB_FOCUSED: 2
 };
 
-export {KavaModel, SoundMode, TabMode};
+const ErrorPosition = {
+  PRE_PLAYING: 1,
+  MID_STREAM: 2
+};
+
+export {KavaModel, SoundMode, TabMode, ErrorPosition};

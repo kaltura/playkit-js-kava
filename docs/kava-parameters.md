@@ -173,6 +173,23 @@ Kava parameters are additional data that is sent with Kava event and represent r
 
 ---
 
+<a id="errorDetails"></a>`errorDetails` - Additional data of the error.
+
+- Should be in format of String (Stringified from JSON)
+
+---
+
+<a id="errorPosition"></a>`errorPosition` - The position of the stream when the error occured (pre playing / mid stream).
+This is in addition to the `position` field which in live streams represents the offset from the live edge and therefore cannot
+be used to differ between pre-playing and mid streaming.
+
+- Should be in format of integer.
+- Possible values
+  - 1 - pre-playing stream error
+  - 2 - mid stream error
+
+---
+
 <a id="joinTime"></a>`joinTime` - Time that took to player start active playback for the first time.
 
 - Obtained by calculating time that passed from first PLAY_REQUEST to PLAY event.
