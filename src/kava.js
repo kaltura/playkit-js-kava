@@ -4,7 +4,7 @@ import {OVPAnalyticsService} from 'playkit-js-providers/dist/playkit-analytics-s
 import {KavaEventModel, KavaEventType} from './kava-event-model';
 import {KavaRateHandler} from './kava-rate-handler';
 import {KavaTimer} from './kava-timer';
-import {KavaModel, SoundMode, TabMode} from './kava-model';
+import {ErrorPosition, KavaModel, SoundMode, TabMode} from './kava-model';
 
 const DIVIDER: number = 1024;
 const TEXT_TYPE: string = 'TEXT';
@@ -638,7 +638,11 @@ class Kava extends BasePlugin {
 
   _onError(event: FakeEvent): void {
     if (event.payload && event.payload.severity === PKError.Severity.CRITICAL) {
-      this._model.updateModel({errorCode: event.payload.code, errorDetails: event.payload.data});
+      this._model.updateModel({
+        errorCode: event.payload.code,
+        errorDetails: event.payload.data,
+        errorPosition: this._isFirstPlay ? ErrorPosition.PRE_PLAYING : ErrorPosition.MID_STREAM
+      });
       this._sendAnalytics(KavaEventModel.ERROR);
       this.reset();
     }

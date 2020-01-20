@@ -266,7 +266,8 @@ export const KavaEventModel: {[event: string]: KavaEvent} = {
     index: 98,
     getEventModel: (model: KavaModel) => ({
       errorCode: model.getErrorCode(),
-      errorDetails: model.getErrorDetails()
+      errorDetails: model.getErrorDetails(),
+      errorPosition: model.getErrorPosition()
     })
   }
 };

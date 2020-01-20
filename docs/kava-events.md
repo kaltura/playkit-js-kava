@@ -8,6 +8,8 @@ Here you can see the list of all available KAVA Events:
 - [`PLAY`](#playEvent)
 - [`RESUME`](#resumeEvent)
 - [`PAUSE`](#pauseEvent)
+- [`BUFFER_START`](#bufferStartEvent)
+- [`BUFFER_END`](#bufferEndEvent)
 - [`REPLAY`](#replayEvent)
 - [`SEEK`](#seekEvent)
 - [`PLAY_REACHED_25_PERCENT`](#play25Event)
@@ -29,6 +31,7 @@ Here we will see some explanation about each event. When does it sent and what p
 
 - Event ID: `99`
 - Event Parameters:
+
   - [`COMMON_PARAMS`](./kava-parameters.md#common_params)
   - [`playTimeSum`](./kava-parameters.md#playTimeSum)
   - [`bufferTime`](./kava-parameters.md#bufferTime)
@@ -47,7 +50,7 @@ Here we will see some explanation about each event. When does it sent and what p
   - [`networkConnectionOverhead`](./kava-parameters.md#networkConnectionOverhead)
   - [`flavorParamsId`](./kava-parameters.md#flavorParamsId)
   - [`playbackSpeed`](./kava-parameters.md#playbackSpeed)
-  
+
 - Sent on first play and every 10 seconds of active playback (when player is paused, view timer should be paused/stopped).
 - 30 seconds without VIEW event will reset KAVA session, so all the VIEW [specific parameters](#endSessionResetParams) should be reset also.
 - Server may notify Kava (via response field ["viewEventsEnabled" = false](#serverResponse)) to shut down VIEW events. When it happens, VIEW events should be blocked from sending until server decides to enable VIEW events again.
@@ -113,6 +116,24 @@ Here we will see some explanation about each event. When does it sent and what p
 - Event Parameters:
   - [`COMMON_PARAMS`](./kava-parameters.md#common_params)
 - Replay should reset all the parameters related to playback except `PLAYER_REACHED` events.
+
+---
+
+<a id="bufferStartEvent"></a>`BUFFER_START` - Sent when playback buffering started.
+
+- Event ID: `45`
+- Player Event: `BUFFER_START`
+- Event Parameters:
+  - [`COMMON_PARAMS`](./kava-parameters.md#common_params)
+
+---
+
+<a id="bufferEndEvent"></a>`BUFFER_END` - Sent when playback buffering ended.
+
+- Event ID: `46`
+- Player Event: `BUFFER_END`
+- Event Parameters:
+  - [`COMMON_PARAMS`](./kava-parameters.md#common_params)
 
 ---
 
@@ -224,3 +245,5 @@ No matter if by seeking or regular playback.
 - Event Parameters:
   - [`COMMON_PARAMS`](./kava-parameters.md#common_params)
   - [`errorCode`](./kava-parameters.md#errorCode)
+  - [`errorDetails`](./kava-parameters.md#errorDetails)
+  - [`errorPosition`](./kava-parameters.md#errorPosition)

@@ -41,6 +41,10 @@ class FakeModel {
     return {};
   }
 
+  getErrorPosition() {
+    return 1;
+  }
+
   getActualBitrate() {
     return 720;
   }
@@ -253,7 +257,8 @@ describe('KavaEventModel', () => {
     KavaEventModel.ERROR.index.should.equal(98);
     KavaEventModel.ERROR.getEventModel(fakeModel).should.deep.equal({
       errorCode: fakeModel.getErrorCode(),
-      errorDetails: fakeModel.getErrorDetails()
+      errorDetails: fakeModel.getErrorDetails(),
+      errorPosition: fakeModel.getErrorPosition()
     });
   });
 
