@@ -32,7 +32,7 @@
     "access": "public"
   },
   "devDependencies": {
-    "@playkit-js/playkit-js": "^0.51.1",
+    "@playkit-js/playkit-js": "^0.59.5",
     "babel-cli": "^6.18.0",
     "babel-core": "^6.18.2",
     "babel-eslint": "^7.1.1",
