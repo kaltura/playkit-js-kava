@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.15.0"></a>
+# [0.15.0](https://github.com/kaltura/playkit-js-kava/compare/v0.14.1...v0.15.0) (2020-01-29)
+
+
+### Features
+
+* **FEC-9566:** add errorPosition (pre-playing or mid-stream) to error reporting ([#65](https://github.com/kaltura/playkit-js-kava/issues/65)) ([4afbb26](https://github.com/kaltura/playkit-js-kava/commit/4afbb26))
+
+
+
 <a name="0.14.1"></a>
 ## [0.14.1](https://github.com/kaltura/playkit-js-kava/compare/v0.14.0...v0.14.1) (2020-01-05)
 
