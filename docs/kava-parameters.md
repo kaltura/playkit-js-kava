@@ -331,6 +331,8 @@ The common parameters defined the following:
 - [`customVar1`](#customVar1)
 - [`customVar2`](#customVar2)
 - [`customVar3`](#customVar3)
+- [`playbackSpeed`](#playbackSpeed)
+- [`caption`](#caption)
 
 ## <a id="endSessionResetParams"></a>End Session Reset Parameters
 
