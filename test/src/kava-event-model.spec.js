@@ -122,7 +122,6 @@ describe('KavaEventModel', () => {
       bufferTimeSum: fakeModel.getBufferTimeSum(),
       actualBitrate: fakeModel.getActualBitrate(),
       averageBitrate: fakeModel.getAverageBitrate(),
-      captionsLanguage: fakeModel.getCaption(),
       audioLanguage: fakeModel.getLanguage(),
       bandwidth: fakeModel.getBandwidth(),
       droppedFramesRatio: fakeModel.getDroppedFramesRatio(),
@@ -134,8 +133,7 @@ describe('KavaEventModel', () => {
       targetBuffer: fakeModel.getTargetBuffer(),
       networkConnectionType: fakeModel.getNetworkConnectionType(),
       networkConnectionOverhead: fakeModel.getNetworkConnectionOverhead(),
-      flavorParamsId: fakeModel.getFlavorParamsId(),
-      playbackSpeed: fakeModel.getPlaybackSpeed()
+      flavorParamsId: fakeModel.getFlavorParamsId()
     });
   });
 
@@ -247,9 +245,6 @@ describe('KavaEventModel', () => {
   it('CAPTIONS', () => {
     KavaEventModel.CAPTIONS.type.should.equal('CAPTIONS');
     KavaEventModel.CAPTIONS.index.should.equal(38);
-    KavaEventModel.CAPTIONS.getEventModel(fakeModel).should.deep.equal({
-      caption: fakeModel.getCaption()
-    });
   });
 
   it('ERROR', () => {
@@ -277,6 +272,5 @@ describe('KavaEventModel', () => {
   it('SPEED', () => {
     KavaEventModel.SPEED.type.should.equal('SPEED');
     KavaEventModel.SPEED.index.should.equal(41);
-    KavaEventModel.SPEED.getEventModel(fakeModel).should.deep.equal({playbackSpeed: 2});
   });
 });

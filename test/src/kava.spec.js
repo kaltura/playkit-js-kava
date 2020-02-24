@@ -153,6 +153,7 @@ describe('KavaPlugin', function() {
       params.clientTag.should.equal('html5:v' + config.plugins.kava.playerVersion);
       params.position.should.exist;
       params.userId.should.equal(config.plugins.kava.userId);
+      params.playbackSpeed.should.equal(1);
     }
 
     it('should send IMPRESSION event', done => {
