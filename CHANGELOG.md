@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.16.0"></a>
+# [0.16.0](https://github.com/kaltura/playkit-js-kava/compare/v0.15.1...v0.16.0) (2020-03-01)
+
+
+### Features
+
+* **FEC-9652:** report playbackSpeed and caption in all events ([#66](https://github.com/kaltura/playkit-js-kava/issues/66)) ([40b8250](https://github.com/kaltura/playkit-js-kava/commit/40b8250))
+
+
+
 <a name="0.15.1"></a>
 ## [0.15.1](https://github.com/kaltura/playkit-js-kava/compare/v0.15.0...v0.15.1) (2020-01-29)
 
