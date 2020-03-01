@@ -119,7 +119,7 @@ describe('KavaModel', () => {
       applicationVer: av,
       userId: usi,
       playbackSpeed: pbs,
-      captionsLanguage: cap
+      caption: cap
     });
   });
 });

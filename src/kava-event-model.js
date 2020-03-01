@@ -295,7 +295,7 @@ export function getEventModel(eventObj: KavaEvent, model: KavaModel): Object {
   };
 
   if (model.getCaption()) {
-    commonModel.captionsLanguage = model.getCaption();
+    commonModel.caption = model.getCaption();
   }
   if (model.getSessionStartTime()) {
     commonModel.sessionStartTime = model.getSessionStartTime();

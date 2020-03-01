@@ -627,7 +627,7 @@ describe('KavaPlugin', function() {
               'bufferTimeSum',
               'actualBitrate',
               'averageBitrate',
-              'captionsLanguage',
+              'caption',
               'clientTag',
               'clientVer',
               'deliveryType',
@@ -637,6 +637,7 @@ describe('KavaPlugin', function() {
               'eventType',
               'ks',
               'partnerId',
+              'playbackSpeed',
               'playTimeSum',
               'playbackType',
               'playlistId',
@@ -646,8 +647,7 @@ describe('KavaPlugin', function() {
               'soundMode',
               'tabMode',
               'networkConnectionType',
-              'userId',
-              'playbackSpeed'
+              'userId'
             );
             params.networkConnectionType.should.equal('2g');
             params.tabMode.should.equal(TabMode.TAB_FOCUSED);
@@ -660,6 +660,8 @@ describe('KavaPlugin', function() {
         }
       });
       setupPlayer(config);
+      kava = getKavaPlugin();
+      kava._model.updateModel({caption: 'eng'});
       player.play();
     });
 
