@@ -328,6 +328,8 @@ The common parameters defined the following:
 - [`clientVer`](#clientVer)
 - [`clientTag`](#clientTag)
 - [`position`](#position)
+- [`playbackSpeed`](#playbackSpeed)
+- [`caption`](#caption) - optional, available only if video contains text tracks
 - [`customVar1`](#customVar1)
 - [`customVar2`](#customVar2)
 - [`customVar3`](#customVar3)

@@ -21,10 +21,8 @@ export const KavaEventModel: {[event: string]: KavaEvent} = {
         actualBitrate: model.getActualBitrate(),
         averageBitrate: model.getAverageBitrate(),
         audioLanguage: model.getLanguage(),
-        captionsLanguage: model.getCaption(),
         soundMode: model.getSoundMode(),
-        tabMode: model.getTabMode(),
-        playbackSpeed: model.getPlaybackSpeed()
+        tabMode: model.getTabMode()
       };
 
       if (!isNaN(model.getForwardBufferHealth())) {
@@ -242,9 +240,7 @@ export const KavaEventModel: {[event: string]: KavaEvent} = {
   SPEED: {
     type: 'SPEED',
     index: 41,
-    getEventModel: (model: KavaModel) => ({
-      playbackSpeed: model.getPlaybackSpeed()
-    })
+    getEventModel: () => ({})
   },
   /**
    * @type {string} CAPTIONS
@@ -253,9 +249,7 @@ export const KavaEventModel: {[event: string]: KavaEvent} = {
   CAPTIONS: {
     type: 'CAPTIONS',
     index: 38,
-    getEventModel: (model: KavaModel) => ({
-      caption: model.getCaption()
-    })
+    getEventModel: () => ({})
   },
   /**
    * @type {string} ERROR
@@ -296,8 +290,13 @@ export function getEventModel(eventObj: KavaEvent, model: KavaModel): Object {
     playbackType: model.getPlaybackType(),
     clientVer: model.getClientVer(),
     clientTag: model.getClientTag(),
-    position: model.getPosition()
+    position: model.getPosition(),
+    playbackSpeed: model.getPlaybackSpeed()
   };
+
+  if (model.getCaption()) {
+    commonModel.caption = model.getCaption();
+  }
   if (model.getSessionStartTime()) {
     commonModel.sessionStartTime = model.getSessionStartTime();
   }

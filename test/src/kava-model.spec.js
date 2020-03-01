@@ -29,7 +29,8 @@ const ab = 3,
   tp = '12',
   pc = 'pc',
   av = 'av',
-  usi = '1234';
+  usi = '1234',
+  pbs = 1;
 
 describe('KavaModel', () => {
   let model;
@@ -58,7 +59,8 @@ describe('KavaModel', () => {
       caption: cap,
       errorCode: ec,
       joinTime: jt,
-      targetPosition: tp
+      targetPosition: tp,
+      playbackSpeed: pbs
     });
     model.getActualBitrate = () => ab;
     model.getAverageBitrate = () => avb;
@@ -81,6 +83,7 @@ describe('KavaModel', () => {
     model.getPlaybackContext = () => pc;
     model.getApplicationVersion = () => av;
     model.getUserId = () => usi;
+    model.getPlaybackSpeed = () => pbs;
   });
 
   it('should update the model', function() {
@@ -114,7 +117,9 @@ describe('KavaModel', () => {
       customVar2: cv2,
       playbackContext: pc,
       applicationVer: av,
-      userId: usi
+      userId: usi,
+      playbackSpeed: pbs,
+      caption: cap
     });
   });
 });
