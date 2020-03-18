@@ -185,6 +185,7 @@ be used to differ between pre-playing and mid streaming.
 
 - Should be in format of integer.
 - Possible values
+  - -1 - pre play request stream error
   - 1 - pre-playing stream error
   - 2 - mid stream error
 
