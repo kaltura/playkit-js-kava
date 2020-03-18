@@ -3,7 +3,7 @@ import {loadPlayer, FakeEvent, CustomEventType, Error as PKError} from '@playkit
 import * as TestUtils from './utils/test-utils';
 import {OVPAnalyticsService, RequestBuilder} from 'playkit-js-providers/dist/playkit-analytics-service';
 import {KavaEventModel} from '../../src/kava-event-model';
-import {SoundMode, TabMode} from '../../src/kava-model';
+import {ErrorPosition, SoundMode, TabMode} from '../../src/kava-model';
 
 const targetId = 'player-placeholder_kava.spec';
 
@@ -571,14 +571,14 @@ describe('KavaPlugin', function() {
       kava._sendAnalytics(KavaEventModel.CAPTIONS);
     });
 
-    it('should send ERROR event with errorPosition 1', done => {
+    it('should send ERROR event with errorPosition PRE_PLAY', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
         try {
           if (params.eventType === KavaEventModel.ERROR.index) {
             validateCommonParams(params, KavaEventModel.ERROR.index);
             params.errorCode.should.equal(200);
             params.errorDetails.should.equal('{"t":"a"}');
-            params.errorPosition.should.equal(1);
+            params.errorPosition.should.equal(ErrorPosition.PRE_PLAY);
             done();
           }
           return new RequestBuilder();
@@ -591,14 +591,36 @@ describe('KavaPlugin', function() {
       kava._onError({payload: {code: 200, data: {t: 'a'}, severity: PKError.Severity.CRITICAL}});
     });
 
-    it('should send ERROR event with errorPosition 2', done => {
+    it('should send ERROR event with errorPosition PRE_PLAYING', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
         try {
           if (params.eventType === KavaEventModel.ERROR.index) {
             validateCommonParams(params, KavaEventModel.ERROR.index);
             params.errorCode.should.equal(200);
             params.errorDetails.should.equal('{"t":"a"}');
-            params.errorPosition.should.equal(2);
+            params.errorPosition.should.equal(ErrorPosition.PRE_PLAYING);
+            done();
+          }
+          return new RequestBuilder();
+        } catch (err) {
+          done(err);
+        }
+      });
+      setupPlayer(config);
+      kava = getKavaPlugin();
+      player.addEventListener(player.Event.PLAY, () => {
+        kava._onError({payload: {code: 200, data: {t: 'a'}, severity: PKError.Severity.CRITICAL}});
+      });
+      player.play();
+    });
+    it('should send ERROR event with errorPosition MID_STREAM', done => {
+      sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
+        try {
+          if (params.eventType === KavaEventModel.ERROR.index) {
+            validateCommonParams(params, KavaEventModel.ERROR.index);
+            params.errorCode.should.equal(200);
+            params.errorDetails.should.equal('{"t":"a"}');
+            params.errorPosition.should.equal(ErrorPosition.MID_STREAM);
             done();
           }
           return new RequestBuilder();
