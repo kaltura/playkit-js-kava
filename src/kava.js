@@ -37,8 +37,8 @@ class Kava extends BasePlugin {
   _performanceEntries: window.PerformanceEntry[] = [];
   _pendingFragLoadedUrls: string[] = [];
   _fragLoadedFiredOnce: boolean = false;
-  _canPlayOccured: boolean = false;
   _isManualPreload: boolean = false;
+  _playbackStart: boolean = false;
 
   /**
    * Default config of the plugin.
@@ -234,8 +234,8 @@ class Kava extends BasePlugin {
       PLAY_REACHED_75_PERCENT: false,
       PLAY_REACHED_100_PERCENT: false
     };
-    this._canPlayOccured = false;
     this._isManualPreload = false;
+    this._playbackStart = false;
   }
 
   _resetSession(): void {
@@ -282,6 +282,7 @@ class Kava extends BasePlugin {
     this.eventManager.listen(this._timer, KavaTimer.Event.REPORT, () => this._onReport());
     this.eventManager.listen(this._timer, KavaTimer.Event.RESET, () => this._resetSession());
     this.eventManager.listen(this.player, this.player.Event.SOURCE_SELECTED, () => this._onSourceSelected());
+    this.eventManager.listen(this.player, this.player.Event.PLAYBACK_START, () => this._onPlaybackStart());
     this.eventManager.listen(this.player, this.player.Event.ERROR, event => this._onError(event));
     this.eventManager.listen(this.player, this.player.Event.FIRST_PLAY, () => this._onFirstPlay());
     this.eventManager.listen(this.player, this.player.Event.FRAG_LOADED, event => this._onFragLoaded(event));
@@ -316,6 +317,9 @@ class Kava extends BasePlugin {
   }
 
   _onLoadStart(): void {
+    if (!this._playbackStart) {
+      this._isManualPreload = true;
+    }
     this._loadStartTime = Date.now();
   }
 
@@ -489,18 +493,18 @@ class Kava extends BasePlugin {
   }
 
   _onCanPlay(): void {
-    this._canPlayOccured = true;
     this._model.updateModel({
       canPlayTime: Kava._getTimeDifferenceInSeconds(this._loadStartTime)
     });
   }
 
   _onFirstPlay(): void {
-    if (this._canPlayOccured) {
-      this._isManualPreload = true;
-    }
     this._firstPlayRequestTime = Date.now();
     this._sendAnalytics(KavaEventModel.PLAY_REQUEST);
+  }
+
+  _onPlaybackStart(): void {
+    this._playbackStart = true;
   }
 
   _onSourceSelected(): void {
