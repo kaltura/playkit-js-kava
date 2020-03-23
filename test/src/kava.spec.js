@@ -83,6 +83,20 @@ describe('KavaPlugin', function() {
     kava._timePercentEvent.PLAY_REACHED_100_PERCENT.should.be.false;
   });
 
+  it('should check _getDroppedFramesRatio does not return NaN if no new frames received', done => {
+    let sandbox = sinon.sandbox.create();
+    setupPlayer(config);
+    kava = getKavaPlugin();
+    sandbox.stub(kava, '_getDroppedAndDecodedFrames').callsFake(() => {
+      return [20, 120];
+    });
+    let droppedFramesRatio;
+    droppedFramesRatio = kava._getDroppedFramesRatio();
+    droppedFramesRatio = kava._getDroppedFramesRatio();
+    droppedFramesRatio.should.equal(0);
+    done();
+  });
+
   describe('SendAnalytics', () => {
     let sandbox = sinon.sandbox.create();
     const config = {
