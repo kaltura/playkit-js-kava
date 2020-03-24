@@ -400,7 +400,7 @@ class Kava extends BasePlugin {
       const lastTotalFrames = droppedAndDecoded[1];
       droppedFramesDelta = lastDroppedFrames - this._lastDroppedFrames;
       totalFramesDelta = lastTotalFrames - this._lastTotalFrames;
-      droppedFrames = Math.round((droppedFramesDelta / totalFramesDelta) * 1000) / 1000;
+      droppedFrames = totalFramesDelta ? Math.round((droppedFramesDelta / totalFramesDelta) * 1000) / 1000 : 0;
 
       this._lastTotalFrames = lastTotalFrames;
       this._lastDroppedFrames = lastDroppedFrames;
