@@ -37,7 +37,7 @@ class Kava extends BasePlugin {
   _performanceEntries: window.PerformanceEntry[] = [];
   _pendingFragLoadedUrls: string[] = [];
   _fragLoadedFiredOnce: boolean = false;
-  _isManualPreload: boolean = false;
+  _isPreload: boolean = false;
   _playbackStart: boolean = false;
 
   /**
@@ -234,7 +234,7 @@ class Kava extends BasePlugin {
       PLAY_REACHED_75_PERCENT: false,
       PLAY_REACHED_100_PERCENT: false
     };
-    this._isManualPreload = false;
+    this._isPreload = false;
     this._playbackStart = false;
   }
 
@@ -318,7 +318,7 @@ class Kava extends BasePlugin {
 
   _onLoadStart(): void {
     if (!this._playbackStart) {
-      this._isManualPreload = true;
+      this._isPreload = true;
     }
     this._loadStartTime = Date.now();
   }
@@ -475,7 +475,7 @@ class Kava extends BasePlugin {
       this._timer.start();
       this._isFirstPlay = false;
       const playRequestStartTime =
-        this.player.config.playback.preload === 'auto' || this._isManualPreload ? this._firstPlayRequestTime : this._loadStartTime;
+        this.player.config.playback.preload === 'auto' || this._isPreload ? this._firstPlayRequestTime : this._loadStartTime;
       this._model.updateModel({
         joinTime: Kava._getTimeDifferenceInSeconds(playRequestStartTime)
       });
