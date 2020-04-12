@@ -183,6 +183,21 @@ describe('KavaPlugin', function() {
       player.play();
     });
 
+    it('should send IMPRESSION event with persistentSessionId set in setup', done => {
+      sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
+        if (params.eventType === KavaEventModel.IMPRESSION.index) {
+          params.persistentSessionId.should.equal(configCopy.plugins.kava.persistentSessionId);
+          done();
+        }
+        return new RequestBuilder();
+      });
+      const configCopy = JSON.parse(JSON.stringify(config));
+      configCopy.plugins.kava.persistentSessionId = '74709497-d3a5-4d93-a866-0d171f65c8b0';
+      setupPlayer(configCopy);
+      kava = getKavaPlugin();
+      player.play();
+    });
+
     it('should send IMPRESSION event with playerJSLoadTime', done => {
       sandbox.stub(window.performance, 'getEntriesByType').callsFake(() => {
         return [
@@ -677,6 +692,21 @@ describe('KavaPlugin', function() {
       kava = getKavaPlugin();
       kava._model.updateModel({caption: 'eng'});
       player.play();
+    });
+
+    it('should send VIEW event with persistentSessionId set after setup using configure', done => {
+      sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
+        if (params.eventType === KavaEventModel.VIEW.index) {
+          params.persistentSessionId.should.equal('74709497-d3a5-4d93-a866-0d171123');
+          done();
+        }
+        return new RequestBuilder();
+      });
+
+      setupPlayer(config);
+      kava = getKavaPlugin();
+      player.play();
+      player.configure({plugins: {kava: {persistentSessionId: '74709497-d3a5-4d93-a866-0d171123'}}});
     });
 
     it('should send first VIEW event with manifest download time, segment download time, bandwidth, networkConnectionOverhead', done => {
