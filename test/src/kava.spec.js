@@ -1,5 +1,5 @@
 import '../../src/index.js';
-import {loadPlayer, FakeEvent, CustomEventType, Error as PKError} from '@playkit-js/playkit-js';
+import {loadPlayer, FakeEvent, CustomEventType} from '@playkit-js/playkit-js';
 import * as TestUtils from './utils/test-utils';
 import {OVPAnalyticsService, RequestBuilder} from 'playkit-js-providers/dist/playkit-analytics-service';
 import {KavaEventModel} from '../../src/kava-event-model';
@@ -92,6 +92,47 @@ describe('KavaPlugin', function() {
             bandwidth: 480256,
             mimetype: 'video/mp4',
             url: 'https://cfvod.kaltura.com/pd/p/1740481/sp/174048100/serveFlavor/entryId/1_kbyh1guy/v/1/flavorId/1_hq6oztva/name/a.mp4'
+          }
+        ]
+      },
+      playback: {
+        preload: 'none'
+      },
+      plugins: {
+        kava: {
+          referrer: 'referrer',
+          serviceUrl: '//analytics.kaltura.com/api_v3/index.php',
+          viewEventCountdown: 10,
+          resetSessionCountdown: 30,
+          playerVersion: '0.18.1',
+          playerName: 'kaltura-player-js',
+          partnerId: '1091',
+          entryId: '0_wifqaipd',
+          playlistId: '12345678',
+          entryType: 'Vod',
+          sessionId: 'c15be273-0f1b-10a3-4fc9-d7a53eebee85:b66abd37-e2e2-a22e-86ac-7859592e754b',
+          ks: 'Njk0ZmI4MzBiOTJiMGZhN2NmNTAwYWQyZGM2M2Y0YjkxMGRiZGI3MXwxMDkxOzEwOTE7MTUxNzkyMjgxMzswOzE1MTc4MzY0MTMuMTM4OzA7dmlldzoqLHdpZGdldDoxOzs=',
+          userId: '1234'
+        }
+      },
+      session: {
+        id: 'c15be273-0f1b-10a3-4fc9-d7a53eebee85:b66abd37-e2e2-a22e-86ac-7859592e754b',
+        partnerId: 1091,
+        ks: 'Njk0ZmI4MzBiOTJiMGZhN2NmNTAwYWQyZGM2M2Y0YjkxMGRiZGI3MXwxMDkxOzEwOTE7MTUxNzkyMjgxMzswOzE1MTc4MzY0MTMuMTM4OzA7dmlldzoqLHdpZGdldDoxOzs='
+      },
+      id: '0_wifqaipd',
+      name: 'MPEG Dash with MultiAudio New Transcoding',
+      duration: 741,
+      type: 'Vod',
+      dvr: false
+    };
+    const badconfig = {
+      sources: {
+        progressive: [
+          {
+            bandwidth: 480256,
+            mimetype: 'video/mp4',
+            url: 'https://fake.com/dummy/bad'
           }
         ]
       },
@@ -576,8 +617,6 @@ describe('KavaPlugin', function() {
         try {
           if (params.eventType === KavaEventModel.ERROR.index) {
             validateCommonParams(params, KavaEventModel.ERROR.index);
-            params.errorCode.should.equal(200);
-            params.errorDetails.should.equal('{"t":"a"}');
             params.errorPosition.should.equal(ErrorPosition.PRE_PLAY);
             done();
           }
@@ -586,9 +625,9 @@ describe('KavaPlugin', function() {
           done(err);
         }
       });
-      setupPlayer(config);
+      setupPlayer(badconfig);
       kava = getKavaPlugin();
-      kava._onError({payload: {code: 200, data: {t: 'a'}, severity: PKError.Severity.CRITICAL}});
+      player.load();
     });
 
     it('should send ERROR event with errorPosition PRE_PLAYING', done => {
@@ -596,8 +635,6 @@ describe('KavaPlugin', function() {
         try {
           if (params.eventType === KavaEventModel.ERROR.index) {
             validateCommonParams(params, KavaEventModel.ERROR.index);
-            params.errorCode.should.equal(200);
-            params.errorDetails.should.equal('{"t":"a"}');
             params.errorPosition.should.equal(ErrorPosition.PRE_PLAYING);
             done();
           }
@@ -609,7 +646,7 @@ describe('KavaPlugin', function() {
       setupPlayer(config);
       kava = getKavaPlugin();
       player.addEventListener(player.Event.PLAY, () => {
-        kava._onError({payload: {code: 200, data: {t: 'a'}, severity: PKError.Severity.CRITICAL}});
+        player.getVideoElement().src = '';
       });
       player.play();
     });
@@ -618,8 +655,6 @@ describe('KavaPlugin', function() {
         try {
           if (params.eventType === KavaEventModel.ERROR.index) {
             validateCommonParams(params, KavaEventModel.ERROR.index);
-            params.errorCode.should.equal(200);
-            params.errorDetails.should.equal('{"t":"a"}');
             params.errorPosition.should.equal(ErrorPosition.MID_STREAM);
             done();
           }
@@ -631,7 +666,7 @@ describe('KavaPlugin', function() {
       setupPlayer(config);
       kava = getKavaPlugin();
       player.addEventListener(player.Event.PLAYING, () => {
-        kava._onError({payload: {code: 200, data: {t: 'a'}, severity: PKError.Severity.CRITICAL}});
+        player.getVideoElement().src = '';
       });
       player.play();
     });
