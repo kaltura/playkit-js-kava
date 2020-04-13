@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.17.0"></a>
+# [0.17.0](https://github.com/kaltura/playkit-js-kava/compare/v0.16.0...v0.17.0) (2020-04-13)
+
+
+### Bug Fixes
+
+* **FEC-9532:** droppedFramesRatio = NaN instead of being between 0 and 1 ([#69](https://github.com/kaltura/playkit-js-kava/issues/69)) ([36ae710](https://github.com/kaltura/playkit-js-kava/commit/36ae710))
+
+
+### Features
+
+* **FEC-9633:** send UUID with analytics events ([#70](https://github.com/kaltura/playkit-js-kava/issues/70)) ([fe9d834](https://github.com/kaltura/playkit-js-kava/commit/fe9d834))
+* **FEC-9740:** add PRE_PLAY errorPosition to error report ([#67](https://github.com/kaltura/playkit-js-kava/issues/67)) ([fd83b8f](https://github.com/kaltura/playkit-js-kava/commit/fd83b8f))
+
+
+
 <a name="0.16.0"></a>
 # [0.16.0](https://github.com/kaltura/playkit-js-kava/compare/v0.15.1...v0.16.0) (2020-03-01)
 
