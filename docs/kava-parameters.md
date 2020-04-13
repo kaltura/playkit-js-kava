@@ -185,9 +185,9 @@ be used to differ between pre play request, pre-playing and mid streaming.
 
 - Should be in format of integer.
 - Possible values
-  - 3 - pre play request stream error
-  - 1 - pre-playing stream error
-  - 2 - mid stream error
+  - 3 - pre play request stream error (Play was not requested from video element)
+  - 1 - pre-playing stream error (First frame was not rendered)
+  - 2 - mid stream error (First frame was already rendered)
 
 ---
 
