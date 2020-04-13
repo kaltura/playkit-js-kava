@@ -60,6 +60,7 @@ Type: [Object][41]
 - `customVar2` **[Object][41]?** Custom objects field.
 - `customVar3` **[Object][41]?** Custom objects field.
 - `userId` **[string][42]?** custom user id .
+- `persistentSessionId` **[string][42]?** UUID for anonymous users.
 
 ### Examples
 

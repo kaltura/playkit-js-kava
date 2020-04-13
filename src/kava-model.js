@@ -56,6 +56,7 @@ class KavaModel {
   getApplicationVersion: Function;
   getUserId: Function;
   getCanPlayTime: Function;
+  getPersistentSessionId: Function;
 
   constructor(model?: Object) {
     if (model) {

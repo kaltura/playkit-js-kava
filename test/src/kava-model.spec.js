@@ -30,7 +30,8 @@ const ab = 3,
   pc = 'pc',
   av = 'av',
   usi = '1234',
-  pbs = 1;
+  pbs = 1,
+  psi = '1234-1234';
 
 describe('KavaModel', () => {
   let model;
@@ -84,6 +85,7 @@ describe('KavaModel', () => {
     model.getApplicationVersion = () => av;
     model.getUserId = () => usi;
     model.getPlaybackSpeed = () => pbs;
+    model.getPersistentSessionId = () => psi;
   });
 
   it('should update the model', function() {
@@ -119,7 +121,8 @@ describe('KavaModel', () => {
       applicationVer: av,
       userId: usi,
       playbackSpeed: pbs,
-      caption: cap
+      caption: cap,
+      persistentSessionId: psi
     });
   });
 });

@@ -708,6 +708,7 @@ class Kava extends BasePlugin {
     this._model.getEntryId = () => this.config.entryId;
     this._model.getPlaylistId = () => this.config.playlistId;
     this._model.getSessionId = () => this.config.sessionId;
+    this._model.getPersistentSessionId = () => this.config.persistentSessionId;
     this._model.getClientVer = () => this.config.playerVersion;
     this._model.getClientTag = () => 'html5:v' + this.config.playerVersion;
     this._model.getKS = () => this.config.ks;

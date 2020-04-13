@@ -327,6 +327,9 @@ export function getEventModel(eventObj: KavaEvent, model: KavaModel): Object {
   if (model.getUserId()) {
     commonModel.userId = model.getUserId();
   }
+  if (model.getPersistentSessionId()) {
+    commonModel.persistentSessionId = model.getPersistentSessionId();
+  }
   const eventModel = eventObj.getEventModel(model);
   return Object.assign(eventModel, commonModel);
 }
