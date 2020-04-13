@@ -297,10 +297,10 @@ describe('KavaPlugin', function() {
       });
 
       setTimeout(() => {
-        kava.dispatchEvent(player.Event.LOAD_START);
+        kava.dispatchEvent(player.Event.PLAYBACK_START);
       }, 200);
       setTimeout(() => {
-        kava.dispatchEvent(player.Event.FIRST_PLAY);
+        kava.dispatchEvent(player.Event.LOAD_START);
       }, 300);
       setTimeout(() => {
         kava.dispatchEvent(player.Event.PLAYING);
@@ -357,6 +357,7 @@ describe('KavaPlugin', function() {
 
         return new RequestBuilder();
       });
+      config.playback.preload = 'none';
       setupPlayer(config);
       kava = getKavaPlugin();
       sandbox.stub(kava.constructor, '_getTimeDifferenceInSeconds').callsFake(time => {
@@ -367,7 +368,7 @@ describe('KavaPlugin', function() {
         kava.dispatchEvent(player.Event.LOAD_START);
       }, 100);
       setTimeout(() => {
-        kava.dispatchEvent(player.Event.CAN_PLAY);
+        kava.dispatchEvent(player.Event.PLAYBACK_START);
       }, 200);
       setTimeout(() => {
         kava.dispatchEvent(player.Event.FIRST_PLAY);
