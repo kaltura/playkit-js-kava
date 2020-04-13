@@ -126,47 +126,6 @@ describe('KavaPlugin', function() {
       type: 'Vod',
       dvr: false
     };
-    const badconfig = {
-      sources: {
-        progressive: [
-          {
-            bandwidth: 480256,
-            mimetype: 'video/mp4',
-            url: 'https://fake.com/dummy/bad'
-          }
-        ]
-      },
-      playback: {
-        preload: 'none'
-      },
-      plugins: {
-        kava: {
-          referrer: 'referrer',
-          serviceUrl: '//analytics.kaltura.com/api_v3/index.php',
-          viewEventCountdown: 10,
-          resetSessionCountdown: 30,
-          playerVersion: '0.18.1',
-          playerName: 'kaltura-player-js',
-          partnerId: '1091',
-          entryId: '0_wifqaipd',
-          playlistId: '12345678',
-          entryType: 'Vod',
-          sessionId: 'c15be273-0f1b-10a3-4fc9-d7a53eebee85:b66abd37-e2e2-a22e-86ac-7859592e754b',
-          ks: 'Njk0ZmI4MzBiOTJiMGZhN2NmNTAwYWQyZGM2M2Y0YjkxMGRiZGI3MXwxMDkxOzEwOTE7MTUxNzkyMjgxMzswOzE1MTc4MzY0MTMuMTM4OzA7dmlldzoqLHdpZGdldDoxOzs=',
-          userId: '1234'
-        }
-      },
-      session: {
-        id: 'c15be273-0f1b-10a3-4fc9-d7a53eebee85:b66abd37-e2e2-a22e-86ac-7859592e754b',
-        partnerId: 1091,
-        ks: 'Njk0ZmI4MzBiOTJiMGZhN2NmNTAwYWQyZGM2M2Y0YjkxMGRiZGI3MXwxMDkxOzEwOTE7MTUxNzkyMjgxMzswOzE1MTc4MzY0MTMuMTM4OzA7dmlldzoqLHdpZGdldDoxOzs='
-      },
-      id: '0_wifqaipd',
-      name: 'MPEG Dash with MultiAudio New Transcoding',
-      duration: 741,
-      type: 'Vod',
-      dvr: false
-    };
 
     beforeEach(() => {
       sandbox.stub(RequestBuilder.prototype, 'doHttpRequest').callsFake(() => {
@@ -625,6 +584,8 @@ describe('KavaPlugin', function() {
           done(err);
         }
       });
+      let badconfig = JSON.parse(JSON.stringify(config));
+      badconfig.sources.progressive[0].url = 'http://badddddurl.com/dummy';
       setupPlayer(badconfig);
       kava = getKavaPlugin();
       player.load();
