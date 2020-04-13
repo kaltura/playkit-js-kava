@@ -25,6 +25,7 @@ class Kava extends BasePlugin {
   _bufferStartTime: number;
   _previousCurrentTime: number;
   _isFirstPlay: boolean;
+  _isFirstPlaying: boolean;
   _isEnded: boolean;
   _isPaused: boolean;
   _isBuffering: boolean;
@@ -225,6 +226,7 @@ class Kava extends BasePlugin {
     this._previousCurrentTime = 0;
     this._isPlaying = false;
     this._isFirstPlay = true;
+    this._isFirstPlaying = true;
     this._isEnded = false;
     this._isPaused = false;
     this._isBuffering = false;
@@ -466,10 +468,10 @@ class Kava extends BasePlugin {
   }
 
   _onPlaying(): void {
-    if (this._isFirstPlay) {
+    if (this._isFirstPlaying) {
       this._updateSoundModeInModel();
       this._timer.start();
-      this._isFirstPlay = false;
+      this._isFirstPlaying = false;
       const playRequestStartTime =
         this.player.config.playback.preload === 'auto' || this._isManualPreload ? this._firstPlayRequestTime : this._loadStartTime;
       this._model.updateModel({
@@ -499,6 +501,7 @@ class Kava extends BasePlugin {
     if (this._canPlayOccured) {
       this._isManualPreload = true;
     }
+    this._isFirstPlay = false;
     this._firstPlayRequestTime = Date.now();
     this._sendAnalytics(KavaEventModel.PLAY_REQUEST);
   }
@@ -641,7 +644,7 @@ class Kava extends BasePlugin {
       this._model.updateModel({
         errorCode: event.payload.code,
         errorDetails: event.payload.data,
-        errorPosition: this._isFirstPlay ? ErrorPosition.PRE_PLAYING : ErrorPosition.MID_STREAM
+        errorPosition: this._isFirstPlay ? ErrorPosition.PRE_PLAY : this._isFirstPlaying ? ErrorPosition.PRE_PLAYING : ErrorPosition.MID_STREAM
       });
       this._sendAnalytics(KavaEventModel.ERROR);
       this.reset();

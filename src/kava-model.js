@@ -354,6 +354,7 @@ const TabMode = {
 };
 
 const ErrorPosition = {
+  PRE_PLAY: 3,
   PRE_PLAYING: 1,
   MID_STREAM: 2
 };
