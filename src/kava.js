@@ -1,11 +1,12 @@
 // @flow
-import {BasePlugin, Error as PKError, FakeEvent, Utils} from '@playkit-js/playkit-js';
+import {core} from 'kaltura-player-js';
 import {OVPAnalyticsService} from 'playkit-js-providers/dist/playkit-analytics-service';
 import {KavaEventModel, KavaEventType} from './kava-event-model';
 import {KavaRateHandler} from './kava-rate-handler';
 import {KavaTimer} from './kava-timer';
 import {ErrorPosition, KavaModel, SoundMode, TabMode} from './kava-model';
 
+const {BasePlugin, Error: PKError, FakeEvent, Utils} = core;
 const DIVIDER: number = 1024;
 const TEXT_TYPE: string = 'TEXT';
 

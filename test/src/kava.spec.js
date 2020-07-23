@@ -1,10 +1,11 @@
 import '../../src/index.js';
-import {loadPlayer, FakeEvent, CustomEventType} from '@playkit-js/playkit-js';
+import {core} from 'kaltura-player-js';
 import * as TestUtils from './utils/test-utils';
 import {OVPAnalyticsService, RequestBuilder} from 'playkit-js-providers/dist/playkit-analytics-service';
 import {KavaEventModel} from '../../src/kava-event-model';
 import {ErrorPosition, SoundMode, TabMode} from '../../src/kava-model';
 
+const {loadPlayer, FakeEvent, CustomEventType} = core;
 const targetId = 'player-placeholder_kava.spec';
 
 describe('KavaPlugin', function() {
