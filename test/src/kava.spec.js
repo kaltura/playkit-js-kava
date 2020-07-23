@@ -1,17 +1,19 @@
 import '../../src/index.js';
-import {core} from 'kaltura-player-js';
+import {core, setup} from 'kaltura-player-js';
 import * as TestUtils from './utils/test-utils';
 import {OVPAnalyticsService, RequestBuilder} from 'playkit-js-providers/dist/playkit-analytics-service';
 import {KavaEventModel} from '../../src/kava-event-model';
 import {ErrorPosition, SoundMode, TabMode} from '../../src/kava-model';
 
-const {loadPlayer, FakeEvent, CustomEventType} = core;
+const {FakeEvent, CustomEventType} = core;
 const targetId = 'player-placeholder_kava.spec';
 
 describe('KavaPlugin', function() {
   let player;
   let kava;
   const config = {
+    targetId,
+    provider: {},
     sources: {
       progressive: [
         {
@@ -33,7 +35,7 @@ describe('KavaPlugin', function() {
   }
 
   function setupPlayer(config) {
-    player = loadPlayer(config);
+    player = setup(config);
     const el = document.getElementById(targetId);
     el.appendChild(player.getView());
   }
@@ -101,6 +103,8 @@ describe('KavaPlugin', function() {
   describe('SendAnalytics', () => {
     let sandbox = sinon.sandbox.create();
     const config = {
+      targetId,
+      provider: {},
       sources: {
         progressive: [
           {
@@ -155,7 +159,7 @@ describe('KavaPlugin', function() {
     function validateCommonParams(params, eventIndex) {
       params.eventType.should.equal(eventIndex);
       params.partnerId.should.equal(config.session.partnerId.toString());
-      params.entryId.should.equal(config.id);
+      params.entryId.should.equal(config.sources.id);
       params.playlistId.should.equal(config.plugins.kava.playlistId);
       params.sessionId.should.equal(config.session.id);
       // params.eventIndex.should.equal(1);
@@ -174,8 +178,12 @@ describe('KavaPlugin', function() {
     it('should send IMPRESSION event', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
         if (params.eventType === KavaEventModel.IMPRESSION.index) {
-          validateCommonParams(params, KavaEventModel.IMPRESSION.index);
-          done();
+          try {
+            validateCommonParams(params, KavaEventModel.IMPRESSION.index);
+            done();
+          } catch (e) {
+            done(e);
+          }
         }
         return new RequestBuilder();
       });
@@ -187,8 +195,12 @@ describe('KavaPlugin', function() {
     it('should send IMPRESSION event with persistentSessionId set in setup', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
         if (params.eventType === KavaEventModel.IMPRESSION.index) {
-          params.persistentSessionId.should.equal(configCopy.plugins.kava.persistentSessionId);
-          done();
+          try {
+            params.persistentSessionId.should.equal(configCopy.plugins.kava.persistentSessionId);
+            done();
+          } catch (e) {
+            done(e);
+          }
         }
         return new RequestBuilder();
       });
@@ -230,9 +242,13 @@ describe('KavaPlugin', function() {
       });
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
         if (params.eventType == KavaEventModel.IMPRESSION.index) {
-          validateCommonParams(params, KavaEventModel.IMPRESSION.index);
-          params.playerJSLoadTime.should.equal(149.89);
-          done();
+          try {
+            validateCommonParams(params, KavaEventModel.IMPRESSION.index);
+            params.playerJSLoadTime.should.equal(149.89);
+            done();
+          } catch (e) {
+            done(e);
+          }
         }
         return new RequestBuilder();
       });
@@ -247,8 +263,12 @@ describe('KavaPlugin', function() {
     it('should send PLAY_REQUEST event', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
         if (params.eventType === KavaEventModel.PLAY_REQUEST.index) {
-          validateCommonParams(params, KavaEventModel.PLAY_REQUEST.index);
-          done();
+          try {
+            validateCommonParams(params, KavaEventModel.PLAY_REQUEST.index);
+            done();
+          } catch (e) {
+            done(e);
+          }
         }
         return new RequestBuilder();
       });
@@ -260,13 +280,17 @@ describe('KavaPlugin', function() {
     it('should send PLAY event', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
         if (params.eventType === KavaEventModel.PLAY.index) {
-          validateCommonParams(params, KavaEventModel.PLAY.index);
-          params.bufferTime.should.exist;
-          params.bufferTimeSum.should.exist;
-          params.actualBitrate.should.exist;
-          params.joinTime.should.exist;
-          params.networkConnectionType.should.exist;
-          done();
+          try {
+            validateCommonParams(params, KavaEventModel.PLAY.index);
+            params.bufferTime.should.exist;
+            params.bufferTimeSum.should.exist;
+            params.actualBitrate.should.exist;
+            params.joinTime.should.exist;
+            params.networkConnectionType.should.exist;
+            done();
+          } catch (e) {
+            done(e);
+          }
         }
         return new RequestBuilder();
       });
@@ -381,11 +405,15 @@ describe('KavaPlugin', function() {
     it('should send RESUME event', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
         if (params.eventType === KavaEventModel.RESUME.index) {
-          validateCommonParams(params, KavaEventModel.RESUME.index);
-          params.bufferTime.should.exist;
-          params.bufferTimeSum.should.exist;
-          params.actualBitrate.should.exist;
-          done();
+          try {
+            validateCommonParams(params, KavaEventModel.RESUME.index);
+            params.bufferTime.should.exist;
+            params.bufferTimeSum.should.exist;
+            params.actualBitrate.should.exist;
+            done();
+          } catch (e) {
+            done(e);
+          }
         }
         return new RequestBuilder();
       });
@@ -407,9 +435,13 @@ describe('KavaPlugin', function() {
     it('should send PAUSE event', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
         if (params.eventType === KavaEventModel.PAUSE.index) {
-          validateCommonParams(params, KavaEventModel.PAUSE.index);
-          kava._timer._stopped.should.be.true;
-          done();
+          try {
+            validateCommonParams(params, KavaEventModel.PAUSE.index);
+            kava._timer._stopped.should.be.true;
+            done();
+          } catch (e) {
+            done(e);
+          }
         }
         return new RequestBuilder();
       });
@@ -426,8 +458,12 @@ describe('KavaPlugin', function() {
     it('should send REPLAY event', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
         if (params.eventType === KavaEventModel.REPLAY.index) {
-          validateCommonParams(params, KavaEventModel.REPLAY.index);
-          done();
+          try {
+            validateCommonParams(params, KavaEventModel.REPLAY.index);
+            done();
+          } catch (e) {
+            done(e);
+          }
         }
         return new RequestBuilder();
       });
@@ -449,9 +485,13 @@ describe('KavaPlugin', function() {
     it('should send SEEK event', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
         if (params.eventType === KavaEventModel.SEEK.index) {
-          validateCommonParams(params, KavaEventModel.SEEK.index);
-          params.targetPosition.should.exist;
-          done();
+          try {
+            validateCommonParams(params, KavaEventModel.SEEK.index);
+            params.targetPosition.should.exist;
+            done();
+          } catch (e) {
+            done(e);
+          }
         }
         return new RequestBuilder();
       });
@@ -468,8 +508,12 @@ describe('KavaPlugin', function() {
     it('should send PLAY_REACHED_25_PERCENT event', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
         if (params.eventType === KavaEventModel.PLAY_REACHED_25_PERCENT.index) {
-          validateCommonParams(params, KavaEventModel.PLAY_REACHED_25_PERCENT.index);
-          done();
+          try {
+            validateCommonParams(params, KavaEventModel.PLAY_REACHED_25_PERCENT.index);
+            done();
+          } catch (e) {
+            done(e);
+          }
         }
         return new RequestBuilder();
       });
@@ -486,8 +530,12 @@ describe('KavaPlugin', function() {
     it('should send PLAY_REACHED_50_PERCENT event', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
         if (params.eventType === KavaEventModel.PLAY_REACHED_50_PERCENT.index) {
-          validateCommonParams(params, KavaEventModel.PLAY_REACHED_50_PERCENT.index);
-          done();
+          try {
+            validateCommonParams(params, KavaEventModel.PLAY_REACHED_50_PERCENT.index);
+            done();
+          } catch (e) {
+            done(e);
+          }
         }
         return new RequestBuilder();
       });
@@ -504,8 +552,12 @@ describe('KavaPlugin', function() {
     it('should send PLAY_REACHED_75_PERCENT event', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
         if (params.eventType === KavaEventModel.PLAY_REACHED_75_PERCENT.index) {
-          validateCommonParams(params, KavaEventModel.PLAY_REACHED_75_PERCENT.index);
-          done();
+          try {
+            validateCommonParams(params, KavaEventModel.PLAY_REACHED_75_PERCENT.index);
+            done();
+          } catch (e) {
+            done(e);
+          }
         }
         return new RequestBuilder();
       });
@@ -522,8 +574,12 @@ describe('KavaPlugin', function() {
     it('should send PLAY_REACHED_100_PERCENT event', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
         if (params.eventType === KavaEventModel.PLAY_REACHED_100_PERCENT.index) {
-          validateCommonParams(params, KavaEventModel.PLAY_REACHED_100_PERCENT.index);
-          done();
+          try {
+            validateCommonParams(params, KavaEventModel.PLAY_REACHED_100_PERCENT.index);
+            done();
+          } catch (e) {
+            done(e);
+          }
         }
         return new RequestBuilder();
       });
@@ -540,9 +596,13 @@ describe('KavaPlugin', function() {
     it('should send SOURCE_SELECTED event', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
         if (params.eventType === KavaEventModel.SOURCE_SELECTED.index) {
-          validateCommonParams(params, KavaEventModel.SOURCE_SELECTED.index);
-          params.actualBitrate.should.equal(480256 / 1024);
-          done();
+          try {
+            validateCommonParams(params, KavaEventModel.SOURCE_SELECTED.index);
+            params.actualBitrate.should.equal(480256 / 1024);
+            done();
+          } catch (e) {
+            done(e);
+          }
         }
         return new RequestBuilder();
       });
@@ -557,9 +617,13 @@ describe('KavaPlugin', function() {
     it('should send FLAVOR_SWITCH event', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
         if (params.eventType === KavaEventModel.FLAVOR_SWITCH.index) {
-          validateCommonParams(params, KavaEventModel.FLAVOR_SWITCH.index);
-          params.actualBitrate.should.equal(480256 / 1024);
-          done();
+          try {
+            validateCommonParams(params, KavaEventModel.FLAVOR_SWITCH.index);
+            params.actualBitrate.should.equal(480256 / 1024);
+            done();
+          } catch (e) {
+            done(e);
+          }
         }
         return new RequestBuilder();
       });
@@ -574,9 +638,13 @@ describe('KavaPlugin', function() {
     it('should send AUDIO_SELECTED event', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
         if (params.eventType === KavaEventModel.AUDIO_SELECTED.index) {
-          validateCommonParams(params, KavaEventModel.AUDIO_SELECTED.index);
-          params.language.should.equal('heb');
-          done();
+          try {
+            validateCommonParams(params, KavaEventModel.AUDIO_SELECTED.index);
+            params.language.should.equal('heb');
+            done();
+          } catch (e) {
+            done(e);
+          }
         }
         return new RequestBuilder();
       });
@@ -589,9 +657,13 @@ describe('KavaPlugin', function() {
     it('should send CAPTIONS event', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
         if (params.eventType === KavaEventModel.CAPTIONS.index) {
-          validateCommonParams(params, KavaEventModel.CAPTIONS.index);
-          params.caption.should.equal('eng');
-          done();
+          try {
+            validateCommonParams(params, KavaEventModel.CAPTIONS.index);
+            params.caption.should.equal('eng');
+            done();
+          } catch (e) {
+            done(e);
+          }
         }
         return new RequestBuilder();
       });
@@ -605,9 +677,13 @@ describe('KavaPlugin', function() {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
         try {
           if (params.eventType === KavaEventModel.ERROR.index) {
-            validateCommonParams(params, KavaEventModel.ERROR.index);
-            params.errorPosition.should.equal(ErrorPosition.PRE_PLAY);
-            done();
+            try {
+              validateCommonParams(params, KavaEventModel.ERROR.index);
+              params.errorPosition.should.equal(ErrorPosition.PRE_PLAY);
+              done();
+            } catch (e) {
+              done(e);
+            }
           }
           return new RequestBuilder();
         } catch (err) {
@@ -625,9 +701,13 @@ describe('KavaPlugin', function() {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
         try {
           if (params.eventType === KavaEventModel.ERROR.index) {
-            validateCommonParams(params, KavaEventModel.ERROR.index);
-            params.errorPosition.should.equal(ErrorPosition.PRE_PLAYING);
-            done();
+            try {
+              validateCommonParams(params, KavaEventModel.ERROR.index);
+              params.errorPosition.should.equal(ErrorPosition.PRE_PLAYING);
+              done();
+            } catch (e) {
+              done(e);
+            }
           }
           return new RequestBuilder();
         } catch (err) {
@@ -645,9 +725,13 @@ describe('KavaPlugin', function() {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
         try {
           if (params.eventType === KavaEventModel.ERROR.index) {
-            validateCommonParams(params, KavaEventModel.ERROR.index);
-            params.errorPosition.should.equal(ErrorPosition.MID_STREAM);
-            done();
+            try {
+              validateCommonParams(params, KavaEventModel.ERROR.index);
+              params.errorPosition.should.equal(ErrorPosition.MID_STREAM);
+              done();
+            } catch (e) {
+              done(e);
+            }
           }
           return new RequestBuilder();
         } catch (err) {
@@ -668,39 +752,43 @@ describe('KavaPlugin', function() {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
         try {
           if (params.eventType === KavaEventModel.VIEW.index) {
-            validateCommonParams(params, KavaEventModel.VIEW.index);
-            params.should.have.all.keys(
-              'audioLanguage',
-              'bufferTime',
-              'bufferTimeSum',
-              'actualBitrate',
-              'averageBitrate',
-              'caption',
-              'clientTag',
-              'clientVer',
-              'deliveryType',
-              'droppedFramesRatio',
-              'entryId',
-              'eventIndex',
-              'eventType',
-              'ks',
-              'partnerId',
-              'playbackSpeed',
-              'playTimeSum',
-              'playbackType',
-              'playlistId',
-              'position',
-              'referrer',
-              'sessionId',
-              'soundMode',
-              'tabMode',
-              'networkConnectionType',
-              'userId'
-            );
-            params.networkConnectionType.should.equal('2g');
-            params.tabMode.should.equal(TabMode.TAB_FOCUSED);
-            params.soundMode.should.equal(SoundMode.SOUND_ON);
-            done();
+            try {
+              validateCommonParams(params, KavaEventModel.VIEW.index);
+              params.should.have.all.keys(
+                'audioLanguage',
+                'bufferTime',
+                'bufferTimeSum',
+                'actualBitrate',
+                'averageBitrate',
+                'caption',
+                'clientTag',
+                'clientVer',
+                'deliveryType',
+                'droppedFramesRatio',
+                'entryId',
+                'eventIndex',
+                'eventType',
+                'ks',
+                'partnerId',
+                'playbackSpeed',
+                'playTimeSum',
+                'playbackType',
+                'playlistId',
+                'position',
+                'referrer',
+                'sessionId',
+                'soundMode',
+                'tabMode',
+                'networkConnectionType',
+                'userId'
+              );
+              params.networkConnectionType.should.equal('2g');
+              params.tabMode.should.equal(TabMode.TAB_FOCUSED);
+              params.soundMode.should.equal(SoundMode.SOUND_ON);
+              done();
+            } catch (e) {
+              done(e);
+            }
           }
           return new RequestBuilder();
         } catch (err) {
@@ -716,8 +804,12 @@ describe('KavaPlugin', function() {
     it('should send VIEW event with persistentSessionId set after setup using configure', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
         if (params.eventType === KavaEventModel.VIEW.index) {
-          params.persistentSessionId.should.equal('74709497-d3a5-4d93-a866-0d171123');
-          done();
+          try {
+            params.persistentSessionId.should.equal('74709497-d3a5-4d93-a866-0d171123');
+            done();
+          } catch (e) {
+            done(e);
+          }
         }
         return new RequestBuilder();
       });
@@ -736,14 +828,18 @@ describe('KavaPlugin', function() {
       const FRAG2_BYTES = 20000;
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
         if (params.eventType === KavaEventModel.VIEW.index) {
-          params.manifestDownloadTime.should.equal(DUMMY_MANIFEST_DOWNLOAD_TIME / 1000);
-          const TOTAL_SECONDS = (FRAG1_DOWNLOAD_TIME + FRAG2_DOWNLOAD_TIME) / 1000;
-          params.bandwidth.should.equal(Math.round(((FRAG1_BYTES + FRAG2_BYTES) * 8) / TOTAL_SECONDS) / 1000);
-          params.segmentDownloadTime.should.equal(FRAG1_DOWNLOAD_TIME / 1000);
-          params.networkConnectionOverhead.should.equal(0.1);
-          params.flavorParamsId.should.equal(36);
-          params.position.should.equal(0);
-          done();
+          try {
+            params.manifestDownloadTime.should.equal(DUMMY_MANIFEST_DOWNLOAD_TIME / 1000);
+            const TOTAL_SECONDS = (FRAG1_DOWNLOAD_TIME + FRAG2_DOWNLOAD_TIME) / 1000;
+            params.bandwidth.should.equal(Math.round(((FRAG1_BYTES + FRAG2_BYTES) * 8) / TOTAL_SECONDS) / 1000);
+            params.segmentDownloadTime.should.equal(FRAG1_DOWNLOAD_TIME / 1000);
+            params.networkConnectionOverhead.should.equal(0.1);
+            params.flavorParamsId.should.equal(36);
+            params.position.should.equal(0);
+            done();
+          } catch (e) {
+            done(e);
+          }
         }
         return new RequestBuilder();
       });
@@ -811,8 +907,12 @@ describe('KavaPlugin', function() {
     it('should send VIEW event with volume set to 0', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
         if (params.eventType === KavaEventModel.VIEW.index) {
-          params.soundMode.should.equal(SoundMode.SOUND_OFF);
-          done();
+          try {
+            params.soundMode.should.equal(SoundMode.SOUND_OFF);
+            done();
+          } catch (e) {
+            done(e);
+          }
         }
         return new RequestBuilder();
       });
@@ -826,8 +926,12 @@ describe('KavaPlugin', function() {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
         try {
           if (params.eventType === KavaEventModel.VIEW.index && params.position > 0) {
-            params.position.should.gt(config.plugins.kava.viewEventCountdown);
-            done();
+            try {
+              params.position.should.gt(config.plugins.kava.viewEventCountdown);
+              done();
+            } catch (e) {
+              done(e);
+            }
           }
           return new RequestBuilder();
         } catch (err) {
@@ -842,8 +946,12 @@ describe('KavaPlugin', function() {
     it('should send VIEW event with sound muted', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
         if (params.eventType === KavaEventModel.VIEW.index) {
-          params.soundMode.should.equal(SoundMode.SOUND_OFF);
-          done();
+          try {
+            params.soundMode.should.equal(SoundMode.SOUND_OFF);
+            done();
+          } catch (e) {
+            done(e);
+          }
         }
         return new RequestBuilder();
       });
@@ -856,9 +964,13 @@ describe('KavaPlugin', function() {
     it('should send VIEW event with forwardBufferHealth and targetBuffer', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
         if (params.eventType === KavaEventModel.VIEW.index) {
-          params.targetBuffer.should.equal(30);
-          params.forwardBufferHealth.should.equal(0.5);
-          done();
+          try {
+            params.targetBuffer.should.equal(30);
+            params.forwardBufferHealth.should.equal(0.5);
+            done();
+          } catch (e) {
+            done(e);
+          }
         }
         return new RequestBuilder();
       });
@@ -876,8 +988,12 @@ describe('KavaPlugin', function() {
     it('should send BUFFER_START event', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
         if (params.eventType === KavaEventModel.BUFFER_START.index) {
-          validateCommonParams(params, KavaEventModel.BUFFER_START.index);
-          done();
+          try {
+            validateCommonParams(params, KavaEventModel.BUFFER_START.index);
+            done();
+          } catch (e) {
+            done(e);
+          }
         }
         return new RequestBuilder();
       });
@@ -898,8 +1014,12 @@ describe('KavaPlugin', function() {
     it('should send BUFFER_END event', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
         if (params.eventType === KavaEventModel.BUFFER_END.index) {
-          validateCommonParams(params, KavaEventModel.BUFFER_END.index);
-          done();
+          try {
+            validateCommonParams(params, KavaEventModel.BUFFER_END.index);
+            done();
+          } catch (e) {
+            done(e);
+          }
         }
         return new RequestBuilder();
       });
@@ -919,9 +1039,13 @@ describe('KavaPlugin', function() {
     it('should send SPEED event', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
         if (params.eventType === KavaEventModel.SPEED.index) {
-          validateCommonParams(params, KavaEventModel.SPEED.index);
-          params.playbackSpeed.should.equal(1);
-          done();
+          try {
+            validateCommonParams(params, KavaEventModel.SPEED.index);
+            params.playbackSpeed.should.equal(1);
+            done();
+          } catch (e) {
+            done(e);
+          }
         }
         return new RequestBuilder();
       });
@@ -934,6 +1058,8 @@ describe('KavaPlugin', function() {
   describe('Server Response', () => {
     let sandbox;
     const config = {
+      targetId,
+      provider: {},
       sources: {
         progressive: [
           {
@@ -986,8 +1112,12 @@ describe('KavaPlugin', function() {
         kava = getKavaPlugin();
         kava._sendAnalytics(KavaEventModel.VIEW);
       }).then(() => {
-        kava._model.getSessionStartTime().should.equal(12345);
-        done();
+        try {
+          kava._model.getSessionStartTime().should.equal(12345);
+          done();
+        } catch (e) {
+          done(e);
+        }
       });
     });
 
@@ -1004,9 +1134,13 @@ describe('KavaPlugin', function() {
         kava = getKavaPlugin();
         kava._sendAnalytics(KavaEventModel.VIEW);
       }).then(() => {
-        kava._model.getSessionStartTime().should.equal(12345);
-        kava._viewEventEnabled.should.equal(false);
-        done();
+        try {
+          kava._model.getSessionStartTime().should.equal(12345);
+          kava._viewEventEnabled.should.equal(false);
+          done();
+        } catch (e) {
+          done(e);
+        }
       });
     });
   });
