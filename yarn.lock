@@ -4977,7 +4977,7 @@ just-extend@^4.0.2:
 
 "kaltura-player-js@https://github.com/kaltura/kaltura-player-js.git#FEC-10057":
   version "0.55.0"
-  resolved "https://github.com/kaltura/kaltura-player-js.git#48be79304830b61ef7339b00d4f3fcb76ab5e0ae"
+  resolved "https://github.com/kaltura/kaltura-player-js.git#883b07f5b7810b9afa38390f000193146a5a82e5"
   dependencies:
     "@playkit-js/playkit-js" "https://github.com/kaltura/playkit-js.git#FEC-10057"
     "@playkit-js/playkit-js-dash" canary
