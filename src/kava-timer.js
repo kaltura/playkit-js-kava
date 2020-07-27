@@ -12,7 +12,7 @@ const SECOND: number = 1000;
 class KavaTimer extends FakeEventTarget {
   _resetCounter: number;
   _eventCounter: number;
-  _intervalId: ?number;
+  _intervalId: ?IntervalID;
   _stopped: boolean;
   _config: Object;
 

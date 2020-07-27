@@ -7,7 +7,7 @@ import {ErrorPosition, SoundMode, TabMode} from '../../src/kava-model';
 
 const targetId = 'player-placeholder_kava.spec';
 
-describe('KavaPlugin', function() {
+describe('KavaPlugin', function () {
   let player;
   let kava;
   const config = {
@@ -41,18 +41,18 @@ describe('KavaPlugin', function() {
     return player._pluginManager.get('kava');
   }
 
-  before(function() {
+  before(function () {
     createPlayerPlaceholder(targetId);
   });
 
-  afterEach(function() {
+  afterEach(function () {
     player.destroy();
     player = null;
     kava = null;
     TestUtils.removeVideoElementsFromTestPage();
   });
 
-  after(function() {
+  after(function () {
     TestUtils.removeElement(targetId);
   });
 
@@ -84,7 +84,7 @@ describe('KavaPlugin', function() {
   });
 
   it('should check _getDroppedFramesRatio does not return NaN if no new frames received', done => {
-    let sandbox = sinon.sandbox.create();
+    let sandbox = sinon.createSandbox();
     setupPlayer(config);
     kava = getKavaPlugin();
     sandbox.stub(kava, '_getDroppedAndDecodedFrames').callsFake(() => {
@@ -98,7 +98,7 @@ describe('KavaPlugin', function() {
   });
 
   describe('SendAnalytics', () => {
-    let sandbox = sinon.sandbox.create();
+    let sandbox = sinon.createSandbox();
     const config = {
       sources: {
         progressive: [
@@ -968,7 +968,7 @@ describe('KavaPlugin', function() {
     };
 
     beforeEach(() => {
-      sandbox = sinon.sandbox.create();
+      sandbox = sinon.createSandbox();
     });
 
     afterEach(() => {

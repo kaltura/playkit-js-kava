@@ -1,15 +1,15 @@
 import {KavaRateHandler} from '../../src/kava-rate-handler';
 
-describe('KavaRateHandler', function() {
+describe('KavaRateHandler', function () {
   let rateHandler;
   const data = [480, 720, 1080];
 
-  beforeEach(function() {
+  beforeEach(function () {
     rateHandler = new KavaRateHandler();
     rateHandler.setRates(data);
   });
 
-  afterEach(function() {
+  afterEach(function () {
     rateHandler = null;
   });
 

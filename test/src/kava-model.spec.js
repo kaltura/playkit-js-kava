@@ -88,12 +88,12 @@ describe('KavaModel', () => {
     model.getPersistentSessionId = () => psi;
   });
 
-  it('should update the model', function() {
+  it('should update the model', function () {
     model.updateModel({language: 'newLang'});
     model.getLanguage().should.equal('newLang');
   });
 
-  it('should return the model', function() {
+  it('should return the model', function () {
     const resultModel = model.getModel(eventModel.MY_EVENT);
     resultModel.should.deep.equal({
       playTimeSum: pts,
