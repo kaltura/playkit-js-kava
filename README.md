@@ -51,27 +51,28 @@ Finally, add the bundle as a script tag in your page, and initialize the player
 <script type="text/javascript" src="/PATH/TO/FILE/kaltura-{ovp/tv}-player.js"></script>
 <script type="text/javascript" src="/PATH/TO/FILE/playkit-kava.js"></script>
 <div id="player-placeholder" style="height:360px; width:640px">
-<script type="text/javascript">
-var config = {
-  targetId: 'player-placeholder',
-  provider: {
-    partnerId: {PARTNER_ID}
-    ...
-  },
-  plugins: {
-    kava: {
+  <script type="text/javascript">
+    var config = {
+      targetId: 'player-placeholder',
+      provider: {
+        partnerId: {PARTNER_ID}
+        ...
+      },
+      plugins: {
+        kava: {
+           ...
+        }
        ...
-    }
-   ...
-  }
-...
-};
-var player = KalturaPlayer.setup(config);
-player.loadMedia({
-  entryId: '{ENTRY_ID}'
-  ...
-});
-</script>
+      }
+    ...
+    };
+    var player = KalturaPlayer.setup(config);
+    player.loadMedia({
+      entryId: '{ENTRY_ID}'
+      ...
+    });
+  </script>
+</div>
 ```
 
 ## Documentation

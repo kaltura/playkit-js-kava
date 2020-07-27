@@ -583,6 +583,7 @@ class Kava extends BasePlugin {
       return false;
     }
   }
+
   _updateMaxNetworkConnectionOverhead(networkConnectionOverhead: number): void {
     this._model.updateModel({
       maxNetworkConnectionOverhead: Math.max(this._model.maxNetworkConnectionOverhead, networkConnectionOverhead)
@@ -778,11 +779,11 @@ class Kava extends BasePlugin {
     this.logger.warn(`Kava analytics block report because of missing param ${missingParam}`);
   }
 
-  static _getTimeDifferenceInSeconds(time): number {
+  static _getTimeDifferenceInSeconds(time: number): number {
     return (Date.now() - time) / 1000.0;
   }
 
-  _updateTabModeinModel(hiddenAttr: string): void {
+  _updateTabModeInModel(hiddenAttr: string): void {
     this._model.updateModel({
       // $FlowFixMe
       tabMode: document[hiddenAttr] ? TabMode.TAB_NOT_FOCUSED : TabMode.TAB_FOCUSED
@@ -805,8 +806,8 @@ class Kava extends BasePlugin {
     }
 
     if (hiddenAttr && visibilityChangeEventName) {
-      this.eventManager.listen(document, visibilityChangeEventName, () => this._updateTabModeinModel(hiddenAttr));
-      this._updateTabModeinModel(hiddenAttr);
+      this.eventManager.listen(document, visibilityChangeEventName, () => this._updateTabModeInModel(hiddenAttr));
+      this._updateTabModeInModel(hiddenAttr);
     }
   }
 }
