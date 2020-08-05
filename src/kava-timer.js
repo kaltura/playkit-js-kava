@@ -1,5 +1,6 @@
 // @flow
-import {FakeEvent, FakeEventTarget} from '@playkit-js/playkit-js';
+import {core} from 'kaltura-player-js';
+const {FakeEvent, FakeEventTarget} = core;
 
 const SECOND: number = 1000;
 
