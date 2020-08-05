@@ -1,6 +1,17 @@
-# Change Log
+# Changelog
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+## [0.18.0](https://github.com/kaltura/playkit-js-kava/compare/v0.17.1...v0.18.0) (2020-08-05)
+
+
+### Features
+
+* **FEC-10057:** move the plugin manager to kaltura player ([#76](https://github.com/kaltura/playkit-js-kava/issues/76)) ([6fcf12a](https://github.com/kaltura/playkit-js-kava/commit/6fcf12a))
+* **FEC-10290:** upgrade NPM packages ([#77](https://github.com/kaltura/playkit-js-kava/issues/77)) ([d2d6388](https://github.com/kaltura/playkit-js-kava/commit/d2d6388))
+* **FEC-10291:** migrate analytics plugins injection from kaltura Player to server ([#75](https://github.com/kaltura/playkit-js-kava/issues/75)) ([a237449](https://github.com/kaltura/playkit-js-kava/commit/a237449))
+
+
 
 <a name="0.17.1"></a>
 ## [0.17.1](https://github.com/kaltura/playkit-js-kava/compare/v0.17.0...v0.17.1) (2020-04-13)
