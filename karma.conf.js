@@ -1,4 +1,3 @@
-const path = require('path');
 let webpackConfig = require('./webpack.config.js');
 //Need to remove externals otherwise they won't be included in test
 delete webpackConfig.externals;
