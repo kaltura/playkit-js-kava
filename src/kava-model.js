@@ -30,6 +30,7 @@ class KavaModel {
   droppedFramesRatio: ?number = null;
   soundMode: typeof SoundMode;
   tabMode: typeof TabMode;
+  screenMode: typeof ScreenMode = ScreenMode.NOT_IN_FULLSCREEN;
   maxNetworkConnectionOverhead: number = 0;
   flavorParamsId: number = NaN;
   networkConnectionType: string;
@@ -222,6 +223,16 @@ class KavaModel {
   }
 
   /**
+   * Gets the screen mode of the browser player.
+   * @returns {FullScreenMode} the state of the full screen if is on or not.
+   * @memberof KavaModel
+   * @instance
+   */
+  getScreenMode(): typeof ScreenMode {
+    return this.screenMode;
+  }
+
+  /**
    * Gets the Tab mode of the browser.
    * @returns {TabMode} the state of the tab (focused or not)
    * @memberof KavaModel
@@ -353,10 +364,15 @@ const TabMode = {
   TAB_FOCUSED: 2
 };
 
+const ScreenMode = {
+  NOT_IN_FULLSCREEN: 1,
+  FULLSCREEN: 2
+};
+
 const ErrorPosition = {
   PRE_PLAY: 3,
   PRE_PLAYING: 1,
   MID_STREAM: 2
 };
 
-export {KavaModel, SoundMode, TabMode, ErrorPosition};
+export {KavaModel, SoundMode, TabMode, ErrorPosition, ScreenMode};

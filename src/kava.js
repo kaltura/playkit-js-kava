@@ -4,7 +4,7 @@ import {OVPAnalyticsService} from 'playkit-js-providers/dist/playkit-analytics-s
 import {KavaEventModel, KavaEventType} from './kava-event-model';
 import {KavaRateHandler} from './kava-rate-handler';
 import {KavaTimer} from './kava-timer';
-import {ErrorPosition, KavaModel, SoundMode, TabMode} from './kava-model';
+import {ErrorPosition, KavaModel, SoundMode, TabMode, ScreenMode} from './kava-model';
 
 const {Error: PKError, FakeEvent, Utils} = core;
 const DIVIDER: number = 1024;
@@ -306,6 +306,10 @@ class Kava extends BasePlugin {
     this.eventManager.listen(this.player, this.player.Event.LOAD_START, () => this._onLoadStart());
     this.eventManager.listen(this.player, this.player.Event.VOLUME_CHANGE, () => this._updateSoundModeInModel());
     this.eventManager.listen(this.player, this.player.Event.MUTE_CHANGE, () => this._updateSoundModeInModel());
+    this.eventManager.listen(this.player, this.player.Event.ENTER_FULLSCREEN, () => this._model.updateModel({screenMode: ScreenMode.FULLSCREEN}));
+    this.eventManager.listen(this.player, this.player.Event.EXIT_FULLSCREEN, () =>
+      this._model.updateModel({screenMode: ScreenMode.NOT_IN_FULLSCREEN})
+    );
     this._initTabMode();
     this._initNetworkConnectionType();
   }

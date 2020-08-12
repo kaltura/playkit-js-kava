@@ -22,7 +22,8 @@ export const KavaEventModel: {[event: string]: KavaEvent} = {
         averageBitrate: model.getAverageBitrate(),
         audioLanguage: model.getLanguage(),
         soundMode: model.getSoundMode(),
-        tabMode: model.getTabMode()
+        tabMode: model.getTabMode(),
+        screenMode: model.getScreenMode()
       };
 
       if (!isNaN(model.getForwardBufferHealth())) {
