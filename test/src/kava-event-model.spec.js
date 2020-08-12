@@ -69,6 +69,10 @@ class FakeModel {
     return 1;
   }
 
+  getScreenMode() {
+    return 1;
+  }
+
   getAvailableBuffer() {
     return 2;
   }
@@ -128,6 +132,7 @@ describe('KavaEventModel', () => {
       manifestDownloadTime: fakeModel.getMaxManifestDownloadTime(),
       soundMode: fakeModel.getSoundMode(),
       tabMode: fakeModel.getTabMode(),
+      screenMode: fakeModel.getScreenMode(),
       segmentDownloadTime: fakeModel.getSegmentDownloadTime(),
       forwardBufferHealth: fakeModel.getForwardBufferHealth(),
       targetBuffer: fakeModel.getTargetBuffer(),
