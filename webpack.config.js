@@ -20,7 +20,6 @@ module.exports = {
     path: __dirname + '/dist',
     filename: '[name].js',
     library: ['KalturaPlayer', 'plugins', 'kava'],
-    libraryTarget: 'umd',
     umdNamedDefine: true,
     devtoolModuleFilenameTemplate: './kava/[resource-path]'
   },
@@ -61,17 +60,6 @@ module.exports = {
     modules: [path.resolve(__dirname, 'src'), 'node_modules']
   },
   externals: {
-    'kaltura-player-js': {
-      commonjs: 'kaltura-player-js',
-      commonjs2: 'kaltura-player-js',
-      amd: 'kaltura-player-js',
-      root: ['KalturaPlayer']
-    },
-    'playkit-js-providers': {
-      commonjs: 'playkit-js-providers',
-      commonjs2: 'playkit-js-providers',
-      amd: 'playkit-js-providers',
-      root: ['KalturaPlayer', 'providers']
-    }
+    'kaltura-player-js': ['KalturaPlayer']
   }
 };
