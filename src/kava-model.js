@@ -10,7 +10,7 @@ import {getEventModel} from './kava-event-model';
 class KavaModel {
   sessionStartTime: number;
   eventIndex: number;
-  errorPosition: number;
+  errorPosition: $Values<typeof ErrorPosition>;
   playTimeSum: number;
   bufferTime: number;
   bufferTimeSum: number;
@@ -28,9 +28,9 @@ class KavaModel {
   maxManifestDownloadTime: number = 0;
   forwardBufferHealth: number;
   droppedFramesRatio: ?number = null;
-  soundMode: typeof SoundMode;
-  tabMode: typeof TabMode;
-  screenMode: number = ScreenMode.NOT_IN_FULLSCREEN;
+  soundMode: $Values<typeof SoundMode>;
+  tabMode: $Values<typeof TabMode>;
+  screenMode: $Values<typeof ScreenMode> = ScreenMode.NOT_IN_FULLSCREEN;
   maxNetworkConnectionOverhead: number = 0;
   flavorParamsId: number = NaN;
   networkConnectionType: string;
@@ -218,7 +218,7 @@ class KavaModel {
    * @memberof KavaModel
    * @instance
    */
-  getSoundMode(): typeof SoundMode {
+  getSoundMode(): $Values<typeof SoundMode> {
     return this.soundMode;
   }
 
@@ -228,7 +228,7 @@ class KavaModel {
    * @memberof KavaModel
    * @instance
    */
-  getScreenMode(): number {
+  getScreenMode(): $Values<typeof ScreenMode> {
     return this.screenMode;
   }
 
@@ -238,7 +238,7 @@ class KavaModel {
    * @memberof KavaModel
    * @instance
    */
-  getTabMode(): typeof TabMode {
+  getTabMode(): $Values<typeof TabMode> {
     return this.tabMode;
   }
 
@@ -317,7 +317,7 @@ class KavaModel {
    * @memberof KavaModel
    * @instance
    */
-  getErrorPosition(): number {
+  getErrorPosition(): $Values<typeof ErrorPosition> {
     return this.errorPosition;
   }
 
