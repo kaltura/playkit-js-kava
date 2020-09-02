@@ -9,7 +9,6 @@ import {ErrorPosition, KavaModel, SoundMode, TabMode, ScreenMode} from './kava-m
 const {Error: PKError, FakeEvent, Utils} = core;
 const DIVIDER: number = 1024;
 const TEXT_TYPE: string = 'TEXT';
-const SERVICE_PATH: string = '/api_v3/index.php';
 /**
  * Kaltura Advanced Analytics plugin.
  * @class Kava
@@ -50,7 +49,7 @@ class Kava extends BasePlugin {
    * @memberof Kava
    */
   static defaultConfig: Object = {
-    serviceUrl: '//analytics.kaltura.com',
+    serviceUrl: `${Utils.Http.protocol}//analytics.kaltura.com/api_v3/index.php`,
     viewEventCountdown: 10,
     resetSessionCountdown: 30,
     dvrThreshold: 120,
@@ -71,7 +70,6 @@ class Kava extends BasePlugin {
     super(name, player, config);
     this._rateHandler = new KavaRateHandler();
     this._model = new KavaModel();
-    this._serviceUrl = Utils.Http.protocol + '//' + this.config.serviceUrl.replace(/(^\w+:|^)\/\//, '') + SERVICE_PATH;
     this._setModelDelegates();
     this._timer = new KavaTimer({
       resetCounter: this.config.resetSessionCountdown,
@@ -209,7 +207,7 @@ class Kava extends BasePlugin {
    */
   sendAnalytics(model: Object): Promise<*> {
     return new Promise((resolve, reject) => {
-      OVPAnalyticsService.trackEvent(this._serviceUrl, model)
+      OVPAnalyticsService.trackEvent(this.config.serviceUrl, model)
         .doHttpRequest()
         .then(
           response => {
