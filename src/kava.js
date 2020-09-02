@@ -40,7 +40,6 @@ class Kava extends BasePlugin {
   _fragLoadedFiredOnce: boolean = false;
   _canPlayOccured: boolean = false;
   _isManualPreload: boolean = false;
-  _serviceUrl: string;
 
   /**
    * Default config of the plugin.
