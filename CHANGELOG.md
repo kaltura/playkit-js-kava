@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.19.0](https://github.com/kaltura/playkit-js-kava/compare/v0.18.0...v0.19.0) (2020-09-07)
+
+
+### Bug Fixes
+
+* **FEC-10161:** add kava analytics url from server response ([#82](https://github.com/kaltura/playkit-js-kava/issues/82)) ([2574aa4](https://github.com/kaltura/playkit-js-kava/commit/2574aa4))
+
+
+### Build System
+
+* **FEC-10064:** add automatic release notes ([#83](https://github.com/kaltura/playkit-js-kava/issues/83)) ([e9fbceb](https://github.com/kaltura/playkit-js-kava/commit/e9fbceb))
+
+
+### Features
+
+* **FEC-10376:** add full screen to screen mode on view events ([#79](https://github.com/kaltura/playkit-js-kava/issues/79)) ([cd73937](https://github.com/kaltura/playkit-js-kava/commit/cd73937))
+
+
+### Tests
+
+* faster unit tests ([#81](https://github.com/kaltura/playkit-js-kava/issues/81)) ([d9fdba5](https://github.com/kaltura/playkit-js-kava/commit/d9fdba5))
+
+
+
 ## [0.18.0](https://github.com/kaltura/playkit-js-kava/compare/v0.17.1...v0.18.0) (2020-08-05)
 
 
