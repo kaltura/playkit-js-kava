@@ -10,7 +10,7 @@ import {getEventModel} from './kava-event-model';
 class KavaModel {
   sessionStartTime: number;
   eventIndex: number;
-  errorPosition: number;
+  errorPosition: $Values<typeof ErrorPosition>;
   playTimeSum: number;
   bufferTime: number;
   bufferTimeSum: number;
@@ -28,8 +28,9 @@ class KavaModel {
   maxManifestDownloadTime: number = 0;
   forwardBufferHealth: number;
   droppedFramesRatio: ?number = null;
-  soundMode: typeof SoundMode;
-  tabMode: typeof TabMode;
+  soundMode: $Values<typeof SoundMode>;
+  tabMode: $Values<typeof TabMode>;
+  screenMode: $Values<typeof ScreenMode> = ScreenMode.NOT_IN_FULLSCREEN;
   maxNetworkConnectionOverhead: number = 0;
   flavorParamsId: number = NaN;
   networkConnectionType: string;
@@ -217,8 +218,18 @@ class KavaModel {
    * @memberof KavaModel
    * @instance
    */
-  getSoundMode(): typeof SoundMode {
+  getSoundMode(): $Values<typeof SoundMode> {
     return this.soundMode;
+  }
+
+  /**
+   * Gets the screen mode of the browser player.
+   * @returns {number} the state of the full screen if is on or not.
+   * @memberof KavaModel
+   * @instance
+   */
+  getScreenMode(): $Values<typeof ScreenMode> {
+    return this.screenMode;
   }
 
   /**
@@ -227,7 +238,7 @@ class KavaModel {
    * @memberof KavaModel
    * @instance
    */
-  getTabMode(): typeof TabMode {
+  getTabMode(): $Values<typeof TabMode> {
     return this.tabMode;
   }
 
@@ -306,7 +317,7 @@ class KavaModel {
    * @memberof KavaModel
    * @instance
    */
-  getErrorPosition(): number {
+  getErrorPosition(): $Values<typeof ErrorPosition> {
     return this.errorPosition;
   }
 
@@ -353,10 +364,15 @@ const TabMode = {
   TAB_FOCUSED: 2
 };
 
+const ScreenMode = {
+  NOT_IN_FULLSCREEN: 1,
+  FULLSCREEN: 2
+};
+
 const ErrorPosition = {
   PRE_PLAY: 3,
   PRE_PLAYING: 1,
   MID_STREAM: 2
 };
 
-export {KavaModel, SoundMode, TabMode, ErrorPosition};
+export {KavaModel, SoundMode, TabMode, ErrorPosition, ScreenMode};

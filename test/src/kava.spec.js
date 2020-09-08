@@ -3,7 +3,7 @@ import {core, setup} from 'kaltura-player-js';
 import * as TestUtils from './utils/test-utils';
 import {OVPAnalyticsService, RequestBuilder} from 'playkit-js-providers/dist/playkit-analytics-service';
 import {KavaEventModel} from '../../src/kava-event-model';
-import {ErrorPosition, SoundMode, TabMode} from '../../src/kava-model';
+import {ErrorPosition, SoundMode, TabMode, ScreenMode} from '../../src/kava-model';
 
 const {FakeEvent, CustomEventType} = core;
 const targetId = 'player-placeholder_kava.spec';
@@ -67,6 +67,20 @@ describe('KavaPlugin', function () {
     kava._model.getBufferTimeSum().should.equal(0.0);
     kava._model.getPlayTimeSum().should.equal(0.0);
     kava._rateHandler.getAverage().should.equal(0);
+  });
+
+  it('should change screen mode on enter and exit fullscreen', () => {
+    setupPlayer(config);
+    kava = getKavaPlugin();
+    kava._model.getScreenMode().should.equal(ScreenMode.NOT_IN_FULLSCREEN);
+    player.addEventListener(player.Event.ENTER_FULLSCREEN, () => {
+      kava._model.getScreenMode().should.equal(ScreenMode.FULLSCREEN);
+    });
+    player.addEventListener(player.Event.EXIT_FULLSCREEN, () => {
+      kava._model.getScreenMode().should.equal(ScreenMode.NOT_IN_FULLSCREEN);
+    });
+    player.enterFullscreen();
+    player.exitFullscreen();
   });
 
   it('should reset kava plugin correctly', () => {
@@ -778,6 +792,7 @@ describe('KavaPlugin', function () {
                 'referrer',
                 'sessionId',
                 'soundMode',
+                'screenMode',
                 'tabMode',
                 'networkConnectionType',
                 'userId'

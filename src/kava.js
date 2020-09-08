@@ -4,12 +4,11 @@ import {OVPAnalyticsService} from 'playkit-js-providers/dist/playkit-analytics-s
 import {KavaEventModel, KavaEventType} from './kava-event-model';
 import {KavaRateHandler} from './kava-rate-handler';
 import {KavaTimer} from './kava-timer';
-import {ErrorPosition, KavaModel, SoundMode, TabMode} from './kava-model';
+import {ErrorPosition, KavaModel, SoundMode, TabMode, ScreenMode} from './kava-model';
 
 const {Error: PKError, FakeEvent, Utils} = core;
 const DIVIDER: number = 1024;
 const TEXT_TYPE: string = 'TEXT';
-
 /**
  * Kaltura Advanced Analytics plugin.
  * @class Kava
@@ -49,7 +48,7 @@ class Kava extends BasePlugin {
    * @memberof Kava
    */
   static defaultConfig: Object = {
-    serviceUrl: '//analytics.kaltura.com/api_v3/index.php',
+    serviceUrl: `${Utils.Http.protocol}//analytics.kaltura.com/api_v3/index.php`,
     viewEventCountdown: 10,
     resetSessionCountdown: 30,
     dvrThreshold: 120,
@@ -207,7 +206,7 @@ class Kava extends BasePlugin {
    */
   sendAnalytics(model: Object): Promise<*> {
     return new Promise((resolve, reject) => {
-      OVPAnalyticsService.trackEvent(Utils.Http.protocol + this.config.serviceUrl, model)
+      OVPAnalyticsService.trackEvent(this.config.serviceUrl, model)
         .doHttpRequest()
         .then(
           response => {
@@ -306,6 +305,10 @@ class Kava extends BasePlugin {
     this.eventManager.listen(this.player, this.player.Event.LOAD_START, () => this._onLoadStart());
     this.eventManager.listen(this.player, this.player.Event.VOLUME_CHANGE, () => this._updateSoundModeInModel());
     this.eventManager.listen(this.player, this.player.Event.MUTE_CHANGE, () => this._updateSoundModeInModel());
+    this.eventManager.listen(this.player, this.player.Event.ENTER_FULLSCREEN, () => this._model.updateModel({screenMode: ScreenMode.FULLSCREEN}));
+    this.eventManager.listen(this.player, this.player.Event.EXIT_FULLSCREEN, () =>
+      this._model.updateModel({screenMode: ScreenMode.NOT_IN_FULLSCREEN})
+    );
     this._initTabMode();
     this._initNetworkConnectionType();
   }

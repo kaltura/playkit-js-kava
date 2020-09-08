@@ -1,6 +1,6 @@
 {
   "name": "@playkit-js/playkit-js-kava",
-  "version": "0.18.0",
+  "version": "0.19.1",
   "main": "dist/playkit-kava.js",
   "scripts": {
     "clean": "rm -rf ./dist",
@@ -49,6 +49,7 @@
     "babel-loader": "^8.1.0",
     "babel-plugin-istanbul": "^6.0.0",
     "chai": "^4.2.0",
+    "conventional-github-releaser": "3.1.3",
     "copy-webpack-plugin": "^6.0.3",
     "cross-env": "^7.0.2",
     "eslint": "^7.4.0",
