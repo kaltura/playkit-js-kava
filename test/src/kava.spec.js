@@ -608,22 +608,22 @@ describe('KavaPlugin', function () {
     });
 
     it('should send SOURCE_SELECTED event', done => {
-      sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
-        if (params.eventType === KavaEventModel.SOURCE_SELECTED.index) {
-          try {
-            validateCommonParams(params, KavaEventModel.SOURCE_SELECTED.index);
-            params.actualBitrate.should.equal(480256 / 1024);
-            done();
-          } catch (e) {
-            done(e);
-          }
-        }
-        return new RequestBuilder();
-      });
       setupPlayer(config);
       kava = getKavaPlugin();
       player.play();
       player.ready().then(() => {
+        sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
+          if (params.eventType === KavaEventModel.SOURCE_SELECTED.index) {
+            try {
+              validateCommonParams(params, KavaEventModel.SOURCE_SELECTED.index);
+              params.actualBitrate.should.equal(480256 / 1024);
+              done();
+            } catch (e) {
+              done(e);
+            }
+          }
+          return new RequestBuilder();
+        });
         kava._sendAnalytics(KavaEventModel.SOURCE_SELECTED);
       });
     });
