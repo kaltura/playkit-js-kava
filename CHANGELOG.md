@@ -21,8 +21,6 @@ All notable changes to this project will be documented in this file. See [standa
 
 * **FEC-10347:** This package is not UMD anymore
 
-Solves FEC-10347
-
 
 
 ## [0.19.1](https://github.com/kaltura/playkit-js-kava/compare/v0.19.0...v0.19.1) (2020-09-07)
