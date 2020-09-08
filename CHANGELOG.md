@@ -1,8 +1,31 @@
-# Changelog
+# Change Log
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-### [0.19.1](https://github.com/kaltura/playkit-js-kava/compare/v0.19.0...v0.19.1) (2020-09-07)
+<a name="1.0.0"></a>
+# [1.0.0](https://github.com/kaltura/playkit-js-kava/compare/v0.18.0...v1.0.0) (2020-09-08)
+
+
+### Bug Fixes
+
+* **FEC-10161:** add kava analytics url from server response ([#82](https://github.com/kaltura/playkit-js-kava/issues/82)) ([2574aa4](https://github.com/kaltura/playkit-js-kava/commit/2574aa4))
+
+
+### Features
+
+* **FEC-10347:** expose kaltura player as a global variable instead of UMD ([#80](https://github.com/kaltura/playkit-js-kava/issues/80)) ([75421c8](https://github.com/kaltura/playkit-js-kava/commit/75421c8))
+* **FEC-10376:** add full screen to screen mode on view events ([#79](https://github.com/kaltura/playkit-js-kava/issues/79)) ([cd73937](https://github.com/kaltura/playkit-js-kava/commit/cd73937))
+
+
+### BREAKING CHANGES
+
+* **FEC-10347:** This package is not UMD anymore
+
+Solves FEC-10347
+
+
+
+## [0.19.1](https://github.com/kaltura/playkit-js-kava/compare/v0.19.0...v0.19.1) (2020-09-07)
 
 
 
