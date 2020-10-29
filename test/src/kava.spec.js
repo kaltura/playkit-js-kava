@@ -885,7 +885,11 @@ describe('KavaPlugin', function () {
         })
       );
       player.dispatchEvent(
-        new FakeEvent(CustomEventType.FRAG_LOADED, {miliSeconds: FRAG2_DOWNLOAD_TIME, bytes: FRAG2_BYTES, url: 'http://www.somesite.com/movie2.ts'})
+        new FakeEvent(CustomEventType.FRAG_LOADED, {
+          miliSeconds: FRAG2_DOWNLOAD_TIME,
+          bytes: FRAG2_BYTES,
+          url: 'http://www.somesite.com/movie2.ts'
+        })
       );
       let performanceOverserList = {};
       performanceOverserList.getEntries = () => {
@@ -1067,6 +1071,21 @@ describe('KavaPlugin', function () {
       setupPlayer(config);
       kava = getKavaPlugin();
       kava._onPlaybackRateChanged();
+    });
+
+    it('should send IMPRESSION event as POST', done => {
+      sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params, requestMethod) => {
+        try {
+          requestMethod.should.be.equal('POST');
+          done();
+        } catch (e) {
+          done(e);
+        }
+      });
+      config.plugins.kava.requestMethod = 'POST';
+      setupPlayer(config);
+      kava = getKavaPlugin();
+      player.play();
     });
   });
 
