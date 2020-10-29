@@ -50,6 +50,7 @@ Type: [Object][41]
 ### Properties
 
 - `serviceUrl` **[string][42]?** The Kaltura API server.
+- `requestMethod` **[string][42]?** The http method to be used for sending the beacons, GET or POST, the default is GET.
 - `viewEventCountdown` **[number][43]?** The interval in seconds that VIEW event will be sent.
 - `resetSessionCountdown` **[number][43]?** The interval in seconds that Kava session will be reset.
 - `dvrThreshold` **[number][43]?** Threshold in seconds from the live edge.
@@ -68,6 +69,7 @@ Type: [Object][41]
 // Default config
 {
  serviceUrl: '//analytics.kaltura.com/api_v3/index.php',
+ requestMethod: 'GET',
  viewEventCountdown: 30,
  resetSessionCountdown: 30,
  dvrThreshold: 120,

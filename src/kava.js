@@ -5,6 +5,7 @@ import {KavaEventModel, KavaEventType} from './kava-event-model';
 import {KavaRateHandler} from './kava-rate-handler';
 import {KavaTimer} from './kava-timer';
 import {ErrorPosition, KavaModel, SoundMode, TabMode, ScreenMode} from './kava-model';
+import {HttpMethodType} from './http-method-type';
 
 const {Error: PKError, FakeEvent, Utils} = core;
 const DIVIDER: number = 1024;
@@ -49,6 +50,7 @@ class Kava extends BasePlugin {
    */
   static defaultConfig: Object = {
     serviceUrl: `${Utils.Http.protocol}//analytics.kaltura.com/api_v3/index.php`,
+    requestMethod: HttpMethodType.GET,
     viewEventCountdown: 10,
     resetSessionCountdown: 30,
     dvrThreshold: 120,
@@ -206,7 +208,7 @@ class Kava extends BasePlugin {
    */
   sendAnalytics(model: Object): Promise<*> {
     return new Promise((resolve, reject) => {
-      OVPAnalyticsService.trackEvent(this.config.serviceUrl, model)
+      OVPAnalyticsService.trackEvent(this.config.serviceUrl, model, this.config.requestMethod)
         .doHttpRequest()
         .then(
           response => {
