@@ -4,6 +4,7 @@ import * as TestUtils from './utils/test-utils';
 import {OVPAnalyticsService, RequestBuilder} from 'playkit-js-providers/dist/playkit-analytics-service';
 import {KavaEventModel} from '../../src/kava-event-model';
 import {ErrorPosition, SoundMode, TabMode, ScreenMode} from '../../src/kava-model';
+import {HttpMethodType} from '../../src/http-method-type';
 
 const {FakeEvent, CustomEventType} = core;
 const targetId = 'player-placeholder_kava.spec';
@@ -1076,13 +1077,13 @@ describe('KavaPlugin', function () {
     it('should send IMPRESSION event as POST', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params, requestMethod) => {
         try {
-          requestMethod.should.be.equal('POST');
+          requestMethod.should.be.equal(HttpMethodType.POST);
           done();
         } catch (e) {
           done(e);
         }
       });
-      config.plugins.kava.requestMethod = 'POST';
+      config.plugins.kava.requestMethod = HttpMethodType.POST;
       setupPlayer(config);
       kava = getKavaPlugin();
       player.play();
