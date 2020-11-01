@@ -60,6 +60,11 @@ jobs:
     - stage: Release canary
       if: (branch = master) AND (type != pull_request) AND commit_message !~ /^chore\(release\)/
       env: TRAVIS_MODE=releaseCanary
+      before_script:
+        - yarn remove playkit-js-providers
+        - yarn add playkit-js-providers@https://github.com/kaltura/playkit-js-providers.git#master -P
+        - yarn add playkit-js-providers@https://github.com/kaltura/playkit-js-providers.git#master -D
+        - yarn install
       deploy:
         provider: npm
         api_key: $NPM_TOKEN
