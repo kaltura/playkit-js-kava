@@ -6690,15 +6690,15 @@ pkg-dir@^4.1.0, pkg-dir@^4.2.0:
   dependencies:
     find-up "^4.0.0"
 
-"playkit-js-providers@https://github.com/kaltura/playkit-js-providers.git#master":
-  version "2.24.0"
-  resolved "https://github.com/kaltura/playkit-js-providers.git#b09d33ea36c5f53cc4c6c7f6efaf93402b181bd6"
-
 "playkit-js-providers@https://github.com/kaltura/playkit-js-providers.git#v2.22.1":
   version "2.22.1"
   resolved "https://github.com/kaltura/playkit-js-providers.git#d101e60d195056df5c8c54599d4baa458f29a4e9"
   dependencies:
     js-logger "^1.6.0"
+
+"playkit-js-providers@https://github.com/kaltura/playkit-js-providers.git#v2.24.0":
+  version "2.24.0"
+  resolved "https://github.com/kaltura/playkit-js-providers.git#b09d33ea36c5f53cc4c6c7f6efaf93402b181bd6"
 
 please-upgrade-node@^3.2.0:
   version "3.2.0"
