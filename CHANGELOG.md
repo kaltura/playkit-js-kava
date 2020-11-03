@@ -1,6 +1,21 @@
-# Change Log
+# Changelog
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+## [1.1.0](https://github.com/kaltura/playkit-js-kava/compare/v1.0.0...v1.1.0) (2020-11-03)
+
+
+### Build System
+
+* kava canary change provider dep to master ([#87](https://github.com/kaltura/playkit-js-kava/issues/87)) ([5c0ce96](https://github.com/kaltura/playkit-js-kava/commit/5c0ce96))
+* remove plugins that already exist on preset-env ([#85](https://github.com/kaltura/playkit-js-kava/issues/85)) ([4c4e5cd](https://github.com/kaltura/playkit-js-kava/commit/4c4e5cd))
+
+
+### Features
+
+* **FEC-10615:** support sending Kava beacons as POST ([#86](https://github.com/kaltura/playkit-js-kava/issues/86)) ([5a9452c](https://github.com/kaltura/playkit-js-kava/commit/5a9452c))
+
+
 
 <a name="1.0.0"></a>
 # [1.0.0](https://github.com/kaltura/playkit-js-kava/compare/v0.18.0...v1.0.0) (2020-09-08)
