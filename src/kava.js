@@ -278,7 +278,7 @@ class Kava extends BasePlugin {
   }
 
   _handleServerResponseFailed(err: Object, model: Object): void {
-    this.logger.error(`Failed to send KAVA event`, model, err);
+    this.logger.warn(`Failed to send KAVA event`, model, err);
   }
 
   _addBindings(): void {
