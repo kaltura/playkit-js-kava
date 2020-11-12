@@ -269,7 +269,7 @@ class Kava extends BasePlugin {
       }
     }
     this.logger.debug(`Sending KAVA event ${model.eventType}:${eventObj.type}`);
-    this.sendAnalytics(model);
+    this.sendAnalytics(model).catch(() => {});
   }
 
   _handleServerResponseSuccess(response: Object, model: Object): void {
