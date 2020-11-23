@@ -311,10 +311,21 @@ class Kava extends BasePlugin {
     this.eventManager.listen(this.player, this.player.Event.EXIT_FULLSCREEN, () =>
       this._model.updateModel({screenMode: ScreenMode.NOT_IN_FULLSCREEN})
     );
-    this._initTabMode();
+    this.eventManager.listen(this.player, this.player.Event.TAB_VISIBILITY_CHANGE, e => {
+      this._updateTabMode(e.payload.active);
+    });
+    this._updateTabMode(this.player.isTabActive);
+
     this._initNetworkConnectionType();
   }
 
+  _updateTabMode(isActive: boolean) {
+    this.logger.debug('_updateTabMode', isActive);
+    this._model.updateModel({
+      // $FlowFixMe
+      tabMode: isActive ? TabMode.TAB_FOCUSED : TabMode.TAB_NOT_FOCUSED
+    });
+  }
   _onFirstPlaying(): void {
     this._isPlaying = true;
     if (!this._fragLoadedFiredOnce && this._performanceObserver) {
@@ -786,34 +797,6 @@ class Kava extends BasePlugin {
 
   static _getTimeDifferenceInSeconds(time: number): number {
     return (Date.now() - time) / 1000.0;
-  }
-
-  _updateTabModeInModel(hiddenAttr: string): void {
-    this._model.updateModel({
-      // $FlowFixMe
-      tabMode: document[hiddenAttr] ? TabMode.TAB_NOT_FOCUSED : TabMode.TAB_FOCUSED
-    });
-  }
-
-  _initTabMode(): void {
-    let hiddenAttr: string;
-    let visibilityChangeEventName: string;
-    if (typeof document.hidden !== 'undefined') {
-      // Opera 12.10 and Firefox 18 and later support
-      hiddenAttr = 'hidden';
-      visibilityChangeEventName = 'visibilitychange';
-    } else if (typeof document.msHidden !== 'undefined') {
-      hiddenAttr = 'msHidden';
-      visibilityChangeEventName = 'msvisibilitychange';
-    } else if (typeof document.webkitHidden !== 'undefined') {
-      hiddenAttr = 'webkitHidden';
-      visibilityChangeEventName = 'webkitvisibilitychange';
-    }
-
-    if (hiddenAttr && visibilityChangeEventName) {
-      this.eventManager.listen(document, visibilityChangeEventName, () => this._updateTabModeInModel(hiddenAttr));
-      this._updateTabModeInModel(hiddenAttr);
-    }
   }
 }
 
