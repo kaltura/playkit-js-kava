@@ -269,7 +269,7 @@ class Kava extends BasePlugin {
       }
     }
     this.logger.debug(`Sending KAVA event ${model.eventType}:${eventObj.type}`);
-    this.sendAnalytics(model);
+    this.sendAnalytics(model).catch(() => {});
   }
 
   _handleServerResponseSuccess(response: Object, model: Object): void {
@@ -278,7 +278,7 @@ class Kava extends BasePlugin {
   }
 
   _handleServerResponseFailed(err: Object, model: Object): void {
-    this.logger.error(`Failed to send KAVA event`, model, err);
+    this.logger.warn(`Failed to send KAVA event`, model, err);
   }
 
   _addBindings(): void {
