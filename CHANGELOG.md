@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.1.1](https://github.com/kaltura/playkit-js-kava/compare/v1.1.0...v1.1.1) (2020-12-07)
+
+
+### Bug Fixes
+
+* **FEC-10635:** Add catch handler for Kava HTTP request ([#89](https://github.com/kaltura/playkit-js-kava/issues/89)) ([426e5f8](https://github.com/kaltura/playkit-js-kava/commit/426e5f8))
+
+
+
 ## [1.1.0](https://github.com/kaltura/playkit-js-kava/compare/v1.0.0...v1.1.0) (2020-11-03)
 
 
