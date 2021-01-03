@@ -92,7 +92,6 @@ class Kava extends BasePlugin {
         this._model.updateModel({playerJSLoadTime: entry.duration});
       }
     }
-    this._updateTabModeInModel(this.player.isTabVisible);
   }
 
   _updateSoundModeInModel() {
@@ -312,8 +311,7 @@ class Kava extends BasePlugin {
     this.eventManager.listen(this.player, this.player.Event.EXIT_FULLSCREEN, () =>
       this._model.updateModel({screenMode: ScreenMode.NOT_IN_FULLSCREEN})
     );
-    this.eventManager.listen(this.player, this.player.Event.TAB_VISIBILITY_CHANGE, e => this._updateTabModeInModel(e.payload.visible));
-
+    this._initTabMode();
     this._initNetworkConnectionType();
   }
 
@@ -790,12 +788,32 @@ class Kava extends BasePlugin {
     return (Date.now() - time) / 1000.0;
   }
 
-  _updateTabModeInModel(isVisible: string): void {
-    this.logger.debug('_updateTabModeInModel', isVisible);
-
+  _updateTabModeInModel(hiddenAttr: string): void {
     this._model.updateModel({
-      tabMode: isVisible ? TabMode.TAB_FOCUSED : TabMode.TAB_NOT_FOCUSED
+      // $FlowFixMe
+      tabMode: document[hiddenAttr] ? TabMode.TAB_NOT_FOCUSED : TabMode.TAB_FOCUSED
     });
+  }
+
+  _initTabMode(): void {
+    let hiddenAttr: string;
+    let visibilityChangeEventName: string;
+    if (typeof document.hidden !== 'undefined') {
+      // Opera 12.10 and Firefox 18 and later support
+      hiddenAttr = 'hidden';
+      visibilityChangeEventName = 'visibilitychange';
+    } else if (typeof document.msHidden !== 'undefined') {
+      hiddenAttr = 'msHidden';
+      visibilityChangeEventName = 'msvisibilitychange';
+    } else if (typeof document.webkitHidden !== 'undefined') {
+      hiddenAttr = 'webkitHidden';
+      visibilityChangeEventName = 'webkitvisibilitychange';
+    }
+
+    if (hiddenAttr && visibilityChangeEventName) {
+      this.eventManager.listen(document, visibilityChangeEventName, () => this._updateTabModeInModel(hiddenAttr));
+      this._updateTabModeInModel(hiddenAttr);
+    }
   }
 }
 
