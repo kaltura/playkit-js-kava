@@ -3,7 +3,7 @@ import {core, setup} from 'kaltura-player-js';
 import * as TestUtils from './utils/test-utils';
 import {OVPAnalyticsService, RequestBuilder} from 'playkit-js-providers/dist/playkit-analytics-service';
 import {KavaEventModel} from '../../src/kava-event-model';
-import {ErrorPosition, SoundMode, TabMode, ScreenMode} from '../../src/kava-model';
+import {ErrorPosition, SoundMode, TabMode, ScreenMode, ViewabilityMode} from '../../src/kava-model';
 import {HttpMethodType} from '../../src/http-method-type';
 
 const {FakeEvent, CustomEventType} = core;
@@ -793,6 +793,7 @@ describe('KavaPlugin', function () {
                 'referrer',
                 'sessionId',
                 'soundMode',
+                'visibilityMode',
                 'screenMode',
                 'tabMode',
                 'networkConnectionType',
@@ -801,6 +802,7 @@ describe('KavaPlugin', function () {
               params.networkConnectionType.should.equal('2g');
               params.tabMode.should.equal(TabMode.TAB_FOCUSED);
               params.soundMode.should.equal(SoundMode.SOUND_ON);
+              params.viewabilityMode.should.equal(ViewabilityMode.IN_VIEW);
               done();
             } catch (e) {
               done(e);

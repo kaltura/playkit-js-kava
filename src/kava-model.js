@@ -29,6 +29,7 @@ class KavaModel {
   forwardBufferHealth: number;
   droppedFramesRatio: ?number = null;
   soundMode: $Values<typeof SoundMode>;
+  viewabilityMode: $Values<typeof ViewabilityMode>;
   tabMode: $Values<typeof TabMode>;
   screenMode: $Values<typeof ScreenMode> = ScreenMode.NOT_IN_FULLSCREEN;
   maxNetworkConnectionOverhead: number = 0;
@@ -223,6 +224,16 @@ class KavaModel {
   }
 
   /**
+   * Gets the viewability mode of the player.
+   * @returns {ViewabilityMode} the state of the view (in-view ot not)
+   * @memberof KavaModel
+   * @instance
+   */
+  getViewabilityMode(): $Values<typeof ViewabilityMode> {
+    return this.viewabilityMode;
+  }
+
+  /**
    * Gets the screen mode of the browser player.
    * @returns {number} the state of the full screen if is on or not.
    * @memberof KavaModel
@@ -359,6 +370,11 @@ const SoundMode = {
   SOUND_ON: 2
 };
 
+const ViewabilityMode = {
+  NOT_IN_VIEW: 1,
+  IN_VIEW: 2
+};
+
 const TabMode = {
   TAB_NOT_FOCUSED: 1,
   TAB_FOCUSED: 2
@@ -375,4 +391,4 @@ const ErrorPosition = {
   MID_STREAM: 2
 };
 
-export {KavaModel, SoundMode, TabMode, ErrorPosition, ScreenMode};
+export {KavaModel, SoundMode, TabMode, ErrorPosition, ScreenMode, ViewabilityMode};
