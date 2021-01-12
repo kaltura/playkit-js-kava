@@ -793,7 +793,7 @@ describe('KavaPlugin', function () {
                 'referrer',
                 'sessionId',
                 'soundMode',
-                'visibilityMode',
+                'viewabilityMode',
                 'screenMode',
                 'tabMode',
                 'networkConnectionType',
@@ -802,7 +802,7 @@ describe('KavaPlugin', function () {
               params.networkConnectionType.should.equal('2g');
               params.tabMode.should.equal(TabMode.TAB_FOCUSED);
               params.soundMode.should.equal(SoundMode.SOUND_ON);
-              params.viewabilityMode.should.equal(ViewabilityMode.IN_VIEW);
+              params.viewabilityMode.should.equal(player.isVisible ? ViewabilityMode.IN_VIEW : ViewabilityMode.NOT_IN_VIEW);
               done();
             } catch (e) {
               done(e);

@@ -65,6 +65,10 @@ class FakeModel {
     return 1;
   }
 
+  getViewabilityMode() {
+    return 1;
+  }
+
   getTabMode() {
     return 1;
   }
@@ -131,6 +135,7 @@ describe('KavaEventModel', () => {
       droppedFramesRatio: fakeModel.getDroppedFramesRatio(),
       manifestDownloadTime: fakeModel.getMaxManifestDownloadTime(),
       soundMode: fakeModel.getSoundMode(),
+      viewabilityMode: fakeModel.getViewabilityMode(),
       tabMode: fakeModel.getTabMode(),
       screenMode: fakeModel.getScreenMode(),
       segmentDownloadTime: fakeModel.getSegmentDownloadTime(),
