@@ -4,7 +4,7 @@ import {OVPAnalyticsService} from 'playkit-js-providers/dist/playkit-analytics-s
 import {KavaEventModel, KavaEventType} from './kava-event-model';
 import {KavaRateHandler} from './kava-rate-handler';
 import {KavaTimer} from './kava-timer';
-import {ErrorPosition, KavaModel, SoundMode, TabMode, ScreenMode} from './kava-model';
+import {ErrorPosition, KavaModel, SoundMode, TabMode, ScreenMode, ViewabilityMode} from './kava-model';
 import {HttpMethodType} from './http-method-type';
 
 const {Error: PKError, FakeEvent, Utils} = core;
@@ -97,6 +97,12 @@ class Kava extends BasePlugin {
   _updateSoundModeInModel() {
     this._model.updateModel({
       soundMode: this.player.muted || this.player.volume === 0 ? SoundMode.SOUND_OFF : SoundMode.SOUND_ON
+    });
+  }
+
+  _updateViewabilityModeInModel(isVisible: boolean): void {
+    this._model.updateModel({
+      viewabilityMode: isVisible ? ViewabilityMode.IN_VIEW : ViewabilityMode.NOT_IN_VIEW
     });
   }
 
@@ -306,6 +312,7 @@ class Kava extends BasePlugin {
     this.eventManager.listen(this.player, this.player.Event.CAN_PLAY, () => this._onCanPlay());
     this.eventManager.listen(this.player, this.player.Event.LOAD_START, () => this._onLoadStart());
     this.eventManager.listen(this.player, this.player.Event.VOLUME_CHANGE, () => this._updateSoundModeInModel());
+    this.eventManager.listen(this.player, this.player.Event.VISIBILITY_CHANGE, e => this._updateViewabilityModeInModel(e.payload.visible));
     this.eventManager.listen(this.player, this.player.Event.MUTE_CHANGE, () => this._updateSoundModeInModel());
     this.eventManager.listen(this.player, this.player.Event.ENTER_FULLSCREEN, () => this._model.updateModel({screenMode: ScreenMode.FULLSCREEN}));
     this.eventManager.listen(this.player, this.player.Event.EXIT_FULLSCREEN, () =>
@@ -476,6 +483,7 @@ class Kava extends BasePlugin {
   _onPlaying(): void {
     if (this._isFirstPlaying) {
       this._updateSoundModeInModel();
+      this._updateViewabilityModeInModel(this.player.isVisible);
       this._timer.start();
       this._isFirstPlaying = false;
       const playRequestStartTime =

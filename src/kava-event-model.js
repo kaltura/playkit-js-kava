@@ -23,6 +23,7 @@ export const KavaEventModel: {[event: string]: KavaEvent} = {
         audioLanguage: model.getLanguage(),
         soundMode: model.getSoundMode(),
         tabMode: model.getTabMode(),
+        viewabilityMode: model.getViewabilityMode(),
         screenMode: model.getScreenMode()
       };
 

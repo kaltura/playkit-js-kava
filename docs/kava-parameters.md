@@ -229,6 +229,15 @@ be used to differ between pre play request, pre-playing and mid streaming.
 
 ---
 
+<a id="viewabilityMode"></a>`viewabilityMode` - Is the player in view or not.
+
+- Possible values
+  - 1 - Not in view
+  - 2 - In view
+- In view means the browser tab is active and most of the player is visible in the view port.
+>Note: The minimum area percentage which is considered in-view may change upon configuration and is defined in the playerThreshold under visibility config
+
+---
 <a id="soundMode"></a>`soundMode` - Is sound muted or not.
 
 - Possible values
