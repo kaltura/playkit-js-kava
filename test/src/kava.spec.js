@@ -736,6 +736,7 @@ describe('KavaPlugin', function () {
       });
       player.play();
     });
+
     it('should send ERROR event with errorPosition MID_STREAM', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
         try {
@@ -1058,6 +1059,7 @@ describe('KavaPlugin', function () {
         }
       });
     });
+
     it('should send SPEED event', done => {
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
         if (params.eventType === KavaEventModel.SPEED.index) {
@@ -1088,6 +1090,95 @@ describe('KavaPlugin', function () {
       config.plugins.kava.requestMethod = HttpMethodType.POST;
       setupPlayer(config);
       kava = getKavaPlugin();
+      player.play();
+    });
+  });
+
+  describe('Start Time', () => {
+    let sandbox = sinon.createSandbox();
+    const config = {
+      targetId,
+      provider: {},
+      sources: {
+        startTime: 20,
+        progressive: [
+          {
+            mimetype: 'video/mp4',
+            url: 'https://cfvod.kaltura.com/pd/p/1740481/sp/174048100/serveFlavor/entryId/1_kbyh1guy/v/1/flavorId/1_hq6oztva/name/a.mp4'
+          }
+        ]
+      },
+      plugins: {
+        kava: {
+          serviceUrl: '//analytics.kaltura.com/api_v3/index.php',
+          viewEventCountdown: 10,
+          resetSessionCountdown: 30,
+          playerVersion: '0.18.1',
+          playerName: 'kaltura-player-js',
+          partnerId: '1091',
+          entryId: '0_wifqaipd',
+          entryType: 'Vod',
+          sessionId: 'c15be273-0f1b-10a3-4fc9-d7a53eebee85:b66abd37-e2e2-a22e-86ac-7859592e754b',
+          ks: 'Njk0ZmI4MzBiOTJiMGZhN2NmNTAwYWQyZGM2M2Y0YjkxMGRiZGI3MXwxMDkxOzEwOTE7MTUxNzkyMjgxMzswOzE1MTc4MzY0MTMuMTM4OzA7dmlldzoqLHdpZGdldDoxOzs='
+        }
+      },
+      session: {
+        id: 'c15be273-0f1b-10a3-4fc9-d7a53eebee85:b66abd37-e2e2-a22e-86ac-7859592e754b',
+        partnerId: 1091,
+        ks: 'Njk0ZmI4MzBiOTJiMGZhN2NmNTAwYWQyZGM2M2Y0YjkxMGRiZGI3MXwxMDkxOzEwOTE7MTUxNzkyMjgxMzswOzE1MTc4MzY0MTMuMTM4OzA7dmlldzoqLHdpZGdldDoxOzs='
+      },
+      id: '0_wifqaipd',
+      name: 'MPEG Dash with MultiAudio New Transcoding',
+      duration: 741,
+      type: 'Vod',
+      dvr: false
+    };
+
+    beforeEach(() => {
+      sandbox.stub(RequestBuilder.prototype, 'doHttpRequest').callsFake(() => {
+        return Promise.resolve();
+      });
+    });
+
+    afterEach(() => {
+      sandbox.restore();
+    });
+
+    it('should send IMPRESSION event with the correct position', done => {
+      sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
+        if (params.eventType === KavaEventModel.IMPRESSION.index) {
+          try {
+            params.position.should.equal(20);
+            done();
+          } catch (e) {
+            done(e);
+          }
+        }
+        return new RequestBuilder();
+      });
+      setupPlayer(config);
+      kava = getKavaPlugin();
+    });
+
+    it('should send SEEK event with the correct position', done => {
+      setupPlayer(config);
+      kava = getKavaPlugin();
+      const onPlaying = () => {
+        sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
+          if (params.eventType === KavaEventModel.SEEK.index) {
+            try {
+              params.position.should.equal(0);
+              done();
+            } catch (e) {
+              done(e);
+            }
+          }
+          return new RequestBuilder();
+        });
+        player.removeEventListener(player.Event.PLAYING, onPlaying);
+        player.currentTime = 0;
+      };
+      player.addEventListener(player.Event.PLAYING, onPlaying);
       player.play();
     });
   });
