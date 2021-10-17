@@ -753,7 +753,7 @@ class Kava extends BasePlugin {
       }
       return 0;
     }
-    return this._isFirstPlaying ? this.player.currentTime || this.player.config.sources.startTime || 0 : this.player.currentTime;
+    return this._isFirstPlaying ? this.player.currentTime || this.player.sources.startTime || 0 : this.player.currentTime;
   }
 
   _getDeliveryType(): string {
