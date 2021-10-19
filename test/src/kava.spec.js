@@ -1181,6 +1181,57 @@ describe('KavaPlugin', function () {
       player.addEventListener(player.Event.PLAYING, onPlaying);
       player.play();
     });
+
+    it('should send IMPRESSION event with the correct position - preload', done => {
+      sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
+        if (params.eventType === KavaEventModel.IMPRESSION.index) {
+          try {
+            params.position.should.equal(20);
+            done();
+          } catch (e) {
+            done(e);
+          }
+        }
+        return new RequestBuilder();
+      });
+
+      setupPlayer({...config, playback: {preload: 'auto'}});
+      kava = getKavaPlugin();
+    });
+
+    it('should send IMPRESSION event with the correct position - autoplay', done => {
+      sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
+        if (params.eventType === KavaEventModel.IMPRESSION.index) {
+          try {
+            params.position.should.equal(20);
+            done();
+          } catch (e) {
+            done(e);
+          }
+        }
+        return new RequestBuilder();
+      });
+
+      setupPlayer({...config, playback: {autoplay: true}});
+      kava = getKavaPlugin();
+    });
+
+    it('should send PLAY_REQUEST event with the correct position - autoplay', done => {
+      sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
+        if (params.eventType === KavaEventModel.PLAY_REQUEST.index) {
+          try {
+            params.position.should.equal(20);
+            done();
+          } catch (e) {
+            done(e);
+          }
+        }
+        return new RequestBuilder();
+      });
+
+      setupPlayer({...config, playback: {autoplay: true}});
+      kava = getKavaPlugin();
+    });
   });
 
   describe('Server Response', () => {
