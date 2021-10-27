@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.2.2](https://github.com/kaltura/playkit-js-kava/compare/v1.2.1...v1.2.2) (2021-10-27)
+
+
+### Build System
+
+* fix node 17 issue ([8745624](https://github.com/kaltura/playkit-js-kava/commit/8745624))
+
+
+
 ### [1.2.1](https://github.com/kaltura/playkit-js-kava/compare/v1.2.0...v1.2.1) (2021-10-27)
 
 
