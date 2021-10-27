@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.2.1](https://github.com/kaltura/playkit-js-kava/compare/v1.2.0...v1.2.1) (2021-10-27)
+
+
+### Bug Fixes
+
+* **FEC-11621:** analytics plugins send position 0 even startTime set ([#107](https://github.com/kaltura/playkit-js-kava/issues/107)) ([b1ba289](https://github.com/kaltura/playkit-js-kava/commit/b1ba289))
+
+
+### Build System
+
+* **FEC-10700:** Improvement for CI/CD ([#101](https://github.com/kaltura/playkit-js-kava/issues/101)) ([7c436e8](https://github.com/kaltura/playkit-js-kava/commit/7c436e8))
+* **FEC-11389:** reduce builds from travis ([1a5d223](https://github.com/kaltura/playkit-js-kava/commit/1a5d223))
+
+
+### Tests
+
+* add start time unit tests ([#108](https://github.com/kaltura/playkit-js-kava/issues/108)) ([4777d8e](https://github.com/kaltura/playkit-js-kava/commit/4777d8e))
+
+
+
 ## [1.2.0](https://github.com/kaltura/playkit-js-kava/compare/v1.1.1...v1.2.0) (2021-01-28)
 
 
