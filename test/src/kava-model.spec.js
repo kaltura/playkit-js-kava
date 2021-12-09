@@ -10,6 +10,7 @@ const ab = 3,
   cv = 'version',
   ct = 'html5:version',
   ks = 'ks',
+  veid = '2468',
   uic = 1234,
   cv1 = null,
   cv2 = {cv2: 'cv2'},
@@ -73,6 +74,7 @@ describe('KavaModel', () => {
     model.getClientVer = () => cv;
     model.getClientTag = () => ct;
     model.getKS = () => ks;
+    model.getVirtualEventId = () => veid;
     model.getUIConfId = () => uic;
     model.getCustomVar1 = () => cv1;
     model.getCustomVar2 = () => cv2;
@@ -114,6 +116,7 @@ describe('KavaModel', () => {
       clientTag: ct,
       position: pos,
       ks: ks,
+      virtualEventId: veid,
       uiConfId: uic,
       sessionStartTime: sst,
       customVar2: cv2,

@@ -305,6 +305,9 @@ export function getEventModel(eventObj: KavaEvent, model: KavaModel): Object {
   if (model.getKS()) {
     commonModel.ks = model.getKS();
   }
+  if (model.getVirtualEventId()) {
+    commonModel.virtualEventId = model.getVirtualEventId();
+  }
   if (model.getUIConfId()) {
     commonModel.uiConfId = model.getUIConfId();
   }
