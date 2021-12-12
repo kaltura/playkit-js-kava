@@ -43,6 +43,13 @@ Kava parameters are additional data that is sent with Kava event and represent r
 
 ---
 
+<a id="virtualEventId"></a>`virtualEventId` - The Kaltura virtual event id.
+
+- Obtained from the plugin config.
+- If not exist do not send this parameter at all.
+
+---
+
 <a id="eventIndex"></a>`eventIndex` - A sequence number which describe the order of events in a viewing session. In general it is just a counter of sent events.
 
 - Starts from 1.
@@ -330,6 +337,7 @@ The common parameters defined the following:
 - [`sessionId`](#sessionId)
 - [`eventIndex`](#eventIndex)
 - [`ks`](#ks)
+- [`virtualEventId`](#virtualEventId)
 - [`referrer`](#referrer)
 - [`deliveryType`](#deliveryType)
 - [`playbackType`](#playbackType)

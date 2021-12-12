@@ -146,6 +146,7 @@ describe('KavaPlugin', function () {
           entryType: 'Vod',
           sessionId: 'c15be273-0f1b-10a3-4fc9-d7a53eebee85:b66abd37-e2e2-a22e-86ac-7859592e754b',
           ks: 'Njk0ZmI4MzBiOTJiMGZhN2NmNTAwYWQyZGM2M2Y0YjkxMGRiZGI3MXwxMDkxOzEwOTE7MTUxNzkyMjgxMzswOzE1MTc4MzY0MTMuMTM4OzA7dmlldzoqLHdpZGdldDoxOzs=',
+          virtualEventId: '2468',
           userId: '1234'
         }
       },
@@ -179,6 +180,7 @@ describe('KavaPlugin', function () {
       params.sessionId.should.equal(config.session.id);
       // params.eventIndex.should.equal(1);
       params.ks.should.equal(config.session.ks);
+      params.virtualEventId.should.equal(config.plugins.kava.virtualEventId);
       params.referrer.should.equal(config.plugins.kava.referrer);
       params.deliveryType.should.equal('url');
       params.playbackType.should.equal('vod');
@@ -785,6 +787,7 @@ describe('KavaPlugin', function () {
                 'eventIndex',
                 'eventType',
                 'ks',
+                'virtualEventId',
                 'partnerId',
                 'playbackSpeed',
                 'playTimeSum',
