@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](https://github.com/kaltura/playkit-js-kava/compare/v1.2.2...v1.3.0) (2021-12-21)
+
+
+### Features
+
+* **FEC-11748:** adding player events for EP analytics ([#109](https://github.com/kaltura/playkit-js-kava/issues/109)) ([e9bf239](https://github.com/kaltura/playkit-js-kava/commit/e9bf239))
+
+
+
 ### [1.2.2](https://github.com/kaltura/playkit-js-kava/compare/v1.2.1...v1.2.2) (2021-10-27)
 
 
