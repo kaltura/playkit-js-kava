@@ -102,7 +102,7 @@ class Kava extends BasePlugin {
 
   _updateViewabilityModeInModel(isVisible: boolean): void {
     this._model.updateModel({
-      viewabilityMode: isVisible ? ViewabilityMode.IN_VIEW : ViewabilityMode.NOT_IN_VIEW
+      viewabilityMode: isVisible || this.player.isInPictureInPicture() ? ViewabilityMode.IN_VIEW : ViewabilityMode.NOT_IN_VIEW
     });
   }
 
