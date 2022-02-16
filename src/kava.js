@@ -800,7 +800,7 @@ class Kava extends BasePlugin {
   _updateTabModeInModel(hiddenAttr: string): void {
     this._model.updateModel({
       // $FlowFixMe
-      tabMode: document[hiddenAttr] ? TabMode.TAB_NOT_FOCUSED : TabMode.TAB_FOCUSED
+      tabMode: document[hiddenAttr] && !this.player.isInPictureInPicture() ? TabMode.TAB_NOT_FOCUSED : TabMode.TAB_FOCUSED
     });
   }
 
