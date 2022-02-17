@@ -1151,8 +1151,9 @@ describe('KavaPlugin', function () {
       setupPlayer(config);
       sandbox.stub(player, 'isInPictureInPicture').returns(true);
       kava = getKavaPlugin();
-      player.play();
       kava._updateViewabilityModeInModel(false);
+      sandbox.stub(kava, '_updateViewabilityModeInModel').callsFake(() => {});
+      player.play();
     });
 
     it('should send VIEW event with viewabilityMode set to not in view when not in pip mode and player is not visible', done => {
@@ -1170,8 +1171,9 @@ describe('KavaPlugin', function () {
       setupPlayer(config);
       sandbox.stub(player, 'isInPictureInPicture').returns(false);
       kava = getKavaPlugin();
-      player.play();
       kava._updateViewabilityModeInModel(false);
+      sandbox.stub(kava, '_updateViewabilityModeInModel').callsFake(() => {});
+      player.play();
     });
   });
 
