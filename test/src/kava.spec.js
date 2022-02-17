@@ -1151,7 +1151,6 @@ describe('KavaPlugin', function () {
       setupPlayer(config);
       sandbox.stub(player, 'isInPictureInPicture').returns(true);
       kava = getKavaPlugin();
-      console.log(kava._model);
       player.play();
       kava._updateViewabilityModeInModel(false);
     });
