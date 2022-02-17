@@ -1095,6 +1095,85 @@ describe('KavaPlugin', function () {
       kava = getKavaPlugin();
       player.play();
     });
+
+    it('should send VIEW event with tabMode set to focused when in pip and tab is hidden', done => {
+      sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
+        if (params.eventType === KavaEventModel.VIEW.index) {
+          try {
+            params.tabMode.should.equal(TabMode.TAB_FOCUSED);
+            done();
+          } catch (e) {
+            done(e);
+          }
+        }
+        return new RequestBuilder();
+      });
+      setupPlayer(config);
+      sandbox.stub(player, 'isInPictureInPicture').returns(true);
+      kava = getKavaPlugin();
+      sandbox.stub(kava, '_isTabHidden').returns(true);
+      kava._updateTabModeInModel('hidden');
+      player.play();
+    });
+
+    it('should send VIEW event with tabMode set to not focused when not in pip and tab is hidden', done => {
+      sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
+        if (params.eventType === KavaEventModel.VIEW.index) {
+          try {
+            params.tabMode.should.equal(TabMode.TAB_NOT_FOCUSED);
+            done();
+          } catch (e) {
+            done(e);
+          }
+        }
+        return new RequestBuilder();
+      });
+      setupPlayer(config);
+      sandbox.stub(player, 'isInPictureInPicture').returns(false);
+      kava = getKavaPlugin();
+      sandbox.stub(kava, '_isTabHidden').returns(true);
+      kava._updateTabModeInModel('hidden');
+      player.play();
+    });
+
+    it('should send VIEW event with viewabilityMode set to in view when in pip mode and player is not visible', done => {
+      sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
+        if (params.eventType === KavaEventModel.VIEW.index) {
+          try {
+            params.viewabilityMode.should.equal(ViewabilityMode.IN_VIEW);
+            done();
+          } catch (e) {
+            done(e);
+          }
+        }
+        return new RequestBuilder();
+      });
+      setupPlayer(config);
+      sandbox.stub(player, 'isInPictureInPicture').returns(true);
+      kava = getKavaPlugin();
+      console.log(kava._model);
+      player.play();
+      kava._updateViewabilityModeInModel(false);
+    });
+
+    it('should send VIEW event with viewabilityMode set to not in view when not in pip mode and player is not visible', done => {
+      sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
+        if (params.eventType === KavaEventModel.VIEW.index) {
+          try {
+            params.viewabilityMode.should.equal(ViewabilityMode.NOT_IN_VIEW);
+            done();
+          } catch (e) {
+            done(e);
+          }
+        }
+        return new RequestBuilder();
+      });
+      setupPlayer(config);
+      sandbox.stub(player, 'isInPictureInPicture').returns(false);
+      kava = getKavaPlugin();
+      player.play();
+      kava._updateViewabilityModeInModel(false);
+    });
   });
 
   describe('Start Time', () => {
