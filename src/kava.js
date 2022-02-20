@@ -102,7 +102,7 @@ class Kava extends BasePlugin {
 
   _updateViewabilityModeInModel(isVisible: boolean): void {
     this._model.updateModel({
-      viewabilityMode: isVisible ? ViewabilityMode.IN_VIEW : ViewabilityMode.NOT_IN_VIEW
+      viewabilityMode: isVisible || this.player.isInPictureInPicture() ? ViewabilityMode.IN_VIEW : ViewabilityMode.NOT_IN_VIEW
     });
   }
 
@@ -800,8 +800,12 @@ class Kava extends BasePlugin {
   _updateTabModeInModel(hiddenAttr: string): void {
     this._model.updateModel({
       // $FlowFixMe
-      tabMode: document[hiddenAttr] ? TabMode.TAB_NOT_FOCUSED : TabMode.TAB_FOCUSED
+      tabMode: this._isTabHidden(hiddenAttr) && !this.player.isInPictureInPicture() ? TabMode.TAB_NOT_FOCUSED : TabMode.TAB_FOCUSED
     });
+  }
+
+  _isTabHidden(hiddenAttr: string): boolean {
+    return document[hiddenAttr];
   }
 
   _initTabMode(): void {
