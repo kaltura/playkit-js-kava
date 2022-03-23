@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.1](https://github.com/kaltura/playkit-js-kava/compare/v1.3.0...v1.3.1) (2022-03-23)
+
+
+### Bug Fixes
+
+* **FEC-11971:** when in PiP mode user is considered not engaged ([#115](https://github.com/kaltura/playkit-js-kava/issues/115)) ([645f9a6](https://github.com/kaltura/playkit-js-kava/commit/645f9a6))
+
+
+
 ## [1.3.0](https://github.com/kaltura/playkit-js-kava/compare/v1.2.2...v1.3.0) (2021-12-21)
 
 
