@@ -268,7 +268,7 @@ class Kava extends BasePlugin {
     }
     var model = this._model.getModel(eventObj);
     if (this.player?.getMediaInfo()?.entryId.match(/^[0-9]+$/) != null) {
-      delete model['ks']; 
+      delete model['ks'];
     }
     if (typeof this.config.tamperAnalyticsHandler === 'function') {
       const sendRequest = this.config.tamperAnalyticsHandler(model);
