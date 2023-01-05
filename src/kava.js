@@ -6,6 +6,7 @@ import {KavaRateHandler} from './kava-rate-handler';
 import {KavaTimer} from './kava-timer';
 import {ErrorPosition, KavaModel, SoundMode, TabMode, ScreenMode, ViewabilityMode} from './kava-model';
 import {HttpMethodType} from './http-method-type';
+import {RelatedEvent} from '@playkit-js/related';
 
 const {Error: PKError, FakeEvent, Utils} = core;
 const DIVIDER: number = 1024;
@@ -318,6 +319,8 @@ class Kava extends BasePlugin {
     this.eventManager.listen(this.player, this.player.Event.EXIT_FULLSCREEN, () =>
       this._model.updateModel({screenMode: ScreenMode.NOT_IN_FULLSCREEN})
     );
+    this.eventManager.listen(this.player, RelatedEvent.RELATED_CLICKED, () => this._onRelatedClicked());
+    this.eventManager.listen(this.player, RelatedEvent.RELATED_SELECTED, () => this._onRelatedSelected());
     this._initTabMode();
     this._initNetworkConnectionType();
   }
@@ -683,6 +686,14 @@ class Kava extends BasePlugin {
       this._bufferStartTime = Date.now();
       this._sendAnalytics(KavaEventModel.BUFFER_START);
     }
+  }
+
+  _onRelatedClicked() {
+    this._sendAnalytics(KavaEventModel.RELATED_CLICKED);
+  }
+
+  _onRelatedSelected() {
+    this._sendAnalytics(KavaEventModel.RELATED_SELECTED);
   }
 
   _updateSessionStartTimeModel(response: Object | number): void {

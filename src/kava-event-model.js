@@ -265,6 +265,24 @@ export const KavaEventModel: {[event: string]: KavaEvent} = {
       errorDetails: model.getErrorDetails(),
       errorPosition: model.getErrorPosition()
     })
+  },
+  /**
+   * @type {string} RELATED_CLICKED
+   * @memberof KavaEventType
+   */
+  RELATED_CLICKED: {
+    type: 'RELATED_CLICKED',
+    index: 36,
+    getEventModel: () => ({})
+  },
+  /**
+   * @type {string} RELATED_SELECTED
+   * @memberof KavaEventType
+   */
+  RELATED_SELECTED: {
+    type: 'RELATED_SELECTED',
+    index: 37,
+    getEventModel: () => ({})
   }
 };
 
