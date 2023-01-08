@@ -6,6 +6,7 @@ import {KavaRateHandler} from './kava-rate-handler';
 import {KavaTimer} from './kava-timer';
 import {ErrorPosition, KavaModel, SoundMode, TabMode, ScreenMode, ViewabilityMode} from './kava-model';
 import {HttpMethodType} from './http-method-type';
+//$FlowFixMe
 import {RelatedEvent} from '@playkit-js/related';
 
 const {Error: PKError, FakeEvent, Utils} = core;
