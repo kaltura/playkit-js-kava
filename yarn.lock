@@ -986,10 +986,9 @@
     js-logger "^1.6.0"
     ua-parser-js "1.0.2"
 
-"@playkit-js/related@0.1.5":
+"@playkit-js/related@https://github.com/kaltura/playkit-js-related.git#dfcc2dff67be8e071553b1f5624ad75e155f206c":
   version "0.1.5"
-  resolved "https://registry.yarnpkg.com/@playkit-js/related/-/related-0.1.5.tgz#583942d1151444e2fcd5ebf84086d89690ca0ab4"
-  integrity sha512-i3nr1jDu4Y9H0GzgUafmK/+sWPsf5nnjWLMIUTuca0ReuKy7A3+Xni/uOIYr5pSHwUo/ZKVTpPk9d4Em4mk+NA==
+  resolved "https://github.com/kaltura/playkit-js-related.git#dfcc2dff67be8e071553b1f5624ad75e155f206c"
 
 "@sindresorhus/is@^0.7.0":
   version "0.7.0"
