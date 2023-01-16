@@ -56,7 +56,11 @@ module.exports = {
     contentBase: __dirname + '/src'
   },
   resolve: {
-    modules: [path.resolve(__dirname, 'src'), 'node_modules']
+    modules: [path.resolve(__dirname, 'src'), 'node_modules'],
+    alias: {
+      '@playkit-js/related': path.resolve(`node_modules/@playkit-js/related/types`)
+    },
+    extensions: ['.js']
   },
   externals: {
     'kaltura-player-js': ['KalturaPlayer'],
