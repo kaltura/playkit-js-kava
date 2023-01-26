@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.4.0](https://github.com/kaltura/playkit-js-kava/compare/v1.3.1...v1.4.0) (2023-01-26)
+
+
+### Build System
+
+* set prerelease false ([c461bf9](https://github.com/kaltura/playkit-js-kava/commit/c461bf9))
+
+
+### Features
+
+* **FEC-11600:** Related grid analytics ([#133](https://github.com/kaltura/playkit-js-kava/issues/133)) ([52dc4b2](https://github.com/kaltura/playkit-js-kava/commit/52dc4b2))
+
+
+
 ### [1.3.1](https://github.com/kaltura/playkit-js-kava/compare/v1.3.0...v1.3.1) (2022-03-23)
 
 
