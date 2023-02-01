@@ -761,7 +761,7 @@ class Kava extends BasePlugin {
     this._model.getKalturaApplication = () => this.config.kalturaApplication;
     this._model.getUserId = () => this.config.userId;
   }
- 
+
   _getPosition(): number {
     if (this.player.isLive()) {
       if (!Number.isNaN(this.player.duration)) {
