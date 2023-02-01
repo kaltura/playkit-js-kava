@@ -60,7 +60,7 @@ class Kava extends BasePlugin {
     applicationVersion: '',
     application: '',
     kalturaApplicationVersion: '',
-    kalturaApplication:  ''
+    kalturaApplication: ''
   };
 
   /**
