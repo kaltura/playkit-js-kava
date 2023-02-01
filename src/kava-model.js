@@ -57,6 +57,9 @@ class KavaModel {
   getPlaybackType: Function;
   getPlaybackContext: Function;
   getApplicationVersion: Function;
+  getApplication: Function;
+  getKalturaApplicationVersion: Function;
+  getKalturaApplication: Function;
   getUserId: Function;
   getCanPlayTime: Function;
   getPersistentSessionId: Function;

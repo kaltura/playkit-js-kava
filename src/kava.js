@@ -57,7 +57,10 @@ class Kava extends BasePlugin {
     resetSessionCountdown: 30,
     dvrThreshold: 120,
     playbackContext: '',
-    applicationVersion: ''
+    applicationVersion: '',
+    application: '',
+    kalturaApplicationVersion: '',
+    kalturaApplication:  ''
   };
 
   /**
@@ -753,9 +756,12 @@ class Kava extends BasePlugin {
     this._model.getPlaybackType = () => this._getPlaybackType();
     this._model.getPlaybackContext = () => this.config.playbackContext;
     this._model.getApplicationVersion = () => this.config.applicationVersion;
+    this._model.getApplication = () => this.config.application;
+    this._model.getKalturaApplicationVersion = () => this.config.kalturaApplicationVersion;
+    this._model.getKalturaApplication = () => this.config.kalturaApplication;
     this._model.getUserId = () => this.config.userId;
   }
-
+ 
   _getPosition(): number {
     if (this.player.isLive()) {
       if (!Number.isNaN(this.player.duration)) {
