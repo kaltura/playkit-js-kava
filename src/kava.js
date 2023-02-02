@@ -6,6 +6,7 @@ import {KavaRateHandler} from './kava-rate-handler';
 import {KavaTimer} from './kava-timer';
 import {ErrorPosition, KavaModel, SoundMode, TabMode, ScreenMode, ViewabilityMode} from './kava-model';
 import {HttpMethodType} from './http-method-type';
+import {KalturaApplication} from './kaltura-application';
 //$FlowFixMe
 import {RelatedEvent} from '@playkit-js/related';
 
@@ -758,8 +759,17 @@ class Kava extends BasePlugin {
     this._model.getApplicationVersion = () => this.config.applicationVersion;
     this._model.getApplication = () => this.config.application;
     this._model.getKalturaApplicationVersion = () => this.config.kalturaApplicationVersion;
-    this._model.getKalturaApplication = () => this.config.kalturaApplication;
+    this._model.getKalturaApplication = () => this._getKalturaApplicationId(this.config.kalturaApplication);
     this._model.getUserId = () => this.config.userId;
+  }
+
+  _getKalturaApplicationId(kalturaAppName: string): string {
+    if (kalturaAppName in KalturaApplication) {
+      return KalturaApplication[kalturaAppName];
+    } else {
+      this.logger.warn(`Kava analytics - unknon kalturaAppName: ` + kalturaAppName);
+      return '';
+    }
   }
 
   _getPosition(): number {
