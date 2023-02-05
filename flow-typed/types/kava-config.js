@@ -7,6 +7,10 @@
  * @property {number} [resetSessionCountdown] - The interval in seconds that Kava session will be reset.
  * @property {number} [dvrThreshold] - Threshold in seconds from the live edge.
  * @property {string} [applicationVersion] - Used to send the application version from which the user is playing the entry.
+ * @property {string} [application] - Used to send the application from which the user is playing the entry.
+ * @property {string} [kalturaApplicationVersion] - KalturaApplication Used to send the kaltura application name KalturaApplication:(KMC,KMS,KAF,PITCH,KMS_GO,WEBCASTING,PERSONAL_CAPTURE,KME,KME_MOBILE_APP,PATH,LECTURE_CAPTURE,EP,CHAT_AND_COLLABORATION,ANALYTICS,EXPRESS_CAPTURE,KPF,KAF_GO,SITES,STUDIO
+) from which the user is playing the entry.
+ * @property {string} [kalturaApplication] - Used to send the kaltura application version from which the user is playing the entry.
  * @property {string} [playbackContext] - Used to send the id of the category from which the user is playing the entry.
  * @property {Function} [tamperAnalyticsHandler] - An optional handler to implement. Can be used to manipulate the model data before analytics event sent, or to cancel a certain analytics request.
  * @property {Object} [customVar1] - Custom objects field.
@@ -21,6 +25,9 @@
  *  resetSessionCountdown: 30,
  *  dvrThreshold: 120,
  *  applicationVersion: '',
+ *  application: '',
+ *  kalturaApplicationVersion: '',
+ *  kalturaApplication: ''
  *  playbackContext: ''
  * }
  */
@@ -34,6 +41,9 @@ type _KavaConfigObject = {
   customVar2?: Object,
   customVar3?: Object,
   applicationVersion?: string,
+  application?: string,
+  kalturaApplicationVersion?: string,
+  kalturaApplication?: string,
   playbackContext?: string,
   userId?: string
 };

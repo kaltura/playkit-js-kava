@@ -30,6 +30,9 @@ const ab = 3,
   tp = '12',
   pc = 'pc',
   av = 'av',
+  app = 'app',
+  kav = 'kav',
+  ka = 'ka',
   usi = '1234',
   pbs = 1,
   psi = '1234-1234';
@@ -85,6 +88,9 @@ describe('KavaModel', () => {
     model.getPlaybackType = () => pback;
     model.getPlaybackContext = () => pc;
     model.getApplicationVersion = () => av;
+    model.getApplication = () => app;
+    model.getKalturaApplicationVersion = () => kav;
+    model.getKalturaApplication = () => ka;
     model.getUserId = () => usi;
     model.getPlaybackSpeed = () => pbs;
     model.getPersistentSessionId = () => psi;
@@ -122,6 +128,9 @@ describe('KavaModel', () => {
       customVar2: cv2,
       playbackContext: pc,
       applicationVer: av,
+      application: app,
+      kalturaApplicationVer: kav,
+      kalturaApplication: ka,
       userId: usi,
       playbackSpeed: pbs,
       caption: cap,

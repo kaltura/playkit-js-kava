@@ -347,6 +347,15 @@ export function getEventModel(eventObj: KavaEvent, model: KavaModel): Object {
   if (model.getApplicationVersion()) {
     commonModel.applicationVer = model.getApplicationVersion();
   }
+  if (model.getApplication()) {
+    commonModel.application = model.getApplication();
+  }
+  if (model.getKalturaApplicationVersion()) {
+    commonModel.kalturaApplicationVer = model.getKalturaApplicationVersion();
+  }
+  if (model.getKalturaApplication()) {
+    commonModel.kalturaApplication = model.getKalturaApplication();
+  }
   if (model.getUserId()) {
     commonModel.userId = model.getUserId();
   }
