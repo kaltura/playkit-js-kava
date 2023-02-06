@@ -492,7 +492,7 @@ class Kava extends BasePlugin {
     if (this._isFirstPlaying) {
       this._updateSoundModeInModel();
       this._updateViewabilityModeInModel(this.player.isVisible);
-      this._timer.start();
+      if (!this.player.isUntimedImg()) this._timer.start();
       this._isFirstPlaying = false;
       const playRequestStartTime =
         this.player.config.playback.preload === 'auto' || this._isManualPreload ? this._firstPlayRequestTime : this._loadStartTime;
@@ -802,7 +802,7 @@ class Kava extends BasePlugin {
       }
       return 'live';
     }
-    return 'vod';
+    return this.player.isImg() ? 'img' : 'vod';
   }
 
   _validate(): boolean {
