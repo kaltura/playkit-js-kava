@@ -802,7 +802,7 @@ class Kava extends BasePlugin {
       }
       return 'live';
     }
-    return this.player.isImg() ? 'img' : 'vod';
+    return this.player.isImage() ? 'img' : 'vod';
   }
 
   _validate(): boolean {
