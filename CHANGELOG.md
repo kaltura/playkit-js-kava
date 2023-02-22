@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.5.0](https://github.com/kaltura/playkit-js-kava/compare/v1.4.0...v1.5.0) (2023-02-22)
+
+
+### Bug Fixes
+
+* **FEC-12613:** Image Entry - Kava Analytics Events ([#135](https://github.com/kaltura/playkit-js-kava/issues/135)) ([a0a3c27](https://github.com/kaltura/playkit-js-kava/commit/a0a3c27))
+
+
+### Features
+
+* **FEC-12923:** Add missing applications data on kava  beacons & config ([#134](https://github.com/kaltura/playkit-js-kava/issues/134)) ([1c76ade](https://github.com/kaltura/playkit-js-kava/commit/1c76ade))
+
+
+
 ## [1.4.0](https://github.com/kaltura/playkit-js-kava/compare/v1.3.1...v1.4.0) (2023-01-26)
 
 
