@@ -675,7 +675,9 @@ class Kava extends BasePlugin {
   }
 
   _onPlaybackRateChanged(): void {
-    this._sendAnalytics(KavaEventModel.SPEED);
+    if (!this.player.playbackRates.length || this.player.playbackRates.includes(this.player.playbackRate)) {
+      this._sendAnalytics(KavaEventModel.SPEED);
+    }
   }
 
   _onPlayerStateChanged(event: FakeEvent): void {
