@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.5.1](https://github.com/kaltura/playkit-js-kava/compare/v1.5.0...v1.5.1) (2023-03-22)
+
+
+### Bug Fixes
+
+* **FEC-13039:** ignore playbackRates not included in list ([#138](https://github.com/kaltura/playkit-js-kava/issues/138)) ([43e75e2](https://github.com/kaltura/playkit-js-kava/commit/43e75e2))
+
+
+
 ## [1.5.0](https://github.com/kaltura/playkit-js-kava/compare/v1.4.0...v1.5.0) (2023-02-22)
 
 
