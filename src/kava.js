@@ -309,7 +309,6 @@ class Kava extends BasePlugin {
     this.eventManager.listen(this.player, this.player.Event.SEEKING, () => this._onSeeking());
     this.eventManager.listen(this.player, this.player.Event.PAUSE, () => this._onPause());
     this.eventManager.listen(this.player, this.player.Event.ENDED, () => this._onEnded());
-    this.eventManager.listen(this.player, this.player.Event.TIME_UPDATE, () => this._onTimeUpdate());
     this.eventManager.listen(this.player, this.player.Event.VIDEO_TRACK_CHANGED, event => this._onVideoTrackChanged(event));
     this.eventManager.listen(this.player, this.player.Event.AUDIO_TRACK_CHANGED, event => this._onAudioTrackChanged(event));
     this.eventManager.listen(this.player, this.player.Event.TEXT_TRACK_CHANGED, event => this._onTextTrackChanged(event));
@@ -530,6 +529,9 @@ class Kava extends BasePlugin {
 
   _onSourceSelected(): void {
     this._sendAnalytics(KavaEventModel.IMPRESSION);
+    if (!(this.player.isImage() || this.player.isLive())) {
+      this.eventManager.listen(this.player, this.player.Event.TIME_UPDATE, () => this._onTimeUpdate());
+    }
   }
 
   _onSeeking(): void {
@@ -551,25 +553,23 @@ class Kava extends BasePlugin {
   }
 
   _onTimeUpdate(): void {
-    if (!this.player.isLive()) {
-      this._updatePlayTimeSumModel();
-      const percent = parseFloat((this.player.currentTime / this.player.duration).toFixed(2));
-      if (!this._timePercentEvent.PLAY_REACHED_25 && percent >= 0.25) {
-        this._timePercentEvent.PLAY_REACHED_25 = true;
-        this._sendAnalytics(KavaEventModel.PLAY_REACHED_25_PERCENT);
-      }
-      if (!this._timePercentEvent.PLAY_REACHED_50 && percent >= 0.5) {
-        this._timePercentEvent.PLAY_REACHED_50 = true;
-        this._sendAnalytics(KavaEventModel.PLAY_REACHED_50_PERCENT);
-      }
-      if (!this._timePercentEvent.PLAY_REACHED_75 && percent >= 0.75) {
-        this._timePercentEvent.PLAY_REACHED_75 = true;
-        this._sendAnalytics(KavaEventModel.PLAY_REACHED_75_PERCENT);
-      }
-      if (!this._timePercentEvent.PLAY_REACHED_100 && percent === 1) {
-        this._timePercentEvent.PLAY_REACHED_100 = true;
-        this._sendAnalytics(KavaEventModel.PLAY_REACHED_100_PERCENT);
-      }
+    this._updatePlayTimeSumModel();
+    const percent = parseFloat((this.player.currentTime / this.player.duration).toFixed(2));
+    if (!this._timePercentEvent.PLAY_REACHED_25 && percent >= 0.25) {
+      this._timePercentEvent.PLAY_REACHED_25 = true;
+      this._sendAnalytics(KavaEventModel.PLAY_REACHED_25_PERCENT);
+    }
+    if (!this._timePercentEvent.PLAY_REACHED_50 && percent >= 0.5) {
+      this._timePercentEvent.PLAY_REACHED_50 = true;
+      this._sendAnalytics(KavaEventModel.PLAY_REACHED_50_PERCENT);
+    }
+    if (!this._timePercentEvent.PLAY_REACHED_75 && percent >= 0.75) {
+      this._timePercentEvent.PLAY_REACHED_75 = true;
+      this._sendAnalytics(KavaEventModel.PLAY_REACHED_75_PERCENT);
+    }
+    if (!this._timePercentEvent.PLAY_REACHED_100 && percent === 1) {
+      this._timePercentEvent.PLAY_REACHED_100 = true;
+      this._sendAnalytics(KavaEventModel.PLAY_REACHED_100_PERCENT);
     }
   }
 
