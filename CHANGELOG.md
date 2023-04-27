@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.5.2](https://github.com/kaltura/playkit-js-kava/compare/v1.5.1...v1.5.2) (2023-04-19)
+
+
+### Bug Fixes
+
+* **FEC-12972:** Player keeps polling "is-live" every 10 seconds which may overload the system ([#140](https://github.com/kaltura/playkit-js-kava/issues/140)) ([499ae57](https://github.com/kaltura/playkit-js-kava/commit/499ae57))
+
+
+
 ### [1.5.1](https://github.com/kaltura/playkit-js-kava/compare/v1.5.0...v1.5.1) (2023-03-22)
 
 
