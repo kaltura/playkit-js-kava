@@ -19,7 +19,7 @@ module.exports = {
   output: {
     path: __dirname + '/dist',
     filename: '[name].js',
-    library: ['KalturaPlayer', 'plugins', 'kava'],
+    // library: ['KalturaPlayer', 'plugins', 'kava'],
     devtoolModuleFilenameTemplate: './kava/[resource-path]'
   },
   devtool: 'source-map',
@@ -58,13 +58,12 @@ module.exports = {
   resolve: {
     modules: [path.resolve(__dirname, 'src'), 'node_modules'],
     alias: {
-      '@playkit-js/related': path.resolve(`node_modules/@playkit-js/related/types`),
-      '@playkit-js/playkit-js-providers': path.resolve(`node_modules/@playkit-js/playkit-js-providers`)
+      '@playkit-js/related': path.resolve(`node_modules/@playkit-js/related/types`)
     },
     extensions: ['.js']
   },
   externals: {
-    'kaltura-player-js': ['KalturaPlayer'],
-    'playkit-js-providers': ['KalturaPlayer', 'providers']
+    '@playkit-js/kaltura-player-js': ['KalturaPlayer'],
+    '@playkit-js/playkit-js-providers': ['KalturaPlayer', 'providers']
   }
 };
