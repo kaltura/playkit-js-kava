@@ -19,7 +19,7 @@ module.exports = {
   output: {
     path: __dirname + '/dist',
     filename: '[name].js',
-    // library: ['KalturaPlayer', 'plugins', 'kava'],
+    library: ['KalturaPlayer', 'plugins', 'kava'],
     devtoolModuleFilenameTemplate: './kava/[resource-path]'
   },
   devtool: 'source-map',
