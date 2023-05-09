@@ -58,7 +58,8 @@ module.exports = {
   resolve: {
     modules: [path.resolve(__dirname, 'src'), 'node_modules'],
     alias: {
-      '@playkit-js/related': path.resolve(`node_modules/@playkit-js/related/types`)
+      '@playkit-js/related': path.resolve(`node_modules/@playkit-js/related/types`),
+      '@playkit-js/playkit-js-providers': path.resolve(`node_modules/@playkit-js/playkit-js-providers`)
     },
     extensions: ['.js']
   },
