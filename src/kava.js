@@ -1,6 +1,6 @@
 // @flow
-import {core, BasePlugin} from 'kaltura-player-js';
-import {OVPAnalyticsService} from 'playkit-js-providers/dist/playkit-analytics-service';
+import {core, BasePlugin} from '@playkit-js/kaltura-player-js';
+import {OVPAnalyticsService} from '@playkit-js/playkit-js-providers/dist/playkit-analytics-service';
 import {KavaEventModel, KavaEventType} from './kava-event-model';
 import {KavaRateHandler} from './kava-rate-handler';
 import {KavaTimer} from './kava-timer';

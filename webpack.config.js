@@ -63,7 +63,7 @@ module.exports = {
     extensions: ['.js']
   },
   externals: {
-    'kaltura-player-js': ['KalturaPlayer'],
-    'playkit-js-providers': ['KalturaPlayer', 'providers']
+    '@playkit-js/kaltura-player-js': ['KalturaPlayer'],
+    '@playkit-js/playkit-js-providers': ['KalturaPlayer', 'providers']
   }
 };

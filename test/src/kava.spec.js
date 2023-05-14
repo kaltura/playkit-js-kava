@@ -1,7 +1,7 @@
 import '../../src/index.js';
-import {core, setup} from 'kaltura-player-js';
+import {core, setup} from '@playkit-js/kaltura-player-js';
 import * as TestUtils from './utils/test-utils';
-import {OVPAnalyticsService, RequestBuilder} from 'playkit-js-providers/dist/playkit-analytics-service';
+import {OVPAnalyticsService, RequestBuilder} from '@playkit-js/playkit-js-providers/dist/playkit-analytics-service';
 import {KavaEventModel} from '../../src/kava-event-model';
 import {ErrorPosition, SoundMode, TabMode, ScreenMode, ViewabilityMode} from '../../src/kava-model';
 import {HttpMethodType} from '../../src/http-method-type';
