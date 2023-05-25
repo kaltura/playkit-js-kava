@@ -53,7 +53,7 @@ class Kava extends BasePlugin {
    */
   static defaultConfig: Object = {
     serviceUrl: `${Utils.Http.protocol}//analytics.kaltura.com/api_v3/index.php`,
-    requestMethod: HttpMethodType.GET,
+    requestMethod: HttpMethodType.POST,
     viewEventCountdown: 10,
     resetSessionCountdown: 30,
     dvrThreshold: 120,
