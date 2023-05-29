@@ -43,7 +43,7 @@
     "@babel/register": "^7.10.5",
     "@playkit-js/kaltura-player-js": "latest",
     "@playkit-js/playkit-js": "latest",
-    "@playkit-js/playkit-js-providers": "latest",
+    "@playkit-js/playkit-js-providers": "2.39.4-canary.0-ab0b9a0",
     "@playkit-js/related": "latest",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.1.0",
