@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 1.5.4 (2023-05-17)
+
+
+### Bug Fixes
+
+* **FEC-13123:** replace travis with github actions  ([#142](https://github.com/kaltura/playkit-js-kava/issues/142)) ([029a811](https://github.com/kaltura/playkit-js-kava/commit/029a811))
+
+
+
 ### 1.5.3 (2023-05-07)
 
 
