@@ -36,6 +36,7 @@ class KavaModel {
   flavorParamsId: number = NaN;
   networkConnectionType: string;
   playerJSLoadTime: ?number = null;
+  shareNetworkName: ?string = NaN;
   getActualBitrate: Function;
   getPlaybackSpeed: Function;
   getAverageBitrate: Function;
@@ -344,6 +345,16 @@ class KavaModel {
    */
   getSessionStartTime(): number {
     return this.sessionStartTime;
+  }
+
+  /**
+   * Gets the share network name.
+   * @returns {number} - The session start time.
+   * @memberof KavaModel
+   * @instance
+   */
+  getShareNetworkName(): string {
+    return this.shareNetworkName;
   }
 
   /**
