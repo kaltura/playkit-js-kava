@@ -284,11 +284,19 @@ export const KavaEventModel: {[event: string]: KavaEvent} = {
     index: 37,
     getEventModel: () => ({})
   },
+  /**
+   * @type {string} SHARE_CLICKED
+   * @memberof KavaEventType
+   */
   SHARE_CLICKED: {
     type: 'SHARE_CLICKED',
     index: 21,
     getEventModel: () => ({})
   },
+  /**
+   * @type {string} SHARE_NETWORK
+   * @memberof KavaEventType
+   */
   SHARE_NETWORK: {
     type: 'SHARE_NETWORK',
     index: 22,
