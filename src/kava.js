@@ -9,6 +9,7 @@ import {HttpMethodType} from './http-method-type';
 import {KalturaApplication} from './kaltura-application';
 //$FlowFixMe
 import {RelatedEvent} from '@playkit-js/related';
+import {ShareEvent} from '@playkit-js/share';
 
 const {Error: PKError, FakeEvent, Utils} = core;
 const DIVIDER: number = 1024;
@@ -325,6 +326,9 @@ class Kava extends BasePlugin {
     );
     this.eventManager.listen(this.player, RelatedEvent.RELATED_CLICKED, () => this._onRelatedClicked());
     this.eventManager.listen(this.player, RelatedEvent.RELATED_SELECTED, () => this._onRelatedSelected());
+    this.eventManager.listen(this.player, ShareEvent.SHARE_CLICKED, () => this._onShareClicked());
+    this.eventManager.listen(this.player, ShareEvent.SHARE_NETWORK, event => this._onShareNetworkClicked(event));
+
     this._initTabMode();
     this._initNetworkConnectionType();
   }
@@ -701,6 +705,18 @@ class Kava extends BasePlugin {
 
   _onRelatedSelected() {
     this._sendAnalytics(KavaEventModel.RELATED_SELECTED);
+  }
+
+  _onShareClicked() {
+    this._sendAnalytics(KavaEventModel.SHARE_CLICKED);
+  }
+
+  _onShareNetworkClicked(event: FakeEvent): void {
+    const shareNetworkName = event.payload.shareNetworkName;
+    if (shareNetworkName) {
+      this._model.updateModel({shareNetworkName: shareNetworkName});
+      this._sendAnalytics(KavaEventModel.SHARE_NETWORK);
+    }
   }
 
   _updateSessionStartTimeModel(response: Object | number): void {
