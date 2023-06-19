@@ -283,6 +283,26 @@ export const KavaEventModel: {[event: string]: KavaEvent} = {
     type: 'RELATED_SELECTED',
     index: 37,
     getEventModel: () => ({})
+  },
+  /**
+   * @type {string} SHARE_CLICKED
+   * @memberof KavaEventType
+   */
+  SHARE_CLICKED: {
+    type: 'SHARE_CLICKED',
+    index: 21,
+    getEventModel: () => ({})
+  },
+  /**
+   * @type {string} SHARE_NETWORK
+   * @memberof KavaEventType
+   */
+  SHARE_NETWORK: {
+    type: 'SHARE_NETWORK',
+    index: 22,
+    getEventModel: (model: KavaModel) => ({
+      socialNetwork: model.getShareNetworkName()
+    })
   }
 };
 
