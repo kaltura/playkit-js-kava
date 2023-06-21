@@ -36,7 +36,7 @@ class KavaModel {
   flavorParamsId: number = NaN;
   networkConnectionType: string;
   playerJSLoadTime: ?number = null;
-  shareNetworkName: ?string = NaN;
+  shareNetworkName: string = '';
   getActualBitrate: Function;
   getPlaybackSpeed: Function;
   getAverageBitrate: Function;
