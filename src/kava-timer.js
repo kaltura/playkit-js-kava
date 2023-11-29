@@ -5,6 +5,35 @@ const {FakeEvent, FakeEventTarget} = core;
 const SECOND: number = 1000;
 
 /**
+ * Create service worker with timer.
+ * @private
+ * @class WorkerTimer
+ * @param {void} callback - callback that triggers on timer tick.
+ * @param {number} interval - interval in ms.
+ */
+class WorkerTimer {
+  worker = null;
+  constructor(callback, interval) {
+    const blob = new Blob([`setInterval(() => postMessage(0), ${interval});`]);
+    const workerScript = URL.createObjectURL(blob);
+    this.worker = new Worker(workerScript);
+    this.worker.onmessage = callback;
+  }
+
+  /**
+   * Terminate service worker.
+   * @returns {void}
+   * @memberof WorkerTimer
+   * @instance
+   */
+  stop() {
+    if (this.worker) {
+      this.worker.terminate();
+    }
+  }
+}
+
+/**
  * Mange a timer and dispatches related events.
  * @private
  * @class KavaTimer
@@ -13,7 +42,7 @@ const SECOND: number = 1000;
 class KavaTimer extends FakeEventTarget {
   _resetCounter: number;
   _eventCounter: number;
-  _intervalId: ?IntervalID;
+  _timer: ?WorkerTimer;
   _stopped: boolean;
   _config: Object;
 
@@ -35,11 +64,11 @@ class KavaTimer extends FakeEventTarget {
    * @instance
    */
   start(): void {
-    this._clearTimeout();
+    this._terminateTimer();
     this._stopped = false;
     this._resetCounter = 0;
     this._eventCounter = 0;
-    this._intervalId = setInterval(() => this._monitor(), SECOND);
+    this._timer = new WorkerTimer(() => this._monitor(), SECOND);
   }
 
   /**
@@ -79,13 +108,13 @@ class KavaTimer extends FakeEventTarget {
    * @instance
    */
   destroy(): void {
-    this._clearTimeout();
+    this._terminateTimer();
   }
 
-  _clearTimeout(): void {
-    if (this._intervalId) {
-      clearInterval(this._intervalId);
-      this._intervalId = null;
+  _terminateTimer(): void {
+    if (this._timer) {
+      this._timer.stop();
+      this._timer = null;
     }
   }
 
