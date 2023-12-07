@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 1.5.7 (2023-12-07)
+
+
+### Bug Fixes
+
+* **FEC-13478:** use interval in service-worker ([#153](https://github.com/kaltura/playkit-js-kava/issues/153)) ([a189204](https://github.com/kaltura/playkit-js-kava/commit/a189204))
+
+
+
 ### 1.5.6 (2023-07-26)
 
 
