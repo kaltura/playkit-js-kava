@@ -10,6 +10,9 @@ import {KalturaApplication} from './kaltura-application';
 //$FlowFixMe
 import {RelatedEvent} from '@playkit-js/related';
 import {ShareEvent} from '@playkit-js/share';
+import {DownloadEvent} from '@playkit-js/playkit-js-downloads';
+import {ModerationEvent} from '@playkit-js/moderation';
+import {InfoEvent} from '@playkit-js/info';
 
 const {Error: PKError, FakeEvent, Utils} = core;
 const DIVIDER: number = 1024;
@@ -320,14 +323,16 @@ class Kava extends BasePlugin {
     this.eventManager.listen(this.player, this.player.Event.VOLUME_CHANGE, () => this._updateSoundModeInModel());
     this.eventManager.listen(this.player, this.player.Event.VISIBILITY_CHANGE, e => this._updateViewabilityModeInModel(e.payload.visible));
     this.eventManager.listen(this.player, this.player.Event.MUTE_CHANGE, () => this._updateSoundModeInModel());
-    this.eventManager.listen(this.player, this.player.Event.ENTER_FULLSCREEN, () => this._model.updateModel({screenMode: ScreenMode.FULLSCREEN}));
-    this.eventManager.listen(this.player, this.player.Event.EXIT_FULLSCREEN, () =>
-      this._model.updateModel({screenMode: ScreenMode.NOT_IN_FULLSCREEN})
-    );
+    this.eventManager.listen(this.player, this.player.Event.ENTER_FULLSCREEN, () => this._onFullScreenChanged(ScreenMode.FULLSCREEN));
+    this.eventManager.listen(this.player, this.player.Event.EXIT_FULLSCREEN, () => this._onFullScreenChanged(ScreenMode.NOT_IN_FULLSCREEN));
     this.eventManager.listen(this.player, RelatedEvent.RELATED_CLICKED, () => this._onRelatedClicked());
     this.eventManager.listen(this.player, RelatedEvent.RELATED_SELECTED, () => this._onRelatedSelected());
     this.eventManager.listen(this.player, ShareEvent.SHARE_CLICKED, () => this._onShareClicked());
     this.eventManager.listen(this.player, ShareEvent.SHARE_NETWORK, event => this._onShareNetworkClicked(event));
+    this.eventManager.listen(this.player, DownloadEvent.DOWNLOAD_ITEM_CLICKED, () => this._onDownloadItemClicked());
+    this.eventManager.listen(this.player, InfoEvent.INFO_SCREEN_OPEN, () => this._onInfoScreenOpened());
+    this.eventManager.listen(this.player, ModerationEvent.REPORT_CLICKED, () => this._onReportClicked());
+    this.eventManager.listen(this.player, ModerationEvent.REPORT_SUBMITTED, event => this._onReportSubmitted(event));
 
     this._initTabMode();
     this._initNetworkConnectionType();
@@ -717,6 +722,31 @@ class Kava extends BasePlugin {
       this._model.updateModel({shareNetworkName: shareNetworkName});
       this._sendAnalytics(KavaEventModel.SHARE_NETWORK);
     }
+  }
+
+  _onReportSubmitted(event: FakeEvent): void {
+    const reportType = event.payload.reportType;
+    if (reportType) {
+      this._model.updateModel({reportType});
+      this._sendAnalytics(KavaEventModel.REPORT_SUBMITTED);
+    }
+  }
+
+  _onReportClicked(): void {
+    this._sendAnalytics(KavaEventModel.REPORT_CLICKED);
+  }
+
+  _onInfoScreenOpened(): void {
+    this._sendAnalytics(KavaEventModel.INFO);
+  }
+
+  _onDownloadItemClicked(): void {
+    this._sendAnalytics(KavaEventModel.DOWNLOAD);
+  }
+
+  _onFullScreenChanged(screenMode: number): void {
+    this._model.updateModel({screenMode: screenMode});
+    this._sendAnalytics(screenMode === ScreenMode.FULLSCREEN ? KavaEventModel.ENTER_FULLSCREEN : KavaEventModel.EXIT_FULLSCREEN);
   }
 
   _updateSessionStartTimeModel(response: Object | number): void {

@@ -303,6 +303,42 @@ export const KavaEventModel: {[event: string]: KavaEvent} = {
     getEventModel: (model: KavaModel) => ({
       socialNetwork: model.getShareNetworkName()
     })
+  },
+  ENTER_FULLSCREEN: {
+    type: 'ENTER_FULLSCREEN',
+    index: 31,
+    getEventModel: (model: KavaModel) => ({
+      screenMode: model.getScreenMode()
+    })
+  },
+  EXIT_FULLSCREEN: {
+    type: 'EXIT_FULLSCREEN',
+    index: 32,
+    getEventModel: (model: KavaModel) => ({
+      screenMode: model.getScreenMode()
+    })
+  },
+  DOWNLOAD: {
+    type: 'DOWNLOAD',
+    index: 23,
+    getEventModel: () => ({})
+  },
+  REPORT_CLICKED: {
+    type: 'REPORT_CLICKED',
+    index: 24,
+    getEventModel: () => ({})
+  },
+  REPORT_SUBMITTED: {
+    type: 'REPORT_SUBMITTED',
+    index: 25,
+    getEventModel: (model: KavaModel) => ({
+      reportType: model.getReportType()
+    })
+  },
+  INFO: {
+    type: 'INFO',
+    index: 40,
+    getEventModel: () => ({})
   }
 };
 
