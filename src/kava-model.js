@@ -37,6 +37,7 @@ class KavaModel {
   networkConnectionType: string;
   playerJSLoadTime: ?number = null;
   shareNetworkName: string = '';
+  reportType: number = NaN;
   getActualBitrate: Function;
   getPlaybackSpeed: Function;
   getAverageBitrate: Function;
@@ -355,6 +356,10 @@ class KavaModel {
    */
   getShareNetworkName(): string {
     return this.shareNetworkName;
+  }
+
+  getReportType(): number {
+    return this.reportType;
   }
 
   /**

@@ -59,7 +59,10 @@ module.exports = {
     modules: [path.resolve(__dirname, 'src'), 'node_modules'],
     alias: {
       '@playkit-js/related': path.resolve(`node_modules/@playkit-js/related/types`),
-      '@playkit-js/share': path.resolve(`node_modules/@playkit-js/share/types`)
+      '@playkit-js/share': path.resolve(`node_modules/@playkit-js/share/types`),
+      '@playkit-js/playkit-js-downloads': path.resolve(`node_modules/@playkit-js/playkit-js-downloads/types`),
+      '@playkit-js/info': path.resolve(`node_modules/@playkit-js/info/types`),
+      '@playkit-js/moderation': path.resolve(`node_modules/@playkit-js/moderation/types`)
     },
     extensions: ['.js']
   },
