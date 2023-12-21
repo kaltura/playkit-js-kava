@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 1.6.0 (2023-12-21)
+
+
+### Features
+
+* **FEC-13362:** add new events ([#154](https://github.com/kaltura/playkit-js-kava/issues/154)) ([6677f44](https://github.com/kaltura/playkit-js-kava/commit/6677f44))
+
+
+
 ### 1.5.7 (2023-12-07)
 
 
