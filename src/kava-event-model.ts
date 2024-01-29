@@ -1,11 +1,11 @@
-// @flow
-import {KavaModel} from './kava-model';
+import { KavaModel } from './kava-model';
+import { KavaEvent } from './types';
 
 /**
  * @name KavaEventType
  * @enum
  */
-export const KavaEventModel: {[event: string]: KavaEvent} = {
+export const KavaEventModel = {
   /**
    * @type {string} VIEW
    * @memberof KavaEventType
@@ -14,7 +14,7 @@ export const KavaEventModel: {[event: string]: KavaEvent} = {
     type: 'VIEW',
     index: 99,
     getEventModel: (model: KavaModel) => {
-      const eventModel: {[name: string]: any} = {
+      const eventModel: { [name: string]: any } = {
         playTimeSum: model.getPlayTimeSum(),
         bufferTime: model.getBufferTime(),
         bufferTimeSum: model.getBufferTimeSum(),
@@ -69,7 +69,7 @@ export const KavaEventModel: {[event: string]: KavaEvent} = {
     type: 'IMPRESSION',
     index: 1,
     getEventModel: (model: KavaModel) => {
-      const eventModel = {};
+      const eventModel = {} as KavaModel;
       if (model.getPlayerJSLoadTime() != null) {
         eventModel.playerJSLoadTime = model.getPlayerJSLoadTime();
       }
@@ -93,7 +93,7 @@ export const KavaEventModel: {[event: string]: KavaEvent} = {
     type: 'PLAY',
     index: 3,
     getEventModel: (model: KavaModel) => {
-      const eventModel: {[name: string]: any} = {
+      const eventModel: { [name: string]: any } = {
         bufferTime: model.getBufferTime(),
         bufferTimeSum: model.getBufferTimeSum(),
         actualBitrate: model.getActualBitrate(),
@@ -342,20 +342,20 @@ export const KavaEventModel: {[event: string]: KavaEvent} = {
   }
 };
 
-export const KavaEventType: {[event: string]: string} = (eventType => {
-  Object.keys(KavaEventModel).forEach(k => (eventType[k] = k));
+export const KavaEventType: { [event: string]: string } = ((eventType) => {
+  Object.keys(KavaEventModel).forEach((k) => (eventType[k] = k));
   return eventType;
 })({});
-
-/**
- * Gets the full event model for a certain event object including the common params.
- * @private
- * @param {KavaEvent} eventObj - The event model.
- * @param {KavaModel} model - The plugin model store.
- * @returns {Object} - The full event model.
- */
-export function getEventModel(eventObj: KavaEvent, model: KavaModel): Object {
-  const commonModel: Object = {
+//
+// /**
+//  * Gets the full event model for a certain event object including the common params.
+//  * @private
+//  * @param {KavaEvent} eventObj - The event model.
+//  * @param {KavaModel} model - The plugin model store.
+//  * @returns {Object} - The full event model.
+//  */
+export function getEventModel(eventObj: KavaEvent, model: KavaModel): any {
+  const commonModel: any = {
     eventType: eventObj.index,
     partnerId: model.getPartnerId(),
     entryId: model.getEntryId(),

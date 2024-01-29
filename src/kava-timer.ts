@@ -1,4 +1,3 @@
-// @flow
 import {core} from '@playkit-js/kaltura-player-js';
 const {FakeEvent, FakeEventTarget} = core;
 
@@ -12,7 +11,7 @@ const SECOND: number = 1000;
  * @param {number} interval - interval in ms.
  */
 class WorkerTimer {
-  worker = null;
+  worker: Worker | null = null;
   constructor(callback, interval) {
     const blob = new Blob([`setInterval(() => postMessage(0), ${interval});`]);
     const workerScript = URL.createObjectURL(blob);
@@ -26,7 +25,7 @@ class WorkerTimer {
    * @memberof WorkerTimer
    * @instance
    */
-  stop() {
+  public stop() {
     if (this.worker) {
       this.worker.terminate();
     }
@@ -40,11 +39,11 @@ class WorkerTimer {
  * @param {Object} config - The timer config.
  */
 class KavaTimer extends FakeEventTarget {
-  _resetCounter: number;
-  _eventCounter: number;
-  _timer: ?WorkerTimer;
-  _stopped: boolean;
-  _config: Object;
+  _resetCounter!: number;
+  _eventCounter!: number;
+  _timer?: WorkerTimer | null;
+  _stopped!: boolean;
+  _config: any;
 
   static Event = {
     TICK: 'tick',
@@ -63,7 +62,7 @@ class KavaTimer extends FakeEventTarget {
    * @memberof KavaTimer
    * @instance
    */
-  start(): void {
+  public start(): void {
     this._terminateTimer();
     this._stopped = false;
     this._resetCounter = 0;
@@ -77,7 +76,7 @@ class KavaTimer extends FakeEventTarget {
    * @memberof KavaTimer
    * @instance
    */
-  resume(): void {
+  public resume(): void {
     this._stopped = false;
     this._resetCounter = 0;
   }
@@ -88,7 +87,7 @@ class KavaTimer extends FakeEventTarget {
    * @memberof KavaTimer
    * @instance
    */
-  stop(): void {
+  public stop(): void {
     this._stopped = true;
   }
 
@@ -97,7 +96,7 @@ class KavaTimer extends FakeEventTarget {
    * @memberof KavaTimer
    * @instance
    */
-  isStopped(): boolean {
+  public isStopped(): boolean {
     return this._stopped;
   }
 
@@ -107,18 +106,18 @@ class KavaTimer extends FakeEventTarget {
    * @memberof KavaTimer
    * @instance
    */
-  destroy(): void {
+  public destroy(): void {
     this._terminateTimer();
   }
 
-  _terminateTimer(): void {
+  private _terminateTimer(): void {
     if (this._timer) {
       this._timer.stop();
       this._timer = null;
     }
   }
 
-  _monitor(): void {
+  private _monitor(): void {
     if (this._stopped) {
       if (this._resetCounter === this._config.resetCounter) {
         this.dispatchEvent(new FakeEvent(KavaTimer.Event.RESET));

@@ -1,12 +1,10 @@
-// @flow
-
 /**
  * Manage the video rates for the KAVA plugin.
  * @private
  * @class KavaRateHandler
  */
 class KavaRateHandler {
-  _rates: Array<Object> = [];
+  _rates: any[] = [];
 
   constructor() {
     this._rates = [];
@@ -19,7 +17,7 @@ class KavaRateHandler {
    * @memberof KavaRateHandler
    * @instance
    */
-  setRates(rates: Array<number>): void {
+  public setRates(rates: Array<number>): void {
     this._rates = [];
     rates.forEach(rate => {
       this._rates.push({
@@ -37,7 +35,7 @@ class KavaRateHandler {
    * @memberof KavaRateHandler
    * @instance
    */
-  setCurrent(rate: number): void {
+  public setCurrent(rate: number): void {
     this._rates.forEach(o => (o.active = false));
     const obj = this._rates.find(o => o.rate === rate);
     if (obj) {
@@ -51,7 +49,7 @@ class KavaRateHandler {
    * @memberof KavaRateHandler
    * @instance
    */
-  getCurrent(): number {
+  public getCurrent(): number {
     const current = this._rates.find(o => o.active);
     return current ? current.rate : -1;
   }
@@ -62,7 +60,7 @@ class KavaRateHandler {
    * @memberof KavaRateHandler
    * @instance
    */
-  countCurrent(): void {
+  public countCurrent(): void {
     const current = this._rates.find(o => o.active);
     if (current) {
       current.duration++;
@@ -75,7 +73,7 @@ class KavaRateHandler {
    * @memberof KavaRateHandler
    * @instance
    */
-  getAverage(): number {
+  public getAverage(): number {
     let totalDuration = 0;
     let sum = 0;
     this._rates.forEach(o => {
@@ -91,7 +89,7 @@ class KavaRateHandler {
    * @memberof KavaRateHandler
    * @instance
    */
-  reset(): void {
+  public reset(): void {
     this._rates.forEach(o => (o.duration = 0));
   }
 
@@ -101,7 +99,7 @@ class KavaRateHandler {
    * @memberof KavaRateHandler
    * @instance
    */
-  destroy(): void {
+  public destroy(): void {
     this._rates = [];
   }
 }

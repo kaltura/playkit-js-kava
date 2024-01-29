@@ -1,9 +1,8 @@
-// @flow
 import {registerPlugin} from '@playkit-js/kaltura-player-js';
 import {Kava} from './kava';
 
-declare var __VERSION__: string;
-declare var __NAME__: string;
+declare const __VERSION__: string;
+declare const __NAME__: string;
 
 const VERSION = __VERSION__;
 const NAME = __NAME__;

@@ -1,20 +1,15 @@
-// @flow
-import {core, BasePlugin} from '@playkit-js/kaltura-player-js';
-import {OVPAnalyticsService} from '@playkit-js/playkit-js-providers/dist/playkit-analytics-service';
+import { core, BasePlugin, KalturaPlayer } from "@playkit-js/kaltura-player-js";
+import { FakeEvent, VideoTrack } from "@playkit-js/playkit-js";
+import {OVPAnalyticsService} from '@playkit-js/playkit-js-providers/analytics-service';
 import {KavaEventModel, KavaEventType} from './kava-event-model';
 import {KavaRateHandler} from './kava-rate-handler';
 import {KavaTimer} from './kava-timer';
 import {ErrorPosition, KavaModel, SoundMode, TabMode, ScreenMode, ViewabilityMode} from './kava-model';
 import {HttpMethodType} from './http-method-type';
 import {KalturaApplication} from './kaltura-application';
-//$FlowFixMe
-import {RelatedEvent} from '@playkit-js/related';
-import {ShareEvent} from '@playkit-js/share';
-import {DownloadEvent} from '@playkit-js/playkit-js-downloads';
-import {ModerationEvent} from '@playkit-js/moderation';
-import {InfoEvent} from '@playkit-js/info';
+import { KavaConfigObject, KavaEvent } from "./types";
 
-const {Error: PKError, FakeEvent, Utils} = core;
+const {Error: PKError, Utils} = core;
 const DIVIDER: number = 1024;
 const TEXT_TYPE: string = 'TEXT';
 /**
@@ -29,21 +24,21 @@ class Kava extends BasePlugin {
   _timer: KavaTimer;
   _rateHandler: KavaRateHandler;
   _viewEventEnabled: boolean;
-  _firstPlayRequestTime: number;
-  _bufferStartTime: number;
-  _previousCurrentTime: number;
-  _isFirstPlay: boolean;
-  _isFirstPlaying: boolean;
-  _isEnded: boolean;
-  _isPaused: boolean;
-  _isBuffering: boolean;
-  _timePercentEvent: {[time: string]: boolean};
-  _isPlaying: boolean;
-  _loadStartTime: number;
+  _firstPlayRequestTime!: number;
+  _bufferStartTime!: number;
+  _previousCurrentTime!: number;
+  _isFirstPlay!: boolean;
+  _isFirstPlaying!: boolean;
+  _isEnded!: boolean;
+  _isPaused!: boolean;
+  _isBuffering!: boolean;
+  _timePercentEvent!: {[time: string]: boolean};
+  _isPlaying!: boolean;
+  _loadStartTime!: number;
   _lastDroppedFrames: number = 0;
   _lastTotalFrames: number = 0;
-  _performanceObserver: window.PerformanceObserver;
-  _performanceEntries: window.PerformanceEntry[] = [];
+  _performanceObserver!: PerformanceObserver;
+  _performanceEntries: PerformanceEntry[] = [];
   _pendingFragLoadedUrls: string[] = [];
   _fragLoadedFiredOnce: boolean = false;
   _canPlayOccured: boolean = false;
@@ -77,7 +72,7 @@ class Kava extends BasePlugin {
     return true;
   }
 
-  constructor(name: string, player: Player, config: KavaConfigObject) {
+  constructor(name: string, player: KalturaPlayer, config: KavaConfigObject) {
     super(name, player, config);
     this._rateHandler = new KavaRateHandler();
     this._model = new KavaModel();
@@ -116,14 +111,14 @@ class Kava extends BasePlugin {
     });
   }
 
-  _handleNewPerformanceEntries(list: window.PerformanceObserverEntryList) {
+  _handleNewPerformanceEntries(list: PerformanceObserverEntryList) {
     let perfEntries = list.getEntries();
     for (let i = 0; i < perfEntries.length; i++) {
       this._performanceEntries.push(perfEntries[i]);
     }
     while (this._pendingFragLoadedUrls.length) {
       // handle frag loaded events which haven't been added to the entry list yet
-      this._handleFragPerformanceObserver(this._pendingFragLoadedUrls.pop());
+      this._handleFragPerformanceObserver(this._pendingFragLoadedUrls.pop()!);
     }
   }
 
@@ -192,7 +187,7 @@ class Kava extends BasePlugin {
    * const viewModel = kava.getEventModel(kava.EventType.VIEW);
    * kava.sendAnalytics(viewModel);
    */
-  getEventModel(event: string): ?Object {
+  getEventModel(event: string): any {
     if (event) {
       return this._model.getModel(KavaEventModel[event]);
     }
@@ -222,7 +217,7 @@ class Kava extends BasePlugin {
    *   console.log('kava analytics send failed', e);
    * });
    */
-  sendAnalytics(model: Object): Promise<*> {
+  sendAnalytics(model: any): Promise<void> {
     return new Promise((resolve, reject) => {
       OVPAnalyticsService.trackEvent(this.config.serviceUrl, model, this.config.requestMethod)
         .doHttpRequest()
@@ -288,12 +283,12 @@ class Kava extends BasePlugin {
     this.sendAnalytics(model).catch(() => {});
   }
 
-  _handleServerResponseSuccess(response: Object, model: Object): void {
+  _handleServerResponseSuccess(response: any, model: any): void {
     this.logger.debug(`KAVA event sent`, model);
     this._updateSessionStartTimeModel(response);
   }
 
-  _handleServerResponseFailed(err: Object, model: Object): void {
+  _handleServerResponseFailed(err: any, model: any): void {
     this.logger.warn(`Failed to send KAVA event`, model, err);
   }
 
@@ -301,30 +296,30 @@ class Kava extends BasePlugin {
     this.eventManager.listen(this._timer, KavaTimer.Event.TICK, () => this._rateHandler.countCurrent());
     this.eventManager.listen(this._timer, KavaTimer.Event.REPORT, () => this._onReport());
     this.eventManager.listen(this._timer, KavaTimer.Event.RESET, () => this._resetSession());
-    this.eventManager.listen(this.player, this.player.Event.SOURCE_SELECTED, () => this._onSourceSelected());
-    this.eventManager.listen(this.player, this.player.Event.ERROR, event => this._onError(event));
-    this.eventManager.listen(this.player, this.player.Event.FIRST_PLAY, () => this._onFirstPlay());
-    this.eventManager.listen(this.player, this.player.Event.FRAG_LOADED, event => this._onFragLoaded(event));
-    this.eventManager.listen(this.player, this.player.Event.MANIFEST_LOADED, event => this._onManifestLoaded(event));
-    this.eventManager.listen(this.player, this.player.Event.TIMED_METADATA, event => this._onTimedMetadataLoaded(event));
-    this.eventManager.listen(this.player, this.player.Event.TRACKS_CHANGED, () => this._setInitialTracks());
-    this.eventManager.listen(this.player, this.player.Event.PLAYING, () => this._onPlaying());
-    this.eventManager.listen(this.player, this.player.Event.FIRST_PLAYING, () => this._onFirstPlaying());
-    this.eventManager.listen(this.player, this.player.Event.SEEKING, () => this._onSeeking());
-    this.eventManager.listen(this.player, this.player.Event.PAUSE, () => this._onPause());
-    this.eventManager.listen(this.player, this.player.Event.ENDED, () => this._onEnded());
-    this.eventManager.listen(this.player, this.player.Event.VIDEO_TRACK_CHANGED, event => this._onVideoTrackChanged(event));
-    this.eventManager.listen(this.player, this.player.Event.AUDIO_TRACK_CHANGED, event => this._onAudioTrackChanged(event));
-    this.eventManager.listen(this.player, this.player.Event.TEXT_TRACK_CHANGED, event => this._onTextTrackChanged(event));
-    this.eventManager.listen(this.player, this.player.Event.PLAYER_STATE_CHANGED, event => this._onPlayerStateChanged(event));
-    this.eventManager.listen(this.player, this.player.Event.RATE_CHANGE, () => this._onPlaybackRateChanged());
-    this.eventManager.listen(this.player, this.player.Event.CAN_PLAY, () => this._onCanPlay());
-    this.eventManager.listen(this.player, this.player.Event.LOAD_START, () => this._onLoadStart());
-    this.eventManager.listen(this.player, this.player.Event.VOLUME_CHANGE, () => this._updateSoundModeInModel());
+    this.eventManager.listen(this.player, this.player.Event.Core.SOURCE_SELECTED, () => this._onSourceSelected());
+    this.eventManager.listen(this.player, this.player.Event.Core.ERROR, event => this._onError(event));
+    this.eventManager.listen(this.player, this.player.Event.Core.FIRST_PLAY, () => this._onFirstPlay());
+    this.eventManager.listen(this.player, this.player.Event.Core.FRAG_LOADED, event => this._onFragLoaded(event));
+    this.eventManager.listen(this.player, this.player.Event.Core.MANIFEST_LOADED, event => this._onManifestLoaded(event));
+    this.eventManager.listen(this.player, this.player.Event.Core.TIMED_METADATA, event => this._onTimedMetadataLoaded(event));
+    this.eventManager.listen(this.player, this.player.Event.Core.TRACKS_CHANGED, () => this._setInitialTracks());
+    this.eventManager.listen(this.player, this.player.Event.Core.PLAYING, () => this._onPlaying());
+    this.eventManager.listen(this.player, this.player.Event.Core.FIRST_PLAYING, () => this._onFirstPlaying());
+    this.eventManager.listen(this.player, this.player.Event.Core.SEEKING, () => this._onSeeking());
+    this.eventManager.listen(this.player, this.player.Event.Core.PAUSE, () => this._onPause());
+    this.eventManager.listen(this.player, this.player.Event.Core.ENDED, () => this._onEnded());
+    this.eventManager.listen(this.player, this.player.Event.Core.VIDEO_TRACK_CHANGED, event => this._onVideoTrackChanged(event));
+    this.eventManager.listen(this.player, this.player.Event.Core.AUDIO_TRACK_CHANGED, event => this._onAudioTrackChanged(event));
+    this.eventManager.listen(this.player, this.player.Event.Core.TEXT_TRACK_CHANGED, event => this._onTextTrackChanged(event));
+    this.eventManager.listen(this.player, this.player.Event.Core.PLAYER_STATE_CHANGED, event => this._onPlayerStateChanged(event));
+    this.eventManager.listen(this.player, this.player.Event.Core.RATE_CHANGE, () => this._onPlaybackRateChanged());
+    this.eventManager.listen(this.player, this.player.Event.Core.CAN_PLAY, () => this._onCanPlay());
+    this.eventManager.listen(this.player, this.player.Event.Core.LOAD_START, () => this._onLoadStart());
+    this.eventManager.listen(this.player, this.player.Event.Core.VOLUME_CHANGE, () => this._updateSoundModeInModel());
     this.eventManager.listen(this.player, this.player.Event.VISIBILITY_CHANGE, e => this._updateViewabilityModeInModel(e.payload.visible));
-    this.eventManager.listen(this.player, this.player.Event.MUTE_CHANGE, () => this._updateSoundModeInModel());
-    this.eventManager.listen(this.player, this.player.Event.ENTER_FULLSCREEN, () => this._onFullScreenChanged(ScreenMode.FULLSCREEN));
-    this.eventManager.listen(this.player, this.player.Event.EXIT_FULLSCREEN, () => this._onFullScreenChanged(ScreenMode.NOT_IN_FULLSCREEN));
+    this.eventManager.listen(this.player, this.player.Event.Core.MUTE_CHANGE, () => this._updateSoundModeInModel());
+    this.eventManager.listen(this.player, this.player.Event.Core.ENTER_FULLSCREEN, () => this._onFullScreenChanged(ScreenMode.FULLSCREEN));
+    this.eventManager.listen(this.player, this.player.Event.Core.EXIT_FULLSCREEN, () => this._onFullScreenChanged(ScreenMode.NOT_IN_FULLSCREEN));
     this.eventManager.listen(this.player, RelatedEvent.RELATED_CLICKED, () => this._onRelatedClicked());
     this.eventManager.listen(this.player, RelatedEvent.RELATED_SELECTED, () => this._onRelatedSelected());
     this.eventManager.listen(this.player, ShareEvent.SHARE_CLICKED, () => this._onShareClicked());
@@ -351,8 +346,8 @@ class Kava extends BasePlugin {
   }
 
   _getRates(): Array<number> {
-    const rates = [];
-    const videoTracks = this.player.getTracks(this.player.Track.VIDEO);
+    const rates: number[] = [];
+    const videoTracks: VideoTrack[] = this.player.getTracks(this.player.Track.VIDEO) as unknown as VideoTrack[];
     videoTracks.forEach(videoTrack => rates.push(videoTrack.bandwidth / DIVIDER));
     return rates;
   }
@@ -423,7 +418,7 @@ class Kava extends BasePlugin {
    */
   _getDroppedFramesRatio(): number {
     let droppedFrames = -1;
-    const droppedAndDecoded: ?[number, number] = this._getDroppedAndDecodedFrames();
+    const droppedAndDecoded: [number, number] | null = this._getDroppedAndDecodedFrames();
     if (droppedAndDecoded) {
       let droppedFramesDelta: number;
       let totalFramesDelta: number;
@@ -445,14 +440,17 @@ class Kava extends BasePlugin {
    * since the creation of the associated HTMLVideoElement
    * @private
    */
-  _getDroppedAndDecodedFrames(): ?[number, number] {
-    if (typeof this.player.getVideoElement().getVideoPlaybackQuality === 'function') {
-      const videoPlaybackQuality = this.player.getVideoElement().getVideoPlaybackQuality();
+  _getDroppedAndDecodedFrames(): [number, number] | null {
+    if (typeof this.player.getVideoElement()!.getVideoPlaybackQuality === 'function') {
+      const videoPlaybackQuality = this.player.getVideoElement()!.getVideoPlaybackQuality();
       return [videoPlaybackQuality.droppedVideoFrames, videoPlaybackQuality.totalVideoFrames];
     } else if (
+      // @ts-ignore
       typeof this.player.getVideoElement().webkitDroppedFrameCount == 'number' &&
+      // @ts-ignore
       typeof this.player.getVideoElement().webkitDecodedFrameCount == 'number'
     ) {
+      // @ts-ignore
       return [this.player.getVideoElement().webkitDroppedFrameCount, this.player.getVideoElement().webkitDecodedFrameCount];
     } else {
       return null;
@@ -488,6 +486,7 @@ class Kava extends BasePlugin {
   }
 
   _initNetworkConnectionType(): void {
+    // @ts-ignore
     const navConnection = window.navigator.connection || window.navigator.mozConnection || window.navigator.webkitConnection;
 
     if (navConnection) {
@@ -539,13 +538,13 @@ class Kava extends BasePlugin {
   _onSourceSelected(): void {
     this._sendAnalytics(KavaEventModel.IMPRESSION);
     if (!(this.player.isImage() || this.player.isLive())) {
-      this.eventManager.listen(this.player, this.player.Event.TIME_UPDATE, () => this._onTimeUpdate());
+      this.eventManager.listen(this.player, this.player.Event.Core.TIME_UPDATE, () => this._onTimeUpdate());
     }
   }
 
   _onSeeking(): void {
-    this._previousCurrentTime = this.player.currentTime;
-    this._model.updateModel({targetPosition: this.player.currentTime});
+    this._previousCurrentTime = this.player.currentTime!;
+    this._model.updateModel({targetPosition: this.player.currentTime!});
     this._sendAnalytics(KavaEventModel.SEEK);
   }
 
@@ -563,7 +562,7 @@ class Kava extends BasePlugin {
 
   _onTimeUpdate(): void {
     this._updatePlayTimeSumModel();
-    const percent = parseFloat((this.player.currentTime / this.player.duration).toFixed(2));
+    const percent = parseFloat((this.player.currentTime! / this.player.duration!).toFixed(2));
     if (!this._timePercentEvent.PLAY_REACHED_25 && percent >= 0.25) {
       this._timePercentEvent.PLAY_REACHED_25 = true;
       this._sendAnalytics(KavaEventModel.PLAY_REACHED_25_PERCENT);
@@ -597,7 +596,7 @@ class Kava extends BasePlugin {
 
   _handleFragPerformanceObserver(url: string): boolean {
     const fragResourceTimings = this._performanceEntries.filter(entry => entry.name == url);
-    const lastFragResourceTiming: ?Object =
+    const lastFragResourceTiming: any =
       fragResourceTimings && fragResourceTimings.length ? fragResourceTimings[fragResourceTimings.length - 1] : null;
     if (lastFragResourceTiming) {
       this._updateMaxNetworkConnectionOverhead(lastFragResourceTiming.connectEnd - lastFragResourceTiming.domainLookupStart);
@@ -684,7 +683,7 @@ class Kava extends BasePlugin {
   }
 
   _onPlaybackRateChanged(): void {
-    if (!this.player.playbackRates.length || this.player.playbackRates.includes(this.player.playbackRate)) {
+    if (!this.player.playbackRates.length || this.player.playbackRates.includes(this.player.playbackRate!)) {
       this._sendAnalytics(KavaEventModel.SPEED);
     }
   }
@@ -749,7 +748,7 @@ class Kava extends BasePlugin {
     this._sendAnalytics(screenMode === ScreenMode.FULLSCREEN ? KavaEventModel.ENTER_FULLSCREEN : KavaEventModel.EXIT_FULLSCREEN);
   }
 
-  _updateSessionStartTimeModel(response: Object | number): void {
+  _updateSessionStartTimeModel(response: any | number): void {
     if (!this._model.getSessionStartTime() && response) {
       if (typeof response === 'object') {
         this._model.updateModel({sessionStartTime: response.time});
@@ -776,8 +775,8 @@ class Kava extends BasePlugin {
     if (this.player.isLive()) {
       delta = this.config.viewEventCountdown - this._model.getBufferTime();
     } else {
-      delta = this.player.currentTime - this._previousCurrentTime;
-      this._previousCurrentTime = this.player.currentTime;
+      delta = this.player.currentTime! - this._previousCurrentTime;
+      this._previousCurrentTime = this.player.currentTime!;
     }
     this._model.updateModel({playTimeSum: this._model.getPlayTimeSum() + delta});
   }
@@ -823,14 +822,15 @@ class Kava extends BasePlugin {
   _getPosition(): number {
     if (this.player.isLive()) {
       if (!Number.isNaN(this.player.duration)) {
-        if (this.player.duration - this.player.currentTime < 1) {
+        if (this.player.duration! - this.player.currentTime! < 1) {
           return 0;
         }
-        return -(this.player.duration - this.player.currentTime);
+        return -(this.player.duration! - this.player.currentTime!);
       }
       return 0;
     }
-    return this._isFirstPlaying ? this.player.currentTime || this.player.sources.startTime || 0 : this.player.currentTime;
+    return this._isFirstPlaying ? this.player.currentTime! || this.player.sources.startTime || 0 : this.player.currentTime!
+
   }
 
   _getDeliveryType(): string {
@@ -843,7 +843,7 @@ class Kava extends BasePlugin {
   _getPlaybackType(): string {
     if (this.player.isLive()) {
       if (this.player.isDvr()) {
-        const distanceFromLiveEdge = this.player.duration - this.player.currentTime;
+        const distanceFromLiveEdge = this.player.duration! - this.player.currentTime!;
         if (distanceFromLiveEdge >= this.config.dvrThreshold) {
           return 'dvr';
         }
@@ -891,14 +891,17 @@ class Kava extends BasePlugin {
       // Opera 12.10 and Firefox 18 and later support
       hiddenAttr = 'hidden';
       visibilityChangeEventName = 'visibilitychange';
+      // @ts-ignore
     } else if (typeof document.msHidden !== 'undefined') {
       hiddenAttr = 'msHidden';
       visibilityChangeEventName = 'msvisibilitychange';
+      // @ts-ignore
     } else if (typeof document.webkitHidden !== 'undefined') {
       hiddenAttr = 'webkitHidden';
       visibilityChangeEventName = 'webkitvisibilitychange';
     }
 
+    // @ts-ignore
     if (hiddenAttr && visibilityChangeEventName) {
       this.eventManager.listen(document, visibilityChangeEventName, () => this._updateTabModeInModel(hiddenAttr));
       this._updateTabModeInModel(hiddenAttr);

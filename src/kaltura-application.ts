@@ -1,5 +1,3 @@
-//@flow
-
 type ApplicationType = {[app: string]: string};
 
 const KalturaApplication: ApplicationType = {
