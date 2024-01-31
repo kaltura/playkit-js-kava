@@ -13,7 +13,7 @@ export const KavaEventModel = {
   VIEW: {
     type: 'VIEW',
     index: 99,
-    getEventModel: (model: KavaModel) => {
+    getEventModel: (model: KavaModel): any => {
       const eventModel: { [name: string]: any } = {
         playTimeSum: model.getPlayTimeSum(),
         bufferTime: model.getBufferTime(),
@@ -39,7 +39,7 @@ export const KavaEventModel = {
       if (model.getBandwidth()) {
         eventModel.bandwidth = model.getBandwidth();
       }
-      if (model.getDroppedFramesRatio() != null) {
+      if (model.getDroppedFramesRatio() !== null) {
         eventModel.droppedFramesRatio = model.getDroppedFramesRatio();
       }
 
@@ -68,9 +68,9 @@ export const KavaEventModel = {
   IMPRESSION: {
     type: 'IMPRESSION',
     index: 1,
-    getEventModel: (model: KavaModel) => {
+    getEventModel: (model: KavaModel): any => {
       const eventModel = {} as KavaModel;
-      if (model.getPlayerJSLoadTime() != null) {
+      if (model.getPlayerJSLoadTime() !== null) {
         eventModel.playerJSLoadTime = model.getPlayerJSLoadTime();
       }
       return eventModel;
@@ -83,7 +83,7 @@ export const KavaEventModel = {
   PLAY_REQUEST: {
     type: 'PLAY_REQUEST',
     index: 2,
-    getEventModel: () => ({})
+    getEventModel: (): any => ({})
   },
   /**
    * @type {string} PLAY
@@ -92,7 +92,7 @@ export const KavaEventModel = {
   PLAY: {
     type: 'PLAY',
     index: 3,
-    getEventModel: (model: KavaModel) => {
+    getEventModel: (model: KavaModel): any => {
       const eventModel: { [name: string]: any } = {
         bufferTime: model.getBufferTime(),
         bufferTimeSum: model.getBufferTimeSum(),
@@ -113,7 +113,7 @@ export const KavaEventModel = {
   RESUME: {
     type: 'RESUME',
     index: 4,
-    getEventModel: (model: KavaModel) => ({
+    getEventModel: (model: KavaModel): any => ({
       bufferTime: model.getBufferTime(),
       bufferTimeSum: model.getBufferTimeSum(),
       actualBitrate: model.getActualBitrate()
@@ -126,7 +126,7 @@ export const KavaEventModel = {
   PAUSE: {
     type: 'PAUSE',
     index: 33,
-    getEventModel: () => ({})
+    getEventModel: (): any => ({})
   },
   /**
    * @type {string} BUFFER_START
@@ -135,7 +135,7 @@ export const KavaEventModel = {
   BUFFER_START: {
     type: 'BUFFER_START',
     index: 45,
-    getEventModel: () => ({})
+    getEventModel: (): any => ({})
   },
   /**
    * @type {string} BUFFER_END
@@ -144,7 +144,7 @@ export const KavaEventModel = {
   BUFFER_END: {
     type: 'BUFFER_END',
     index: 46,
-    getEventModel: () => ({})
+    getEventModel: (): any => ({})
   },
   /**
    * @type {string} REPLAY
@@ -153,7 +153,7 @@ export const KavaEventModel = {
   REPLAY: {
     type: 'REPLAY',
     index: 34,
-    getEventModel: () => ({})
+    getEventModel: (): any => ({})
   },
   /**
    * @type {string} SEEK
@@ -162,7 +162,7 @@ export const KavaEventModel = {
   SEEK: {
     type: 'SEEK',
     index: 35,
-    getEventModel: (model: KavaModel) => ({
+    getEventModel: (model: KavaModel): any => ({
       targetPosition: model.getTargetPosition()
     })
   },
@@ -173,7 +173,7 @@ export const KavaEventModel = {
   PLAY_REACHED_25_PERCENT: {
     type: 'PLAY_REACHED_25_PERCENT',
     index: 11,
-    getEventModel: () => ({})
+    getEventModel: (): any => ({})
   },
   /**
    * @type {string} PLAY_REACHED_50_PERCENT
@@ -182,7 +182,7 @@ export const KavaEventModel = {
   PLAY_REACHED_50_PERCENT: {
     type: 'PLAY_REACHED_50_PERCENT',
     index: 12,
-    getEventModel: () => ({})
+    getEventModel: (): any => ({})
   },
   /**
    * @type {string} PLAY_REACHED_75_PERCENT
@@ -191,7 +191,7 @@ export const KavaEventModel = {
   PLAY_REACHED_75_PERCENT: {
     type: 'PLAY_REACHED_75_PERCENT',
     index: 13,
-    getEventModel: () => ({})
+    getEventModel: (): any => ({})
   },
   /**
    * @type {string} PLAY_REACHED_100_PERCENT
@@ -200,7 +200,7 @@ export const KavaEventModel = {
   PLAY_REACHED_100_PERCENT: {
     type: 'PLAY_REACHED_100_PERCENT',
     index: 14,
-    getEventModel: () => ({})
+    getEventModel: (): any => ({})
   },
   /**
    * @type {string} SOURCE_SELECTED
@@ -209,7 +209,7 @@ export const KavaEventModel = {
   SOURCE_SELECTED: {
     type: 'SOURCE_SELECTED',
     index: 39,
-    getEventModel: (model: KavaModel) => ({
+    getEventModel: (model: KavaModel): any => ({
       actualBitrate: model.getActualBitrate()
     })
   },
@@ -220,7 +220,7 @@ export const KavaEventModel = {
   AUDIO_SELECTED: {
     type: 'AUDIO_SELECTED',
     index: 42,
-    getEventModel: (model: KavaModel) => ({
+    getEventModel: (model: KavaModel): any => ({
       language: model.getLanguage()
     })
   },
@@ -231,7 +231,7 @@ export const KavaEventModel = {
   FLAVOR_SWITCH: {
     type: 'FLAVOR_SWITCH',
     index: 43,
-    getEventModel: (model: KavaModel) => ({
+    getEventModel: (model: KavaModel): any => ({
       actualBitrate: model.getActualBitrate()
     })
   },
@@ -242,7 +242,7 @@ export const KavaEventModel = {
   SPEED: {
     type: 'SPEED',
     index: 41,
-    getEventModel: () => ({})
+    getEventModel: (): any => ({})
   },
   /**
    * @type {string} CAPTIONS
@@ -251,7 +251,7 @@ export const KavaEventModel = {
   CAPTIONS: {
     type: 'CAPTIONS',
     index: 38,
-    getEventModel: () => ({})
+    getEventModel: (): any => ({})
   },
   /**
    * @type {string} ERROR
@@ -260,7 +260,7 @@ export const KavaEventModel = {
   ERROR: {
     type: 'ERROR',
     index: 98,
-    getEventModel: (model: KavaModel) => ({
+    getEventModel: (model: KavaModel): any => ({
       errorCode: model.getErrorCode(),
       errorDetails: model.getErrorDetails(),
       errorPosition: model.getErrorPosition()
@@ -273,7 +273,7 @@ export const KavaEventModel = {
   RELATED_CLICKED: {
     type: 'RELATED_CLICKED',
     index: 36,
-    getEventModel: () => ({})
+    getEventModel: (): any => ({})
   },
   /**
    * @type {string} RELATED_SELECTED
@@ -282,7 +282,7 @@ export const KavaEventModel = {
   RELATED_SELECTED: {
     type: 'RELATED_SELECTED',
     index: 37,
-    getEventModel: () => ({})
+    getEventModel: (): any => ({})
   },
   /**
    * @type {string} SHARE_CLICKED
@@ -291,7 +291,7 @@ export const KavaEventModel = {
   SHARE_CLICKED: {
     type: 'SHARE_CLICKED',
     index: 21,
-    getEventModel: () => ({})
+    getEventModel: (): any => ({})
   },
   /**
    * @type {string} SHARE_NETWORK
@@ -300,49 +300,49 @@ export const KavaEventModel = {
   SHARE_NETWORK: {
     type: 'SHARE_NETWORK',
     index: 22,
-    getEventModel: (model: KavaModel) => ({
+    getEventModel: (model: KavaModel): any => ({
       socialNetwork: model.getShareNetworkName()
     })
   },
   ENTER_FULLSCREEN: {
     type: 'ENTER_FULLSCREEN',
     index: 31,
-    getEventModel: (model: KavaModel) => ({
+    getEventModel: (model: KavaModel): any => ({
       screenMode: model.getScreenMode()
     })
   },
   EXIT_FULLSCREEN: {
     type: 'EXIT_FULLSCREEN',
     index: 32,
-    getEventModel: (model: KavaModel) => ({
+    getEventModel: (model: KavaModel): any => ({
       screenMode: model.getScreenMode()
     })
   },
   DOWNLOAD: {
     type: 'DOWNLOAD',
     index: 23,
-    getEventModel: () => ({})
+    getEventModel: (): any => ({})
   },
   REPORT_CLICKED: {
     type: 'REPORT_CLICKED',
     index: 24,
-    getEventModel: () => ({})
+    getEventModel: (): any => ({})
   },
   REPORT_SUBMITTED: {
     type: 'REPORT_SUBMITTED',
     index: 25,
-    getEventModel: (model: KavaModel) => ({
+    getEventModel: (model: KavaModel): any => ({
       reportType: model.getReportType()
     })
   },
   INFO: {
     type: 'INFO',
     index: 40,
-    getEventModel: () => ({})
+    getEventModel: (): any => ({})
   }
 };
 
-export const KavaEventType: { [event: string]: string } = ((eventType) => {
+export const KavaEventType: { [event: string]: string } = ((eventType): any => {
   Object.keys(KavaEventModel).forEach((k) => (eventType[k] = k));
   return eventType;
 })({});

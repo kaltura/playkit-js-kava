@@ -27,7 +27,7 @@ module.exports = (env, { mode }) => {
               plugins: [['@babel/plugin-transform-runtime']]
             }
           }
-        },
+        }
       ]
     },
     resolve: {
@@ -38,7 +38,7 @@ module.exports = (env, { mode }) => {
         '@playkit-js/playkit-js-downloads': path.resolve(`node_modules/@playkit-js/playkit-js-downloads/types`),
         '@playkit-js/info': path.resolve(`node_modules/@playkit-js/info/types`),
         '@playkit-js/moderation': path.resolve(`node_modules/@playkit-js/moderation/types`)
-      },
+      }
     },
     output: {
       filename: 'playkit-kava.js',
@@ -51,8 +51,8 @@ module.exports = (env, { mode }) => {
       clean: true
     },
     externals: {
-      '@playkit-js/kaltura-player-js': ['KalturaPlayer'],
-      '@playkit-js/playkit-js-providers': ['KalturaPlayer', 'providers']
+      '@playkit-js/kaltura-player-js': 'root KalturaPlayer',
+      '@playkit-js/playkit-js-providers': 'root KalturaPlayer.providers'
     },
     devServer: {
       static: {

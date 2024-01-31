@@ -1,5 +1,5 @@
-import {getEventModel} from './kava-event-model';
-import { KavaEvent } from "./types";
+import { getEventModel } from './kava-event-model';
+import { KavaEvent } from './types';
 
 /**
  * The KAVA model that stores data.
@@ -38,32 +38,32 @@ class KavaModel {
   public playerJSLoadTime?: number | null = null;
   private shareNetworkName: string = '';
   private reportType: number = NaN;
-  public getActualBitrate!: Function;
-  public getPlaybackSpeed!: Function;
-  public getAverageBitrate!: Function;
-  public getPartnerId!: Function;
-  public getEntryId!: Function;
-  public getPlaylistId!: Function;
-  public getSessionId!: Function;
-  public getClientVer!: Function;
-  public getClientTag!: Function;
-  public getKS!: Function;
-  public getVirtualEventId!: Function;
-  public getUIConfId!: Function;
-  public getReferrer!: Function;
-  public getCustomVar1!: Function;
-  public getCustomVar2!: Function;
-  public getCustomVar3!: Function;
-  public getPosition!: Function;
-  public getDeliveryType!: Function;
-  public getPlaybackType!: Function;
-  public getPlaybackContext!: Function;
-  public getApplicationVersion!: Function;
-  public getApplication!: Function;
-  public getKalturaApplicationVersion!: Function;
-  public getKalturaApplication!: Function;
-  public getUserId!: Function;
-  public getPersistentSessionId!: Function;
+  public getActualBitrate!: () => any;
+  public getPlaybackSpeed!: () => any;
+  public getAverageBitrate!: () => any;
+  public getPartnerId!: () => any;
+  public getEntryId!: () => any;
+  public getPlaylistId!: () => any;
+  public getSessionId!: () => any;
+  public getClientVer!: () => any;
+  public getClientTag!: () => any;
+  public getKS!: () => any;
+  public getVirtualEventId!: () => any;
+  public getUIConfId!: () => any;
+  public getReferrer!: () => any;
+  public getCustomVar1!: () => any;
+  public getCustomVar2!: () => any;
+  public getCustomVar3!: () => any;
+  public getPosition!: () => any;
+  public getDeliveryType!: () => any;
+  public getPlaybackType!: () => any;
+  public getPlaybackContext!: () => any;
+  public getApplicationVersion!: () => any;
+  public getApplication!: () => any;
+  public getKalturaApplicationVersion!: () => any;
+  public getKalturaApplication!: () => any;
+  public getUserId!: () => any;
+  public getPersistentSessionId!: () => any;
 
   constructor(model?: object) {
     if (model) {
@@ -384,30 +384,30 @@ class KavaModel {
   }
 }
 
-enum SoundMode  {
-  SOUND_OFF= 1,
-  SOUND_ON= 2
-};
-
-enum ViewabilityMode {
-  NOT_IN_VIEW= 1,
-  IN_VIEW= 2
-};
-
-enum TabMode  {
-  TAB_NOT_FOCUSED= 1,
-  TAB_FOCUSED= 2
-};
-
-enum ScreenMode {
-  NOT_IN_FULLSCREEN= 1,
-  FULLSCREEN= 2
+enum SoundMode {
+  SOUND_OFF = 1,
+  SOUND_ON = 2
 }
 
-enum ErrorPosition  {
+enum ViewabilityMode {
+  NOT_IN_VIEW = 1,
+  IN_VIEW = 2
+}
+
+enum TabMode {
+  TAB_NOT_FOCUSED = 1,
+  TAB_FOCUSED = 2
+}
+
+enum ScreenMode {
+  NOT_IN_FULLSCREEN = 1,
+  FULLSCREEN = 2
+}
+
+enum ErrorPosition {
   PRE_PLAY = 3,
   PRE_PLAYING = 1,
   MID_STREAM = 2
-};
+}
 
-export {KavaModel, SoundMode, TabMode, ErrorPosition, ScreenMode, ViewabilityMode};
+export { KavaModel, SoundMode, TabMode, ErrorPosition, ScreenMode, ViewabilityMode };

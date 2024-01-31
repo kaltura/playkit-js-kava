@@ -1,13 +1,13 @@
-const DownloadEvent = {
+export const DownloadEvent = {
   DOWNLOAD_ITEM_CLICKED: 'download_item_clicked'
 };
 
-const ModerationEvent = {
+export const ModerationEvent = {
   REPORT_CLICKED: 'report_clicked',
   REPORT_SUBMITTED: 'report_submitted'
 };
 
-const ShareEvent = {
+export const ShareEvent = {
   /**
    * Fired when the user clicks on share icon.
    */
@@ -18,7 +18,7 @@ const ShareEvent = {
   SHARE_NETWORK: 'share_network'
 };
 
-const RelatedEvent = {
+export const RelatedEvent = {
   /**
    * Fired when the user selects an entry from the list or the grid.
    */
@@ -29,6 +29,6 @@ const RelatedEvent = {
   RELATED_CLICKED: 'related_clicked'
 };
 
-const InfoEvent = {
+export const InfoEvent = {
   INFO_SCREEN_OPEN: 'info_screen_open'
 };

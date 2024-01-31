@@ -1,5 +1,5 @@
-import {core} from '@playkit-js/kaltura-player-js';
-const {FakeEvent, FakeEventTarget} = core;
+import { core } from '@playkit-js/kaltura-player-js';
+const { FakeEvent, FakeEventTarget } = core;
 
 const SECOND: number = 1000;
 
@@ -11,7 +11,7 @@ const SECOND: number = 1000;
  * @param {number} interval - interval in ms.
  */
 class WorkerTimer {
-  worker: Worker | null = null;
+  private worker: Worker | null = null;
   constructor(callback, interval) {
     const blob = new Blob([`setInterval(() => postMessage(0), ${interval});`]);
     const workerScript = URL.createObjectURL(blob);
@@ -25,7 +25,7 @@ class WorkerTimer {
    * @memberof WorkerTimer
    * @instance
    */
-  public stop() {
+  public stop(): void {
     if (this.worker) {
       this.worker.terminate();
     }
@@ -39,19 +39,19 @@ class WorkerTimer {
  * @param {Object} config - The timer config.
  */
 class KavaTimer extends FakeEventTarget {
-  _resetCounter!: number;
-  _eventCounter!: number;
-  _timer?: WorkerTimer | null;
-  _stopped!: boolean;
-  _config: any;
+  private _resetCounter!: number;
+  private _eventCounter!: number;
+  private _timer?: WorkerTimer | null;
+  private _stopped!: boolean;
+  private _config: any;
 
-  static Event = {
+  public static Event = {
     TICK: 'tick',
     RESET: 'reset',
     REPORT: 'report'
   };
 
-  constructor(config: Object) {
+  constructor(config: any) {
     super();
     this._config = config;
   }
@@ -136,4 +136,4 @@ class KavaTimer extends FakeEventTarget {
   }
 }
 
-export {KavaTimer};
+export { KavaTimer };

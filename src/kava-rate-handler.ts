@@ -4,7 +4,7 @@
  * @class KavaRateHandler
  */
 class KavaRateHandler {
-  _rates: any[] = [];
+  private _rates: any[] = [];
 
   constructor() {
     this._rates = [];
@@ -19,7 +19,7 @@ class KavaRateHandler {
    */
   public setRates(rates: Array<number>): void {
     this._rates = [];
-    rates.forEach(rate => {
+    rates.forEach((rate) => {
       this._rates.push({
         rate: rate,
         active: false,
@@ -36,8 +36,8 @@ class KavaRateHandler {
    * @instance
    */
   public setCurrent(rate: number): void {
-    this._rates.forEach(o => (o.active = false));
-    const obj = this._rates.find(o => o.rate === rate);
+    this._rates.forEach((o) => (o.active = false));
+    const obj = this._rates.find((o) => o.rate === rate);
     if (obj) {
       obj.active = true;
     }
@@ -50,7 +50,7 @@ class KavaRateHandler {
    * @instance
    */
   public getCurrent(): number {
-    const current = this._rates.find(o => o.active);
+    const current = this._rates.find((o) => o.active);
     return current ? current.rate : -1;
   }
 
@@ -61,7 +61,7 @@ class KavaRateHandler {
    * @instance
    */
   public countCurrent(): void {
-    const current = this._rates.find(o => o.active);
+    const current = this._rates.find((o) => o.active);
     if (current) {
       current.duration++;
     }
@@ -76,7 +76,7 @@ class KavaRateHandler {
   public getAverage(): number {
     let totalDuration = 0;
     let sum = 0;
-    this._rates.forEach(o => {
+    this._rates.forEach((o) => {
       sum += o.rate * o.duration;
       totalDuration += o.duration;
     });
@@ -90,7 +90,7 @@ class KavaRateHandler {
    * @instance
    */
   public reset(): void {
-    this._rates.forEach(o => (o.duration = 0));
+    this._rates.forEach((o) => (o.duration = 0));
   }
 
   /**
@@ -104,4 +104,4 @@ class KavaRateHandler {
   }
 }
 
-export {KavaRateHandler};
+export { KavaRateHandler };

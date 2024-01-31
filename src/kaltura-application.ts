@@ -1,4 +1,4 @@
-type ApplicationType = {[app: string]: string};
+type ApplicationType = { [app: string]: string };
 
 const KalturaApplication: ApplicationType = {
   KMC: '0',
@@ -22,5 +22,5 @@ const KalturaApplication: ApplicationType = {
   STUDIO: '18'
 };
 
-export {KalturaApplication};
-export type {ApplicationType};
+export { KalturaApplication };
+export type { ApplicationType };
