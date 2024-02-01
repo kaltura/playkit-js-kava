@@ -1,10 +1,11 @@
-import '../../src/index.js';
+// import '../../src/index.js';
+import sinon from 'sinon';
 import {core, setup} from '@playkit-js/kaltura-player-js';
 import * as TestUtils from './utils/test-utils';
-import {OVPAnalyticsService, RequestBuilder} from '@playkit-js/playkit-js-providers/dist/playkit-analytics-service';
+import {OVPAnalyticsService, RequestBuilder} from '@playkit-js/playkit-js-providers/analytics-service';
 import {KavaEventModel} from '../../src/kava-event-model';
 import {ErrorPosition, SoundMode, TabMode, ScreenMode, ViewabilityMode} from '../../src/kava-model';
-import {HttpMethodType} from '../../src/http-method-type';
+import {HttpMethodType} from "../../src";
 
 const {FakeEvent, CustomEventType} = core;
 const targetId = 'player-placeholder_kava.spec';
