@@ -55,9 +55,18 @@ module.exports = function (config) {
     // enable / disable watching file and executing tests whenever any file changes
     autoWatch: false,
 
+    customLaunchers: {
+      ChromeHeadlessWithFlags: {
+        base: 'ChromeHeadless',
+        flags: ['--no-sandbox', '--autoplay-policy=no-user-gesture-required', '--mute-audio', '--max-web-media-player-count=1000']
+      }
+    },
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['ChromeHeadless'],
+    browsers: ['ChromeHeadlessWithFlags'],
+
+    browserDisconnectTimeout: 30000,
+    browserNoActivityTimeout: 60000,
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
