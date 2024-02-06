@@ -20,10 +20,7 @@
     "prebuild": "npm run clean",
     "precommit": "npm run build:prod && npm run type-check && npm run lint",
     "pushTaggedRelease": "git push --follow-tags --no-verify origin master",
-    "release": "standard-version",
-    "hard:link": "yarn run hard:link:kaltura && yarn run hard:link:providers",
-    "hard:link:kaltura": "cp -Rf ../kaltura-player-js/dist node_modules/@playkit-js/kaltura-player-js && cp -Rf ../kaltura-player-js/package.json node_modules/@playkit-js/kaltura-player-js",
-    "hard:link:providers": "cp -Rf ../playkit-js-providers/dist node_modules/@playkit-js/playkit-js-providers && cp -Rf ../playkit-js-providers/package.json node_modules/@playkit-js/playkit-js-providers && cp -Rf ../playkit-js-providers/ott-provider node_modules/@playkit-js/playkit-js-providers && cp -Rf ../playkit-js-providers/ovp-provider node_modules/@playkit-js/playkit-js-providers && cp -Rf ../playkit-js-providers/analytics-service node_modules/@playkit-js/playkit-js-providers && cp -Rf ../playkit-js-providers/bookmark-service node_modules/@playkit-js/playkit-js-providers && cp -Rf ../playkit-js-providers/stats-service node_modules/@playkit-js/playkit-js-providers && cp -Rf ../playkit-js-providers/types node_modules/@playkit-js/playkit-js-providers"
+    "release": "standard-version"
   },
   "publishConfig": {
     "access": "public"
@@ -36,11 +33,11 @@
     "@babel/runtime": "^7.23.8",
     "@microsoft/api-extractor": "^7.39.1",
     "@playkit-js/browserslist-config": "1.0.8",
-    "@playkit-js/kaltura-player-js": "canary",
+    "@playkit-js/kaltura-player-js": "3.17.10-canary.0-0a7de21",
     "@playkit-js/moderation": "canary",
     "@playkit-js/playkit-js": "canary",
     "@playkit-js/playkit-js-downloads": "canary",
-    "@playkit-js/playkit-js-providers": "canary",
+    "@playkit-js/playkit-js-providers": "2.40.4-canary.0-b3e5269",
     "@playkit-js/related": "canary",
     "@playkit-js/share": "canary",
     "@types/chai": "^4.3.3",
