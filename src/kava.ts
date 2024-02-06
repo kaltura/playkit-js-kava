@@ -485,7 +485,7 @@ class Kava extends BasePlugin {
   }
 
   private _initNetworkConnectionType(): void {
-    // @ts-ignore
+    // @ts-expect-error - Property 'webkitConnection' does not exist on type 'Navigator'
     const navConnection = window.navigator.connection || window.navigator.mozConnection || window.navigator.webkitConnection;
 
     if (navConnection) {
@@ -889,17 +889,17 @@ class Kava extends BasePlugin {
       // Opera 12.10 and Firefox 18 and later support
       hiddenAttr = 'hidden';
       visibilityChangeEventName = 'visibilitychange';
-      // @ts-expect-error
+      // @ts-expect-error - Property 'msHidden' does not exist on type 'Document'. Did you mean 'hidden'?
     } else if (typeof document.msHidden !== 'undefined') {
       hiddenAttr = 'msHidden';
       visibilityChangeEventName = 'msvisibilitychange';
-      // @ts-expect-error
+      // @ts-expect-error - Property 'webkitHidden' does not exist on type 'Document'. Did you mean 'hidden'?
     } else if (typeof document.webkitHidden !== 'undefined') {
       hiddenAttr = 'webkitHidden';
       visibilityChangeEventName = 'webkitvisibilitychange';
     }
 
-    // @ts-expect-error
+    // @ts-expect-error - Variable 'visibilityChangeEventName' is used before being assigned.
     if (hiddenAttr && visibilityChangeEventName) {
       this.eventManager.listen(document, visibilityChangeEventName, () => this._updateTabModeInModel(hiddenAttr));
       this._updateTabModeInModel(hiddenAttr);
