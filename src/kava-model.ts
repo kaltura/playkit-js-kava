@@ -1,5 +1,5 @@
-// @flow
-import {getEventModel} from './kava-event-model';
+import { getEventModel } from './kava-event-model';
+import { KavaEvent } from './types';
 
 /**
  * The KAVA model that stores data.
@@ -8,65 +8,64 @@ import {getEventModel} from './kava-event-model';
  * @param {?Object} - Initial model.
  */
 class KavaModel {
-  sessionStartTime: number;
-  eventIndex: number;
-  errorPosition: $Values<typeof ErrorPosition>;
-  playTimeSum: number;
-  bufferTime: number;
-  bufferTimeSum: number;
-  language: string;
-  caption: string;
-  errorCode: number;
-  errorDetails: any;
-  joinTime: number;
-  canPlayTime: number;
-  targetPosition: number;
-  targetBuffer: number;
-  totalSegmentsDownloadTime: number = 0;
-  totalSegmentsDownloadBytes: number = 0;
-  maxSegmentDownloadTime: number = 0;
-  maxManifestDownloadTime: number = 0;
-  forwardBufferHealth: number;
-  droppedFramesRatio: ?number = null;
-  soundMode: $Values<typeof SoundMode>;
-  viewabilityMode: $Values<typeof ViewabilityMode>;
-  tabMode: $Values<typeof TabMode>;
-  screenMode: $Values<typeof ScreenMode> = ScreenMode.NOT_IN_FULLSCREEN;
-  maxNetworkConnectionOverhead: number = 0;
-  flavorParamsId: number = NaN;
-  networkConnectionType: string;
-  playerJSLoadTime: ?number = null;
-  shareNetworkName: string = '';
-  reportType: number = NaN;
-  getActualBitrate: Function;
-  getPlaybackSpeed: Function;
-  getAverageBitrate: Function;
-  getPartnerId: Function;
-  getEntryId: Function;
-  getPlaylistId: Function;
-  getSessionId: Function;
-  getClientVer: Function;
-  getClientTag: Function;
-  getKS: Function;
-  getVirtualEventId: Function;
-  getUIConfId: Function;
-  getReferrer: Function;
-  getCustomVar1: Function;
-  getCustomVar2: Function;
-  getCustomVar3: Function;
-  getPosition: Function;
-  getDeliveryType: Function;
-  getPlaybackType: Function;
-  getPlaybackContext: Function;
-  getApplicationVersion: Function;
-  getApplication: Function;
-  getKalturaApplicationVersion: Function;
-  getKalturaApplication: Function;
-  getUserId: Function;
-  getCanPlayTime: Function;
-  getPersistentSessionId: Function;
+  private sessionStartTime!: number;
+  private eventIndex!: number;
+  private errorPosition!: ErrorPosition;
+  private playTimeSum!: number;
+  private bufferTime!: number;
+  private bufferTimeSum!: number;
+  private language!: string;
+  private caption!: string;
+  private errorCode!: number;
+  private errorDetails: any;
+  private joinTime!: number;
+  private canPlayTime!: number;
+  private targetPosition!: number;
+  private targetBuffer!: number;
+  public totalSegmentsDownloadTime: number = 0;
+  public totalSegmentsDownloadBytes: number = 0;
+  public maxSegmentDownloadTime: number = 0;
+  public maxManifestDownloadTime: number = 0;
+  private forwardBufferHealth!: number;
+  private droppedFramesRatio?: number | null = null;
+  private soundMode!: SoundMode;
+  private viewabilityMode!: ViewabilityMode;
+  private tabMode!: TabMode;
+  private screenMode: ScreenMode = ScreenMode.NOT_IN_FULLSCREEN;
+  public maxNetworkConnectionOverhead: number = 0;
+  private flavorParamsId: number = NaN;
+  private networkConnectionType!: string;
+  public playerJSLoadTime?: number | null = null;
+  private shareNetworkName: string = '';
+  private reportType: number = NaN;
+  public getActualBitrate!: () => any;
+  public getPlaybackSpeed!: () => any;
+  public getAverageBitrate!: () => any;
+  public getPartnerId!: () => any;
+  public getEntryId!: () => any;
+  public getPlaylistId!: () => any;
+  public getSessionId!: () => any;
+  public getClientVer!: () => any;
+  public getClientTag!: () => any;
+  public getKS!: () => any;
+  public getVirtualEventId!: () => any;
+  public getUIConfId!: () => any;
+  public getReferrer!: () => any;
+  public getCustomVar1!: () => any;
+  public getCustomVar2!: () => any;
+  public getCustomVar3!: () => any;
+  public getPosition!: () => any;
+  public getDeliveryType!: () => any;
+  public getPlaybackType!: () => any;
+  public getPlaybackContext!: () => any;
+  public getApplicationVersion!: () => any;
+  public getApplication!: () => any;
+  public getKalturaApplicationVersion!: () => any;
+  public getKalturaApplication!: () => any;
+  public getUserId!: () => any;
+  public getPersistentSessionId!: () => any;
 
-  constructor(model?: Object) {
+  constructor(model?: object) {
     if (model) {
       this.updateModel(model);
     }
@@ -78,11 +77,11 @@ class KavaModel {
    * @memberof KavaModel
    * @instance
    */
-  getPlayTimeSum(): number {
+  public getPlayTimeSum(): number {
     return this.playTimeSum;
   }
 
-  getCanPlayTime(): number {
+  public getCanPlayTime(): number {
     return this.canPlayTime;
   }
 
@@ -92,7 +91,7 @@ class KavaModel {
    * @memberof KavaModel
    * @instance
    */
-  getBufferTime(): number {
+  public getBufferTime(): number {
     return this.bufferTime;
   }
 
@@ -102,7 +101,7 @@ class KavaModel {
    * @memberof KavaModel
    * @instance
    */
-  getBufferTimeSum(): number {
+  public getBufferTimeSum(): number {
     return this.bufferTimeSum;
   }
 
@@ -112,7 +111,7 @@ class KavaModel {
    * @memberof KavaModel
    * @instance
    */
-  getPlayerJSLoadTime(): ?number {
+  public getPlayerJSLoadTime(): number | null {
     if (this.playerJSLoadTime) {
       return Math.round(this.playerJSLoadTime * 1000) / 1000;
     } else {
@@ -126,7 +125,7 @@ class KavaModel {
    * @memberof KavaModel
    * @instance
    */
-  getJoinTime(): number {
+  public getJoinTime(): number {
     return this.joinTime;
   }
 
@@ -136,7 +135,7 @@ class KavaModel {
    * @memberof KavaModel
    * @instance
    */
-  getTargetPosition(): number {
+  public getTargetPosition(): number {
     return this.targetPosition;
   }
 
@@ -146,7 +145,7 @@ class KavaModel {
    * @memberof KavaModel
    * @instance
    */
-  getTargetBuffer(): number {
+  public getTargetBuffer(): number {
     return this.targetBuffer;
   }
 
@@ -156,7 +155,7 @@ class KavaModel {
    * @memberof KavaModel
    * @instance
    */
-  getLanguage(): string {
+  public getLanguage(): string {
     return this.language;
   }
 
@@ -166,7 +165,7 @@ class KavaModel {
    * @memberof KavaModel
    * @instance
    */
-  getCaption(): string {
+  public getCaption(): string {
     return this.caption;
   }
 
@@ -176,7 +175,7 @@ class KavaModel {
    * @memberof KavaModel
    * @instance
    */
-  getBandwidth(): number {
+  public getBandwidth(): number {
     return this.totalSegmentsDownloadTime > 0 ? Math.round((this.totalSegmentsDownloadBytes * 8) / this.totalSegmentsDownloadTime) / 1000 : 0;
   }
 
@@ -186,7 +185,7 @@ class KavaModel {
    * @memberof KavaModel
    * @instance
    */
-  getMaxManifestDownloadTime(): number {
+  public getMaxManifestDownloadTime(): number {
     return this.maxManifestDownloadTime;
   }
 
@@ -196,7 +195,7 @@ class KavaModel {
    * @memberof KavaModel
    * @instance
    */
-  getSegmentDownloadTime(): number {
+  public getSegmentDownloadTime(): number {
     return this.maxSegmentDownloadTime;
   }
 
@@ -206,7 +205,7 @@ class KavaModel {
    * @memberof KavaModel
    * @instance
    */
-  getForwardBufferHealth(): number {
+  public getForwardBufferHealth(): number {
     return this.forwardBufferHealth;
   }
   /**
@@ -215,7 +214,7 @@ class KavaModel {
    * @memberof KavaModel
    * @instance
    */
-  getDroppedFramesRatio(): ?number {
+  public getDroppedFramesRatio(): number | null | undefined {
     return this.droppedFramesRatio;
   }
 
@@ -225,7 +224,7 @@ class KavaModel {
    * @memberof KavaModel
    * @instance
    */
-  getSoundMode(): $Values<typeof SoundMode> {
+  public getSoundMode(): SoundMode {
     return this.soundMode;
   }
 
@@ -235,7 +234,7 @@ class KavaModel {
    * @memberof KavaModel
    * @instance
    */
-  getViewabilityMode(): $Values<typeof ViewabilityMode> {
+  public getViewabilityMode(): ViewabilityMode {
     return this.viewabilityMode;
   }
 
@@ -245,7 +244,7 @@ class KavaModel {
    * @memberof KavaModel
    * @instance
    */
-  getScreenMode(): $Values<typeof ScreenMode> {
+  public getScreenMode(): ScreenMode {
     return this.screenMode;
   }
 
@@ -255,7 +254,7 @@ class KavaModel {
    * @memberof KavaModel
    * @instance
    */
-  getTabMode(): $Values<typeof TabMode> {
+  public getTabMode(): TabMode {
     return this.tabMode;
   }
 
@@ -265,7 +264,7 @@ class KavaModel {
    * @memberof KavaModel
    * @instance
    */
-  getNetworkConnectionType(): string {
+  public getNetworkConnectionType(): string {
     return this.networkConnectionType;
   }
 
@@ -275,7 +274,7 @@ class KavaModel {
    * @memberof KavaModel
    * @instance
    */
-  getNetworkConnectionOverhead(): number {
+  public getNetworkConnectionOverhead(): number {
     // convert ms to seconds in 0.xxx format
     return Math.round(this.maxNetworkConnectionOverhead) / 1000;
   }
@@ -286,7 +285,7 @@ class KavaModel {
    * @memberof KavaModel
    * @instance
    */
-  getErrorCode(): number {
+  public getErrorCode(): number {
     return this.errorCode;
   }
 
@@ -296,7 +295,7 @@ class KavaModel {
    * @memberof KavaModel
    * @instance
    */
-  getFlavorParamsId(): number {
+  public getFlavorParamsId(): number {
     return this.flavorParamsId;
   }
 
@@ -306,7 +305,7 @@ class KavaModel {
    * @memberof KavaModel
    * @instance
    */
-  getErrorDetails(): string {
+  public getErrorDetails(): string {
     let retVal: string = '';
     if (this.errorDetails) {
       try {
@@ -324,7 +323,7 @@ class KavaModel {
    * @memberof KavaModel
    * @instance
    */
-  getEventIndex(): number {
+  public getEventIndex(): number {
     return this.eventIndex;
   }
 
@@ -334,7 +333,7 @@ class KavaModel {
    * @memberof KavaModel
    * @instance
    */
-  getErrorPosition(): $Values<typeof ErrorPosition> {
+  public getErrorPosition(): ErrorPosition {
     return this.errorPosition;
   }
 
@@ -344,7 +343,7 @@ class KavaModel {
    * @memberof KavaModel
    * @instance
    */
-  getSessionStartTime(): number {
+  public getSessionStartTime(): number {
     return this.sessionStartTime;
   }
 
@@ -354,11 +353,11 @@ class KavaModel {
    * @memberof KavaModel
    * @instance
    */
-  getShareNetworkName(): string {
+  public getShareNetworkName(): string {
     return this.shareNetworkName;
   }
 
-  getReportType(): number {
+  public getReportType(): number {
     return this.reportType;
   }
 
@@ -369,7 +368,7 @@ class KavaModel {
    * @memberof KavaModel
    * @instance
    */
-  updateModel(obj: Object): void {
+  public updateModel(obj: object): void {
     Object.assign(this, obj);
   }
 
@@ -380,35 +379,35 @@ class KavaModel {
    * @memberof KavaModel
    * @instance
    */
-  getModel(eventObj: KavaEvent): Object {
+  public getModel(eventObj: KavaEvent): any {
     return getEventModel(eventObj, this);
   }
 }
 
-const SoundMode = {
-  SOUND_OFF: 1,
-  SOUND_ON: 2
-};
+enum SoundMode {
+  SOUND_OFF = 1,
+  SOUND_ON = 2
+}
 
-const ViewabilityMode = {
-  NOT_IN_VIEW: 1,
-  IN_VIEW: 2
-};
+enum ViewabilityMode {
+  NOT_IN_VIEW = 1,
+  IN_VIEW = 2
+}
 
-const TabMode = {
-  TAB_NOT_FOCUSED: 1,
-  TAB_FOCUSED: 2
-};
+enum TabMode {
+  TAB_NOT_FOCUSED = 1,
+  TAB_FOCUSED = 2
+}
 
-const ScreenMode = {
-  NOT_IN_FULLSCREEN: 1,
-  FULLSCREEN: 2
-};
+enum ScreenMode {
+  NOT_IN_FULLSCREEN = 1,
+  FULLSCREEN = 2
+}
 
-const ErrorPosition = {
-  PRE_PLAY: 3,
-  PRE_PLAYING: 1,
-  MID_STREAM: 2
-};
+enum ErrorPosition {
+  PRE_PLAY = 3,
+  PRE_PLAYING = 1,
+  MID_STREAM = 2
+}
 
-export {KavaModel, SoundMode, TabMode, ErrorPosition, ScreenMode, ViewabilityMode};
+export { KavaModel, SoundMode, TabMode, ErrorPosition, ScreenMode, ViewabilityMode };
