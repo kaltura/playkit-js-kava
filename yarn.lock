@@ -1287,12 +1287,12 @@
   resolved "https://registry.yarnpkg.com/@playkit-js/browserslist-config/-/browserslist-config-1.0.8.tgz#735256ba560063d397d4b8776acb865e8697a287"
   integrity sha512-BeiDM72c6GP8dZ6b2qScEpxT4sGECIJzjVGsanaTvXeFOkw3MoplAyz6HPKdrcLmidcinSl4yna5Yc9/ObwZow==
 
-"@playkit-js/common@^1.5.3":
-  version "1.5.4"
-  resolved "https://registry.yarnpkg.com/@playkit-js/common/-/common-1.5.4.tgz#c77e5377cf0d2f1ee1988a850811211c010aa488"
-  integrity sha512-DreuxptNJXLZo+15DJ6aDqIAhlJg35/6N0UBu5yanxqrsKOTSml21IFnZ/Ejc5lK5SpE7tIdcvOiTrp0MwQFyg==
+"@playkit-js/common@^1.2.10":
+  version "1.5.9"
+  resolved "https://registry.yarnpkg.com/@playkit-js/common/-/common-1.5.9.tgz#e0bf394c55178c9fb009b5f7933a49f6cb5d3207"
+  integrity sha512-vcD/yNLmiwTnUvg4CgjUxZXKb5aj8w9ySk8ozP67uXHI56cmtulZXsDVxAeaSe/MzP6L4qpqBtDb3RjjHQEyCQ==
   dependencies:
-    "@playkit-js/playkit-js-ui" "^0.77.10"
+    "@playkit-js/playkit-js-ui" "0.78.0"
     classnames "^2.3.2"
     linkify-it "^4.0.1"
 
@@ -1309,19 +1309,21 @@
     hls.js "1.4.11"
     shaka-player "4.7.0"
 
-"@playkit-js/moderation@canary":
-  version "3.2.15-canary.0-a3a6bf8"
-  resolved "https://registry.yarnpkg.com/@playkit-js/moderation/-/moderation-3.2.15-canary.0-a3a6bf8.tgz#c17ad669f8072eb08405911b323c10fd82b186bd"
-  integrity sha512-1LjmxClY7fH+jTp2+PgzpKEiWRHhMBY6R7C+ygP4hB3x3eUhbjB6tikCXZfQ7sfzceUmQsHFCtvhUJUQ+/J3mg==
+"@playkit-js/moderation@3.2.13-canary.0-5376147":
+  version "3.2.13-canary.0-5376147"
+  resolved "https://registry.yarnpkg.com/@playkit-js/moderation/-/moderation-3.2.13-canary.0-5376147.tgz#3db175be1b6c8c96c5630eafb06b48d5d0e1c62c"
+  integrity sha512-aV9orRUAxAYLJicjB57ZcL3lB8ZHPDzKWf5PHZqmQb3UiCuKXZd/Tn0s1XGu1UZuKZme6PZ8so4DwjhnST48Qg==
   dependencies:
-    "@playkit-js/common" "^1.5.3"
+    "@playkit-js/common" "^1.2.10"
+    "@playkit-js/playkit-js-ui" "^0.77.3"
+    "@playkit-js/ui-managers" "^1.3.11"
 
 "@playkit-js/playkit-js-dash@1.36.3":
   version "1.36.3"
   resolved "https://registry.yarnpkg.com/@playkit-js/playkit-js-dash/-/playkit-js-dash-1.36.3.tgz#1d0490646d851db704fb899acba8ba14bd320e7b"
   integrity sha512-kYzyVdXqIXQd/TyzDwLvaN2tvDhOcaT1u6uoZsRwBQXmm1hKwoBWHnWuUiFoE2AdVZzvi0CFsC4WqMFPKF5o8Q==
 
-"@playkit-js/playkit-js-downloads@canary":
+"@playkit-js/playkit-js-downloads@1.1.0-canary.0-60c49dc":
   version "1.1.0-canary.0-60c49dc"
   resolved "https://registry.yarnpkg.com/@playkit-js/playkit-js-downloads/-/playkit-js-downloads-1.1.0-canary.0-60c49dc.tgz#4f9a38cffee252e11e5615c5d9b226fe72998ce4"
   integrity sha512-f1PuEtUs+lMEtixQafOiksRF8u9aU5VLFDR1VlzOPaPWe6HC1m+cuAimbt3zp0YcHWFI6FV8+hanR/deraXoZg==
@@ -1339,6 +1341,16 @@
   resolved "https://registry.yarnpkg.com/@playkit-js/playkit-js-providers/-/playkit-js-providers-2.40.4.tgz#181651986ab484c202f0f7805bc301b6e11df6d5"
   integrity sha512-nnBaWjNvPcg6jRyEsuNJrKK0HWaKm46onqXV/HBesbwxJT/u/l01h3oJl7VkUB6hmZOMQuWGg3/QCdvswwQsRg==
 
+"@playkit-js/playkit-js-ui@0.78.0":
+  version "0.78.0"
+  resolved "https://registry.yarnpkg.com/@playkit-js/playkit-js-ui/-/playkit-js-ui-0.78.0.tgz#263539e8a448f312c19667608a434eef1e7761f6"
+  integrity sha512-keBkyzg8FtmmvWa+sA/6vpgYBCFGMcreqZ6AYPueOc4zbhOI26UBfMR2JS84rY4QIujv0E06j5Ict5YRGwvlDw==
+  dependencies:
+    preact "10.4.6"
+    preact-i18n "2.0.0-preactx.2"
+    react-redux "7.2.1"
+    redux "4.0.5"
+
 "@playkit-js/playkit-js-ui@0.78.1":
   version "0.78.1"
   resolved "https://registry.yarnpkg.com/@playkit-js/playkit-js-ui/-/playkit-js-ui-0.78.1.tgz#1de4920b87a19355b43657e30f51c322abbae6f3"
@@ -1349,10 +1361,10 @@
     react-redux "7.2.1"
     redux "4.0.5"
 
-"@playkit-js/playkit-js-ui@^0.77.10":
-  version "0.77.12"
-  resolved "https://registry.yarnpkg.com/@playkit-js/playkit-js-ui/-/playkit-js-ui-0.77.12.tgz#84b48368ca515296c7c85b69d327bf97a77787ac"
-  integrity sha512-wALlIY1aEURsyPa9gen7kHjR8M+scqphDfI2otCrEe7LUDA94kCsc66sHCHATpyOXZzGt7rlcYUjg2UtkcAsbA==
+"@playkit-js/playkit-js-ui@^0.77.3":
+  version "0.77.15"
+  resolved "https://registry.yarnpkg.com/@playkit-js/playkit-js-ui/-/playkit-js-ui-0.77.15.tgz#50e27b62460a3632a04842f27bb2839613053e5c"
+  integrity sha512-nE+4YFRc6vueOjk7RyyDWDTeWwtYDWDg/tf+ahE+ZEeboZbcoLKLdJWLf8C5ffZb6lK8oSsD3/wQ0Tct5OFccQ==
   dependencies:
     preact "^10.3.4"
     preact-i18n "^2.0.0-preactx.2"
@@ -1367,15 +1379,22 @@
     js-logger "^1.6.0"
     ua-parser-js "^1.0.36"
 
-"@playkit-js/related@canary":
-  version "0.1.17-canary.0-6fa24aa"
-  resolved "https://registry.yarnpkg.com/@playkit-js/related/-/related-0.1.17-canary.0-6fa24aa.tgz#d6837391c72ed97cc0add11e80595c6bdf1deb18"
-  integrity sha512-q5xO3fQkFPZUVg7rIMT1bA8s1H4JT4WVuRHcgmCeJOm1lW4Yb7SdIwWcvtSDX2VokXY9nVuxvbWKw1CgbvioYA==
+"@playkit-js/related@0.1.16":
+  version "0.1.16"
+  resolved "https://registry.yarnpkg.com/@playkit-js/related/-/related-0.1.16.tgz#0c5f00242200bce09262301b719befc975a91cce"
+  integrity sha512-bcMAGAQNHGzIuSa/zaL1eG7IO5aNZ21TSs8VK8QiE7ERj3D6eBJJNN55Ok/34n5X+XYXYYM+thC8VLmBybLpLQ==
 
-"@playkit-js/share@canary":
+"@playkit-js/share@1.2.4-canary.0-52a90c3":
   version "1.2.4-canary.0-52a90c3"
   resolved "https://registry.yarnpkg.com/@playkit-js/share/-/share-1.2.4-canary.0-52a90c3.tgz#590d746b914a46e57127d133ba231c63dbef52eb"
   integrity sha512-RG2z36kAerFgDl5R4OFDfsNLbWYPwOmIEUcwwdEZ6qJQ10l0lf3IY+UeLQgpkITnBPNIxqP5tn8UulX0cK/PKA==
+
+"@playkit-js/ui-managers@^1.3.11":
+  version "1.5.2"
+  resolved "https://registry.yarnpkg.com/@playkit-js/ui-managers/-/ui-managers-1.5.2.tgz#107025b4b9763e33fad72015546743fb78f9398b"
+  integrity sha512-DmtMmXx7hN/Pyw5wwhwgo/XFvFyliYW6w3OV4cVcCUEnU/RJ5Fy0wW/RZkpgAI5m/Xb6J+UFY76ElekOPC7RSw==
+  dependencies:
+    "@playkit-js/common" "^1.2.10"
 
 "@rushstack/node-core-library@3.64.2":
   version "3.64.2"
@@ -4661,7 +4680,7 @@ karma-mocha@^2.0.1:
   dependencies:
     minimist "^1.2.3"
 
-karma-sourcemap-loader@latest:
+karma-sourcemap-loader@0.4.0:
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/karma-sourcemap-loader/-/karma-sourcemap-loader-0.4.0.tgz#b01d73f8f688f533bcc8f5d273d43458e13b5488"
   integrity sha512-xCRL3/pmhAYF3I6qOrcn0uhbQevitc2DERMPH82FMnG+4WReoGcGFZb1pURf2a5apyrOHRdvD+O6K7NljqKHyA==
