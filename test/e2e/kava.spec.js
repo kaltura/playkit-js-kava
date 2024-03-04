@@ -1,4 +1,3 @@
-// import '../../src/index.js';
 import sinon from 'sinon';
 import {core, setup} from '@playkit-js/kaltura-player-js';
 import * as TestUtils from './utils/test-utils';
