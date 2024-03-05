@@ -1,7 +1,7 @@
 export const DownloadEvents = {
   DOWNLOAD_ITEM_CLICKED: 'download_item_clicked',
-  SHOW_OVERLAY: 'show_overlay',
-  HIDE_OVERLAY: 'hide_overlay'
+  SHOW_OVERLAY: 'download_show_overlay',
+  HIDE_OVERLAY: 'download_hide_overlay'
 };
 export const DualscreenEvents = {
   CHANGE_LAYOUT: `dualscreen_change_layout`,
