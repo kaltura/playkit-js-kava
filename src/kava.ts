@@ -5,8 +5,8 @@ import { KavaEventModel, KavaEventType } from './kava-event-model';
 import { KavaRateHandler } from './kava-rate-handler';
 import { KavaTimer } from './kava-timer';
 import { ErrorPosition, KavaModel, SoundMode, TabMode, ScreenMode, ViewabilityMode } from './kava-model';
-import { HttpMethodType } from './http-method-type';
-import { KalturaApplication } from './kaltura-application';
+import { HttpMethodType } from './enums/http-method-type';
+import { KalturaApplication } from './enums/kaltura-application';
 import { KavaConfigObject, KavaEvent } from './types';
 import { RelatedEvent, InfoEvent, ShareEvent, DownloadEvent, ModerationEvent } from './temp-imported-plugins-event-names-temp';
 
