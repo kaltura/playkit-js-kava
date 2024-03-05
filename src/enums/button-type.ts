@@ -36,5 +36,5 @@ export enum ButtonType {
   Choose = 'Choose',
   Browse = 'Browse',
   Analytics = 'Analytics',
-  Admin = 'Admin',
+  Admin = 'Admin'
 }

@@ -334,7 +334,9 @@ class Kava extends BasePlugin {
     this.eventManager.listen(this.player, ModerationEvent.REPORT_SUBMITTED, (event) => this._onReportSubmitted(event));
 
     Object.values({ ...ShareEvents, ...DualscreenEvents, ...DownloadEvents }).forEach((event) => {
-      this.eventManager.listen(this.player, event, (e: FakeEvent) => this._sendAnalytics(ApplicationEventsModel[e.type], EventBucketName.ApplicationEvents, e.payload));
+      this.eventManager.listen(this.player, event, (e: FakeEvent) =>
+        this._sendAnalytics(ApplicationEventsModel[e.type], EventBucketName.ApplicationEvents, e.payload)
+      );
     });
 
     this._initTabMode();

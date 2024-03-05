@@ -4,7 +4,7 @@ export const DownloadEvents = {
   HIDE_OVERLAY: 'download_hide_overlay'
 };
 export const DualscreenEvents = {
-  CHANGE_LAYOUT: `dualscreen_change_layout`,
+  CHANGE_LAYOUT: 'dualscreen_change_layout'
 };
 export const ShareEvents = {
   SHARE_CLICKED: 'share_clicked',

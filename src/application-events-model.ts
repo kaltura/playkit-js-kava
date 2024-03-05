@@ -2,6 +2,7 @@ import { DownloadEvents, DualscreenEvents, ShareEvents } from './new-application
 import { KavaModel } from './kava-model';
 import { KavaEvent } from './types';
 import { ButtonType } from './enums/button-type';
+import { KalturaApplication } from './enums/kaltura-application';
 
 const EVENT_TYPE_BUTTON_CLICK = 10002;
 
@@ -10,7 +11,8 @@ export function getApplicationEventsModel(eventObj: KavaEvent, model: KavaModel,
     eventType: EVENT_TYPE_BUTTON_CLICK,
     partnerId: model.getPartnerId(),
     entryId: model.getEntryId(),
-    sessionId: model.getSessionId()
+    sessionId: model.getSessionId(),
+    kalturaApplication: KalturaApplication.PLAYER
   };
   if (model.getUserId()) {
     commonModel['userId'] = model.getUserId();
@@ -19,7 +21,7 @@ export function getApplicationEventsModel(eventObj: KavaEvent, model: KavaModel,
   return Object.assign(eventModel, commonModel);
 }
 
-export const ApplicationEventsModel:  {[playerEventName: string]: KavaEvent} = {
+export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = {
   [DualscreenEvents.CHANGE_LAYOUT]: {
     type: 'CHANGE_LAYOUT',
     getEventModel: (payload: any): any => ({
@@ -30,7 +32,7 @@ export const ApplicationEventsModel:  {[playerEventName: string]: KavaEvent} = {
   },
   [ShareEvents.SHARE_CLICKED]: {
     type: 'SHARE_CLICKED',
-    getEventModel: (payload: any): any => ({
+    getEventModel: (): any => ({
       buttonName: 'Share_embed_open',
       buttonType: ButtonType.Open,
       buttonValue: ''
@@ -38,7 +40,7 @@ export const ApplicationEventsModel:  {[playerEventName: string]: KavaEvent} = {
   },
   [ShareEvents.SHARE_CLOSE]: {
     type: 'SHARE_CLOSE',
-    getEventModel: (payload: any): any => ({
+    getEventModel: (): any => ({
       buttonName: 'Share_embed_close',
       buttonType: ButtonType.Close,
       buttonValue: ''
@@ -112,7 +114,7 @@ export const ApplicationEventsModel:  {[playerEventName: string]: KavaEvent} = {
   },
   [DownloadEvents.SHOW_OVERLAY]: {
     type: 'SHOW_OVERLAY',
-    getEventModel: (payload: any): any => ({
+    getEventModel: (): any => ({
       buttonName: 'Download_open',
       buttonType: ButtonType.Open,
       buttonValue: ''
@@ -120,7 +122,7 @@ export const ApplicationEventsModel:  {[playerEventName: string]: KavaEvent} = {
   },
   [DownloadEvents.HIDE_OVERLAY]: {
     type: 'HIDE_OVERLAY',
-    getEventModel: (payload: any): any => ({
+    getEventModel: (): any => ({
       buttonName: 'Download_close',
       buttonType: ButtonType.Close,
       buttonValue: ''

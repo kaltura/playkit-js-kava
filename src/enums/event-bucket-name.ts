@@ -1,4 +1,4 @@
 export enum EventBucketName {
   ApplicationEvents = 'ApplicationEvents',
-  PlayerEvents = 'PlayerEvents',
+  PlayerEvents = 'PlayerEvents'
 }
