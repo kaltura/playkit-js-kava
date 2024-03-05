@@ -19,7 +19,10 @@ const KalturaApplication: ApplicationType = {
   KPF: '15',
   KAF_GO: '16',
   SITES: '17',
-  STUDIO: '18'
+  STUDIO: '18',
+  CAPTIONS_EDITOR: '19',
+  CHECKLIST: '20',
+  PLAYER: '21'
 };
 
 export { KalturaApplication };
