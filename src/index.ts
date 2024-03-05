@@ -9,7 +9,7 @@ const NAME = __NAME__;
 
 export { Kava as Plugin };
 export { KavaEventType as EventType } from './kava-event-model';
-export { HttpMethodType } from './http-method-type';
+export { HttpMethodType } from './enums/http-method-type';
 export { VERSION, NAME };
 
 const pluginName: string = 'kava';

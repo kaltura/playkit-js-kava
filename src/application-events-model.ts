@@ -28,11 +28,96 @@ export const ApplicationEventsModel = {
       buttonValue: payload.layout,
     })
   },
-  [ShareEvents.SHARE_CLICKED]: {},
-  [ShareEvents.SHARE_CLOSE]: {},
-  [ShareEvents.SHARE_NETWORK]: {},
-  [ShareEvents.SHARE_COPY]: {},
-  [DownloadEvents.DOWNLOAD_ITEM_CLICKED]: {},
-  [DownloadEvents.SHOW_OVERLAY]: {},
-  [DownloadEvents.HIDE_OVERLAY]: {},
+  [ShareEvents.SHARE_CLICKED]: {
+    getEventModel: (payload: any): any => ({
+      buttonName: 'Share_embed_open',
+      buttonType: ButtonType.Open,
+      buttonValue: payload.layout,
+    })
+  },
+  [ShareEvents.SHARE_CLOSE]: {
+    getEventModel: (payload: any): any => ({
+      buttonName: 'Share_embed_close',
+      buttonType: ButtonType.Close,
+      buttonValue: payload.layout,
+    })
+  },
+  [ShareEvents.SHARE_NETWORK]: {
+    getEventModel: (payload: any): any => {
+      const model = {
+        buttonType: ButtonType.Share,
+        buttonValue: '',
+      }
+      let buttonName: string;
+
+      switch (payload.socialNetworkName) {
+      case "twitter":
+        buttonName = 'Share_embed_X_click'
+        break;
+      case "facebook":
+        buttonName = 'Share_embed_facebook_click'
+        break;
+      case "email":
+        buttonName = 'Share_embed_email_click'
+        break;
+      case "linkedin":
+        buttonName = 'Share_embed_linkedin_click'
+        break;
+      default:
+        buttonName = 'unknown'
+      }
+
+      return {...model, buttonName}
+    }
+  },
+  [ShareEvents.SHARE_COPY]: {
+    getEventModel: (payload: any): any => ({
+      buttonName: 'Share_embed_X_click',
+      buttonType: ButtonType.Share,
+      buttonValue: payload.layout,
+    })
+  },
+  [DownloadEvents.DOWNLOAD_ITEM_CLICKED]: {
+    getEventModel: (payload: any): any => {
+      const model = {
+        buttonType: ButtonType.Download,
+      }
+      const {assetType, fileType, description} = payload;
+
+      let buttonName: string;
+      let buttonValue = description;
+
+      switch (assetType) {
+      case "Media":
+        buttonName = 'Download_video_download';
+        break;
+      case "Captions":
+        buttonName = 'Download_captions_download';
+        break;
+      case "Attachments":
+        buttonName = 'Download_attachment_download';
+        buttonValue = fileType;
+        break;
+      default:
+        buttonName = ''
+        buttonValue = '';
+      }
+
+      return {...model, buttonName, buttonValue}
+    }
+  },
+  [DownloadEvents.SHOW_OVERLAY]: {
+    getEventModel: (payload: any): any => ({
+      buttonName: 'Download_open',
+      buttonType: ButtonType.Open,
+      buttonValue: '',
+    })
+  },
+  [DownloadEvents.HIDE_OVERLAY]: {
+    getEventModel: (payload: any): any => ({
+      buttonName: 'Download_close',
+      buttonType: ButtonType.Close,
+      buttonValue: '',
+    })
+  },
 };
