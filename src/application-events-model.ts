@@ -3,12 +3,10 @@ import { KavaModel } from './kava-model';
 import { KavaEvent } from './types';
 import { ButtonType } from './enums/button-type';
 import { KalturaApplication } from './enums/kaltura-application';
-
-const EVENT_TYPE_BUTTON_CLICK = 10002;
+import { ApplicationEventType } from "./enums/application-event-type";
 
 export function getApplicationEventsModel(eventObj: KavaEvent, model: KavaModel, innerEventPayload: any): any {
   const commonModel = {
-    eventType: EVENT_TYPE_BUTTON_CLICK,
     partnerId: model.getPartnerId(),
     entryId: model.getEntryId(),
     sessionId: model.getSessionId(),
@@ -25,6 +23,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
   [DualscreenEvents.CHANGE_LAYOUT]: {
     type: 'CHANGE_LAYOUT',
     getEventModel: (payload: any): any => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
       buttonName: 'Dual__screen_change_layout',
       buttonType: ButtonType.Unknown,
       buttonValue: payload.layout
@@ -33,6 +32,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
   [ShareEvents.SHARE_CLICKED]: {
     type: 'SHARE_CLICKED',
     getEventModel: (): any => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
       buttonName: 'Share_embed_open',
       buttonType: ButtonType.Open,
       buttonValue: ''
@@ -41,6 +41,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
   [ShareEvents.SHARE_CLOSE]: {
     type: 'SHARE_CLOSE',
     getEventModel: (): any => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
       buttonName: 'Share_embed_close',
       buttonType: ButtonType.Close,
       buttonValue: ''
@@ -50,6 +51,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
     type: 'SHARE_NETWORK',
     getEventModel: (payload: any): any => {
       const model = {
+        eventType: ApplicationEventType.BUTTON_CLICKED,
         buttonType: ButtonType.Share,
         buttonValue: ''
       };
@@ -78,6 +80,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
   [ShareEvents.SHARE_COPY]: {
     type: 'SHARE_COPY',
     getEventModel: (payload: any): any => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
       buttonName: 'Share_embed_X_click',
       buttonType: ButtonType.Share,
       buttonValue: payload.videoClippingOption
@@ -87,6 +90,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
     type: 'DOWNLOAD_ITEM_CLICKED',
     getEventModel: (payload: any): any => {
       const model = {
+        eventType: ApplicationEventType.BUTTON_CLICKED,
         buttonType: ButtonType.Download
       };
       const { assetType, fileType, description } = payload;
@@ -115,6 +119,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
   [DownloadEvents.SHOW_OVERLAY]: {
     type: 'SHOW_OVERLAY',
     getEventModel: (): any => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
       buttonName: 'Download_open',
       buttonType: ButtonType.Open,
       buttonValue: ''
@@ -123,6 +128,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
   [DownloadEvents.HIDE_OVERLAY]: {
     type: 'HIDE_OVERLAY',
     getEventModel: (): any => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
       buttonName: 'Download_close',
       buttonType: ButtonType.Close,
       buttonValue: ''
