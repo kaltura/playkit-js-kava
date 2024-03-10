@@ -4,6 +4,7 @@ import { KavaEvent } from './types';
 import { ButtonType } from './enums/button-type';
 import { KalturaApplication } from './enums/kaltura-application';
 import { ApplicationEventType } from "./enums/application-event-type";
+import { EventType } from "@playkit-js/playkit-js";
 
 export function getApplicationEventsModel(eventObj: KavaEvent, model: KavaModel, innerEventPayload: any): any {
   const commonModel = {
@@ -133,5 +134,14 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       buttonType: ButtonType.Close,
       buttonValue: ''
     })
-  }
+  },
+  [EventType.AD_CLICKED]: {
+    type: 'AD_CLICKED',
+    getEventModel: (): any => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      buttonName: 'Bumper_click',
+      buttonType: ButtonType.Link,
+      buttonValue: 'Bumper'
+    })
+  },
 };
