@@ -9,7 +9,7 @@ import { HttpMethodType } from './enums/http-method-type';
 import { KalturaApplication } from './enums/kaltura-application';
 import { KavaConfigObject, KavaEvent } from './types';
 import { DownloadEvent, InfoEvent, ModerationEvent, RelatedEvent, ShareEvent } from './temp-imported-plugins-event-names-temp';
-import { DownloadEvents, DualscreenEvents, ShareEvents } from './new-applications-events';
+import { PluginsEvents } from './new-applications-events';
 import { EventBucketName } from './enums/event-bucket-name';
 import { ApplicationEventsModel } from './application-events-model';
 
@@ -333,7 +333,7 @@ class Kava extends BasePlugin {
     this.eventManager.listen(this.player, ModerationEvent.REPORT_CLICKED, () => this._onReportClicked());
     this.eventManager.listen(this.player, ModerationEvent.REPORT_SUBMITTED, (event) => this._onReportSubmitted(event));
 
-    Object.values({ ...ShareEvents, ...DualscreenEvents, ...DownloadEvents }).forEach((event) => {
+    Object.values(PluginsEvents).forEach((event) => {
       this.eventManager.listen(this.player, event, (e: FakeEvent) =>
         this._sendAnalytics(ApplicationEventsModel[e.type], EventBucketName.ApplicationEvents, e.payload)
       );

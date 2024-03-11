@@ -3,7 +3,7 @@ export const NavigationEvents = {
   NAVIGATION_CLOSE: 'navigation_close',
   NAVIGATION_SEARCH: 'navigation_search',
   NAVIGATION_ITEM_CLICK: 'navigation_item_click',
-  NAVIGATION_EXPANDABLE_TEXT_CLICK: 'navigation_expandable_text_clicked',
+  NAVIGATION_EXPANDABLE_TEXT_CLICK: 'navigation_expandable_text_clicked'
 };
 
 export const DownloadEvents = {
@@ -42,4 +42,15 @@ export const SkipEvents = {
 export const PlaylistEvents = {
   PLAYLIST_OPEN: 'playlist_open',
   PLAYLIST_CLOSE: 'playlist_close'
+};
+
+export const PluginsEvents = {
+  ...NavigationEvents,
+  ...DownloadEvents,
+  ...TranscriptEvents,
+  ...DualscreenEvents,
+  ...ShareEvents,
+  ...BumperEvents,
+  ...SkipEvents,
+  ...PlaylistEvents
 };
