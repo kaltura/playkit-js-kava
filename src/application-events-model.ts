@@ -13,6 +13,7 @@ import { KavaEvent } from './types';
 import { ButtonType } from './enums/button-type';
 import { KalturaApplication } from './enums/kaltura-application';
 import { ApplicationEventType } from './enums/application-event-type';
+import { PageLoadType } from './enums/page-load-type';
 
 export function getApplicationEventsModel(eventObj: KavaEvent, model: KavaModel, innerEventPayload: any): any {
   const commonModel = {
@@ -308,63 +309,22 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
     })
   },
   [PlaylistEvents.PLAYLIST_OPEN]: {
-    type: 'TRANSCRIPT_OPEN',
-    getEventModel: (payload: any): any => {
-      const model = {
-        eventType: ApplicationEventType.BUTTON_CLICKED,
-        buttonValue: payload['auto'] ? 'auto' : 'manual',
-        buttonType: ButtonType.Open
-      };
-
-      const { position } = payload;
-      let buttonName: string = '';
-
-      switch (position) {
-        case 'right':
-          buttonName = 'Playlist_side_panel_open_right';
-          break;
-        case 'left':
-          buttonName = 'Playlist_side_panel_open_left';
-          break;
-        case 'top':
-          buttonName = 'Playlist_side_panel_open_top';
-          break;
-        case 'bottom':
-          buttonName = 'Playlist_side_panel_open_bottom';
-          break;
-      }
-
-      return { ...model, buttonName };
-    }
+    type: 'PLAYLIST_OPEN',
+    getEventModel: (payload: any): any => ({
+      eventType: payload['auto'] ? ApplicationEventType.PAGE_LOAD : ApplicationEventType.BUTTON_CLICKED,
+      buttonValue: payload['position'],
+      buttonType: ButtonType.Open,
+      buttonName: payload['auto'] ? 'Playlist_side_panel_open_auto' : 'Playlist_side_panel_open_manual'
+    })
   },
   [PlaylistEvents.PLAYLIST_CLOSE]: {
-    type: 'TRANSCRIPT_CLOSE',
-    getEventModel: (payload: any): any => {
-      const model = {
-        eventType: ApplicationEventType.BUTTON_CLICKED,
-        buttonType: ButtonType.Close,
-        buttonValue: ''
-      };
-
-      const { position } = payload;
-      let buttonName: string = '';
-
-      switch (position) {
-        case 'right':
-          buttonName = 'Playlist_side_panel_close_right';
-          break;
-        case 'left':
-          buttonName = 'Playlist_side_panel_close_left';
-          break;
-        case 'top':
-          buttonName = 'Playlist_side_panel_close_top';
-          break;
-        case 'bottom':
-          buttonName = 'Playlist_side_panel_close_bottom';
-          break;
-      }
-      return { ...model, buttonName };
-    }
+    type: 'PLAYLIST_CLOSE',
+    getEventModel: (payload: any): any => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      buttonValue: payload['position'],
+      buttonType: ButtonType.Close,
+      buttonName: 'Playlist_side_panel_close_manual'
+    })
   },
   [SkipEvents.SKIP_BUTTON_CLICK]: {
     type: 'SKIP_BUTTON_CLICK',
@@ -380,6 +340,24 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
 
       if (mode === 'intro') buttonName = 'Skip_intro_click';
       if (mode === 'outro') buttonName = 'Skip_outro_click';
+
+      return { ...model, buttonName };
+    }
+  },
+  [SkipEvents.SKIP_BUTTON_DISPLAYED]: {
+    type: 'SKIP_BUTTON_DISPLAYED',
+    getEventModel: (payload: any): any => {
+      const model = {
+        eventType: ApplicationEventType.PAGE_LOAD,
+        buttonType: PageLoadType.View,
+        buttonValue: ''
+      };
+
+      const { mode } = payload;
+      let buttonName: string = '';
+
+      if (mode === 'intro') buttonName = 'Skip_intro_displayed';
+      if (mode === 'outro') buttonName = 'Skip_outro_displayed';
 
       return { ...model, buttonName };
     }

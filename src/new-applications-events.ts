@@ -35,7 +35,8 @@ export const BumperEvents = {
   BUMPER_CLICKED: 'bumper_clicked'
 };
 export const SkipEvents = {
-  SKIP_BUTTON_CLICK: 'skip_button_click'
+  SKIP_BUTTON_CLICK: 'skip_button_click',
+  SKIP_BUTTON_DISPLAYED: 'skip_button_displayed'
 };
 export const PlaylistEvents = {
   PLAYLIST_OPEN: 'playlist_open',
