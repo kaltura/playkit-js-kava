@@ -1,4 +1,4 @@
-import { BumperEvents, DownloadEvents, DualscreenEvents, NavigationEvents, ShareEvents } from './new-applications-events';
+import { BumperEvents, DownloadEvents, DualscreenEvents, NavigationEvents, ShareEvents, TranscriptEvents } from './new-applications-events';
 import { KavaModel } from './kava-model';
 import { KavaEvent } from './types';
 import { ButtonType } from './enums/button-type';
@@ -242,5 +242,63 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
 
       return { ...model, buttonName, buttonType };
     }
-  }
+  },
+
+
+
+
+  [TranscriptEvents.TRANSCRIPT_OPEN]: {
+    type: 'TRANSCRIPT_OPEN',
+    getEventModel: (payload: any): any => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      buttonName: 'Transcript_open',
+      buttonType: ButtonType.Open,
+      buttonValue: payload['auto'] ? 'auto' : 'manual'
+    })
+  },
+  [TranscriptEvents.TRANSCRIPT_CLOSE]: {
+    type: 'TRANSCRIPT_CLOSE',
+    getEventModel: (payload: any): any => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      buttonName: 'Transcript_close',
+      buttonType: ButtonType.Close,
+      buttonValue: ''
+    })
+  },
+  [TranscriptEvents.TRANSCRIPT_DOWNLOAD]: {
+    type: 'TRANSCRIPT_DOWNLOAD',
+    getEventModel: (payload: any): any => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      buttonName: 'Transcript_download',
+      buttonType: ButtonType.Download,
+      buttonValue: payload['videoPosition']
+    })
+  },
+  [TranscriptEvents.TRANSCRIPT_PRINT]: {
+    type: 'TRANSCRIPT_PRINT',
+    getEventModel: (payload: any): any => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      buttonName: 'Transcript_print',
+      buttonType: ButtonType.Download,
+      buttonValue: payload['videoPosition']
+    })
+  },
+  [TranscriptEvents.TRANSCRIPT_SEARCH]: {
+    type: 'TRANSCRIPT_SEARCH',
+    getEventModel: (payload: any): any => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      buttonName: 'Transcript_search',
+      buttonType: ButtonType.Search,
+      buttonValue: payload.search
+    })
+  },
+  [TranscriptEvents.TRANSCRIPT_NAVIGATE_RESULT]: {
+    type: 'TRANSCRIPT_NAVIGATE_RESULT',
+    getEventModel: (payload: any): any => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      buttonName: 'Transcript_navigate_result',
+      buttonType: ButtonType.Navigate,
+      buttonValue: payload.index
+    })
+  },
 };
