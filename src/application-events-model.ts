@@ -181,7 +181,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       const { searchQuery, activeTab, availableTabs } = payload;
 
       let buttonName: string = '';
-      let buttonValue = searchQuery;
+      const buttonValue = searchQuery;
       switch (activeTab) {
         case 'All':
           buttonName = availableTabs.length > 0 ? 'Navigation_search' : 'Navigation_all_tab';
@@ -264,7 +264,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
   },
   [TranscriptEvents.TRANSCRIPT_CLOSE]: {
     type: 'TRANSCRIPT_CLOSE',
-    getEventModel: (payload: any): any => ({
+    getEventModel: (): any => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
       buttonName: 'Transcript_close',
       buttonType: ButtonType.Close,
@@ -378,10 +378,10 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       const { mode } = payload;
       let buttonName: string = '';
 
-      if(mode === 'intro') buttonName = 'Skip_intro_click'
-      if(mode === 'outro') buttonName = 'Skip_outro_click'
+      if (mode === 'intro') buttonName = 'Skip_intro_click';
+      if (mode === 'outro') buttonName = 'Skip_outro_click';
 
       return { ...model, buttonName };
     }
-  },
+  }
 };

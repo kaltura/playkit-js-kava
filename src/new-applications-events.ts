@@ -22,7 +22,7 @@ export const TranscriptEvents = {
 };
 
 export const DualscreenEvents = {
-  CHANGE_LAYOUT: `dualscreen_change_layout`
+  CHANGE_LAYOUT: 'dualscreen_change_layout'
 };
 export const ShareEvents = {
   SHARE_CLICKED: 'share_clicked',
@@ -35,7 +35,7 @@ export const BumperEvents = {
   BUMPER_CLICKED: 'bumper_clicked'
 };
 export const SkipEvents = {
-  SKIP_BUTTON_CLICK: 'skip_button_click',
+  SKIP_BUTTON_CLICK: 'skip_button_click'
 };
 export const PlaylistEvents = {
   PLAYLIST_OPEN: 'playlist_open',
