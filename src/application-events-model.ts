@@ -5,7 +5,8 @@ import {
   NavigationEvents,
   PlaylistEvents,
   ShareEvents,
-  TranscriptEvents
+  TranscriptEvents,
+  SkipEvents
 } from './new-applications-events';
 import { KavaModel } from './kava-model';
 import { KavaEvent } from './types';
@@ -364,5 +365,23 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       }
       return { ...model, buttonName };
     }
-  }
+  },
+  [SkipEvents.SKIP_BUTTON_CLICK]: {
+    type: 'SKIP_BUTTON_CLICK',
+    getEventModel: (payload: any): any => {
+      const model = {
+        eventType: ApplicationEventType.BUTTON_CLICKED,
+        buttonType: ButtonType.Navigate,
+        buttonValue: ''
+      };
+
+      const { mode } = payload;
+      let buttonName: string = '';
+
+      if(mode === 'intro') buttonName = 'Skip_intro_click'
+      if(mode === 'outro') buttonName = 'Skip_outro_click'
+
+      return { ...model, buttonName };
+    }
+  },
 };
