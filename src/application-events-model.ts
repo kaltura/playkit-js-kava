@@ -1,10 +1,9 @@
-import { DownloadEvents, DualscreenEvents, ShareEvents } from './new-applications-events';
+import { BumperEvents, DownloadEvents, DualscreenEvents, NavigationEvents, ShareEvents } from './new-applications-events';
 import { KavaModel } from './kava-model';
 import { KavaEvent } from './types';
 import { ButtonType } from './enums/button-type';
 import { KalturaApplication } from './enums/kaltura-application';
-import { ApplicationEventType } from "./enums/application-event-type";
-import { EventType } from "@playkit-js/playkit-js";
+import { ApplicationEventType } from './enums/application-event-type';
 
 export function getApplicationEventsModel(eventObj: KavaEvent, model: KavaModel, innerEventPayload: any): any {
   const commonModel = {
@@ -135,13 +134,113 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       buttonValue: ''
     })
   },
-  [EventType.AD_CLICKED]: {
-    type: 'AD_CLICKED',
+  [BumperEvents.BUMPER_CLICKED]: {
+    type: 'BUMPER_CLICKED',
     getEventModel: (): any => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
       buttonName: 'Bumper_click',
       buttonType: ButtonType.Link,
-      buttonValue: 'Bumper'
+      buttonValue: ''
     })
   },
+  [NavigationEvents.NAVIGATION_OPEN]: {
+    type: 'NAVIGATION_OPEN',
+    getEventModel: (payload: any): any => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      buttonName: 'Navigation_open',
+      buttonType: ButtonType.Open,
+      buttonValue: payload['auto'] ? 'auto' : 'manual'
+    })
+  },
+  [NavigationEvents.NAVIGATION_CLOSE]: {
+    type: 'NAVIGATION_CLOSE',
+    getEventModel: (): any => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      buttonName: 'Navigation_close',
+      buttonType: ButtonType.Close,
+      buttonValue: ''
+    })
+  },
+  [NavigationEvents.NAVIGATION_SEARCH]: {
+    type: 'NAVIGATION_SEARCH',
+    getEventModel: (payload: any): any => {
+      const model = {
+        eventType: ApplicationEventType.BUTTON_CLICKED,
+        buttonType: ButtonType.Search
+      };
+      //navigation_search {"searchQuery":"ddd","activeTab":"All","availableTabs":["Slide"],"totalResults":0}  #@#@#
+      const { searchQuery, activeTab, availableTabs } = payload;
+
+      let buttonName: string = '';
+      let buttonValue = searchQuery;
+      switch (activeTab) {
+        case 'All':
+          buttonName = availableTabs.length > 0 ? 'Navigation_search' : 'Navigation_all_tab';
+          break;
+        case 'Chapter':
+          buttonName = 'Navigation_chapters_tab';
+          break;
+        case 'Slide':
+          buttonName = 'Navigation_slides_tab';
+          break;
+        case 'Hotspot':
+          buttonName = 'Navigation_hotspots_tab';
+          break;
+      }
+      return { ...model, buttonName, buttonValue };
+    }
+  },
+  [NavigationEvents.NAVIGATION_ITEM_CLICK]: {
+    type: 'NAVIGATION_ITEM_CLICK',
+    getEventModel: (payload: any): any => {
+      const model = {
+        eventType: ApplicationEventType.BUTTON_CLICKED,
+        buttonType: ButtonType.Choose,
+        buttonValue: ''
+      };
+
+      let buttonName: string = '';
+
+      switch (payload.itemType) {
+      case 'Chapter':
+        buttonName = 'Navigation_chapter_click';
+        break;
+      case 'Slide':
+        buttonName = 'Navigation_slide_click';
+        break;
+      case 'Hotspot':
+        buttonName = 'Navigation_hotspots_click';
+        break;
+      }
+      return { ...model, buttonName };
+    }
+  },
+  [NavigationEvents.NAVIGATION_EXPANDABLE_TEXT_CLICK]: {
+    type: 'NAVIGATION_EXPANDABLE_TEXT_CLICK',
+    getEventModel: (payload: any): any => {
+      const model = {
+        eventType: ApplicationEventType.BUTTON_CLICKED,
+        buttonValue: '',
+      };
+
+      const { isTextExpanded, itemType } = payload;
+
+      let buttonName: string = '';
+      const buttonType = isTextExpanded ? ButtonType.Expand : ButtonType.Collapse;
+
+      switch (itemType) {
+        case 'Chapter':
+          buttonName = isTextExpanded ? 'Navigation_chapters_see_more' : 'Navigation_chapters_see_less';
+          break;
+        case 'Slide':
+          buttonName = isTextExpanded ? 'Navigation_slides_see_more' : 'Navigation_slides_see_less';
+          break;
+        case 'Hotspot':
+          buttonName = isTextExpanded ? 'Navigation_hotspots_see_more' : 'Navigation_hotspots_see_less';
+          break;
+      }
+
+      return { ...model, buttonName, buttonType };
+    }
+  }
 };
