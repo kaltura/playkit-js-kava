@@ -1,4 +1,12 @@
-import { BumperEvents, DownloadEvents, DualscreenEvents, NavigationEvents, ShareEvents, TranscriptEvents } from './new-applications-events';
+import {
+  BumperEvents,
+  DownloadEvents,
+  DualscreenEvents,
+  NavigationEvents,
+  PlaylistEvents,
+  ShareEvents,
+  TranscriptEvents
+} from './new-applications-events';
 import { KavaModel } from './kava-model';
 import { KavaEvent } from './types';
 import { ButtonType } from './enums/button-type';
@@ -202,15 +210,15 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       let buttonName: string = '';
 
       switch (payload.itemType) {
-      case 'Chapter':
-        buttonName = 'Navigation_chapter_click';
-        break;
-      case 'Slide':
-        buttonName = 'Navigation_slide_click';
-        break;
-      case 'Hotspot':
-        buttonName = 'Navigation_hotspots_click';
-        break;
+        case 'Chapter':
+          buttonName = 'Navigation_chapter_click';
+          break;
+        case 'Slide':
+          buttonName = 'Navigation_slide_click';
+          break;
+        case 'Hotspot':
+          buttonName = 'Navigation_hotspots_click';
+          break;
       }
       return { ...model, buttonName };
     }
@@ -220,7 +228,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
     getEventModel: (payload: any): any => {
       const model = {
         eventType: ApplicationEventType.BUTTON_CLICKED,
-        buttonValue: '',
+        buttonValue: ''
       };
 
       const { isTextExpanded, itemType } = payload;
@@ -243,9 +251,6 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       return { ...model, buttonName, buttonType };
     }
   },
-
-
-
 
   [TranscriptEvents.TRANSCRIPT_OPEN]: {
     type: 'TRANSCRIPT_OPEN',
@@ -301,4 +306,63 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       buttonValue: payload.index
     })
   },
+  [PlaylistEvents.PLAYLIST_OPEN]: {
+    type: 'TRANSCRIPT_OPEN',
+    getEventModel: (payload: any): any => {
+      const model = {
+        eventType: ApplicationEventType.BUTTON_CLICKED,
+        buttonValue: payload['auto'] ? 'auto' : 'manual',
+        buttonType: ButtonType.Open
+      };
+
+      const { position } = payload;
+      let buttonName: string = '';
+
+      switch (position) {
+        case 'right':
+          buttonName = 'Playlist_side_panel_open_right';
+          break;
+        case 'left':
+          buttonName = 'Playlist_side_panel_open_left';
+          break;
+        case 'top':
+          buttonName = 'Playlist_side_panel_open_top';
+          break;
+        case 'bottom':
+          buttonName = 'Playlist_side_panel_open_bottom';
+          break;
+      }
+
+      return { ...model, buttonName };
+    }
+  },
+  [PlaylistEvents.PLAYLIST_CLOSE]: {
+    type: 'TRANSCRIPT_CLOSE',
+    getEventModel: (payload: any): any => {
+      const model = {
+        eventType: ApplicationEventType.BUTTON_CLICKED,
+        buttonType: ButtonType.Close,
+        buttonValue: ''
+      };
+
+      const { position } = payload;
+      let buttonName: string = '';
+
+      switch (position) {
+        case 'right':
+          buttonName = 'Playlist_side_panel_close_right';
+          break;
+        case 'left':
+          buttonName = 'Playlist_side_panel_close_left';
+          break;
+        case 'top':
+          buttonName = 'Playlist_side_panel_close_top';
+          break;
+        case 'bottom':
+          buttonName = 'Playlist_side_panel_close_bottom';
+          break;
+      }
+      return { ...model, buttonName };
+    }
+  }
 };
