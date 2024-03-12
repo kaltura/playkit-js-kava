@@ -1,19 +1,10 @@
-import {
-  BumperEvents,
-  DownloadEvents,
-  DualscreenEvents,
-  NavigationEvents,
-  PlaylistEvents,
-  ShareEvents,
-  TranscriptEvents,
-  SkipEvents
-} from './new-applications-events';
 import { KavaModel } from './kava-model';
 import { KavaEvent } from './types';
 import { ButtonType } from './enums/button-type';
 import { KalturaApplication } from './enums/kaltura-application';
 import { ApplicationEventType } from './enums/application-event-type';
 import { PageLoadType } from './enums/page-load-type';
+import { PluginsEvents } from './applications-events';
 
 export function getApplicationEventsModel(eventObj: KavaEvent, model: KavaModel, innerEventPayload: any): any {
   const commonModel = {
@@ -30,7 +21,7 @@ export function getApplicationEventsModel(eventObj: KavaEvent, model: KavaModel,
 }
 
 export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = {
-  [DualscreenEvents.CHANGE_LAYOUT]: {
+  [PluginsEvents.CHANGE_LAYOUT]: {
     type: 'CHANGE_LAYOUT',
     getEventModel: (payload: any): any => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
@@ -39,7 +30,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       buttonValue: payload.layout
     })
   },
-  [ShareEvents.SHARE_CLICKED]: {
+  [PluginsEvents.SHARE_CLICKED]: {
     type: 'SHARE_CLICKED',
     getEventModel: (): any => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
@@ -48,7 +39,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       buttonValue: ''
     })
   },
-  [ShareEvents.SHARE_CLOSE]: {
+  [PluginsEvents.SHARE_CLOSE]: {
     type: 'SHARE_CLOSE',
     getEventModel: (): any => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
@@ -57,7 +48,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       buttonValue: ''
     })
   },
-  [ShareEvents.SHARE_NETWORK]: {
+  [PluginsEvents.SHARE_NETWORK]: {
     type: 'SHARE_NETWORK',
     getEventModel: (payload: any): any => {
       const model = {
@@ -87,7 +78,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       return { ...model, buttonName };
     }
   },
-  [ShareEvents.SHARE_COPY]: {
+  [PluginsEvents.SHARE_COPY]: {
     type: 'SHARE_COPY',
     getEventModel: (payload: any): any => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
@@ -96,7 +87,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       buttonValue: payload.videoClippingOption
     })
   },
-  [DownloadEvents.DOWNLOAD_ITEM_CLICKED]: {
+  [PluginsEvents.DOWNLOAD_ITEM_CLICKED]: {
     type: 'DOWNLOAD_ITEM_CLICKED',
     getEventModel: (payload: any): any => {
       const model = {
@@ -126,7 +117,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       return { ...model, buttonName, buttonValue };
     }
   },
-  [DownloadEvents.SHOW_OVERLAY]: {
+  [PluginsEvents.SHOW_OVERLAY]: {
     type: 'SHOW_OVERLAY',
     getEventModel: (): any => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
@@ -135,7 +126,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       buttonValue: ''
     })
   },
-  [DownloadEvents.HIDE_OVERLAY]: {
+  [PluginsEvents.HIDE_OVERLAY]: {
     type: 'HIDE_OVERLAY',
     getEventModel: (): any => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
@@ -144,7 +135,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       buttonValue: ''
     })
   },
-  [BumperEvents.BUMPER_CLICKED]: {
+  [PluginsEvents.BUMPER_CLICKED]: {
     type: 'BUMPER_CLICKED',
     getEventModel: (): any => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
@@ -153,7 +144,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       buttonValue: ''
     })
   },
-  [NavigationEvents.NAVIGATION_OPEN]: {
+  [PluginsEvents.NAVIGATION_OPEN]: {
     type: 'NAVIGATION_OPEN',
     getEventModel: (payload: any): any => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
@@ -162,7 +153,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       buttonValue: payload['auto'] ? 'auto' : 'manual'
     })
   },
-  [NavigationEvents.NAVIGATION_CLOSE]: {
+  [PluginsEvents.NAVIGATION_CLOSE]: {
     type: 'NAVIGATION_CLOSE',
     getEventModel: (): any => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
@@ -171,14 +162,14 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       buttonValue: ''
     })
   },
-  [NavigationEvents.NAVIGATION_SEARCH]: {
+  [PluginsEvents.NAVIGATION_SEARCH]: {
     type: 'NAVIGATION_SEARCH',
     getEventModel: (payload: any): any => {
       const model = {
         eventType: ApplicationEventType.BUTTON_CLICKED,
         buttonType: ButtonType.Search
       };
-      
+
       const { searchQuery, activeTab, availableTabs } = payload;
 
       let buttonName: string = '';
@@ -200,7 +191,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       return { ...model, buttonName, buttonValue };
     }
   },
-  [NavigationEvents.NAVIGATION_ITEM_CLICK]: {
+  [PluginsEvents.NAVIGATION_ITEM_CLICK]: {
     type: 'NAVIGATION_ITEM_CLICK',
     getEventModel: (payload: any): any => {
       const model = {
@@ -225,7 +216,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       return { ...model, buttonName };
     }
   },
-  [NavigationEvents.NAVIGATION_EXPANDABLE_TEXT_CLICK]: {
+  [PluginsEvents.NAVIGATION_EXPANDABLE_TEXT_CLICK]: {
     type: 'NAVIGATION_EXPANDABLE_TEXT_CLICK',
     getEventModel: (payload: any): any => {
       const model = {
@@ -254,7 +245,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
     }
   },
 
-  [TranscriptEvents.TRANSCRIPT_OPEN]: {
+  [PluginsEvents.TRANSCRIPT_OPEN]: {
     type: 'TRANSCRIPT_OPEN',
     getEventModel: (payload: any): any => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
@@ -263,7 +254,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       buttonValue: payload['auto'] ? 'auto' : 'manual'
     })
   },
-  [TranscriptEvents.TRANSCRIPT_CLOSE]: {
+  [PluginsEvents.TRANSCRIPT_CLOSE]: {
     type: 'TRANSCRIPT_CLOSE',
     getEventModel: (): any => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
@@ -272,7 +263,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       buttonValue: ''
     })
   },
-  [TranscriptEvents.TRANSCRIPT_DOWNLOAD]: {
+  [PluginsEvents.TRANSCRIPT_DOWNLOAD]: {
     type: 'TRANSCRIPT_DOWNLOAD',
     getEventModel: (payload: any): any => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
@@ -281,7 +272,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       buttonValue: payload['videoPosition']
     })
   },
-  [TranscriptEvents.TRANSCRIPT_PRINT]: {
+  [PluginsEvents.TRANSCRIPT_PRINT]: {
     type: 'TRANSCRIPT_PRINT',
     getEventModel: (payload: any): any => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
@@ -290,7 +281,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       buttonValue: payload['videoPosition']
     })
   },
-  [TranscriptEvents.TRANSCRIPT_SEARCH]: {
+  [PluginsEvents.TRANSCRIPT_SEARCH]: {
     type: 'TRANSCRIPT_SEARCH',
     getEventModel: (payload: any): any => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
@@ -299,7 +290,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       buttonValue: payload.search
     })
   },
-  [TranscriptEvents.TRANSCRIPT_NAVIGATE_RESULT]: {
+  [PluginsEvents.TRANSCRIPT_NAVIGATE_RESULT]: {
     type: 'TRANSCRIPT_NAVIGATE_RESULT',
     getEventModel: (payload: any): any => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
@@ -308,7 +299,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       buttonValue: payload.index
     })
   },
-  [PlaylistEvents.PLAYLIST_OPEN]: {
+  [PluginsEvents.PLAYLIST_OPEN]: {
     type: 'PLAYLIST_OPEN',
     getEventModel: (payload: any): any => ({
       eventType: payload['auto'] ? ApplicationEventType.PAGE_LOAD : ApplicationEventType.BUTTON_CLICKED,
@@ -317,7 +308,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       buttonName: payload['auto'] ? 'Playlist_side_panel_open_auto' : 'Playlist_side_panel_open_manual'
     })
   },
-  [PlaylistEvents.PLAYLIST_CLOSE]: {
+  [PluginsEvents.PLAYLIST_CLOSE]: {
     type: 'PLAYLIST_CLOSE',
     getEventModel: (payload: any): any => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
@@ -326,7 +317,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       buttonName: 'Playlist_side_panel_close_manual'
     })
   },
-  [SkipEvents.SKIP_BUTTON_CLICK]: {
+  [PluginsEvents.SKIP_BUTTON_CLICK]: {
     type: 'SKIP_BUTTON_CLICK',
     getEventModel: (payload: any): any => {
       const model = {
@@ -344,7 +335,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       return { ...model, buttonName };
     }
   },
-  [SkipEvents.SKIP_BUTTON_DISPLAYED]: {
+  [PluginsEvents.SKIP_BUTTON_DISPLAYED]: {
     type: 'SKIP_BUTTON_DISPLAYED',
     getEventModel: (payload: any): any => {
       const model = {
