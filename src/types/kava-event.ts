@@ -1,5 +1,5 @@
 export type KavaEvent = {
-  index: number,
+  index?: number,
   type: string,
   getEventModel: (...args: any) => any
 };

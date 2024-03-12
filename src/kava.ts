@@ -1,14 +1,17 @@
-import { core, BasePlugin, KalturaPlayer } from '@playkit-js/kaltura-player-js';
+import { BasePlugin, core, KalturaPlayer } from '@playkit-js/kaltura-player-js';
 import { FakeEvent, VideoTrack } from '@playkit-js/playkit-js';
 import { OVPAnalyticsService } from '@playkit-js/playkit-js-providers/analytics-service';
 import { KavaEventModel, KavaEventType } from './kava-event-model';
 import { KavaRateHandler } from './kava-rate-handler';
 import { KavaTimer } from './kava-timer';
-import { ErrorPosition, KavaModel, SoundMode, TabMode, ScreenMode, ViewabilityMode } from './kava-model';
-import { HttpMethodType } from './http-method-type';
-import { KalturaApplication } from './kaltura-application';
+import { ErrorPosition, KavaModel, ScreenMode, SoundMode, TabMode, ViewabilityMode } from './kava-model';
+import { HttpMethodType } from './enums/http-method-type';
+import { KalturaApplication } from './enums/kaltura-application';
 import { KavaConfigObject, KavaEvent } from './types';
-import { RelatedEvent, InfoEvent, ShareEvent, DownloadEvent, ModerationEvent } from './temp-imported-plugins-event-names-temp';
+import { DownloadEvent, InfoEvent, ModerationEvent, RelatedEvent, ShareEvent } from './temp-imported-plugins-event-names-temp';
+import { PluginsEvents } from './applications-events';
+import { EventBucketName } from './enums/event-bucket-name';
+import { ApplicationEventsModel } from './application-events-model';
 
 const { Error: PKError, Utils } = core;
 const DIVIDER: number = 1024;
@@ -264,7 +267,7 @@ class Kava extends BasePlugin {
     });
   }
 
-  private _sendAnalytics(eventObj: KavaEvent): void {
+  private _sendAnalytics(eventObj: KavaEvent, eventBucketName: EventBucketName = EventBucketName.PlayerEvents, eventPayload?: any): void {
     if (!this._validate()) {
       return;
     }
@@ -272,7 +275,7 @@ class Kava extends BasePlugin {
       this._updateBufferModel();
       this._bufferStartTime = Date.now();
     }
-    const model = this._model.getModel(eventObj);
+    const model = this._model.getModel(eventObj, eventBucketName, eventPayload);
     if (typeof this.config.tamperAnalyticsHandler === 'function') {
       const sendRequest = this.config.tamperAnalyticsHandler(model);
       if (!sendRequest) {
@@ -329,9 +332,19 @@ class Kava extends BasePlugin {
     this.eventManager.listen(this.player, InfoEvent.INFO_SCREEN_OPEN, () => this._onInfoScreenOpened());
     this.eventManager.listen(this.player, ModerationEvent.REPORT_CLICKED, () => this._onReportClicked());
     this.eventManager.listen(this.player, ModerationEvent.REPORT_SUBMITTED, (event) => this._onReportSubmitted(event));
-
+    this._bindApplicationEvents();
     this._initTabMode();
     this._initNetworkConnectionType();
+  }
+
+  private _bindApplicationEvents(): void {
+    Object.values(PluginsEvents).forEach((event) => {
+      this.eventManager.listen(this.player, event, (e: FakeEvent) => {
+        if (e.type in ApplicationEventsModel) {
+          this._sendAnalytics(ApplicationEventsModel[e.type], EventBucketName.ApplicationEvents, e.payload);
+        }
+      });
+    });
   }
 
   private _onFirstPlaying(): void {

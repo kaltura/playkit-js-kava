@@ -1,5 +1,7 @@
 import { getEventModel } from './kava-event-model';
 import { KavaEvent } from './types';
+import { EventBucketName } from './enums/event-bucket-name';
+import { getApplicationEventsModel } from './application-events-model';
 
 /**
  * The KAVA model that stores data.
@@ -375,12 +377,19 @@ class KavaModel {
   /**
    * Gets the model for a certain event.
    * @param {KavaEvent} eventObj - The event object.
+   * @param {EventBucketName} eventBucketName - The dashboard name in kava dashboards.
+   * @param {any} eventPayload - The original player event payload.
    * @returns {Object} - The event model.
    * @memberof KavaModel
    * @instance
    */
-  public getModel(eventObj: KavaEvent): any {
-    return getEventModel(eventObj, this);
+  public getModel(eventObj: KavaEvent, eventBucketName: EventBucketName = EventBucketName.PlayerEvents, eventPayload?: any): any {
+    switch (eventBucketName) {
+      case EventBucketName.PlayerEvents:
+        return getEventModel(eventObj, this);
+      case EventBucketName.ApplicationEvents:
+        return getApplicationEventsModel(eventObj, this, eventPayload);
+    }
   }
 }
 

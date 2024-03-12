@@ -1,4 +1,4 @@
-import { KavaHttpMethodType } from './types';
+import { KavaHttpMethodType } from '../types';
 
 const HttpMethodType: KavaHttpMethodType = {
   GET: 'GET',
