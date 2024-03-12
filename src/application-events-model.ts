@@ -178,7 +178,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
         eventType: ApplicationEventType.BUTTON_CLICKED,
         buttonType: ButtonType.Search
       };
-      //navigation_search {"searchQuery":"ddd","activeTab":"All","availableTabs":["Slide"],"totalResults":0}  #@#@#
+      
       const { searchQuery, activeTab, availableTabs } = payload;
 
       let buttonName: string = '';
