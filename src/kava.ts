@@ -332,15 +332,17 @@ class Kava extends BasePlugin {
     this.eventManager.listen(this.player, InfoEvent.INFO_SCREEN_OPEN, () => this._onInfoScreenOpened());
     this.eventManager.listen(this.player, ModerationEvent.REPORT_CLICKED, () => this._onReportClicked());
     this.eventManager.listen(this.player, ModerationEvent.REPORT_SUBMITTED, (event) => this._onReportSubmitted(event));
+    this._bindApplicationEvents();
+    this._initTabMode();
+    this._initNetworkConnectionType();
+  }
 
+  private _bindApplicationEvents() {
     Object.values(PluginsEvents).forEach((event) => {
       this.eventManager.listen(this.player, event, (e: FakeEvent) =>
         this._sendAnalytics(ApplicationEventsModel[e.type], EventBucketName.ApplicationEvents, e.payload)
       );
     });
-
-    this._initTabMode();
-    this._initNetworkConnectionType();
   }
 
   private _onFirstPlaying(): void {
