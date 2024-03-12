@@ -43,6 +43,12 @@ export const PlaylistEvents = {
   PLAYLIST_CLOSE: 'playlist_close'
 };
 
+export const RelatedEvents = {
+  RELATED_SELECTED: 'related_selected',
+  RELATED_OPEN: 'related_open',
+  RELATED_CLOSE: 'related_close'
+};
+
 export const PluginsEvents = {
   ...NavigationEvents,
   ...DownloadEvents,
@@ -51,5 +57,6 @@ export const PluginsEvents = {
   ...ShareEvents,
   ...BumperEvents,
   ...SkipEvents,
-  ...PlaylistEvents
+  ...PlaylistEvents,
+  ...RelatedEvents
 };

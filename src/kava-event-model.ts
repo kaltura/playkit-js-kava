@@ -267,11 +267,11 @@ export const KavaEventModel = {
     })
   },
   /**
-   * @type {string} RELATED_CLICKED
+   * @type {string} RELATED_OPEN
    * @memberof KavaEventType
    */
-  RELATED_CLICKED: {
-    type: 'RELATED_CLICKED',
+  RELATED_OPEN: {
+    type: 'RELATED_OPEN',
     index: 36,
     getEventModel: (): any => ({})
   },

@@ -324,7 +324,7 @@ class Kava extends BasePlugin {
     this.eventManager.listen(this.player, this.player.Event.Core.MUTE_CHANGE, () => this._updateSoundModeInModel());
     this.eventManager.listen(this.player, this.player.Event.Core.ENTER_FULLSCREEN, () => this._onFullScreenChanged(ScreenMode.FULLSCREEN));
     this.eventManager.listen(this.player, this.player.Event.Core.EXIT_FULLSCREEN, () => this._onFullScreenChanged(ScreenMode.NOT_IN_FULLSCREEN));
-    this.eventManager.listen(this.player, RelatedEvent.RELATED_CLICKED, () => this._onRelatedClicked());
+    this.eventManager.listen(this.player, RelatedEvent.RELATED_OPEN, () => this._onRelatedClicked());
     this.eventManager.listen(this.player, RelatedEvent.RELATED_SELECTED, () => this._onRelatedSelected());
     this.eventManager.listen(this.player, ShareEvent.SHARE_CLICKED, () => this._onShareClicked());
     this.eventManager.listen(this.player, ShareEvent.SHARE_NETWORK, (event) => this._onShareNetworkClicked(event));
@@ -716,7 +716,7 @@ class Kava extends BasePlugin {
   }
 
   private _onRelatedClicked(): void {
-    this._sendAnalytics(KavaEventModel.RELATED_CLICKED);
+    this._sendAnalytics(KavaEventModel.RELATED_OPEN);
   }
 
   private _onRelatedSelected(): void {
