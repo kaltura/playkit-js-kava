@@ -352,5 +352,41 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
 
       return { ...model, buttonName };
     }
+  },
+  [PluginsEvents.RELATED_OPEN]: {
+    type: 'RELATED_OPEN',
+    getEventModel: (payload: any): any => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      buttonName: 'Related_open',
+      buttonType: ButtonType.Open,
+      buttonValue: payload['expandMode']
+    })
+  },
+  [PluginsEvents.RELATED_CLOSE]: {
+    type: 'RELATED_CLOSE',
+    getEventModel: (payload: any): any => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      buttonName: 'Related_close',
+      buttonType: ButtonType.Close,
+      buttonValue: payload['expandMode']
+    })
+  },
+  [PluginsEvents.RELATED_SELECTED]: {
+    type: 'RELATED_SELECTED',
+    getEventModel: (): any => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      buttonName: 'Related_entry_click',
+      buttonType: ButtonType.Navigate,
+      buttonValue: ''
+    })
+  },
+  [PluginsEvents.CALL_TO_ACTION_BUTTON_CLICK]: {
+    type: 'CALL_TO_ACTION_BUTTON_CLICK',
+    getEventModel: (payload: any): any => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      buttonValue: payload['label'],
+      buttonType: ButtonType.Link,
+      buttonName: payload['type'] === 'primary' ? 'CTA_primary_button_click' : 'CTA_secondary_button_click'
+    })
   }
 };

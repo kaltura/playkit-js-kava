@@ -26,7 +26,11 @@ export const RelatedEvent = {
   /**
    * Fired when the user clicks the button to show the related list.
    */
-  RELATED_CLICKED: 'related_clicked'
+  RELATED_OPEN: 'related_open',
+  /**
+   * Fired when the user clicks to close the related list.
+   */
+  RELATED_CLOSE: 'related_close'
 };
 
 export const InfoEvent = {

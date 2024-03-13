@@ -8,8 +8,8 @@ export const NavigationEvents = {
 
 export const DownloadEvents = {
   DOWNLOAD_ITEM_CLICKED: 'download_item_clicked',
-  SHOW_OVERLAY: 'show_overlay',
-  HIDE_OVERLAY: 'hide_overlay'
+  SHOW_OVERLAY: 'download_show_overlay',
+  HIDE_OVERLAY: 'download_hide_overlay'
 };
 
 export const TranscriptEvents = {
@@ -43,6 +43,16 @@ export const PlaylistEvents = {
   PLAYLIST_CLOSE: 'playlist_close'
 };
 
+export const RelatedEvents = {
+  RELATED_SELECTED: 'related_selected',
+  RELATED_OPEN: 'related_open',
+  RELATED_CLOSE: 'related_close'
+};
+
+export const CallToActionEvents = {
+  CALL_TO_ACTION_BUTTON_CLICK: 'call_to_action_button_click'
+};
+
 export const PluginsEvents = {
   ...NavigationEvents,
   ...DownloadEvents,
@@ -51,5 +61,7 @@ export const PluginsEvents = {
   ...ShareEvents,
   ...BumperEvents,
   ...SkipEvents,
-  ...PlaylistEvents
+  ...PlaylistEvents,
+  ...RelatedEvents,
+  ...CallToActionEvents
 };
