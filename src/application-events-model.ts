@@ -380,4 +380,13 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       buttonValue: payload['????'],
     })
   },
+  [PluginsEvents.CALL_TO_ACTION_BUTTON_CLICK]: {
+    type: 'CALL_TO_ACTION_BUTTON_CLICK',
+    getEventModel: (payload: any): any => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      buttonValue: payload['label'],
+      buttonType: ButtonType.Link,
+      buttonName: payload['type'] === 'primary' ? 'CTA_primary_button_click' : 'CTA_secondary_button_click'
+    })
+  },
 };
