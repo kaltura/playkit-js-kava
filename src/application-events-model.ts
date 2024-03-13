@@ -359,7 +359,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventType: ApplicationEventType.BUTTON_CLICKED,
       buttonName: 'Related_open',
       buttonType: ButtonType.Open,
-      buttonValue: payload['expandMode'],
+      buttonValue: payload['expandMode']
     })
   },
   [PluginsEvents.RELATED_CLOSE]: {
@@ -368,16 +368,16 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventType: ApplicationEventType.BUTTON_CLICKED,
       buttonName: 'Related_close',
       buttonType: ButtonType.Close,
-      buttonValue: payload['expandMode'],
+      buttonValue: payload['expandMode']
     })
   },
   [PluginsEvents.RELATED_SELECTED]: {
     type: 'RELATED_SELECTED',
-    getEventModel: (payload: any): any => ({
+    getEventModel: (): any => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
       buttonName: 'Related_entry_click',
       buttonType: ButtonType.Navigate,
-      buttonValue: payload['????'],
+      buttonValue: ''
     })
   },
   [PluginsEvents.CALL_TO_ACTION_BUTTON_CLICK]: {
@@ -388,5 +388,5 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       buttonType: ButtonType.Link,
       buttonName: payload['type'] === 'primary' ? 'CTA_primary_button_click' : 'CTA_secondary_button_click'
     })
-  },
+  }
 };
