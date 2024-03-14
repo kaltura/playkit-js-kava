@@ -388,5 +388,23 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       buttonType: ButtonType.Link,
       buttonName: payload['type'] === 'primary' ? 'CTA_primary_button_click' : 'CTA_secondary_button_click'
     })
-  }
+  },
+  [PluginsEvents.HOTSPOT_DISPLAYED]: {
+    type: 'HOTSPOT_DISPLAYED',
+    getEventModel: (payload: any): any => ({
+      eventType: ApplicationEventType.PAGE_LOAD,
+      buttonName: 'Hotspot_displayed',
+      buttonType: PageLoadType.View,
+      buttonValue: payload['label']
+    })
+  },
+  [PluginsEvents.HOTSPOT_CLICK]: {
+    type: 'HOTSPOT_CLICK',
+    getEventModel: (payload: any): any => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      buttonName: 'Hotspot_click',
+      buttonType: ButtonType.Link,
+      buttonValue: payload['label']
+    })
+  },
 };

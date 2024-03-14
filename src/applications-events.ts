@@ -53,6 +53,11 @@ export const CallToActionEvents = {
   CALL_TO_ACTION_BUTTON_CLICK: 'call_to_action_button_click'
 };
 
+export const HotspotsEvents = {
+  HOTSPOT_CLICK: 'hotspot_click',
+  HOTSPOT_DISPLAYED:  'hotspot_displayed',
+}
+
 export const PluginsEvents = {
   ...NavigationEvents,
   ...DownloadEvents,
@@ -63,5 +68,6 @@ export const PluginsEvents = {
   ...SkipEvents,
   ...PlaylistEvents,
   ...RelatedEvents,
-  ...CallToActionEvents
+  ...CallToActionEvents,
+  ...HotspotsEvents
 };
