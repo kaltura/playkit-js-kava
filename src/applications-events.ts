@@ -55,8 +55,18 @@ export const CallToActionEvents = {
 
 export const HotspotsEvents = {
   HOTSPOT_CLICK: 'hotspot_click',
-  HOTSPOT_DISPLAYED:  'hotspot_displayed',
-}
+  HOTSPOT_DISPLAYED: 'hotspot_displayed'
+};
+
+export const IvqEventTypes = {
+  QUIZ_STARTED: 'QuizStarted',
+  QUIZ_SKIPPED: 'QuizSkipped',
+  QUIZ_SEEK: 'QuizSeek',
+  QUESTION_ANSWERED: 'QuestionAnswered',
+  QUIZ_SUBMITTED: 'QuizSubmitted',
+  QUIZ_RETAKE: 'QuizRetake',
+  QUIZ_QUESTION_CHANGED: 'QuizQuestionChanged'
+};
 
 export const PluginsEvents = {
   ...NavigationEvents,
@@ -69,5 +79,6 @@ export const PluginsEvents = {
   ...PlaylistEvents,
   ...RelatedEvents,
   ...CallToActionEvents,
-  ...HotspotsEvents
+  ...HotspotsEvents,
+  ...IvqEventTypes
 };

@@ -407,4 +407,40 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       buttonValue: payload['label']
     })
   },
+  [PluginsEvents.QUIZ_STARTED]: {
+    type: 'HOTSPOT_CLICK',
+    getEventModel: (): any => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      buttonName: 'Quiz_start',
+      buttonType: ButtonType.Load,
+      buttonValue: ''
+    })
+  },
+  [PluginsEvents.QUIZ_SUBMITTED]: {
+    type: 'HOTSPOT_CLICK',
+    getEventModel: (): any => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      buttonName: 'Quiz_submit',
+      buttonType: ButtonType.Send,
+      buttonValue: ''
+    })
+  },
+  [PluginsEvents.QUIZ_SKIPPED]: {
+    type: 'HOTSPOT_CLICK',
+    getEventModel: (payload: any): any => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      buttonName: 'Quiz_skip_question',
+      buttonType: ButtonType.Navigate,
+      buttonValue: payload['id']
+    })
+  },
+  [PluginsEvents.QUIZ_SEEK]: {
+    type: 'HOTSPOT_CLICK',
+    getEventModel: (): any => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      buttonName: 'Quiz_nav_click',
+      buttonType: ButtonType.Navigate,
+      buttonValue: ''
+    })
+  }
 };
