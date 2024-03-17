@@ -26,7 +26,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
     getEventModel: (payload: any): any => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
       buttonName: 'Dual__screen_change_layout',
-      buttonType: ButtonType.Unknown,
+      buttonType: ButtonType.Choose,
       buttonValue: payload.layout
     })
   },
