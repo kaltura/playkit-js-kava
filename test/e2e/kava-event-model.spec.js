@@ -116,6 +116,14 @@ class FakeModel {
   getPlaybackSpeed() {
     return 2;
   }
+
+  getPlaybackMode() {
+    return 1;
+  }
+
+  getSourceEntryId() {
+    return "source_entry_id"
+  }
 }
 
 describe('KavaEventModel', () => {
@@ -143,7 +151,9 @@ describe('KavaEventModel', () => {
       targetBuffer: fakeModel.getTargetBuffer(),
       networkConnectionType: fakeModel.getNetworkConnectionType(),
       networkConnectionOverhead: fakeModel.getNetworkConnectionOverhead(),
-      flavorParamsId: fakeModel.getFlavorParamsId()
+      flavorParamsId: fakeModel.getFlavorParamsId(),
+      playbackMode: fakeModel.getPlaybackMode(),
+      sourceEntryId: fakeModel.getSourceEntryId()
     });
   });
 
