@@ -11,7 +11,7 @@ export function getApplicationEventsModel(eventObj: KavaEvent, model: KavaModel,
     partnerId: model.getPartnerId(),
     entryId: model.getEntryId(),
     sessionId: model.getSessionId(),
-    kalturaApplication: KalturaApplication.PLAYER
+    kalturaApplication: model.getKalturaApplication()
   };
   if (model.getUserId()) {
     commonModel['userId'] = model.getUserId();
