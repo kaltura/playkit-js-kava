@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 1.6.3 (2024-03-17)
+
+
+### Bug Fixes
+
+* **FEC-13773:** KaltuaApplication param is not sent - (with tests fixed) ([#164](https://github.com/kaltura/playkit-js-kava/issues/164)) ([1d4c394](https://github.com/kaltura/playkit-js-kava/commit/1d4c3947b4bc9d1b806f6bc6c12852c50c65028e))
+
 ### 1.6.2 (2024-03-17)
 
 ## 1.6.0 (2023-12-21)
