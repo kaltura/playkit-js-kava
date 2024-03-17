@@ -357,26 +357,44 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
     type: 'RELATED_OPEN',
     getEventModel: (payload: any): any => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
-      buttonName: 'Related_open',
+      buttonName: 'Related_open_manual',
       buttonType: ButtonType.Open,
       buttonValue: payload['expandMode']
     })
   },
   [PluginsEvents.RELATED_CLOSE]: {
     type: 'RELATED_CLOSE',
-    getEventModel: (payload: any): any => ({
+    getEventModel: (): any => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
       buttonName: 'Related_close',
       buttonType: ButtonType.Close,
-      buttonValue: payload['expandMode']
+      buttonValue: ''
     })
   },
-  [PluginsEvents.RELATED_SELECTED]: {
-    type: 'RELATED_SELECTED',
+  [PluginsEvents.RELATED_ENTRY_SELECTED]: {
+    type: 'RELATED_ENTRY_SELECTED',
     getEventModel: (): any => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
       buttonName: 'Related_entry_click',
       buttonType: ButtonType.Navigate,
+      buttonValue: ''
+    })
+  },
+  [PluginsEvents.RELATED_ENTRY_AUTO_PLAYED]: {
+    type: 'RELATED_ENTRY_AUTO_PLAYED',
+    getEventModel: (): any => ({
+      eventType: ApplicationEventType.PAGE_LOAD,
+      buttonName: 'Related_entry_auto_continue',
+      buttonType: PageLoadType.View,
+      buttonValue: ''
+    })
+  },
+  [PluginsEvents.RELATED_GRID_DISPLAYED]: {
+    type: 'RELATED_GRID_DISPLAYED',
+    getEventModel: (): any => ({
+      eventType: ApplicationEventType.PAGE_LOAD,
+      buttonName: 'Related_open_auto',
+      buttonType: PageLoadType.View,
       buttonValue: ''
     })
   },

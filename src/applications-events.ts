@@ -44,9 +44,11 @@ export const PlaylistEvents = {
 };
 
 export const RelatedEvents = {
-  RELATED_SELECTED: 'related_selected',
   RELATED_OPEN: 'related_open',
-  RELATED_CLOSE: 'related_close'
+  RELATED_CLOSE: 'related_close',
+  RELATED_ENTRY_SELECTED: 'related_entry_selected',
+  RELATED_ENTRY_AUTO_PLAYED: 'related_entry_auto_played',
+  RELATED_GRID_DISPLAYED: 'related_grid_displayed'
 };
 
 export const CallToActionEvents = {
