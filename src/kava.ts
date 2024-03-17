@@ -655,22 +655,22 @@ class Kava extends BasePlugin {
         this._model.updateModel({ flavorParamsId: Number(data.sequenceId) });
 
         if (data.clipId) {
-          const [partType, entryId] = data.clipId.split("-");
+          const [partType, entryId] = data.clipId.split('-');
 
-          switch(partType) {
-            case "preStartContent": {
+          switch (partType) {
+            case 'preStartContent': {
               this._model.updateModel({ sourceEntryId: entryId, playbackMode: 1 });
               break;
             }
-            case "content": {
+            case 'content': {
               this._model.updateModel({ sourceEntryId: entryId, playbackMode: 2 });
               break;
             }
-            case "postEntryContent": {
+            case 'postEntryContent': {
               this._model.updateModel({ sourceEntryId: entryId, playbackMode: 3 });
               break;
             }
-            default: 
+            default:
               break;
           }
         }
