@@ -786,6 +786,7 @@ describe('KavaPlugin', function () {
                 'entryId',
                 'eventIndex',
                 'eventType',
+                'kalturaApplication',
                 'ks',
                 'virtualEventId',
                 'partnerId',
