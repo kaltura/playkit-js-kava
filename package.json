@@ -1,6 +1,6 @@
 {
   "name": "@playkit-js/playkit-js-kava",
-  "version": "1.6.1",
+  "version": "1.6.2",
   "main": "dist/playkit-kava.js",
   "scripts": {
     "serve": "webpack serve --open --mode development",
