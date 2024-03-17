@@ -1,6 +1,7 @@
 import { KavaModel } from './kava-model';
 import { KavaEvent } from './types';
 import { ButtonType } from './enums/button-type';
+import { KalturaApplication } from './enums/kaltura-application';
 import { ApplicationEventType } from './enums/application-event-type';
 import { PageLoadType } from './enums/page-load-type';
 import { PluginsEvents } from './applications-events';
@@ -10,7 +11,7 @@ export function getApplicationEventsModel(eventObj: KavaEvent, model: KavaModel,
     partnerId: model.getPartnerId(),
     entryId: model.getEntryId(),
     sessionId: model.getSessionId(),
-    kalturaApplication: model.getKalturaApplication()
+    kalturaApplication: KalturaApplication.PLAYER
   };
   if (model.getUserId()) {
     commonModel['userId'] = model.getUserId();
