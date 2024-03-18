@@ -467,7 +467,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
     })
   },
   [PlaykitUIEvents.USER_CLICKED_LOGO]: {
-    type: 'USER_CLICKED_LIVE_TAG',
+    type: 'USER_CLICKED_LOGO',
     getEventModel: (payload: any): any => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
       buttonName: 'Logo_click',
