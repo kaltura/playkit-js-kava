@@ -1,3 +1,7 @@
+export const PlaykitUIEvents = {
+  USER_CLICKED_LOGO: 'playkit-ui-userclickedlogo'
+};
+
 export const NavigationEvents = {
   NAVIGATION_OPEN: 'navigation_open',
   NAVIGATION_CLOSE: 'navigation_close',

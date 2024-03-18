@@ -3,7 +3,7 @@ import { KavaEvent } from './types';
 import { ButtonType } from './enums/button-type';
 import { ApplicationEventType } from './enums/application-event-type';
 import { PageLoadType } from './enums/page-load-type';
-import { PluginsEvents } from './applications-events';
+import { PlaykitUIEvents, PluginsEvents } from './applications-events';
 
 export function getApplicationEventsModel(eventObj: KavaEvent, model: KavaModel, innerEventPayload: any): any {
   const commonModel = {
@@ -464,6 +464,15 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       buttonName: 'Quiz_nav_click',
       buttonType: ButtonType.Navigate,
       buttonValue: ''
+    })
+  },
+  [PlaykitUIEvents.USER_CLICKED_LOGO]: {
+    type: 'USER_CLICKED_LIVE_TAG',
+    getEventModel: (payload: any): any => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      buttonName: 'Logo_click',
+      buttonType: ButtonType.Link,
+      buttonValue: payload['logoUrl']
     })
   }
 };
