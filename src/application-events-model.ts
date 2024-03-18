@@ -3,18 +3,24 @@ import { KavaEvent } from './types';
 import { ButtonType } from './enums/button-type';
 import { ApplicationEventType } from './enums/application-event-type';
 import { PageLoadType } from './enums/page-load-type';
-import { PluginsEvents } from './applications-events';
+import { PlaykitUIEvents, PluginsEvents } from './applications-events';
 
 export function getApplicationEventsModel(eventObj: KavaEvent, model: KavaModel, innerEventPayload: any): any {
   const commonModel = {
     partnerId: model.getPartnerId(),
     entryId: model.getEntryId(),
     sessionId: model.getSessionId(),
-    kalturaApplication: model.getKalturaApplication()
+    kalturaApplication: model.getKalturaApplication(),
+    kalturaApplicationVer: model.getKalturaApplicationVersion(),
+    application: model.getApplication(),
+    applicationVer: model.getApplicationVersion(),
+    virtualEventId: model.getVirtualEventId()
   };
+
   if (model.getUserId()) {
     commonModel['userId'] = model.getUserId();
   }
+
   const eventModel = eventObj.getEventModel(innerEventPayload);
   return Object.assign(eventModel, commonModel);
 }
@@ -25,7 +31,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
     getEventModel: (payload: any): any => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
       buttonName: 'Dual__screen_change_layout',
-      buttonType: ButtonType.Unknown,
+      buttonType: ButtonType.Choose,
       buttonValue: payload.layout
     })
   },
@@ -356,26 +362,44 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
     type: 'RELATED_OPEN',
     getEventModel: (payload: any): any => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
-      buttonName: 'Related_open',
+      buttonName: 'Related_open_manual',
       buttonType: ButtonType.Open,
       buttonValue: payload['expandMode']
     })
   },
   [PluginsEvents.RELATED_CLOSE]: {
     type: 'RELATED_CLOSE',
-    getEventModel: (payload: any): any => ({
+    getEventModel: (): any => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
       buttonName: 'Related_close',
       buttonType: ButtonType.Close,
-      buttonValue: payload['expandMode']
+      buttonValue: ''
     })
   },
-  [PluginsEvents.RELATED_SELECTED]: {
-    type: 'RELATED_SELECTED',
+  [PluginsEvents.RELATED_ENTRY_SELECTED]: {
+    type: 'RELATED_ENTRY_SELECTED',
     getEventModel: (): any => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
       buttonName: 'Related_entry_click',
       buttonType: ButtonType.Navigate,
+      buttonValue: ''
+    })
+  },
+  [PluginsEvents.RELATED_ENTRY_AUTO_PLAYED]: {
+    type: 'RELATED_ENTRY_AUTO_PLAYED',
+    getEventModel: (): any => ({
+      eventType: ApplicationEventType.PAGE_LOAD,
+      buttonName: 'Related_entry_auto_continue',
+      buttonType: PageLoadType.View,
+      buttonValue: ''
+    })
+  },
+  [PluginsEvents.RELATED_GRID_DISPLAYED]: {
+    type: 'RELATED_GRID_DISPLAYED',
+    getEventModel: (): any => ({
+      eventType: ApplicationEventType.PAGE_LOAD,
+      buttonName: 'Related_open_auto',
+      buttonType: PageLoadType.View,
       buttonValue: ''
     })
   },
@@ -386,6 +410,69 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       buttonValue: payload['label'],
       buttonType: ButtonType.Link,
       buttonName: payload['type'] === 'primary' ? 'CTA_primary_button_click' : 'CTA_secondary_button_click'
+    })
+  },
+  [PluginsEvents.HOTSPOT_DISPLAYED]: {
+    type: 'HOTSPOT_DISPLAYED',
+    getEventModel: (payload: any): any => ({
+      eventType: ApplicationEventType.PAGE_LOAD,
+      buttonName: 'Hotspot_displayed',
+      buttonType: PageLoadType.View,
+      buttonValue: payload['label']
+    })
+  },
+  [PluginsEvents.HOTSPOT_CLICK]: {
+    type: 'HOTSPOT_CLICK',
+    getEventModel: (payload: any): any => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      buttonName: 'Hotspot_click',
+      buttonType: ButtonType.Link,
+      buttonValue: payload['label']
+    })
+  },
+  [PluginsEvents.QUIZ_STARTED]: {
+    type: 'QUIZ_STARTED',
+    getEventModel: (): any => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      buttonName: 'Quiz_start',
+      buttonType: ButtonType.Load,
+      buttonValue: ''
+    })
+  },
+  [PluginsEvents.QUIZ_SUBMITTED]: {
+    type: 'QUIZ_SUBMITTED',
+    getEventModel: (): any => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      buttonName: 'Quiz_submit',
+      buttonType: ButtonType.Send,
+      buttonValue: ''
+    })
+  },
+  [PluginsEvents.QUIZ_SKIPPED]: {
+    type: 'QUIZ_SKIPPED',
+    getEventModel: (payload: any): any => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      buttonName: 'Quiz_skip_question',
+      buttonType: ButtonType.Navigate,
+      buttonValue: payload['id']
+    })
+  },
+  [PluginsEvents.QUIZ_SEEK]: {
+    type: 'QUIZ_SEEK',
+    getEventModel: (): any => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      buttonName: 'Quiz_nav_click',
+      buttonType: ButtonType.Navigate,
+      buttonValue: ''
+    })
+  },
+  [PlaykitUIEvents.USER_CLICKED_LOGO]: {
+    type: 'USER_CLICKED_LOGO',
+    getEventModel: (payload: any): any => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      buttonName: 'Logo_click',
+      buttonType: ButtonType.Link,
+      buttonValue: payload['logoUrl']
     })
   }
 };

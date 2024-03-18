@@ -1,3 +1,7 @@
+export const PlaykitUIEvents = {
+  USER_CLICKED_LOGO: 'playkit-ui-userclickedlogo'
+};
+
 export const NavigationEvents = {
   NAVIGATION_OPEN: 'navigation_open',
   NAVIGATION_CLOSE: 'navigation_close',
@@ -44,13 +48,30 @@ export const PlaylistEvents = {
 };
 
 export const RelatedEvents = {
-  RELATED_SELECTED: 'related_selected',
   RELATED_OPEN: 'related_open',
-  RELATED_CLOSE: 'related_close'
+  RELATED_CLOSE: 'related_close',
+  RELATED_ENTRY_SELECTED: 'related_entry_selected',
+  RELATED_ENTRY_AUTO_PLAYED: 'related_entry_auto_played',
+  RELATED_GRID_DISPLAYED: 'related_grid_displayed'
 };
 
 export const CallToActionEvents = {
   CALL_TO_ACTION_BUTTON_CLICK: 'call_to_action_button_click'
+};
+
+export const HotspotsEvents = {
+  HOTSPOT_CLICK: 'hotspot_click',
+  HOTSPOT_DISPLAYED: 'hotspot_displayed'
+};
+
+export const IvqEventTypes = {
+  QUIZ_STARTED: 'QuizStarted',
+  QUIZ_SKIPPED: 'QuizSkipped',
+  QUIZ_SEEK: 'QuizSeek',
+  QUESTION_ANSWERED: 'QuestionAnswered',
+  QUIZ_SUBMITTED: 'QuizSubmitted',
+  QUIZ_RETAKE: 'QuizRetake',
+  QUIZ_QUESTION_CHANGED: 'QuizQuestionChanged'
 };
 
 export const PluginsEvents = {
@@ -63,5 +84,7 @@ export const PluginsEvents = {
   ...SkipEvents,
   ...PlaylistEvents,
   ...RelatedEvents,
-  ...CallToActionEvents
+  ...CallToActionEvents,
+  ...HotspotsEvents,
+  ...IvqEventTypes
 };

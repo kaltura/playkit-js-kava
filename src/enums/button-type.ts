@@ -29,6 +29,5 @@ export enum ButtonType {
   Toggle = 26,
   Thumbnail = 27,
   Download = 28,
-  Share = 29,
-  Unknown = 'Unknown'
+  Share = 29
 }
