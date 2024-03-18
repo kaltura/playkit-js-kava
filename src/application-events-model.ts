@@ -10,11 +10,17 @@ export function getApplicationEventsModel(eventObj: KavaEvent, model: KavaModel,
     partnerId: model.getPartnerId(),
     entryId: model.getEntryId(),
     sessionId: model.getSessionId(),
-    kalturaApplication: model.getKalturaApplication()
+    kalturaApplication: model.getKalturaApplication(),
+    kalturaApplicationVer: model.getKalturaApplicationVersion(),
+    application: model.getApplication(),
+    applicationVer: model.getApplicationVersion(),
+    virtualEventId: model.getVirtualEventId()
   };
+
   if (model.getUserId()) {
     commonModel['userId'] = model.getUserId();
   }
+
   const eventModel = eventObj.getEventModel(innerEventPayload);
   return Object.assign(eventModel, commonModel);
 }
