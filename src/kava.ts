@@ -47,6 +47,7 @@ class Kava extends BasePlugin {
   private _fragLoadedFiredOnce: boolean = false;
   private _canPlayOccured: boolean = false;
   private _isManualPreload: boolean = false;
+  private _lastViewEventPlayTime: number = -1;
 
   /**
    * Default config of the plugin.
@@ -241,6 +242,7 @@ class Kava extends BasePlugin {
 
   private _resetFlags(): void {
     this._previousCurrentTime = 0;
+    this._lastViewEventPlayTime = -1;
     this._isPlaying = false;
     this._isFirstPlay = true;
     this._isFirstPlaying = true;
@@ -477,7 +479,12 @@ class Kava extends BasePlugin {
         targetBuffer: this._getTargetBuffer(),
         droppedFramesRatio: this._getDroppedFramesRatio()
       });
-      this._sendAnalytics(KavaEventModel.VIEW);
+      if (this._lastViewEventPlayTime !== this._model.getPlayTimeSum()) {
+        this._lastViewEventPlayTime = this._model.getPlayTimeSum();
+        this._sendAnalytics(KavaEventModel.VIEW);
+      } else {
+        this.logger.warn(`VIEW event blocked because veiw event with same time already sent: ${this._lastViewEventPlayTime}`);
+      }
     } else {
       this.logger.warn('VIEW event blocked because server response of viewEventsEnabled=false');
     }
