@@ -88,7 +88,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
     type: 'SHARE_COPY',
     getEventModel: (payload: any): any => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
-      buttonName: 'Share_embed_X_click',
+      buttonName: 'Share_embed_copy_click',
       buttonType: ButtonType.Share,
       buttonValue: payload['videoClippingOption'] === 'full' ? 'full-length' : payload['videoClippingOption']
     })
