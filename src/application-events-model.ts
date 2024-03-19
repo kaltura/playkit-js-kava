@@ -61,7 +61,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
         buttonType: ButtonType.Share,
         buttonValue: ''
       };
-      let buttonName: string;
+      let buttonName: string = '';
 
       switch (payload.socialNetworkName) {
         case 'twitter':
@@ -76,8 +76,9 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
         case 'linkedin':
           buttonName = 'Share_embed_linkedin_click';
           break;
-        default:
-          buttonName = 'unknown';
+        case 'embed':
+          buttonName = 'Share_embed_embed_click';
+          break;
       }
 
       return { ...model, buttonName };

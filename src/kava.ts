@@ -11,7 +11,7 @@ import { KavaConfigObject, KavaEvent } from './types';
 import { DownloadEvent, InfoEvent, ModerationEvent, RelatedEvent, ShareEvent } from './temp-imported-plugins-event-names-temp';
 import { PluginsEvents } from './applications-events';
 import { EventBucketName } from './enums/event-bucket-name';
-import { ApplicationEventsModel } from './application-events-model';
+import { ApplicationEventsModel, getApplicationEventsModel } from './application-events-model';
 
 const { Error: PKError, Utils } = core;
 const DIVIDER: number = 1024;
@@ -341,7 +341,9 @@ class Kava extends BasePlugin {
     Object.values(PluginsEvents).forEach((event) => {
       this.eventManager.listen(this.player, event, (e: FakeEvent) => {
         if (e.type in ApplicationEventsModel) {
-          this._sendAnalytics(ApplicationEventsModel[e.type], EventBucketName.ApplicationEvents, e.payload);
+          if (this._isApplicationEventValid(e)) {
+            this._sendAnalytics(ApplicationEventsModel[e.type], EventBucketName.ApplicationEvents, e.payload);
+          }
         }
       });
     });
@@ -874,6 +876,11 @@ class Kava extends BasePlugin {
       return false;
     }
     return true;
+  }
+
+  private _isApplicationEventValid(event: FakeEvent): boolean {
+    const model = getApplicationEventsModel(ApplicationEventsModel[event.type], this._model, event.payload);
+    return !!model.buttonName;
   }
 
   private _logMissingParam(missingParam: string): void {
