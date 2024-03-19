@@ -9,7 +9,7 @@ import {HttpMethodType} from "../../src";
 const {FakeEvent, CustomEventType} = core;
 const targetId = 'player-placeholder_kava.spec';
 
-describe.only('KavaPlugin', function () {
+describe('KavaPlugin', function () {
   let player;
   let kava;
   const config = {
