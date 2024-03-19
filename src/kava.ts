@@ -483,7 +483,7 @@ class Kava extends BasePlugin {
         this._lastViewEventPlayTime = this._model.getPlayTimeSum();
         this._sendAnalytics(KavaEventModel.VIEW);
       } else {
-        this.logger.warn(`VIEW event blocked because veiw event with same time already sent: ${this._lastViewEventPlayTime}`);
+        this.logger.warn(`VIEW event blocked because view event with same time already sent: ${this._lastViewEventPlayTime}`);
       }
     } else {
       this.logger.warn('VIEW event blocked because server response of viewEventsEnabled=false');
