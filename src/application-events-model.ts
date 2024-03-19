@@ -90,7 +90,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventType: ApplicationEventType.BUTTON_CLICKED,
       buttonName: 'Share_embed_X_click',
       buttonType: ButtonType.Share,
-      buttonValue: payload.videoClippingOption
+      buttonValue: payload['videoClippingOption'] === 'full' ? 'full-length' : payload['videoClippingOption']
     })
   },
   [PluginsEvents.DOWNLOAD_ITEM_CLICKED]: {
