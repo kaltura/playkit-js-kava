@@ -9,7 +9,7 @@ import {HttpMethodType} from "../../src";
 const {FakeEvent, CustomEventType} = core;
 const targetId = 'player-placeholder_kava.spec';
 
-describe('KavaPlugin', function () {
+describe.only('KavaPlugin', function () {
   let player;
   let kava;
   const config = {
@@ -764,7 +764,7 @@ describe('KavaPlugin', function () {
       player.play();
     });
 
-    it.only('should send VIEW event', done => {
+    it('should send VIEW event', done => {
       sandbox.stub(window.navigator.connection, 'effectiveType').value('2g');
 
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
