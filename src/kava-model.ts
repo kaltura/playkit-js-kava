@@ -370,6 +370,12 @@ class KavaModel {
     return this.playbackMode;
   }
 
+  /**
+   * Gets the source entry id - the entry id that the current part of a simulive entry was generated from.
+   * @returns {string} - Source entry id.
+   * @memberof KavaModel
+   * @instance
+   */
   public getSourceEntryId(): string | null {
     return this.sourceEntryId;
   }
