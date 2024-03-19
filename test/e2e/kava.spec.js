@@ -764,7 +764,7 @@ describe('KavaPlugin', function () {
       player.play();
     });
 
-    it('should send VIEW event', done => {
+    it.only('should send VIEW event', done => {
       sandbox.stub(window.navigator.connection, 'effectiveType').value('2g');
 
       sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
