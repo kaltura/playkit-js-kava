@@ -658,7 +658,29 @@ class Kava extends BasePlugin {
     const id3TagCues = event.payload.cues.filter((entry) => entry.value && entry.value.key === TEXT_TYPE);
     if (id3TagCues.length) {
       try {
-        this._model.updateModel({ flavorParamsId: Number(JSON.parse(id3TagCues[id3TagCues.length - 1].value.data).sequenceId) });
+        const data = JSON.parse(id3TagCues[id3TagCues.length - 1].value.data);
+        this._model.updateModel({ flavorParamsId: Number(data.sequenceId) });
+
+        if (data.clipId) {
+          const [partType, entryId] = data.clipId.split('-');
+
+          switch (partType) {
+            case 'preStartContent': {
+              this._model.updateModel({ sourceEntryId: entryId, playbackMode: 1 });
+              break;
+            }
+            case 'content': {
+              this._model.updateModel({ sourceEntryId: entryId, playbackMode: 2 });
+              break;
+            }
+            case 'postEntryContent': {
+              this._model.updateModel({ sourceEntryId: entryId, playbackMode: 3 });
+              break;
+            }
+            default:
+              break;
+          }
+        }
       } catch (e) {
         this.logger.debug('error parsing id3', e);
       }
