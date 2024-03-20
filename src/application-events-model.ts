@@ -4,19 +4,28 @@ import { ButtonType } from './enums/button-type';
 import { ApplicationEventType } from './enums/application-event-type';
 import { PageLoadType } from './enums/page-load-type';
 import { PlaykitUIEvents, PluginsEvents } from './applications-events';
+import { KalturaApplication } from './enums/kaltura-application';
 
 export function getApplicationEventsModel(eventObj: KavaEvent, model: KavaModel, innerEventPayload: any): any {
   const commonModel = {
     partnerId: model.getPartnerId(),
     entryId: model.getEntryId(),
     sessionId: model.getSessionId(),
-    kalturaApplication: model.getKalturaApplication(),
-    kalturaApplicationVer: model.getKalturaApplicationVersion(),
-    application: model.getApplication(),
-    applicationVer: model.getApplicationVersion(),
-    virtualEventId: model.getVirtualEventId()
+    kalturaApplication: KalturaApplication.PLAYER
   };
 
+  if (model.getVirtualEventId()) {
+    commonModel['virtualEventId'] = model.getVirtualEventId();
+  }
+  if (model.getKalturaApplication()) {
+    commonModel['application'] = model.getKalturaApplication();
+  }
+  if (model.getApplicationVersion()) {
+    commonModel['applicationVer'] = model.getApplicationVersion();
+  }
+  if (model.getKalturaApplicationVersion()) {
+    commonModel['kalturaApplicationVer'] = model.getKalturaApplicationVersion();
+  }
   if (model.getUserId()) {
     commonModel['userId'] = model.getUserId();
   }

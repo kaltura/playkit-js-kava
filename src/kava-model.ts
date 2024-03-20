@@ -24,6 +24,7 @@ class KavaModel {
   private canPlayTime!: number;
   private targetPosition!: number;
   private targetBuffer!: number;
+  private registeredPlugins!: string;
   public totalSegmentsDownloadTime: number = 0;
   public totalSegmentsDownloadBytes: number = 0;
   public maxSegmentDownloadTime: number = 0;
@@ -149,6 +150,16 @@ class KavaModel {
    */
   public getTargetBuffer(): number {
     return this.targetBuffer;
+  }
+
+  /**
+   * Gets registered plugins list
+   * @returns {string} - The current list of loaded plugins
+   * @memberof KavaModel
+   * @instance
+   */
+  public getRegisteredPlugins(): string {
+    return this.registeredPlugins;
   }
 
   /**

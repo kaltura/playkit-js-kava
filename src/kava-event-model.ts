@@ -73,6 +73,7 @@ export const KavaEventModel = {
       if (model.getPlayerJSLoadTime() !== null) {
         eventModel.playerJSLoadTime = model.getPlayerJSLoadTime();
       }
+      eventModel['registeredPlugins'] = model.getRegisteredPlugins();
       return eventModel;
     }
   },
