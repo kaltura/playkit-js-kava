@@ -153,7 +153,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
   [PluginsEvents.NAVIGATION_OPEN]: {
     type: 'NAVIGATION_OPEN',
     getEventModel: (payload: any): any => ({
-      eventType: payload['auto'] ? ApplicationEventType.PAGE_LOAD :ApplicationEventType.BUTTON_CLICKED,
+      eventType: payload['auto'] ? ApplicationEventType.PAGE_LOAD : ApplicationEventType.BUTTON_CLICKED,
       buttonName: payload['auto'] ? 'Navigation_open_auto' : 'Navigation_open_manual',
       buttonType: ButtonType.Open,
       buttonValue: ''
@@ -254,7 +254,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
   [PluginsEvents.TRANSCRIPT_OPEN]: {
     type: 'TRANSCRIPT_OPEN',
     getEventModel: (payload: any): any => ({
-      eventType: payload['auto'] ? ApplicationEventType.PAGE_LOAD :ApplicationEventType.BUTTON_CLICKED,
+      eventType: payload['auto'] ? ApplicationEventType.PAGE_LOAD : ApplicationEventType.BUTTON_CLICKED,
       buttonName: payload['auto'] ? 'Transcript_open_auto' : 'Transcript_open_manual',
       buttonType: ButtonType.Open,
       buttonValue: ''
