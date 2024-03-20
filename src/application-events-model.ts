@@ -155,7 +155,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
     getEventModel: (payload: any): any => ({
       eventType: payload['auto'] ? ApplicationEventType.PAGE_LOAD : ApplicationEventType.BUTTON_CLICKED,
       buttonName: payload['auto'] ? 'Navigation_open_auto' : 'Navigation_open_manual',
-      buttonType: ButtonType.Open,
+      buttonType: PageLoadType.View,
       buttonValue: ''
     })
   },
@@ -256,7 +256,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
     getEventModel: (payload: any): any => ({
       eventType: payload['auto'] ? ApplicationEventType.PAGE_LOAD : ApplicationEventType.BUTTON_CLICKED,
       buttonName: payload['auto'] ? 'Transcript_open_auto' : 'Transcript_open_manual',
-      buttonType: ButtonType.Open,
+      buttonType: PageLoadType.View,
       buttonValue: ''
     })
   },
@@ -309,18 +309,18 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
     type: 'PLAYLIST_OPEN',
     getEventModel: (payload: any): any => ({
       eventType: payload['auto'] ? ApplicationEventType.PAGE_LOAD : ApplicationEventType.BUTTON_CLICKED,
-      buttonValue: payload['position'],
-      buttonType: ButtonType.Open,
-      buttonName: payload['auto'] ? 'Playlist_side_panel_open_auto' : 'Playlist_side_panel_open_manual'
+      buttonName: payload['auto'] ? 'Playlist_side_panel_open_auto' : 'Playlist_side_panel_open_manual',
+      buttonType: PageLoadType.View,
+      buttonValue: payload['position']
     })
   },
   [PluginsEvents.PLAYLIST_CLOSE]: {
     type: 'PLAYLIST_CLOSE',
     getEventModel: (payload: any): any => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
-      buttonValue: payload['position'],
+      buttonName: 'Playlist_side_panel_close_manual',
       buttonType: ButtonType.Close,
-      buttonName: 'Playlist_side_panel_close_manual'
+      buttonValue: payload['position']
     })
   },
   [PluginsEvents.SKIP_BUTTON_CLICK]: {
