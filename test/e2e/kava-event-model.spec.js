@@ -119,6 +119,13 @@ class FakeModel {
 
   getRegisteredPlugins() {
     return 'kava,skip,bumper';
+    
+  getPlaybackMode() {
+    return 1;
+  }
+
+  getSourceEntryId() {
+    return "source_entry_id"
   }
 }
 
@@ -147,7 +154,9 @@ describe('KavaEventModel', () => {
       targetBuffer: fakeModel.getTargetBuffer(),
       networkConnectionType: fakeModel.getNetworkConnectionType(),
       networkConnectionOverhead: fakeModel.getNetworkConnectionOverhead(),
-      flavorParamsId: fakeModel.getFlavorParamsId()
+      flavorParamsId: fakeModel.getFlavorParamsId(),
+      playbackMode: fakeModel.getPlaybackMode(),
+      sourceEntryId: fakeModel.getSourceEntryId()
     });
   });
 

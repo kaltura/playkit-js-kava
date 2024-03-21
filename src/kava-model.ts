@@ -41,6 +41,9 @@ class KavaModel {
   public playerJSLoadTime?: number | null = null;
   private shareNetworkName: string = '';
   private reportType: number = NaN;
+  private playbackMode: number = NaN;
+  private sourceEntryId: string | null = null;
+
   public getActualBitrate!: () => any;
   public getPlaybackSpeed!: () => any;
   public getAverageBitrate!: () => any;
@@ -372,6 +375,20 @@ class KavaModel {
 
   public getReportType(): number {
     return this.reportType;
+  }
+
+  public getPlaybackMode(): number {
+    return this.playbackMode;
+  }
+
+  /**
+   * Gets the source entry id - the entry id that the current part of a simulive entry was generated from.
+   * @returns {string} - Source entry id.
+   * @memberof KavaModel
+   * @instance
+   */
+  public getSourceEntryId(): string | null {
+    return this.sourceEntryId;
   }
 
   /**

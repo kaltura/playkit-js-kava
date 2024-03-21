@@ -47,6 +47,7 @@ class Kava extends BasePlugin {
   private _fragLoadedFiredOnce: boolean = false;
   private _canPlayOccured: boolean = false;
   private _isManualPreload: boolean = false;
+  private _lastViewEventPlayTime: number = -1;
 
   /**
    * Default config of the plugin.
@@ -241,6 +242,7 @@ class Kava extends BasePlugin {
 
   private _resetFlags(): void {
     this._previousCurrentTime = 0;
+    this._lastViewEventPlayTime = -1;
     this._isPlaying = false;
     this._isFirstPlay = true;
     this._isFirstPlaying = true;
@@ -481,7 +483,12 @@ class Kava extends BasePlugin {
         targetBuffer: this._getTargetBuffer(),
         droppedFramesRatio: this._getDroppedFramesRatio()
       });
-      this._sendAnalytics(KavaEventModel.VIEW);
+      if (this._lastViewEventPlayTime !== this._model.getPlayTimeSum()) {
+        this._lastViewEventPlayTime = this._model.getPlayTimeSum();
+        this._sendAnalytics(KavaEventModel.VIEW);
+      } else {
+        this.logger.warn(`VIEW event blocked because view event with same time already sent: ${this._lastViewEventPlayTime}`);
+      }
     } else {
       this.logger.warn('VIEW event blocked because server response of viewEventsEnabled=false');
     }
@@ -655,7 +662,29 @@ class Kava extends BasePlugin {
     const id3TagCues = event.payload.cues.filter((entry) => entry.value && entry.value.key === TEXT_TYPE);
     if (id3TagCues.length) {
       try {
-        this._model.updateModel({ flavorParamsId: Number(JSON.parse(id3TagCues[id3TagCues.length - 1].value.data).sequenceId) });
+        const data = JSON.parse(id3TagCues[id3TagCues.length - 1].value.data);
+        this._model.updateModel({ flavorParamsId: Number(data.sequenceId) });
+
+        if (data.clipId) {
+          const [partType, entryId] = data.clipId.split('-');
+
+          switch (partType) {
+            case 'preStartContent': {
+              this._model.updateModel({ sourceEntryId: entryId, playbackMode: 1 });
+              break;
+            }
+            case 'content': {
+              this._model.updateModel({ sourceEntryId: entryId, playbackMode: 2 });
+              break;
+            }
+            case 'postEntryContent': {
+              this._model.updateModel({ sourceEntryId: entryId, playbackMode: 3 });
+              break;
+            }
+            default:
+              break;
+          }
+        }
       } catch (e) {
         this.logger.debug('error parsing id3', e);
       }
