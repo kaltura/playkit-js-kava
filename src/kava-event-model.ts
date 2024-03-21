@@ -57,6 +57,12 @@ export const KavaEventModel = {
       if (!isNaN(model.getFlavorParamsId())) {
         eventModel.flavorParamsId = model.getFlavorParamsId();
       }
+      if (!isNaN(model.getPlaybackMode())) {
+        eventModel.playbackMode = model.getPlaybackMode();
+      }
+      if (model.getSourceEntryId() !== null) {
+        eventModel.sourceEntryId = model.getSourceEntryId();
+      }
 
       return eventModel;
     }
