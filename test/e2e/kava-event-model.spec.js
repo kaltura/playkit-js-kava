@@ -116,7 +116,7 @@ class FakeModel {
   getPlaybackSpeed() {
     return 2;
   }
-  
+
   getPlaybackMode() {
     return 1;
   }
