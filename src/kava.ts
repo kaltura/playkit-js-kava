@@ -326,7 +326,6 @@ class Kava extends BasePlugin {
     this.eventManager.listen(this.player, this.player.Event.Core.MUTE_CHANGE, () => this._updateSoundModeInModel());
     this.eventManager.listen(this.player, this.player.Event.Core.ENTER_FULLSCREEN, () => this._onFullScreenChanged(ScreenMode.FULLSCREEN));
     this.eventManager.listen(this.player, this.player.Event.Core.EXIT_FULLSCREEN, () => this._onFullScreenChanged(ScreenMode.NOT_IN_FULLSCREEN));
-    // @ts-expect-error - TS2339: Property REGISTERED_PLUGINS_LIST_EVENT does not exist on type KPEventTypes - temp - should be removed after kaltura-player PR will have been merged
     this.eventManager.listen(this.player, this.player.Event.REGISTERED_PLUGINS_LIST_EVENT, (e) => this._onRegisteredPluginsListChange(e.payload));
     this.eventManager.listen(this.player, RelatedEvent.RELATED_OPEN, () => this._onRelatedClicked());
     this.eventManager.listen(this.player, RelatedEvent.RELATED_SELECTED, () => this._onRelatedSelected());
