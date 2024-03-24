@@ -11,7 +11,7 @@ import { KavaConfigObject, KavaEvent } from './types';
 import { DownloadEvent, InfoEvent, ModerationEvent, RelatedEvent, ShareEvent } from './temp-imported-plugins-event-names-temp';
 import { PluginsEvents } from './applications-events';
 import { EventBucketName } from './enums/event-bucket-name';
-import { ApplicationEventsModel } from './application-events-model';
+import { ApplicationEventsModel, getApplicationEventsModel } from './application-events-model';
 
 const { Error: PKError, Utils } = core;
 const DIVIDER: number = 1024;
@@ -326,6 +326,7 @@ class Kava extends BasePlugin {
     this.eventManager.listen(this.player, this.player.Event.Core.MUTE_CHANGE, () => this._updateSoundModeInModel());
     this.eventManager.listen(this.player, this.player.Event.Core.ENTER_FULLSCREEN, () => this._onFullScreenChanged(ScreenMode.FULLSCREEN));
     this.eventManager.listen(this.player, this.player.Event.Core.EXIT_FULLSCREEN, () => this._onFullScreenChanged(ScreenMode.NOT_IN_FULLSCREEN));
+    this.eventManager.listen(this.player, this.player.Event.REGISTERED_PLUGINS_LIST_EVENT, (e) => this._onRegisteredPluginsListChange(e.payload));
     this.eventManager.listen(this.player, RelatedEvent.RELATED_OPEN, () => this._onRelatedClicked());
     this.eventManager.listen(this.player, RelatedEvent.RELATED_SELECTED, () => this._onRelatedSelected());
     this.eventManager.listen(this.player, ShareEvent.SHARE_CLICKED, () => this._onShareClicked());
@@ -343,7 +344,9 @@ class Kava extends BasePlugin {
     Object.values(PluginsEvents).forEach((event) => {
       this.eventManager.listen(this.player, event, (e: FakeEvent) => {
         if (e.type in ApplicationEventsModel) {
-          this._sendAnalytics(ApplicationEventsModel[e.type], EventBucketName.ApplicationEvents, e.payload);
+          if (this._isApplicationEventValid(e)) {
+            this._sendAnalytics(ApplicationEventsModel[e.type], EventBucketName.ApplicationEvents, e.payload);
+          }
         }
       });
     });
@@ -789,6 +792,10 @@ class Kava extends BasePlugin {
     this._sendAnalytics(screenMode === ScreenMode.FULLSCREEN ? KavaEventModel.ENTER_FULLSCREEN : KavaEventModel.EXIT_FULLSCREEN);
   }
 
+  private _onRegisteredPluginsListChange(payload: string[]): void {
+    this._model.updateModel({ registeredPlugins: payload.join(',') });
+  }
+
   private _updateSessionStartTimeModel(response: any | number): void {
     if (!this._model.getSessionStartTime() && response) {
       if (typeof response === 'object') {
@@ -903,6 +910,11 @@ class Kava extends BasePlugin {
       return false;
     }
     return true;
+  }
+
+  private _isApplicationEventValid(event: FakeEvent): boolean {
+    const model = getApplicationEventsModel(ApplicationEventsModel[event.type], this._model, event.payload);
+    return !!model.buttonName;
   }
 
   private _logMissingParam(missingParam: string): void {

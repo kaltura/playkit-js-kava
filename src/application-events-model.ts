@@ -4,19 +4,28 @@ import { ButtonType } from './enums/button-type';
 import { ApplicationEventType } from './enums/application-event-type';
 import { PageLoadType } from './enums/page-load-type';
 import { PlaykitUIEvents, PluginsEvents } from './applications-events';
+import { KalturaApplication } from './enums/kaltura-application';
 
 export function getApplicationEventsModel(eventObj: KavaEvent, model: KavaModel, innerEventPayload: any): any {
   const commonModel = {
     partnerId: model.getPartnerId(),
     entryId: model.getEntryId(),
     sessionId: model.getSessionId(),
-    kalturaApplication: model.getKalturaApplication(),
-    kalturaApplicationVer: model.getKalturaApplicationVersion(),
-    application: model.getApplication(),
-    applicationVer: model.getApplicationVersion(),
-    virtualEventId: model.getVirtualEventId()
+    kalturaApplication: KalturaApplication.PLAYER
   };
 
+  if (model.getVirtualEventId()) {
+    commonModel['virtualEventId'] = model.getVirtualEventId();
+  }
+  if (model.getKalturaApplication()) {
+    commonModel['application'] = model.getKalturaApplication();
+  }
+  if (model.getApplicationVersion()) {
+    commonModel['applicationVer'] = model.getApplicationVersion();
+  }
+  if (model.getKalturaApplicationVersion()) {
+    commonModel['kalturaApplicationVer'] = model.getKalturaApplicationVersion();
+  }
   if (model.getUserId()) {
     commonModel['userId'] = model.getUserId();
   }
@@ -61,7 +70,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
         buttonType: ButtonType.Share,
         buttonValue: ''
       };
-      let buttonName: string;
+      let buttonName: string = '';
 
       switch (payload.socialNetworkName) {
         case 'twitter':
@@ -76,8 +85,9 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
         case 'linkedin':
           buttonName = 'Share_embed_linkedin_click';
           break;
-        default:
-          buttonName = 'unknown';
+        case 'embed':
+          buttonName = 'Share_embed_embed_click';
+          break;
       }
 
       return { ...model, buttonName };
@@ -87,9 +97,9 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
     type: 'SHARE_COPY',
     getEventModel: (payload: any): any => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
-      buttonName: 'Share_embed_X_click',
+      buttonName: 'Share_embed_copy_click',
       buttonType: ButtonType.Share,
-      buttonValue: payload.videoClippingOption
+      buttonValue: payload['videoClippingOption'] === 'full' ? 'full-length' : payload['videoClippingOption']
     })
   },
   [PluginsEvents.DOWNLOAD_ITEM_CLICKED]: {
@@ -152,10 +162,10 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
   [PluginsEvents.NAVIGATION_OPEN]: {
     type: 'NAVIGATION_OPEN',
     getEventModel: (payload: any): any => ({
-      eventType: ApplicationEventType.BUTTON_CLICKED,
-      buttonName: 'Navigation_open',
-      buttonType: ButtonType.Open,
-      buttonValue: payload['auto'] ? 'auto' : 'manual'
+      eventType: payload['auto'] ? ApplicationEventType.PAGE_LOAD : ApplicationEventType.BUTTON_CLICKED,
+      buttonName: payload['auto'] ? 'Navigation_open_auto' : 'Navigation_open_manual',
+      buttonType: PageLoadType.View,
+      buttonValue: ''
     })
   },
   [PluginsEvents.NAVIGATION_CLOSE]: {
@@ -253,10 +263,10 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
   [PluginsEvents.TRANSCRIPT_OPEN]: {
     type: 'TRANSCRIPT_OPEN',
     getEventModel: (payload: any): any => ({
-      eventType: ApplicationEventType.BUTTON_CLICKED,
-      buttonName: 'Transcript_open',
-      buttonType: ButtonType.Open,
-      buttonValue: payload['auto'] ? 'auto' : 'manual'
+      eventType: payload['auto'] ? ApplicationEventType.PAGE_LOAD : ApplicationEventType.BUTTON_CLICKED,
+      buttonName: payload['auto'] ? 'Transcript_open_auto' : 'Transcript_open_manual',
+      buttonType: PageLoadType.View,
+      buttonValue: ''
     })
   },
   [PluginsEvents.TRANSCRIPT_CLOSE]: {
@@ -308,18 +318,18 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
     type: 'PLAYLIST_OPEN',
     getEventModel: (payload: any): any => ({
       eventType: payload['auto'] ? ApplicationEventType.PAGE_LOAD : ApplicationEventType.BUTTON_CLICKED,
-      buttonValue: payload['position'],
-      buttonType: ButtonType.Open,
-      buttonName: payload['auto'] ? 'Playlist_side_panel_open_auto' : 'Playlist_side_panel_open_manual'
+      buttonName: payload['auto'] ? 'Playlist_side_panel_open_auto' : 'Playlist_side_panel_open_manual',
+      buttonType: PageLoadType.View,
+      buttonValue: payload['position']
     })
   },
   [PluginsEvents.PLAYLIST_CLOSE]: {
     type: 'PLAYLIST_CLOSE',
     getEventModel: (payload: any): any => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
-      buttonValue: payload['position'],
+      buttonName: 'Playlist_side_panel_close_manual',
       buttonType: ButtonType.Close,
-      buttonName: 'Playlist_side_panel_close_manual'
+      buttonValue: payload['position']
     })
   },
   [PluginsEvents.SKIP_BUTTON_CLICK]: {
