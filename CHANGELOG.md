@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 1.6.4 (2024-03-31)
+
+
+### Bug Fixes
+
+* **FEC-13783:** Kava - Application Events - Fixes ([#166](https://github.com/kaltura/playkit-js-kava/issues/166)) ([228ea0c](https://github.com/kaltura/playkit-js-kava/commit/228ea0c0e89e71c74ed13ad0eac0ed142c1206ab)), closes [kaltura/playkit-js-transcript#181](https://github.com/kaltura/playkit-js-transcript/issues/181) [kaltura/playkit-js-dual-screen#132](https://github.com/kaltura/playkit-js-dual-screen/issues/132)
+
 ### 1.6.3 (2024-03-17)
 
 
