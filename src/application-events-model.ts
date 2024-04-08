@@ -484,5 +484,59 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       buttonType: ButtonType.Link,
       buttonValue: payload['logoUrl']
     })
+  },
+  [PluginsEvents.DETECT_AD_BLOCK_FULL_OVERLAY_SHOWN]: {
+    type: 'DETECT_AD_BLOCK_FULL_OVERLAY_SHOWN',
+    getEventModel: () => ({
+      eventType: ApplicationEventType.PAGE_LOAD,
+      buttonType: PageLoadType.View,
+      buttonName: 'Ad_blocker_displayed',
+      buttonValue: 'Allow_playback'
+    })
+  },
+  [PluginsEvents.DETECT_AD_BLOCK_PARTIAL_OVERLAY_SHOWN]: {
+    type: 'DETECT_AD_BLOCK_PARTIAL_OVERLAY_SHOWN',
+    getEventModel: () => ({
+      eventType: ApplicationEventType.PAGE_LOAD,
+      buttonType: PageLoadType.View,
+      buttonName: 'Ad_blocker_displayed',
+      buttonValue: 'Block_playback'
+    })
+  },
+  [PluginsEvents.DETECT_AD_BLOCK_SECONDARY_BUTTON_CLICKED]: {
+    type: 'DETECT_AD_BLOCK_SECONDARY_BUTTON_CLICKED',
+    getEventModel: () => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      buttonType: ButtonType.Close,
+      buttonName: 'Ad_blocker_keep_watching',
+      buttonValue: 'secondary_button'
+    })
+  },
+  [PluginsEvents.DETECT_AD_BLOCK_X_BUTTON_CLICKED]: {
+    type: 'DETECT_AD_BLOCK_X_BUTTON_CLICKED',
+    getEventModel: () => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      buttonType: ButtonType.Close,
+      buttonName: 'Ad_blocker_keep_watching',
+      buttonValue: 'x_button'
+    })
+  },
+  [PluginsEvents.DETECT_AD_BLOCK_AD_BLOCKER_DISABLED]: {
+    type: 'DETECT_AD_BLOCK_AD_BLOCKER_DISABLED',
+    getEventModel: () => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      buttonType: ButtonType.Close,
+      buttonName: 'Ad_blocker_disabled_ad_blocker',
+      buttonValue: 'disabled'
+    })
+  },
+  [PluginsEvents.DETECT_AD_BLOCK_AD_BLOCKER_NOT_DISABLED]: {
+    type: 'DETECT_AD_BLOCK_AD_BLOCKER_NOT_DISABLED',
+    getEventModel: () => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      buttonType: ButtonType.Close,
+      buttonName: 'Ad_blocker_disabled_ad_blocker',
+      buttonValue: 'still_detected'
+    })
   }
 };
