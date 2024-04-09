@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 1.7.0 (2024-04-09)
+
+
+### Features
+
+* **FEC-13843:** Ad blocker Product analytics ([c926575](https://github.com/kaltura/playkit-js-kava/commit/c92657523e6293a91ba8dfd25d2f3c894c14073c))
+
 ### 1.6.4 (2024-03-31)
 
 
