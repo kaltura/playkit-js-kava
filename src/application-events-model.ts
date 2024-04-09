@@ -31,7 +31,20 @@ export function getApplicationEventsModel(eventObj: KavaEvent, model: KavaModel,
   }
 
   const eventModel = eventObj.getEventModel(innerEventPayload);
-  return Object.assign(eventModel, commonModel);
+  const namedEventModel = {};
+  const { eventType, eventVar1, eventVar2, eventVar3 } = eventModel;
+  namedEventModel['eventType'] = eventType;
+
+  if (eventModel.eventType === ApplicationEventType.BUTTON_CLICKED) {
+    namedEventModel['buttonName'] = eventVar1;
+    namedEventModel['buttonType'] = eventVar2;
+    namedEventModel['buttonValue'] = eventVar3;
+  } else if (eventModel.eventType === ApplicationEventType.PAGE_LOAD) {
+    namedEventModel['pageName'] = eventVar1;
+    namedEventModel['pageType'] = eventVar2;
+    namedEventModel['pageValue'] = eventVar3;
+  }
+  return Object.assign(namedEventModel, commonModel);
 }
 
 export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = {
@@ -39,27 +52,27 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
     type: 'CHANGE_LAYOUT',
     getEventModel: (payload: any): any => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
-      buttonName: 'Dual__screen_change_layout',
-      buttonType: ButtonType.Choose,
-      buttonValue: payload.layout
+      eventVar1: 'Dual__screen_change_layout',
+      eventVar2: ButtonType.Choose,
+      eventVar3: payload.layout
     })
   },
   [PluginsEvents.SHARE_CLICKED]: {
     type: 'SHARE_CLICKED',
     getEventModel: (): any => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
-      buttonName: 'Share_embed_open',
-      buttonType: ButtonType.Open,
-      buttonValue: ''
+      eventVar1: 'Share_embed_open',
+      eventVar2: ButtonType.Open,
+      eventVar3: ''
     })
   },
   [PluginsEvents.SHARE_CLOSE]: {
     type: 'SHARE_CLOSE',
     getEventModel: (): any => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
-      buttonName: 'Share_embed_close',
-      buttonType: ButtonType.Close,
-      buttonValue: ''
+      eventVar1: 'Share_embed_close',
+      eventVar2: ButtonType.Close,
+      eventVar3: ''
     })
   },
   [PluginsEvents.SHARE_NETWORK]: {
@@ -67,39 +80,39 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
     getEventModel: (payload: any): any => {
       const model = {
         eventType: ApplicationEventType.BUTTON_CLICKED,
-        buttonType: ButtonType.Share,
-        buttonValue: ''
+        eventVar2: ButtonType.Share,
+        eventVar3: ''
       };
-      let buttonName: string = '';
+      let eventVar1: string = '';
 
       switch (payload.socialNetworkName) {
         case 'twitter':
-          buttonName = 'Share_embed_X_click';
+          eventVar1 = 'Share_embed_X_click';
           break;
         case 'facebook':
-          buttonName = 'Share_embed_facebook_click';
+          eventVar1 = 'Share_embed_facebook_click';
           break;
         case 'email':
-          buttonName = 'Share_embed_email_click';
+          eventVar1 = 'Share_embed_email_click';
           break;
         case 'linkedin':
-          buttonName = 'Share_embed_linkedin_click';
+          eventVar1 = 'Share_embed_linkedin_click';
           break;
         case 'embed':
-          buttonName = 'Share_embed_embed_click';
+          eventVar1 = 'Share_embed_embed_click';
           break;
       }
 
-      return { ...model, buttonName };
+      return { ...model, eventVar1 };
     }
   },
   [PluginsEvents.SHARE_COPY]: {
     type: 'SHARE_COPY',
     getEventModel: (payload: any): any => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
-      buttonName: 'Share_embed_copy_click',
-      buttonType: ButtonType.Share,
-      buttonValue: payload['videoClippingOption'] === 'full' ? 'full-length' : payload['videoClippingOption']
+      eventVar1: 'Share_embed_copy_click',
+      eventVar2: ButtonType.Share,
+      eventVar3: payload['videoClippingOption'] === 'full' ? 'full-length' : payload['videoClippingOption']
     })
   },
   [PluginsEvents.DOWNLOAD_ITEM_CLICKED]: {
@@ -107,74 +120,74 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
     getEventModel: (payload: any): any => {
       const model = {
         eventType: ApplicationEventType.BUTTON_CLICKED,
-        buttonType: ButtonType.Download
+        eventVar2: ButtonType.Download
       };
       const { assetType, fileType, description } = payload;
 
-      let buttonName: string;
-      let buttonValue = description;
+      let eventVar1: string;
+      let eventVar3 = description;
 
       switch (assetType) {
         case 'Media':
-          buttonName = 'Download_video_download';
+          eventVar1 = 'Download_video_download';
           break;
         case 'Captions':
-          buttonName = 'Download_captions_download';
+          eventVar1 = 'Download_captions_download';
           break;
         case 'Attachments':
-          buttonName = 'Download_attachment_download';
-          buttonValue = fileType;
+          eventVar1 = 'Download_attachment_download';
+          eventVar3 = fileType;
           break;
         default:
-          buttonName = '';
-          buttonValue = '';
+          eventVar1 = '';
+          eventVar3 = '';
       }
-      return { ...model, buttonName, buttonValue };
+      return { ...model, eventVar1, eventVar3 };
     }
   },
   [PluginsEvents.SHOW_OVERLAY]: {
     type: 'SHOW_OVERLAY',
     getEventModel: (): any => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
-      buttonName: 'Download_open',
-      buttonType: ButtonType.Open,
-      buttonValue: ''
+      eventVar1: 'Download_open',
+      eventVar2: ButtonType.Open,
+      eventVar3: ''
     })
   },
   [PluginsEvents.HIDE_OVERLAY]: {
     type: 'HIDE_OVERLAY',
     getEventModel: (): any => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
-      buttonName: 'Download_close',
-      buttonType: ButtonType.Close,
-      buttonValue: ''
+      eventVar1: 'Download_close',
+      eventVar2: ButtonType.Close,
+      eventVar3: ''
     })
   },
   [PluginsEvents.BUMPER_CLICKED]: {
     type: 'BUMPER_CLICKED',
     getEventModel: (): any => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
-      buttonName: 'Bumper_click',
-      buttonType: ButtonType.Link,
-      buttonValue: ''
+      eventVar1: 'Bumper_click',
+      eventVar2: ButtonType.Link,
+      eventVar3: ''
     })
   },
   [PluginsEvents.NAVIGATION_OPEN]: {
     type: 'NAVIGATION_OPEN',
     getEventModel: (payload: any): any => ({
       eventType: payload['auto'] ? ApplicationEventType.PAGE_LOAD : ApplicationEventType.BUTTON_CLICKED,
-      buttonName: payload['auto'] ? 'Navigation_open_auto' : 'Navigation_open_manual',
-      buttonType: PageLoadType.View,
-      buttonValue: ''
+      eventVar1: payload['auto'] ? 'Navigation_open_auto' : 'Navigation_open_manual',
+      eventVar2: PageLoadType.View,
+      eventVar3: ''
     })
   },
   [PluginsEvents.NAVIGATION_CLOSE]: {
     type: 'NAVIGATION_CLOSE',
     getEventModel: (): any => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
-      buttonName: 'Navigation_close',
-      buttonType: ButtonType.Close,
-      buttonValue: ''
+      eventVar1: 'Navigation_close',
+      eventVar2: ButtonType.Close,
+      eventVar3: ''
     })
   },
   [PluginsEvents.NAVIGATION_SEARCH]: {
@@ -182,28 +195,28 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
     getEventModel: (payload: any): any => {
       const model = {
         eventType: ApplicationEventType.BUTTON_CLICKED,
-        buttonType: ButtonType.Search
+        eventVar2: ButtonType.Search
       };
 
       const { searchQuery, activeTab, availableTabs } = payload;
 
-      let buttonName: string = '';
-      const buttonValue = searchQuery;
+      let eventVar1: string = '';
+      const eventVar3 = searchQuery;
       switch (activeTab) {
         case 'All':
-          buttonName = availableTabs.length > 0 ? 'Navigation_search' : 'Navigation_all_tab';
+          eventVar1 = availableTabs.length > 0 ? 'Navigation_search' : 'Navigation_all_tab';
           break;
         case 'Chapter':
-          buttonName = 'Navigation_chapters_tab';
+          eventVar1 = 'Navigation_chapters_tab';
           break;
         case 'Slide':
-          buttonName = 'Navigation_slides_tab';
+          eventVar1 = 'Navigation_slides_tab';
           break;
         case 'Hotspot':
-          buttonName = 'Navigation_hotspots_tab';
+          eventVar1 = 'Navigation_hotspots_tab';
           break;
       }
-      return { ...model, buttonName, buttonValue };
+      return { ...model, eventVar1, eventVar3 };
     }
   },
   [PluginsEvents.NAVIGATION_ITEM_CLICK]: {
@@ -211,24 +224,24 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
     getEventModel: (payload: any): any => {
       const model = {
         eventType: ApplicationEventType.BUTTON_CLICKED,
-        buttonType: ButtonType.Choose,
-        buttonValue: ''
+        eventVar2: ButtonType.Choose,
+        eventVar3: ''
       };
 
-      let buttonName: string = '';
+      let eventVar1: string = '';
 
       switch (payload.itemType) {
         case 'Chapter':
-          buttonName = 'Navigation_chapter_click';
+          eventVar1 = 'Navigation_chapter_click';
           break;
         case 'Slide':
-          buttonName = 'Navigation_slide_click';
+          eventVar1 = 'Navigation_slide_click';
           break;
         case 'Hotspot':
-          buttonName = 'Navigation_hotspots_click';
+          eventVar1 = 'Navigation_hotspots_click';
           break;
       }
-      return { ...model, buttonName };
+      return { ...model, eventVar1 };
     }
   },
   [PluginsEvents.NAVIGATION_EXPANDABLE_TEXT_CLICK]: {
@@ -236,27 +249,27 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
     getEventModel: (payload: any): any => {
       const model = {
         eventType: ApplicationEventType.BUTTON_CLICKED,
-        buttonValue: ''
+        eventVar3: ''
       };
 
       const { isTextExpanded, itemType } = payload;
 
-      let buttonName: string = '';
-      const buttonType = isTextExpanded ? ButtonType.Expand : ButtonType.Collapse;
+      let eventVar1: string = '';
+      const eventVar2 = isTextExpanded ? ButtonType.Expand : ButtonType.Collapse;
 
       switch (itemType) {
         case 'Chapter':
-          buttonName = isTextExpanded ? 'Navigation_chapters_see_more' : 'Navigation_chapters_see_less';
+          eventVar1 = isTextExpanded ? 'Navigation_chapters_see_more' : 'Navigation_chapters_see_less';
           break;
         case 'Slide':
-          buttonName = isTextExpanded ? 'Navigation_slides_see_more' : 'Navigation_slides_see_less';
+          eventVar1 = isTextExpanded ? 'Navigation_slides_see_more' : 'Navigation_slides_see_less';
           break;
         case 'Hotspot':
-          buttonName = isTextExpanded ? 'Navigation_hotspots_see_more' : 'Navigation_hotspots_see_less';
+          eventVar1 = isTextExpanded ? 'Navigation_hotspots_see_more' : 'Navigation_hotspots_see_less';
           break;
       }
 
-      return { ...model, buttonName, buttonType };
+      return { ...model, eventVar1, eventVar2 };
     }
   },
 
@@ -264,72 +277,72 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
     type: 'TRANSCRIPT_OPEN',
     getEventModel: (payload: any): any => ({
       eventType: payload['auto'] ? ApplicationEventType.PAGE_LOAD : ApplicationEventType.BUTTON_CLICKED,
-      buttonName: payload['auto'] ? 'Transcript_open_auto' : 'Transcript_open_manual',
-      buttonType: PageLoadType.View,
-      buttonValue: ''
+      eventVar1: payload['auto'] ? 'Transcript_open_auto' : 'Transcript_open_manual',
+      eventVar2: PageLoadType.View,
+      eventVar3: ''
     })
   },
   [PluginsEvents.TRANSCRIPT_CLOSE]: {
     type: 'TRANSCRIPT_CLOSE',
     getEventModel: (): any => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
-      buttonName: 'Transcript_close',
-      buttonType: ButtonType.Close,
-      buttonValue: ''
+      eventVar1: 'Transcript_close',
+      eventVar2: ButtonType.Close,
+      eventVar3: ''
     })
   },
   [PluginsEvents.TRANSCRIPT_DOWNLOAD]: {
     type: 'TRANSCRIPT_DOWNLOAD',
     getEventModel: (payload: any): any => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
-      buttonName: 'Transcript_download',
-      buttonType: ButtonType.Download,
-      buttonValue: payload['videoPosition']
+      eventVar1: 'Transcript_download',
+      eventVar2: ButtonType.Download,
+      eventVar3: payload['videoPosition']
     })
   },
   [PluginsEvents.TRANSCRIPT_PRINT]: {
     type: 'TRANSCRIPT_PRINT',
     getEventModel: (payload: any): any => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
-      buttonName: 'Transcript_print',
-      buttonType: ButtonType.Download,
-      buttonValue: payload['videoPosition']
+      eventVar1: 'Transcript_print',
+      eventVar2: ButtonType.Download,
+      eventVar3: payload['videoPosition']
     })
   },
   [PluginsEvents.TRANSCRIPT_SEARCH]: {
     type: 'TRANSCRIPT_SEARCH',
     getEventModel: (payload: any): any => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
-      buttonName: 'Transcript_search',
-      buttonType: ButtonType.Search,
-      buttonValue: payload.search
+      eventVar1: 'Transcript_search',
+      eventVar2: ButtonType.Search,
+      eventVar3: payload.search
     })
   },
   [PluginsEvents.TRANSCRIPT_NAVIGATE_RESULT]: {
     type: 'TRANSCRIPT_NAVIGATE_RESULT',
     getEventModel: (payload: any): any => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
-      buttonName: 'Transcript_navigate_result',
-      buttonType: ButtonType.Navigate,
-      buttonValue: payload.index
+      eventVar1: 'Transcript_navigate_result',
+      eventVar2: ButtonType.Navigate,
+      eventVar3: payload.index
     })
   },
   [PluginsEvents.PLAYLIST_OPEN]: {
     type: 'PLAYLIST_OPEN',
     getEventModel: (payload: any): any => ({
       eventType: payload['auto'] ? ApplicationEventType.PAGE_LOAD : ApplicationEventType.BUTTON_CLICKED,
-      buttonName: payload['auto'] ? 'Playlist_side_panel_open_auto' : 'Playlist_side_panel_open_manual',
-      buttonType: PageLoadType.View,
-      buttonValue: payload['position']
+      eventVar1: payload['auto'] ? 'Playlist_side_panel_open_auto' : 'Playlist_side_panel_open_manual',
+      eventVar2: PageLoadType.View,
+      eventVar3: payload['position']
     })
   },
   [PluginsEvents.PLAYLIST_CLOSE]: {
     type: 'PLAYLIST_CLOSE',
     getEventModel: (payload: any): any => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
-      buttonName: 'Playlist_side_panel_close_manual',
-      buttonType: ButtonType.Close,
-      buttonValue: payload['position']
+      eventVar1: 'Playlist_side_panel_close_manual',
+      eventVar2: ButtonType.Close,
+      eventVar3: payload['position']
     })
   },
   [PluginsEvents.SKIP_BUTTON_CLICK]: {
@@ -337,17 +350,17 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
     getEventModel: (payload: any): any => {
       const model = {
         eventType: ApplicationEventType.BUTTON_CLICKED,
-        buttonType: ButtonType.Navigate,
-        buttonValue: ''
+        eventVar2: ButtonType.Navigate,
+        eventVar3: ''
       };
 
       const { mode } = payload;
-      let buttonName: string = '';
+      let eventVar1: string = '';
 
-      if (mode === 'intro') buttonName = 'Skip_intro_click';
-      if (mode === 'outro') buttonName = 'Skip_outro_click';
+      if (mode === 'intro') eventVar1 = 'Skip_intro_click';
+      if (mode === 'outro') eventVar1 = 'Skip_outro_click';
 
-      return { ...model, buttonName };
+      return { ...model, eventVar1 };
     }
   },
   [PluginsEvents.SKIP_BUTTON_DISPLAYED]: {
@@ -355,188 +368,188 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
     getEventModel: (payload: any): any => {
       const model = {
         eventType: ApplicationEventType.PAGE_LOAD,
-        buttonType: PageLoadType.View,
-        buttonValue: ''
+        eventVar2: PageLoadType.View,
+        eventVar3: ''
       };
 
       const { mode } = payload;
-      let buttonName: string = '';
+      let eventVar1: string = '';
 
-      if (mode === 'intro') buttonName = 'Skip_intro_displayed';
-      if (mode === 'outro') buttonName = 'Skip_outro_displayed';
+      if (mode === 'intro') eventVar1 = 'Skip_intro_displayed';
+      if (mode === 'outro') eventVar1 = 'Skip_outro_displayed';
 
-      return { ...model, buttonName };
+      return { ...model, eventVar1 };
     }
   },
   [PluginsEvents.RELATED_OPEN]: {
     type: 'RELATED_OPEN',
     getEventModel: (payload: any): any => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
-      buttonName: 'Related_open_manual',
-      buttonType: ButtonType.Open,
-      buttonValue: payload['expandMode']
+      eventVar1: 'Related_open_manual',
+      eventVar2: ButtonType.Open,
+      eventVar3: payload['expandMode']
     })
   },
   [PluginsEvents.RELATED_CLOSE]: {
     type: 'RELATED_CLOSE',
     getEventModel: (): any => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
-      buttonName: 'Related_close',
-      buttonType: ButtonType.Close,
-      buttonValue: ''
+      eventVar1: 'Related_close',
+      eventVar2: ButtonType.Close,
+      eventVar3: ''
     })
   },
   [PluginsEvents.RELATED_ENTRY_SELECTED]: {
     type: 'RELATED_ENTRY_SELECTED',
     getEventModel: (): any => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
-      buttonName: 'Related_entry_click',
-      buttonType: ButtonType.Navigate,
-      buttonValue: ''
+      eventVar1: 'Related_entry_click',
+      eventVar2: ButtonType.Navigate,
+      eventVar3: ''
     })
   },
   [PluginsEvents.RELATED_ENTRY_AUTO_PLAYED]: {
     type: 'RELATED_ENTRY_AUTO_PLAYED',
     getEventModel: (): any => ({
       eventType: ApplicationEventType.PAGE_LOAD,
-      buttonName: 'Related_entry_auto_continue',
-      buttonType: PageLoadType.View,
-      buttonValue: ''
+      eventVar1: 'Related_entry_auto_continue',
+      eventVar2: PageLoadType.View,
+      eventVar3: ''
     })
   },
   [PluginsEvents.RELATED_GRID_DISPLAYED]: {
     type: 'RELATED_GRID_DISPLAYED',
     getEventModel: (): any => ({
       eventType: ApplicationEventType.PAGE_LOAD,
-      buttonName: 'Related_open_auto',
-      buttonType: PageLoadType.View,
-      buttonValue: ''
+      eventVar1: 'Related_open_auto',
+      eventVar2: PageLoadType.View,
+      eventVar3: ''
     })
   },
   [PluginsEvents.CALL_TO_ACTION_BUTTON_CLICK]: {
     type: 'CALL_TO_ACTION_BUTTON_CLICK',
     getEventModel: (payload: any): any => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
-      buttonValue: payload['label'],
-      buttonType: ButtonType.Link,
-      buttonName: payload['type'] === 'primary' ? 'CTA_primary_button_click' : 'CTA_secondary_button_click'
+      eventVar3: payload['label'],
+      eventVar2: ButtonType.Link,
+      eventVar1: payload['type'] === 'primary' ? 'CTA_primary_button_click' : 'CTA_secondary_button_click'
     })
   },
   [PluginsEvents.HOTSPOT_DISPLAYED]: {
     type: 'HOTSPOT_DISPLAYED',
     getEventModel: (payload: any): any => ({
       eventType: ApplicationEventType.PAGE_LOAD,
-      buttonName: 'Hotspot_displayed',
-      buttonType: PageLoadType.View,
-      buttonValue: payload['label']
+      eventVar1: 'Hotspot_displayed',
+      eventVar2: PageLoadType.View,
+      eventVar3: payload['label']
     })
   },
   [PluginsEvents.HOTSPOT_CLICK]: {
     type: 'HOTSPOT_CLICK',
     getEventModel: (payload: any): any => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
-      buttonName: 'Hotspot_click',
-      buttonType: ButtonType.Link,
-      buttonValue: payload['label']
+      eventVar1: 'Hotspot_click',
+      eventVar2: ButtonType.Link,
+      eventVar3: payload['label']
     })
   },
   [PluginsEvents.QUIZ_STARTED]: {
     type: 'QUIZ_STARTED',
     getEventModel: (): any => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
-      buttonName: 'Quiz_start',
-      buttonType: ButtonType.Load,
-      buttonValue: ''
+      eventVar1: 'Quiz_start',
+      eventVar2: ButtonType.Load,
+      eventVar3: ''
     })
   },
   [PluginsEvents.QUIZ_SUBMITTED]: {
     type: 'QUIZ_SUBMITTED',
     getEventModel: (): any => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
-      buttonName: 'Quiz_submit',
-      buttonType: ButtonType.Send,
-      buttonValue: ''
+      eventVar1: 'Quiz_submit',
+      eventVar2: ButtonType.Send,
+      eventVar3: ''
     })
   },
   [PluginsEvents.QUIZ_SKIPPED]: {
     type: 'QUIZ_SKIPPED',
     getEventModel: (payload: any): any => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
-      buttonName: 'Quiz_skip_question',
-      buttonType: ButtonType.Navigate,
-      buttonValue: payload['id']
+      eventVar1: 'Quiz_skip_question',
+      eventVar2: ButtonType.Navigate,
+      eventVar3: payload['id']
     })
   },
   [PluginsEvents.QUIZ_SEEK]: {
     type: 'QUIZ_SEEK',
     getEventModel: (): any => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
-      buttonName: 'Quiz_nav_click',
-      buttonType: ButtonType.Navigate,
-      buttonValue: ''
+      eventVar1: 'Quiz_nav_click',
+      eventVar2: ButtonType.Navigate,
+      eventVar3: ''
     })
   },
   [PlaykitUIEvents.USER_CLICKED_LOGO]: {
     type: 'USER_CLICKED_LOGO',
     getEventModel: (payload: any): any => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
-      buttonName: 'Logo_click',
-      buttonType: ButtonType.Link,
-      buttonValue: payload['logoUrl']
+      eventVar1: 'Logo_click',
+      eventVar2: ButtonType.Link,
+      eventVar3: payload['logoUrl']
     })
   },
   [PluginsEvents.DETECT_AD_BLOCK_FULL_OVERLAY_SHOWN]: {
     type: 'DETECT_AD_BLOCK_FULL_OVERLAY_SHOWN',
     getEventModel: () => ({
       eventType: ApplicationEventType.PAGE_LOAD,
-      buttonType: PageLoadType.View,
-      buttonName: 'Ad_blocker_displayed',
-      buttonValue: 'Allow_playback'
+      eventVar2: PageLoadType.View,
+      eventVar1: 'Ad_blocker_displayed',
+      eventVar3: 'Allow_playback'
     })
   },
   [PluginsEvents.DETECT_AD_BLOCK_PARTIAL_OVERLAY_SHOWN]: {
     type: 'DETECT_AD_BLOCK_PARTIAL_OVERLAY_SHOWN',
     getEventModel: () => ({
       eventType: ApplicationEventType.PAGE_LOAD,
-      buttonType: PageLoadType.View,
-      buttonName: 'Ad_blocker_displayed',
-      buttonValue: 'Block_playback'
+      eventVar2: PageLoadType.View,
+      eventVar1: 'Ad_blocker_displayed',
+      eventVar3: 'Block_playback'
     })
   },
   [PluginsEvents.DETECT_AD_BLOCK_SECONDARY_BUTTON_CLICKED]: {
     type: 'DETECT_AD_BLOCK_SECONDARY_BUTTON_CLICKED',
     getEventModel: () => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
-      buttonType: ButtonType.Close,
-      buttonName: 'Ad_blocker_keep_watching',
-      buttonValue: 'secondary_button'
+      eventVar2: ButtonType.Close,
+      eventVar1: 'Ad_blocker_keep_watching',
+      eventVar3: 'secondary_button'
     })
   },
   [PluginsEvents.DETECT_AD_BLOCK_X_BUTTON_CLICKED]: {
     type: 'DETECT_AD_BLOCK_X_BUTTON_CLICKED',
     getEventModel: () => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
-      buttonType: ButtonType.Close,
-      buttonName: 'Ad_blocker_keep_watching',
-      buttonValue: 'x_button'
+      eventVar2: ButtonType.Close,
+      eventVar1: 'Ad_blocker_keep_watching',
+      eventVar3: 'x_button'
     })
   },
   [PluginsEvents.DETECT_AD_BLOCK_AD_BLOCKER_DISABLED]: {
     type: 'DETECT_AD_BLOCK_AD_BLOCKER_DISABLED',
     getEventModel: () => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
-      buttonType: ButtonType.Close,
-      buttonName: 'Ad_blocker_disabled_ad_blocker',
-      buttonValue: 'disabled'
+      eventVar2: ButtonType.Close,
+      eventVar1: 'Ad_blocker_disabled_ad_blocker',
+      eventVar3: 'disabled'
     })
   },
   [PluginsEvents.DETECT_AD_BLOCK_AD_BLOCKER_NOT_DISABLED]: {
     type: 'DETECT_AD_BLOCK_AD_BLOCKER_NOT_DISABLED',
     getEventModel: () => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
-      buttonType: ButtonType.Close,
-      buttonName: 'Ad_blocker_disabled_ad_blocker',
-      buttonValue: 'still_detected'
+      eventVar2: ButtonType.Close,
+      eventVar1: 'Ad_blocker_disabled_ad_blocker',
+      eventVar3: 'still_detected'
     })
   }
 };
