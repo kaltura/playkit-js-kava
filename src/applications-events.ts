@@ -74,6 +74,15 @@ export const IvqEventTypes = {
   QUIZ_QUESTION_CHANGED: 'QuizQuestionChanged'
 };
 
+export const DetectAdBlockEvents = {
+  DETECT_AD_BLOCK_PARTIAL_OVERLAY_SHOWN: 'detect_ad_block_partial_overlay_shown',
+  DETECT_AD_BLOCK_FULL_OVERLAY_SHOWN: 'detect_ad_block_full_overlay_shown',
+  DETECT_AD_BLOCK_SECONDARY_BUTTON_CLICKED: 'detect_ad_block_secondary_button_clicked',
+  DETECT_AD_BLOCK_X_BUTTON_CLICKED: 'detect_ad_block_x_button_clicked',
+  DETECT_AD_BLOCK_AD_BLOCKER_DISABLED: 'detect_ad_block_ad_blocker_disabled',
+  DETECT_AD_BLOCK_AD_BLOCKER_NOT_DISABLED: 'detect_ad_block_ad_blocker_not_disabled'
+};
+
 export const PluginsEvents = {
   ...NavigationEvents,
   ...DownloadEvents,
@@ -86,5 +95,6 @@ export const PluginsEvents = {
   ...RelatedEvents,
   ...CallToActionEvents,
   ...HotspotsEvents,
-  ...IvqEventTypes
+  ...IvqEventTypes,
+  ...DetectAdBlockEvents
 };
