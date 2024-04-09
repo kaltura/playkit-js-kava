@@ -32,16 +32,17 @@ export function getApplicationEventsModel(eventObj: KavaEvent, model: KavaModel,
 
   const eventModel = eventObj.getEventModel(innerEventPayload);
   const namedEventModel = {};
-  namedEventModel['eventType'] = eventModel.eventType;
+  const { eventType, eventVar1, eventVar2, eventVar3 } = eventModel;
+  namedEventModel['eventType'] = eventType;
 
   if (eventModel.eventType === ApplicationEventType.BUTTON_CLICKED) {
-    namedEventModel['buttonName'] = eventModel.eventVar1;
-    namedEventModel['buttonType'] = eventModel.eventVar2;
-    namedEventModel['buttonValue'] = eventModel.eventVar3;
+    namedEventModel['buttonName'] = eventVar1;
+    namedEventModel['buttonType'] = eventVar2;
+    namedEventModel['buttonValue'] = eventVar3;
   } else if (eventModel.eventType === ApplicationEventType.PAGE_LOAD) {
-    namedEventModel['pageName'] = eventModel.eventVar1;
-    namedEventModel['pageType'] = eventModel.eventVar2;
-    namedEventModel['pageValue'] = eventModel.eventVar3;
+    namedEventModel['pageName'] = eventVar1;
+    namedEventModel['pageType'] = eventVar2;
+    namedEventModel['pageValue'] = eventVar3;
   }
   return Object.assign(namedEventModel, commonModel);
 }

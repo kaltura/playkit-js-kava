@@ -914,7 +914,7 @@ class Kava extends BasePlugin {
 
   private _isApplicationEventValid(event: FakeEvent): boolean {
     const model = getApplicationEventsModel(ApplicationEventsModel[event.type], this._model, event.payload);
-    return !!model.buttonName || !!model.pageName ;
+    return !!model.buttonName || !!model.pageName;
   }
 
   private _logMissingParam(missingParam: string): void {
