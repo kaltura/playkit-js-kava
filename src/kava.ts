@@ -327,6 +327,7 @@ class Kava extends BasePlugin {
     this.eventManager.listen(this.player, this.player.Event.Core.ENTER_FULLSCREEN, () => this._onFullScreenChanged(ScreenMode.FULLSCREEN));
     this.eventManager.listen(this.player, this.player.Event.Core.EXIT_FULLSCREEN, () => this._onFullScreenChanged(ScreenMode.NOT_IN_FULLSCREEN));
     this.eventManager.listen(this.player, this.player.Event.REGISTERED_PLUGINS_LIST_EVENT, (e) => this._onRegisteredPluginsListChange(e.payload));
+    this.eventManager.listen(this.player, this.player.Event.UI.USER_CLICKED_LOGO, (e) => this._onLogoClick(e));
     this.eventManager.listen(this.player, RelatedEvent.RELATED_OPEN, () => this._onRelatedClicked());
     this.eventManager.listen(this.player, RelatedEvent.RELATED_SELECTED, () => this._onRelatedSelected());
     this.eventManager.listen(this.player, ShareEvent.SHARE_CLICKED, () => this._onShareClicked());
@@ -794,6 +795,12 @@ class Kava extends BasePlugin {
 
   private _onRegisteredPluginsListChange(payload: string[]): void {
     this._model.updateModel({ registeredPlugins: payload.join(',') });
+  }
+
+  private _onLogoClick(event: FakeEvent) {
+    if (this._isApplicationEventValid(event)) {
+      this._sendAnalytics(ApplicationEventsModel[event.type], EventBucketName.ApplicationEvents, event.payload);
+    }
   }
 
   private _updateSessionStartTimeModel(response: any | number): void {
