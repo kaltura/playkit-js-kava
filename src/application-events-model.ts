@@ -18,7 +18,7 @@ export function getApplicationEventsModel(eventObj: KavaEvent, model: KavaModel,
     commonModel['virtualEventId'] = model.getVirtualEventId();
   }
   if (model.getKalturaApplication()) {
-    commonModel['application'] = model.getKalturaApplication();
+    commonModel['application'] = model.getApplication();
   }
   if (model.getApplicationVersion()) {
     commonModel['applicationVer'] = model.getApplicationVersion();
