@@ -204,7 +204,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       const eventVar3 = searchQuery;
       switch (activeTab) {
         case 'All':
-          eventVar1 = availableTabs.length > 0 ? 'Navigation_search' : 'Navigation_all_tab';
+          eventVar1 = searchQuery.length > 0 || availableTabs.length === 0 ? 'Navigation_search' : 'Navigation_all_tab';
           break;
         case 'Chapter':
           eventVar1 = 'Navigation_chapters_tab';
