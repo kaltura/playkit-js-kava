@@ -797,7 +797,7 @@ class Kava extends BasePlugin {
     this._model.updateModel({ registeredPlugins: payload.join(',') });
   }
 
-  private _onLogoClick(event: FakeEvent) {
+  private _onLogoClick(event: FakeEvent): void {
     if (this._isApplicationEventValid(event)) {
       this._sendAnalytics(ApplicationEventsModel[event.type], EventBucketName.ApplicationEvents, event.payload);
     }
