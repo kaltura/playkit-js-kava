@@ -165,11 +165,11 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
   },
   [PluginsEvents.BUMPER_CLICKED]: {
     type: 'BUMPER_CLICKED',
-    getEventModel: (): any => ({
+    getEventModel: (payload: any): any => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar1: 'Bumper_click',
       eventVar2: ButtonType.Link,
-      eventVar3: ''
+      eventVar3: payload['clickThroughUrl']
     })
   },
   [PluginsEvents.NAVIGATION_OPEN]: {
