@@ -50,7 +50,7 @@ export function getApplicationEventsModel(eventObj: KavaEvent, model: KavaModel,
 export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = {
   [PluginsEvents.CHANGE_LAYOUT]: {
     type: 'CHANGE_LAYOUT',
-    getEventModel: ({layout}: any): any => ({
+    getEventModel: ({ layout }: any): any => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar1: layout !== 'Hidden' ? 'Dual__screen_change_layout' : '',
       eventVar2: ButtonType.Choose,
