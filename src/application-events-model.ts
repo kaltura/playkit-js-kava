@@ -165,11 +165,11 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
   },
   [PluginsEvents.BUMPER_CLICKED]: {
     type: 'BUMPER_CLICKED',
-    getEventModel: (): any => ({
+    getEventModel: (payload: any): any => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar1: 'Bumper_click',
       eventVar2: ButtonType.Link,
-      eventVar3: ''
+      eventVar3: payload['clickThroughUrl']
     })
   },
   [PluginsEvents.NAVIGATION_OPEN]: {
@@ -204,7 +204,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       const eventVar3 = searchQuery;
       switch (activeTab) {
         case 'All':
-          eventVar1 = availableTabs.length > 0 ? 'Navigation_search' : 'Navigation_all_tab';
+          eventVar1 = searchQuery.length > 0 || availableTabs.length === 0 ? 'Navigation_search' : 'Navigation_all_tab';
           break;
         case 'Chapter':
           eventVar1 = 'Navigation_chapters_tab';
