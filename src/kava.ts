@@ -876,7 +876,7 @@ class Kava extends BasePlugin {
 
   private _getPosition(): number {
     let currentTime = this.player.currentTime;
-    if (this.player.sources.seekFrom) {
+    if (this.player.sources.seekFrom && currentTime) {
       currentTime += this.player.sources.seekFrom;
     }
     if (this.player.isLive()) {
