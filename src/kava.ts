@@ -875,16 +875,20 @@ class Kava extends BasePlugin {
   }
 
   private _getPosition(): number {
+    let currentTime = this.player.currentTime;
+    if (this.player.sources.seekFrom) {
+      currentTime += this.player.sources.seekFrom;
+    }
     if (this.player.isLive()) {
       if (!Number.isNaN(this.player.duration)) {
-        if (this.player.duration! - this.player.currentTime! < 1) {
+        if (this.player.duration! - currentTime! < 1) {
           return 0;
         }
-        return -(this.player.duration! - this.player.currentTime!);
+        return -(this.player.duration! - currentTime!);
       }
       return 0;
     }
-    return this._isFirstPlaying ? this.player.currentTime! || this.player.sources.startTime || 0 : this.player.currentTime!;
+    return this._isFirstPlaying ? currentTime! || this.player.sources.startTime || 0 : currentTime!;
   }
 
   private _getDeliveryType(): string {
