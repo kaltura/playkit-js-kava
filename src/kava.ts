@@ -884,7 +884,11 @@ class Kava extends BasePlugin {
       }
       return 0;
     }
-    return this._isFirstPlaying ? this.player.currentTime! || this.player.sources.startTime || 0 : this.player.currentTime!;
+    let currentTime = this.player.currentTime;
+    if (typeof this.player.sources.seekFrom === 'number' && currentTime) {
+      currentTime += this.player.sources.seekFrom;
+    }
+    return this._isFirstPlaying ? currentTime! || this.player.sources.startTime || 0 : currentTime!;
   }
 
   private _getDeliveryType(): string {
