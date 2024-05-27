@@ -876,9 +876,6 @@ class Kava extends BasePlugin {
 
   private _getPosition(): number {
     let currentTime = this.player.currentTime;
-    if (this.player.sources.seekFrom && currentTime) {
-      currentTime += this.player.sources.seekFrom;
-    }
     if (this.player.isLive()) {
       if (!Number.isNaN(this.player.duration)) {
         if (this.player.duration! - currentTime! < 1) {
@@ -887,6 +884,9 @@ class Kava extends BasePlugin {
         return -(this.player.duration! - currentTime!);
       }
       return 0;
+    }
+    if (this.player.sources.seekFrom && currentTime) {
+      currentTime += this.player.sources.seekFrom;
     }
     return this._isFirstPlaying ? currentTime! || this.player.sources.startTime || 0 : currentTime!;
   }
