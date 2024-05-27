@@ -875,17 +875,17 @@ class Kava extends BasePlugin {
   }
 
   private _getPosition(): number {
-    let currentTime = this.player.currentTime;
     if (this.player.isLive()) {
       if (!Number.isNaN(this.player.duration)) {
-        if (this.player.duration! - currentTime! < 1) {
+        if (this.player.duration! - this.player.currentTime! < 1) {
           return 0;
         }
-        return -(this.player.duration! - currentTime!);
+        return -(this.player.duration! - this.player.currentTime!);
       }
       return 0;
     }
-    if (this.player.sources.seekFrom && currentTime) {
+    let currentTime = this.player.currentTime;
+    if (typeof this.player.sources.seekFrom === 'number' && currentTime) {
       currentTime += this.player.sources.seekFrom;
     }
     return this._isFirstPlaying ? currentTime! || this.player.sources.startTime || 0 : currentTime!;
