@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 1.7.1 (2024-06-02)
+
+
+### Bug Fixes
+
+* **SUP-42252:** Actual view time for clips is not correct ([#173](https://github.com/kaltura/playkit-js-kava/issues/173)) ([0007fad](https://github.com/kaltura/playkit-js-kava/commit/0007fadd36dd4edfc4988a9773b9abe96dedc67a))
+
 ## 1.7.0 (2024-04-09)
 
 
