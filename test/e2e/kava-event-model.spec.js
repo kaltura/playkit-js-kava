@@ -1,4 +1,4 @@
-import {KavaEventModel} from '../../src/kava-event-model';
+import { KavaEventModel } from '../../src/kava-event-model';
 
 class FakeModel {
   getCanPlayTime() {
@@ -122,7 +122,7 @@ class FakeModel {
   }
 
   getSourceEntryId() {
-    return "source_entry_id"
+    return 'source_entry_id';
   }
 
   getRegisteredPlugins() {
@@ -166,7 +166,7 @@ describe('KavaEventModel', () => {
     KavaEventModel.IMPRESSION.index.should.equal(1);
     KavaEventModel.IMPRESSION.getEventModel(fakeModel).should.deep.equal({
       playerJSLoadTime: fakeModel.getPlayerJSLoadTime(),
-      registeredPlugins: fakeModel.getRegisteredPlugins()
+      loadedPlugins: fakeModel.getRegisteredPlugins()
     });
   });
 
