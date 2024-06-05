@@ -327,6 +327,42 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventVar3: payload.index
     })
   },
+  [PluginsEvents.TRANSCRIPT_POPOUT_OPEN]: {
+    type: 'TRANSCRIPT_POPOUT_OPEN',
+    getEventModel: () => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      eventVar1: 'Transcript_popout_open',
+      eventVar2: ButtonType.Expand,
+      eventVar3: ''
+    })
+  },
+  [PluginsEvents.TRANSCRIPT_POPOUT_CLOSE]: {
+    type: 'TRANSCRIPT_POPOUT_CLOSE',
+    getEventModel: (payload: { type: string }) => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      eventVar1: 'Transcript_popout_close',
+      eventVar2: ButtonType.Collapse,
+      eventVar3: payload.type
+    })
+  },
+  [PluginsEvents.TRANSCRIPT_POPOUT_DRAG]: {
+    type: 'TRANSCRIPT_POPOUT_DRAG',
+    getEventModel: (payload: { position: { x: number; y: number } }) => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      eventVar1: 'Transcript_popout_drag',
+      eventVar2: ButtonType.Edit,
+      eventVar3: payload.position
+    })
+  },
+  [PluginsEvents.TRANSCRIPT_POPOUT_RESIZE]: {
+    type: 'TRANSCRIPT_POPOUT_RESIZE',
+    getEventModel: (payload: { size: { x: number; y: number } }) => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      eventVar1: 'Transcript_popout_resize',
+      eventVar2: ButtonType.Edit,
+      eventVar3: payload.size
+    })
+  },
   [PluginsEvents.PLAYLIST_OPEN]: {
     type: 'PLAYLIST_OPEN',
     getEventModel: (payload: any): any => ({
