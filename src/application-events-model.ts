@@ -329,7 +329,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
   },
   [PluginsEvents.TRANSCRIPT_POPOUT_OPEN]: {
     type: 'TRANSCRIPT_POPOUT_OPEN',
-    getEventModel: (payload: any): any => ({
+    getEventModel: () => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar1: 'Transcript_popout_open',
       eventVar2: ButtonType.Expand,
@@ -338,7 +338,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
   },
   [PluginsEvents.TRANSCRIPT_POPOUT_CLOSE]: {
     type: 'TRANSCRIPT_POPOUT_CLOSE',
-    getEventModel: (payload: any): any => ({
+    getEventModel: (payload: { type: string }) => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar1: 'Transcript_popout_close',
       eventVar2: ButtonType.Collapse,
@@ -347,7 +347,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
   },
   [PluginsEvents.TRANSCRIPT_POPOUT_DRAG]: {
     type: 'TRANSCRIPT_POPOUT_DRAG',
-    getEventModel: (payload: any): any => ({
+    getEventModel: (payload: { position: { x: number; y: number } }) => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar1: 'Transcript_popout_drag',
       eventVar2: ButtonType.Edit,
@@ -356,7 +356,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
   },
   [PluginsEvents.TRANSCRIPT_POPOUT_RESIZE]: {
     type: 'TRANSCRIPT_POPOUT_RESIZE',
-    getEventModel: (payload: any): any => ({
+    getEventModel: (payload: { size: { x: number; y: number } }) => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar1: 'Transcript_popout_resize',
       eventVar2: ButtonType.Edit,
