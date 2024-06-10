@@ -9,7 +9,7 @@ import { HttpMethodType } from './enums/http-method-type';
 import { KalturaApplication } from './enums/kaltura-application';
 import { KavaConfigObject, KavaEvent } from './types';
 import { DownloadEvent, InfoEvent, ModerationEvent, RelatedEvent, ShareEvent } from './temp-imported-plugins-event-names-temp';
-import { PluginsEvents } from './applications-events';
+import { PluginsEvents, PlaykitUIEvents } from './applications-events';
 import { EventBucketName } from './enums/event-bucket-name';
 import { ApplicationEventsModel, getApplicationEventsModel } from './application-events-model';
 
@@ -327,7 +327,6 @@ class Kava extends BasePlugin {
     this.eventManager.listen(this.player, this.player.Event.Core.ENTER_FULLSCREEN, () => this._onFullScreenChanged(ScreenMode.FULLSCREEN));
     this.eventManager.listen(this.player, this.player.Event.Core.EXIT_FULLSCREEN, () => this._onFullScreenChanged(ScreenMode.NOT_IN_FULLSCREEN));
     this.eventManager.listen(this.player, this.player.Event.REGISTERED_PLUGINS_LIST_EVENT, (e) => this._onRegisteredPluginsListChange(e.payload));
-    this.eventManager.listen(this.player, this.player.Event.UI.USER_CLICKED_LOGO, (e) => this._onLogoClick(e));
     this.eventManager.listen(this.player, RelatedEvent.RELATED_OPEN, () => this._onRelatedClicked());
     this.eventManager.listen(this.player, RelatedEvent.RELATED_SELECTED, () => this._onRelatedSelected());
     this.eventManager.listen(this.player, ShareEvent.SHARE_CLICKED, () => this._onShareClicked());
@@ -337,8 +336,21 @@ class Kava extends BasePlugin {
     this.eventManager.listen(this.player, ModerationEvent.REPORT_CLICKED, () => this._onReportClicked());
     this.eventManager.listen(this.player, ModerationEvent.REPORT_SUBMITTED, (event) => this._onReportSubmitted(event));
     this._bindApplicationEvents();
+    this._bindPlaykitUIEvents();
     this._initTabMode();
     this._initNetworkConnectionType();
+  }
+
+  private _bindPlaykitUIEvents(): void {
+    Object.values(PlaykitUIEvents).forEach((event) => {
+      this.eventManager.listen(this.player, event, (e: FakeEvent) => {
+        if (e.type in ApplicationEventsModel) {
+          if (this._isApplicationEventValid(e)) {
+            this._sendAnalytics(ApplicationEventsModel[e.type], EventBucketName.ApplicationEvents, e.payload);
+          }
+        }
+      });
+    });
   }
 
   private _bindApplicationEvents(): void {
@@ -795,12 +807,6 @@ class Kava extends BasePlugin {
 
   private _onRegisteredPluginsListChange(payload: string[]): void {
     this._model.updateModel({ registeredPlugins: payload.join(',') });
-  }
-
-  private _onLogoClick(event: FakeEvent): void {
-    if (this._isApplicationEventValid(event)) {
-      this._sendAnalytics(ApplicationEventsModel[event.type], EventBucketName.ApplicationEvents, event.payload);
-    }
   }
 
   private _updateSessionStartTimeModel(response: any | number): void {

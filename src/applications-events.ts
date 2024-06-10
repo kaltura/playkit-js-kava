@@ -1,5 +1,14 @@
+const playkitUIEventsNamespace = 'playkit-ui';
 export const PlaykitUIEvents = {
-  USER_CLICKED_LOGO: 'playkit-ui-userclickedlogo'
+  USER_CLICKED_LOGO: `${playkitUIEventsNamespace}-userclickedlogo`,
+  USER_SELECTED_CAPTIONS_SIZE: `${playkitUIEventsNamespace}-userselectedcaptionssize`,
+  USER_SELECTED_CAPTIONS_ALIGNMENT: `${playkitUIEventsNamespace}-userselectedcaptionsalignment`,
+  USER_SELECTED_CAPTIONS_FONT_COLOR: `${playkitUIEventsNamespace}-userselectedcaptionsfontcolor`,
+  USER_SELECTED_CAPTIONS_FONT_FAMILY: `${playkitUIEventsNamespace}-userselectedcaptionsfontfamily`,
+  USER_SELECTED_CAPTIONS_FONT_STYLE: `${playkitUIEventsNamespace}-userselectedcaptionsfontstyle`,
+  USER_SELECTED_CAPTIONS_FONT_OPACITY: `${playkitUIEventsNamespace}-userselectedcaptionsfontopacity`,
+  USER_SELECTED_CAPTIONS_BACKGROUND_COLOR: `${playkitUIEventsNamespace}-userselectedcaptionsbackgroundcolor`,
+  USER_SELECTED_CAPTIONS_BACKGROUND_OPACITY: `${playkitUIEventsNamespace}-userselectedcaptionsbackgroundopacity`
 };
 
 export const NavigationEvents = {
