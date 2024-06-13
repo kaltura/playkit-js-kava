@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 1.8.0 (2024-06-13)
+
+
+### Features
+
+* **FEC-13749:** transcript detach analytyc events ([#175](https://github.com/kaltura/playkit-js-kava/issues/175)) ([ac3e674](https://github.com/kaltura/playkit-js-kava/commit/ac3e674dc9bec0660650ce0810c6d17a3e1ba6fc))
+
 ### 1.7.1 (2024-06-02)
 
 
