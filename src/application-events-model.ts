@@ -534,6 +534,78 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventVar3: payload['logoUrl']
     })
   },
+  [PlaykitUIEvents.USER_SELECTED_CAPTIONS_SIZE]: {
+    type: 'USER_SELECTED_CAPTIONS_SIZE',
+    getEventModel: (payload: any): any => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      eventVar1: 'Advanced_captions_size',
+      eventVar2: ButtonType.Choose,
+      eventVar3: payload
+    })
+  },
+  [PlaykitUIEvents.USER_SELECTED_CAPTIONS_ALIGNMENT]: {
+    type: 'USER_SELECTED_CAPTIONS_ALIGNMENT',
+    getEventModel: (payload: any): any => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      eventVar1: 'Advanced_captions_font_alignment',
+      eventVar2: ButtonType.Choose,
+      eventVar3: payload
+    })
+  },
+  [PlaykitUIEvents.USER_SELECTED_CAPTIONS_FONT_COLOR]: {
+    type: 'USER_SELECTED_CAPTIONS_FONT_COLOR',
+    getEventModel: (payload: any): any => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      eventVar1: 'Advanced_captions_font_color',
+      eventVar2: ButtonType.Choose,
+      eventVar3: payload
+    })
+  },
+  [PlaykitUIEvents.USER_SELECTED_CAPTIONS_FONT_FAMILY]: {
+    type: 'USER_SELECTED_CAPTIONS_FONT_FAMILY',
+    getEventModel: (payload: any): any => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      eventVar1: 'Advanced_captions_font_family',
+      eventVar2: ButtonType.Choose,
+      eventVar3: payload
+    })
+  },
+  [PlaykitUIEvents.USER_SELECTED_CAPTIONS_FONT_STYLE]: {
+    type: 'USER_SELECTED_CAPTIONS_FONT_STYLE',
+    getEventModel: (payload: any): any => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      eventVar1: 'Advanced_captions_font_style',
+      eventVar2: ButtonType.Choose,
+      eventVar3: payload
+    })
+  },
+  [PlaykitUIEvents.USER_SELECTED_CAPTIONS_FONT_OPACITY]: {
+    type: 'USER_SELECTED_CAPTIONS_FONT_OPACITY',
+    getEventModel: (payload: any): any => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      eventVar1: 'Advanced_captions_font_opacity',
+      eventVar2: ButtonType.Choose,
+      eventVar3: payload
+    })
+  },
+  [PlaykitUIEvents.USER_SELECTED_CAPTIONS_BACKGROUND_COLOR]: {
+    type: 'USER_SELECTED_CAPTIONS_BACKGROUND_COLOR',
+    getEventModel: (payload: any): any => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      eventVar1: 'Advanced_captions_background_color',
+      eventVar2: ButtonType.Choose,
+      eventVar3: payload
+    })
+  },
+  [PlaykitUIEvents.USER_SELECTED_CAPTIONS_BACKGROUND_OPACITY]: {
+    type: 'USER_SELECTED_CAPTIONS_BACKGROUND_OPACITY',
+    getEventModel: (payload: any): any => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      eventVar1: 'Advanced_captions_background_opacity',
+      eventVar2: ButtonType.Choose,
+      eventVar3: payload
+    })
+  },
   [PluginsEvents.DETECT_AD_BLOCK_FULL_OVERLAY_SHOWN]: {
     type: 'DETECT_AD_BLOCK_FULL_OVERLAY_SHOWN',
     getEventModel: () => ({
