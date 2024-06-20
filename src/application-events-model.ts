@@ -351,7 +351,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar1: 'Transcript_popout_drag',
       eventVar2: ButtonType.Edit,
-      eventVar3: payload.position
+      eventVar3: [payload.position.x, payload.position.y]
     })
   },
   [PluginsEvents.TRANSCRIPT_POPOUT_RESIZE]: {
@@ -360,7 +360,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar1: 'Transcript_popout_resize',
       eventVar2: ButtonType.Edit,
-      eventVar3: payload.size
+      eventVar3: [payload.size.x, payload.size.y]
     })
   },
   [PluginsEvents.PLAYLIST_OPEN]: {
