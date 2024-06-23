@@ -125,14 +125,16 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       const { assetType, fileType, description } = payload;
 
       let eventVar1: string;
-      let eventVar3 = description;
+      let eventVar3: string;
 
       switch (assetType) {
         case 'Media':
           eventVar1 = 'Download_video_download';
+          eventVar3 = fileType;
           break;
         case 'Captions':
           eventVar1 = 'Download_captions_download';
+          eventVar3 = description;
           break;
         case 'Attachments':
           eventVar1 = 'Download_attachment_download';
