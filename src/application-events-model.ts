@@ -81,7 +81,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       const model = {
         eventType: ApplicationEventType.BUTTON_CLICKED,
         eventVar2: ButtonType.Share,
-        eventVar3: ''
+        eventVar3: payload['videoClippingOption'] === 'full' ? 'full-length' : payload['videoClippingOption']
       };
       let eventVar1: string = '';
 
