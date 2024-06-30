@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 1.8.1 (2024-06-30)
+
+
+### Bug Fixes
+
+* **FEC-13915:** Report media file format for media files download ([#178](https://github.com/kaltura/playkit-js-kava/issues/178)) ([2741b23](https://github.com/kaltura/playkit-js-kava/commit/2741b232cf1382b77e2995b53b59e03935ea63e1))
+
 ## 1.8.0 (2024-06-13)
 
 
