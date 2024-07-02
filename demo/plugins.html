@@ -7,7 +7,6 @@
     <meta name="description" content="Kaltura Demo Pages - Created by Jonathan Gold" />
     <title>Plugins</title>
     <link rel="stylesheet" type="text/css" href="./style.css" />
-    <script src="./plugins-config.js" type="text/javascript"></script>
     <script src="https://unpkg.com/@playkit-js/kaltura-player-js@canary/dist/kaltura-ovp-player.js" type="text/javascript"></script>
     <script src="https://unpkg.com/@playkit-js/ui-managers@canary/dist/playkit-ui-managers.js" type="text/javascript"></script>
     <script src="https://unpkg.com/@playkit-js/playkit-js-playlist@canary/dist/playkit-playlist.js" type="text/javascript"></script>
@@ -49,6 +48,7 @@
             },
             kmsHistoryProxyUrl: 'https://async-api.nvq2.ovp.kaltura.com/api_v3/'
           },
+          ks: 'djJ8MjQyfDFEdSmRS16yHvOFNgdxIttCsiakml-YtyA2mND_zLH6DWB0uwhiCT3qOkW4A9daVbvxvEXVE4ttm0h-oiI5SN5KYE4h9kF0TNPSVXVxd2AWR-_nuXAlXpPt8oMT8kuyOEhwFRZSvzAY4fOY9odkO8k19FKuJ8B7FbbwxVU1kXa6516ufyx0nWHRCCz1Er3KFvMWFVykAmjhpExSp3LGatTaNTlPHWUjF2GHJHIA4txopJ6dOIeNMOkjoHj7wXQ04ziJn35RtIZmHUr9WoCxoBESuWADUvhfM2Jr3nuykUut6m6eBWwYHjrUh0JiKfT8IUHs5v7NSZfvcE4_YJ9sXJuncNXa6_VpoXu7OPuQDfk_HtPkXbWVJbowsoTT4IFmGWa64rsaBLqgULqMLMfsh58H3uKY_yVM76sYgA8TdLg1XeDOv_PGJ0aIOhc-9BOHLswYN1_xYJ1wTf5v8kxoLq4=',
           partnerId: 242
         },
         ui: {
@@ -158,7 +158,8 @@
       const player = KalturaPlayer.setup(config);
 
       // single media - no ivq(quiz);
-      player.loadMedia({ entryId: '0_i5a40h0h' });
+      // ks - https://242.nvq2.mediaspace.kaltura.com/media/0_vry5u8hk
+      player.loadMedia({ entryId: '0_vry5u8hk' });
 
       // single media - with ivq(quiz);
       // player.loadMedia({ entryId: '0_i5a40h0h' });
