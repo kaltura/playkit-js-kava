@@ -587,7 +587,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar1: 'Advanced_captions_font_opacity',
       eventVar2: ButtonType.Choose,
-      eventVar3: payload
+      eventVar3: `${String(payload).split(".")[1]}%`
     })
   },
   [PlaykitUIEvents.USER_SELECTED_CAPTIONS_BACKGROUND_COLOR]: {
@@ -605,7 +605,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar1: 'Advanced_captions_background_opacity',
       eventVar2: ButtonType.Choose,
-      eventVar3: payload
+      eventVar3: `${String(payload).split(".")[1]}%`
     })
   },
   [PluginsEvents.DETECT_AD_BLOCK_FULL_OVERLAY_SHOWN]: {
