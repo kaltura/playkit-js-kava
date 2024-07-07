@@ -142,27 +142,30 @@
                 }
               }
             ]
-          }
+          },
           //   "airplay": {},
           //   "cast": {},
           //   "receiver": {},
           //   "seo": {},
           //   "ima": {}
-          //   "ivq": {},
+            "ivq": {},
           //   "playkit-js-hotspots": {},
           //   "qna": {},
           //   "bumper": {},
+        },
+        playback: {
+          // Must be activated for Quiz
+          autoplay: true
         }
       };
 
       const player = KalturaPlayer.setup(config);
 
       // single media - no ivq(quiz);
-      // ks - https://242.nvq2.mediaspace.kaltura.com/media/0_vry5u8hk
-      player.loadMedia({ entryId: '0_vry5u8hk' });
+      player.loadMedia({ entryId: '0_i5a40h0h' });
 
       // single media - with ivq(quiz);
-      // player.loadMedia({ entryId: '0_i5a40h0h' });
+      // player.loadMedia({ entryId: '0_t8xd9o2v' });
 
       // entrylist - playlist
       // player.loadPlaylist({ playlistId: '0_7vtkq3at' });
