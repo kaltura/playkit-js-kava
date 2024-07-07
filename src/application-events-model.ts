@@ -81,7 +81,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       const model = {
         eventType: ApplicationEventType.BUTTON_CLICKED,
         eventVar2: ButtonType.Share,
-        eventVar3: ''
+        eventVar3: payload['videoClippingOption'] === 'full' ? 'full-length' : payload['videoClippingOption']
       };
       let eventVar1: string = '';
 
@@ -196,17 +196,20 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
     type: 'NAVIGATION_SEARCH',
     getEventModel: (payload: any): any => {
       const model = {
-        eventType: ApplicationEventType.BUTTON_CLICKED,
-        eventVar2: ButtonType.Search
+        eventType: ApplicationEventType.BUTTON_CLICKED
       };
+
+      let eventVar1: string = '';
+      let eventVar2: ButtonType = ButtonType.Open;
 
       const { searchQuery, activeTab, availableTabs } = payload;
 
-      let eventVar1: string = '';
       const eventVar3 = searchQuery;
       switch (activeTab) {
         case 'All':
-          eventVar1 = searchQuery.length > 0 || availableTabs.length === 0 ? 'Navigation_search' : 'Navigation_all_tab';
+          const isItSearch = searchQuery.length > 0 || availableTabs.length === 0;
+          eventVar1 = isItSearch ? 'Navigation_search' : 'Navigation_all_tab';
+          eventVar2 = isItSearch ? ButtonType.Search : ButtonType.Open;
           break;
         case 'Chapter':
           eventVar1 = 'Navigation_chapters_tab';
@@ -218,7 +221,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
           eventVar1 = 'Navigation_hotspots_tab';
           break;
       }
-      return { ...model, eventVar1, eventVar3 };
+      return { ...model, eventVar1, eventVar2, eventVar3 };
     }
   },
   [PluginsEvents.NAVIGATION_ITEM_CLICK]: {
