@@ -514,11 +514,11 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
   },
   [PluginsEvents.QUIZ_SKIPPED]: {
     type: 'QUIZ_SKIPPED',
-    getEventModel: (payload: any): any => ({
+    getEventModel: ({ questionIndex }: { questionIndex: number }): any => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar1: 'Quiz_skip_question',
       eventVar2: ButtonType.Navigate,
-      eventVar3: payload['id']
+      eventVar3: questionIndex
     })
   },
   [PluginsEvents.QUIZ_SEEK]: {
