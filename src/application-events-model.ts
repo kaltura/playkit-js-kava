@@ -373,7 +373,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
     getEventModel: (payload: any): any => ({
       eventType: payload['auto'] ? ApplicationEventType.PAGE_LOAD : ApplicationEventType.BUTTON_CLICKED,
       eventVar1: payload['auto'] ? 'Playlist_side_panel_open_auto' : 'Playlist_side_panel_open_manual',
-      eventVar2: PageLoadType.View,
+      eventVar2: payload['auto'] ? PageLoadType.View : ButtonType.Open,
       eventVar3: payload['position']
     })
   },
