@@ -130,7 +130,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       switch (assetType) {
         case 'Media':
           eventVar1 = 'Download_video_download';
-          eventVar3 = fileType;
+          eventVar3 = description;
           break;
         case 'Captions':
           eventVar1 = 'Download_captions_download';
