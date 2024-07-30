@@ -81,7 +81,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       const model = {
         eventType: ApplicationEventType.BUTTON_CLICKED,
         eventVar2: ButtonType.Share,
-        eventVar3: ''
+        eventVar3: payload['videoClippingOption'] === 'full' ? 'full-length' : payload['videoClippingOption']
       };
       let eventVar1: string = '';
 
@@ -125,14 +125,16 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       const { assetType, fileType, description } = payload;
 
       let eventVar1: string;
-      let eventVar3 = description;
+      let eventVar3: string;
 
       switch (assetType) {
         case 'Media':
           eventVar1 = 'Download_video_download';
+          eventVar3 = fileType;
           break;
         case 'Captions':
           eventVar1 = 'Download_captions_download';
+          eventVar3 = description;
           break;
         case 'Attachments':
           eventVar1 = 'Download_attachment_download';
@@ -194,17 +196,20 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
     type: 'NAVIGATION_SEARCH',
     getEventModel: (payload: any): any => {
       const model = {
-        eventType: ApplicationEventType.BUTTON_CLICKED,
-        eventVar2: ButtonType.Search
+        eventType: ApplicationEventType.BUTTON_CLICKED
       };
+
+      let eventVar1: string = '';
+      let eventVar2: ButtonType = ButtonType.Open;
 
       const { searchQuery, activeTab, availableTabs } = payload;
 
-      let eventVar1: string = '';
       const eventVar3 = searchQuery;
       switch (activeTab) {
         case 'All':
-          eventVar1 = searchQuery.length > 0 || availableTabs.length === 0 ? 'Navigation_search' : 'Navigation_all_tab';
+          const isItSearch = searchQuery.length > 0 || availableTabs.length === 0;
+          eventVar1 = isItSearch ? 'Navigation_search' : 'Navigation_all_tab';
+          eventVar2 = isItSearch ? ButtonType.Search : ButtonType.Open;
           break;
         case 'Chapter':
           eventVar1 = 'Navigation_chapters_tab';
@@ -216,7 +221,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
           eventVar1 = 'Navigation_hotspots_tab';
           break;
       }
-      return { ...model, eventVar1, eventVar3 };
+      return { ...model, eventVar1, eventVar2, eventVar3 };
     }
   },
   [PluginsEvents.NAVIGATION_ITEM_CLICK]: {
@@ -509,11 +514,11 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
   },
   [PluginsEvents.QUIZ_SKIPPED]: {
     type: 'QUIZ_SKIPPED',
-    getEventModel: (payload: any): any => ({
+    getEventModel: ({ questionIndex }: { questionIndex: number }): any => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar1: 'Quiz_skip_question',
       eventVar2: ButtonType.Navigate,
-      eventVar3: payload['id']
+      eventVar3: questionIndex
     })
   },
   [PluginsEvents.QUIZ_SEEK]: {
@@ -585,12 +590,12 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar1: 'Advanced_captions_font_opacity',
       eventVar2: ButtonType.Choose,
-      eventVar3: payload
+      eventVar3: `${payload * 100}%`
     })
   },
   [PlaykitUIEvents.USER_SELECTED_CAPTIONS_BACKGROUND_COLOR]: {
     type: 'USER_SELECTED_CAPTIONS_BACKGROUND_COLOR',
-    getEventModel: (payload: any): any => ({
+    getEventModel: (payload: number): any => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar1: 'Advanced_captions_background_color',
       eventVar2: ButtonType.Choose,
@@ -599,11 +604,11 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
   },
   [PlaykitUIEvents.USER_SELECTED_CAPTIONS_BACKGROUND_OPACITY]: {
     type: 'USER_SELECTED_CAPTIONS_BACKGROUND_OPACITY',
-    getEventModel: (payload: any): any => ({
+    getEventModel: (payload: number): any => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar1: 'Advanced_captions_background_opacity',
       eventVar2: ButtonType.Choose,
-      eventVar3: payload
+      eventVar3: `${payload * 100}%`
     })
   },
   [PluginsEvents.DETECT_AD_BLOCK_FULL_OVERLAY_SHOWN]: {

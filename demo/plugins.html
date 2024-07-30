@@ -7,7 +7,6 @@
     <meta name="description" content="Kaltura Demo Pages - Created by Jonathan Gold" />
     <title>Plugins</title>
     <link rel="stylesheet" type="text/css" href="./style.css" />
-    <script src="./plugins-config.js" type="text/javascript"></script>
     <script src="https://unpkg.com/@playkit-js/kaltura-player-js@canary/dist/kaltura-ovp-player.js" type="text/javascript"></script>
     <script src="https://unpkg.com/@playkit-js/ui-managers@canary/dist/playkit-ui-managers.js" type="text/javascript"></script>
     <script src="https://unpkg.com/@playkit-js/playkit-js-playlist@canary/dist/playkit-playlist.js" type="text/javascript"></script>
@@ -49,6 +48,7 @@
             },
             kmsHistoryProxyUrl: 'https://async-api.nvq2.ovp.kaltura.com/api_v3/'
           },
+          // ks: '',
           partnerId: 242
         },
         ui: {
@@ -142,16 +142,20 @@
                 }
               }
             ]
-          }
+          },
           //   "airplay": {},
           //   "cast": {},
           //   "receiver": {},
           //   "seo": {},
           //   "ima": {}
-          //   "ivq": {},
+            "ivq": {},
           //   "playkit-js-hotspots": {},
           //   "qna": {},
           //   "bumper": {},
+        },
+        playback: {
+          // Must be activated for Quiz
+          autoplay: true
         }
       };
 
@@ -161,7 +165,7 @@
       player.loadMedia({ entryId: '0_i5a40h0h' });
 
       // single media - with ivq(quiz);
-      // player.loadMedia({ entryId: '0_i5a40h0h' });
+      // player.loadMedia({ entryId: '0_t8xd9o2v' });
 
       // entrylist - playlist
       // player.loadPlaylist({ playlistId: '0_7vtkq3at' });
