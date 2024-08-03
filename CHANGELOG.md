@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 1.8.3 (2024-08-03)
+
+
+### Bug Fixes
+
+* **FEC-13915:** send flavor/language on video/audio  download ([#188](https://github.com/kaltura/playkit-js-kava/issues/188)) ([40b9b60](https://github.com/kaltura/playkit-js-kava/commit/40b9b60b7ab47af9fcf80d0dd67a9ba89a957da5))
+
 ### 1.8.2 (2024-07-11)
 
 ### 1.8.1 (2024-06-30)
