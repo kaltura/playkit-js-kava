@@ -29,6 +29,9 @@ export function getApplicationEventsModel(eventObj: KavaEvent, model: KavaModel,
   if (model.getUserId()) {
     commonModel['userId'] = model.getUserId();
   }
+  if (model.getKS()) {
+    commonModel['ks'] = model.getKS();
+  }
 
   const eventModel = eventObj.getEventModel(innerEventPayload);
   const namedEventModel = {};
