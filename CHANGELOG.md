@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 1.8.4 (2024-09-05)
+
+
+### Bug Fixes
+
+* **FEC-14007:** User id not being sent on application events ([#185](https://github.com/kaltura/playkit-js-kava/issues/185)) ([2d7a6e8](https://github.com/kaltura/playkit-js-kava/commit/2d7a6e831cc52b892f53eb26aae7d08b5eae00c2))
+
 ### 1.8.3 (2024-08-03)
 
 
