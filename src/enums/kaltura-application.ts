@@ -22,7 +22,8 @@ const KalturaApplication: ApplicationType = {
   STUDIO: '18',
   CAPTIONS_EDITOR: '19',
   CHECKLIST: '20',
-  PLAYER: '21'
+  PLAYER: '21',
+  GENIE: '23'
 };
 
 export { KalturaApplication };
