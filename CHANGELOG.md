@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 1.9.0 (2025-01-09)
+
+
+### Features
+
+* **FEC-14309:** Add Genie application id ([#190](https://github.com/kaltura/playkit-js-kava/issues/190)) ([f58e38f](https://github.com/kaltura/playkit-js-kava/commit/f58e38fdb5d8e7496de6048eab31c44f2b98abe1))
+
 ### 1.8.4 (2024-09-05)
 
 
