@@ -40,7 +40,7 @@ export const TranscriptEvents = {
 
 export const DualscreenEvents = {
   CHANGE_LAYOUT: 'dualscreen_change_layout',
-  SIDE_DISPLAYED: 'dualscreen_side_displayed',
+  SIDE_DISPLAYED: 'dualscreen_side_displayed'
 };
 export const ShareEvents = {
   SHARE_CLICKED: 'share_clicked',
