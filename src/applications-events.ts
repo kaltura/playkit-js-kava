@@ -39,7 +39,8 @@ export const TranscriptEvents = {
 };
 
 export const DualscreenEvents = {
-  CHANGE_LAYOUT: 'dualscreen_change_layout'
+  CHANGE_LAYOUT: 'dualscreen_change_layout',
+  SIDE_DISPLAYED: 'dualscreen_side_displayed',
 };
 export const ShareEvents = {
   SHARE_CLICKED: 'share_clicked',
@@ -69,7 +70,8 @@ export const RelatedEvents = {
 };
 
 export const CallToActionEvents = {
-  CALL_TO_ACTION_BUTTON_CLICK: 'call_to_action_button_click'
+  CALL_TO_ACTION_BUTTON_CLICK: 'call_to_action_button_click',
+  CALL_TO_ACTION_DISPLAYED: 'call_to_action_displayed'
 };
 
 export const HotspotsEvents = {
