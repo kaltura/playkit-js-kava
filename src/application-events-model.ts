@@ -60,6 +60,15 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventVar3: layout
     })
   },
+  [PluginsEvents.SIDE_DISPLAYED]: {
+    type: 'SIDE_DISPLAYED',
+    getEventModel: ({ layout }: any): any => ({
+      eventType: ApplicationEventType.PAGE_LOAD,
+      eventVar1: 'view',
+      eventVar2: 'Dual__screen_slide_displayed',
+      eventVar3: layout
+    })
+  },
   [PluginsEvents.SHARE_CLICKED]: {
     type: 'SHARE_CLICKED',
     getEventModel: (): any => ({
@@ -477,6 +486,15 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventVar3: payload['label'],
       eventVar2: ButtonType.Link,
       eventVar1: payload['type'] === 'primary' ? 'CTA_primary_button_click' : 'CTA_secondary_button_click'
+    })
+  },
+  [PluginsEvents.CALL_TO_ACTION_DISPLAYED]: {
+    type: 'CALL_TO_ACTION_DISPLAYED',
+    getEventModel: (payload: any): any => ({
+      eventType: ApplicationEventType.PAGE_LOAD,
+      eventVar3: payload,
+      eventVar2: 'CTA_displayed',
+      eventVar1: 'view'
     })
   },
   [PluginsEvents.HOTSPOT_DISPLAYED]: {
