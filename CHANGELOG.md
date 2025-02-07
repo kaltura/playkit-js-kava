@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 1.10.0 (2025-02-07)
+
+
+### Features
+
+* **FEC-14011:** Sidescreen cta analytics ([#192](https://github.com/kaltura/playkit-js-kava/issues/192)) ([27fce97](https://github.com/kaltura/playkit-js-kava/commit/27fce970d8a3852799451353433b4d8447a9ca9f))
+
 ### 1.9.1 (2025-01-23)
 
 
