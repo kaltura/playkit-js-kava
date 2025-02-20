@@ -32,11 +32,18 @@ export function getApplicationEventsModel(eventObj: KavaEvent, model: KavaModel,
   if (model.getKS()) {
     commonModel['ks'] = model.getKS();
   }
+  if (model.getHostingKalturaApplication()) {
+    commonModel['hostingKalturaApplication'] = model.getHostingKalturaApplication();
+  }
+  if (model.getHostingKalturaApplicationVersion()) {
+    commonModel['hostingKalturaApplicationVersion'] = model.getHostingKalturaApplicationVersion();
+  }
 
   const eventModel = eventObj.getEventModel(innerEventPayload);
   const namedEventModel = {};
-  const { eventType, eventVar1, eventVar2, eventVar3 } = eventModel;
+  const { eventType, eventVar1, eventVar2, eventVar3, applicationFeature } = eventModel;
   namedEventModel['eventType'] = eventType;
+  namedEventModel['applicationFeature'] = applicationFeature;
 
   if (eventModel.eventType === ApplicationEventType.BUTTON_CLICKED) {
     namedEventModel['buttonName'] = eventVar1;
@@ -66,7 +73,8 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar1: 'Share_embed_open',
       eventVar2: ButtonType.Open,
-      eventVar3: ''
+      eventVar3: '',
+      applicationFeature: 'share_embed',
     })
   },
   [PluginsEvents.SHARE_CLOSE]: {

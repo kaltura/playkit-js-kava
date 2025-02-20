@@ -296,6 +296,7 @@ export const KavaEventModel = {
    * @memberof KavaEventType
    */
   SHARE_CLICKED: {
+    plugin: 'SHARE',
     type: 'SHARE_CLICKED',
     index: 21,
     getEventModel: (): any => ({})
@@ -424,6 +425,12 @@ export function getEventModel(eventObj: KavaEvent, model: KavaModel): any {
   }
   if (model.getPersistentSessionId()) {
     commonModel.persistentSessionId = model.getPersistentSessionId();
+  }
+  if (model.getHostingKalturaApplication()) {
+    commonModel.hostingKalturaApplication = model.getHostingKalturaApplication();
+  }
+  if (model.getHostingKalturaApplicationVersion()) {
+    commonModel.hostingKalturaApplicationVersion = model.getHostingKalturaApplicationVersion();
   }
   const eventModel = eventObj.getEventModel(model);
   return Object.assign(eventModel, commonModel);
