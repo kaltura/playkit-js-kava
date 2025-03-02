@@ -98,6 +98,17 @@ export const DetectAdBlockEvents = {
   DETECT_AD_BLOCK_AD_BLOCKER_NOT_DISABLED: 'detect_ad_block_ad_blocker_not_disabled'
 };
 
+export const ReelsEvents = {
+  REELS_PLAY: 'reels_play',
+  REELS_PAUSE: 'reels_pause',
+  REELS_MUTE: 'reels_mute',
+  REELS_UNMUTE: 'reels_unmute',
+  REELS_SEEK: 'reels_seek',
+  REELS_POSTER_CLICKED: 'reels_poster_clicked',
+  REELS_ENTRY_LOADED: 'reels_entry_loaded',
+  REELS_PLAYLIST_LOADED: 'reels_playlist_loaded'
+};
+
 export const PluginsEvents = {
   ...NavigationEvents,
   ...DownloadEvents,
@@ -111,5 +122,6 @@ export const PluginsEvents = {
   ...CallToActionEvents,
   ...HotspotsEvents,
   ...IvqEventTypes,
-  ...DetectAdBlockEvents
+  ...DetectAdBlockEvents,
+  ...ReelsEvents
 };
