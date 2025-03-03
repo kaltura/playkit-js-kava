@@ -14,7 +14,6 @@
  * @property {object} [customVar1] - Custom objects field.
  * @property {object} [customVar2] - Custom objects field.
  * @property {object} [customVar3] - Custom objects field.
- // * @property {object} [customVar4] - Custom objects field.
  * @property {string} [userId] - custom user id .
  * @example
  * // Default config
@@ -39,7 +38,6 @@ export type KavaConfigObject = {
   customVar1?: object,
   customVar2?: object,
   customVar3?: object,
-  // customVar4?: object,
   applicationVersion?: string,
   application?: string,
   kalturaApplicationVersion?: string,
