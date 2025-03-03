@@ -496,8 +496,8 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventType: ApplicationEventType.PAGE_LOAD,
       eventVar1: 'CTA_displayed',
       eventVar2: PageLoadType.View,
-      eventVar3: payload['displayType'],
-      eventVar4: payload['ctaSource']
+      eventVar3: payload.displayType,
+      eventVar4: payload.isMetadataBased ? 'metadata_based' : 'player_level'
     })
   },
   [PluginsEvents.HOTSPOT_DISPLAYED]: {
