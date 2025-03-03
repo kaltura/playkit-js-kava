@@ -35,7 +35,7 @@ export function getApplicationEventsModel(eventObj: KavaEvent, model: KavaModel,
 
   const eventModel = eventObj.getEventModel(innerEventPayload);
   const namedEventModel = {};
-  const { eventType, eventVar1, eventVar2, eventVar3 } = eventModel;
+  const { eventType, eventVar1, eventVar2, eventVar3, eventVar4 } = eventModel;
   namedEventModel['eventType'] = eventType;
 
   if (eventModel.eventType === ApplicationEventType.BUTTON_CLICKED) {
@@ -46,7 +46,9 @@ export function getApplicationEventsModel(eventObj: KavaEvent, model: KavaModel,
     namedEventModel['pageName'] = eventVar1;
     namedEventModel['pageType'] = eventVar2;
     namedEventModel['pageValue'] = eventVar3;
+    namedEventModel['pageInfo'] = eventVar4;
   }
+
   return Object.assign(namedEventModel, commonModel);
 }
 
@@ -494,7 +496,8 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventType: ApplicationEventType.PAGE_LOAD,
       eventVar1: 'CTA_displayed',
       eventVar2: PageLoadType.View,
-      eventVar3: payload
+      eventVar3: payload['displayType'],
+      eventVar4: payload['ctaSource']
     })
   },
   [PluginsEvents.HOTSPOT_DISPLAYED]: {
