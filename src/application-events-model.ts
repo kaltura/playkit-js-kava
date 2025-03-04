@@ -35,13 +35,15 @@ export function getApplicationEventsModel(eventObj: KavaEvent, model: KavaModel,
 
   const eventModel = eventObj.getEventModel(innerEventPayload);
   const namedEventModel = {};
-  const { eventType, eventVar1, eventVar2, eventVar3, eventVar4 } = eventModel;
+  const { eventType, eventVar1, eventVar2, eventVar3, eventVar4, applicationFeature } = eventModel;
   namedEventModel['eventType'] = eventType;
+  namedEventModel['feature'] = applicationFeature;
 
   if (eventModel.eventType === ApplicationEventType.BUTTON_CLICKED) {
     namedEventModel['buttonName'] = eventVar1;
     namedEventModel['buttonType'] = eventVar2;
     namedEventModel['buttonValue'] = eventVar3;
+    namedEventModel['buttonInfo'] = eventVar4;
   } else if (eventModel.eventType === ApplicationEventType.PAGE_LOAD) {
     namedEventModel['pageName'] = eventVar1;
     namedEventModel['pageType'] = eventVar2;
@@ -687,6 +689,90 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventVar2: ButtonType.Close,
       eventVar1: 'Ad_blocker_disabled_ad_blocker',
       eventVar3: 'still_detected'
+    })
+  },
+  [PluginsEvents.REELS_PLAY]: {
+    type: 'REELS_PLAY',
+    getEventModel: ({ duration, isResume }) => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      eventVar2: ButtonType.Choose,
+      eventVar1: 'reels_play_click',
+      eventVar3: isResume ? 'resume' : 'manual_play',
+      eventVar4: duration,
+      applicationFeature: 'reels_player'
+    })
+  },
+  [PluginsEvents.REELS_PAUSE]: {
+    type: 'REELS_PAUSE',
+    getEventModel: ({ duration }) => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      eventVar2: ButtonType.Choose,
+      eventVar1: 'reels_pause',
+      eventVar4: duration,
+      applicationFeature: 'reels_player'
+    })
+  },
+  [PluginsEvents.REELS_MUTE]: {
+    type: 'REELS_MUTE',
+    getEventModel: ({ duration }) => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      eventVar2: ButtonType.Choose,
+      eventVar1: 'reels_mute',
+      eventVar4: duration,
+      applicationFeature: 'reels_player'
+    })
+  },
+  [PluginsEvents.REELS_UNMUTE]: {
+    type: 'REELS_UNMUTE',
+    getEventModel: ({ duration }) => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      eventVar2: ButtonType.Choose,
+      eventVar1: 'reels_unmute',
+      eventVar4: duration,
+      applicationFeature: 'reels_player'
+    })
+  },
+  [PluginsEvents.REELS_SEEK]: {
+    type: 'REELS_SEEK',
+    getEventModel: ({ duration, from, to }) => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      eventVar2: ButtonType.Navigate,
+      eventVar1: 'reels_seek',
+      eventVar3: to > from ? 'forward' : 'backward',
+      eventVar4: duration,
+      applicationFeature: 'reels_player'
+    })
+  },
+  [PluginsEvents.REELS_POSTER_CLICKED]: {
+    type: 'REELS_POSTER_CLICKED',
+    getEventModel: ({ duration }) => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      eventVar2: ButtonType.Choose,
+      eventVar1: 'reels_navigate_to_entry',
+      eventVar4: duration,
+      applicationFeature: 'reels_player'
+    })
+  },
+  [PluginsEvents.REELS_ENTRY_LOADED]: {
+    type: 'REELS_ENTRY_LOADED',
+    getEventModel: ({ muted, playlistId }) => ({
+      eventType: ApplicationEventType.PAGE_LOAD,
+      eventVar2: PageLoadType.View,
+      eventVar1: 'reels_entry_start_playback',
+      eventVar3: muted ? 'muted' : 'unmuted',
+      eventVar4: playlistId,
+      applicationFeature: 'reels_player'
+    })
+  },
+  [PluginsEvents.REELS_PLAYLIST_LOADED]: {
+    type: 'REELS_PLAYLIST_LOADED',
+    getEventModel: ({ muted, autoplay, playlistId }) => ({
+      eventType: ApplicationEventType.PAGE_LOAD,
+      eventVar2: PageLoadType.View,
+      eventVar1: 'reels_playlist_load',
+      eventVar3: `${muted ? 'muted' : 'unmuted'} ; ${autoplay ? 'autoplay_on' : 'autoplay_off'}`,
+      eventVar4: playlistId,
+      applicationFeature: 'reels_player'
     })
   }
 };
