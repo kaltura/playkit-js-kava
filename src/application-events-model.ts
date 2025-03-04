@@ -50,6 +50,7 @@ export function getApplicationEventsModel(eventObj: KavaEvent, model: KavaModel,
     namedEventModel['pageValue'] = eventVar3;
     namedEventModel['pageInfo'] = eventVar4;
   }
+
   return Object.assign(namedEventModel, commonModel);
 }
 
@@ -497,7 +498,8 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventType: ApplicationEventType.PAGE_LOAD,
       eventVar1: 'CTA_displayed',
       eventVar2: PageLoadType.View,
-      eventVar3: payload
+      eventVar3: payload.displayType,
+      eventVar4: payload.isMetadataBased ? 'metadata_based' : 'player_level'
     })
   },
   [PluginsEvents.HOTSPOT_DISPLAYED]: {
