@@ -865,10 +865,23 @@ class Kava extends BasePlugin {
     this._model.getPlaybackType = (): string => this._getPlaybackType();
     this._model.getPlaybackContext = (): string => this.config.playbackContext;
     this._model.getApplicationVersion = (): string => this.config.applicationVersion;
-    this._model.getApplication = (): string => this.config.application;
+    this._model.getApplication = (): string => this._getPlayerType();
     this._model.getKalturaApplicationVersion = (): string => this.config.kalturaApplicationVersion;
     this._model.getKalturaApplication = (): string => this._getKalturaApplicationId(this.config.kalturaApplication);
     this._model.getUserId = (): string => this.config.userId;
+    this._model.getHostingKalturaApplication = (): string => this.config.application;
+    this._model.getHostingKalturaApplicationVersion = (): string => this.config.applicationVersion;
+    //this._model.getApplicationFeature = (): string => this.config.application; //todo: the plugin that the event is related to
+  }
+
+  private _getPlayerType() {
+    if (this.player.plugins.reels !== undefined) {
+      return "reels";
+    } else if (this.player.plugins.audioPlayer !== undefined) {
+      return "audio";
+    } else {
+      return "video";
+    }
   }
 
   private _getKalturaApplicationId(kalturaAppName: string): string {

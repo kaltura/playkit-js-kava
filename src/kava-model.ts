@@ -70,6 +70,8 @@ class KavaModel {
   public getKalturaApplication!: () => any;
   public getUserId!: () => any;
   public getPersistentSessionId!: () => any;
+  public getHostingKalturaApplication!: () => any;
+  public getHostingKalturaApplicationVersion!: () => any;
 
   constructor(model?: object) {
     if (model) {
