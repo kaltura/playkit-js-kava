@@ -5,7 +5,7 @@ import { ApplicationEventType } from './enums/application-event-type';
 import { PageLoadType } from './enums/page-load-type';
 import { PlaykitUIEvents, PluginsEvents } from './applications-events';
 import { KalturaApplication } from './enums/kaltura-application';
-import { ApplicationFeature } from "./enums/application-feature";
+import { ApplicationFeature } from './enums/application-feature';
 
 export function getApplicationEventsModel(eventObj: KavaEvent, model: KavaModel, innerEventPayload: any): any {
   const commonModel = {

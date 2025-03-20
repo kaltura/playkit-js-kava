@@ -296,7 +296,6 @@ export const KavaEventModel = {
    * @memberof KavaEventType
    */
   SHARE_CLICKED: {
-    plugin: 'SHARE',
     type: 'SHARE_CLICKED',
     index: 21,
     getEventModel: (): any => ({})

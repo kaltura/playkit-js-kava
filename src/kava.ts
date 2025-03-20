@@ -871,7 +871,6 @@ class Kava extends BasePlugin {
     this._model.getUserId = (): string => this.config.userId;
     this._model.getHostingKalturaApplication = (): string => this.config.application;
     this._model.getHostingKalturaApplicationVersion = (): string => this.config.applicationVersion;
-    //this._model.getApplicationFeature = (): string => this.config.application; //todo: the plugin that the event is related to
   }
 
   private _getPlayerType() {
