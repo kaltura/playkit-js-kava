@@ -408,9 +408,6 @@ export function getEventModel(eventObj: KavaEvent, model: KavaModel): any {
   if (model.getPlaybackContext()) {
     commonModel.playbackContext = model.getPlaybackContext();
   }
-  if (model.getApplicationVersion()) {
-    commonModel.applicationVer = model.getApplicationVersion();
-  }
   if (model.getApplication()) {
     commonModel.application = model.getApplication();
   }

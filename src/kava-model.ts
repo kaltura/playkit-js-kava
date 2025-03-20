@@ -64,7 +64,6 @@ class KavaModel {
   public getDeliveryType!: () => any;
   public getPlaybackType!: () => any;
   public getPlaybackContext!: () => any;
-  public getApplicationVersion!: () => any;
   public getApplication!: () => any;
   public getKalturaApplicationVersion!: () => any;
   public getKalturaApplication!: () => any;

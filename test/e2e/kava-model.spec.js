@@ -29,8 +29,9 @@ const ab = 3,
   jt = 1213,
   tp = '12',
   pc = 'pc',
-  av = 'av',
   app = 'app',
+  av = 'av',
+  hostingApp = 'hostingApp',
   kav = 'kav',
   ka = 'ka',
   usi = '1234',
@@ -87,13 +88,14 @@ describe('KavaModel', () => {
     model.getPlaybackType = () => pback;
     model.getPlaybackType = () => pback;
     model.getPlaybackContext = () => pc;
-    model.getApplicationVersion = () => av;
     model.getApplication = () => app;
     model.getKalturaApplicationVersion = () => kav;
     model.getKalturaApplication = () => ka;
     model.getUserId = () => usi;
     model.getPlaybackSpeed = () => pbs;
     model.getPersistentSessionId = () => psi;
+    model.getHostingKalturaApplication = () => hostingApp;
+    model.getHostingKalturaApplicationVersion = () => av;
   });
 
   it('should update the model', function () {
@@ -127,14 +129,15 @@ describe('KavaModel', () => {
       sessionStartTime: sst,
       customVar2: cv2,
       playbackContext: pc,
-      applicationVer: av,
       application: app,
       kalturaApplicationVer: kav,
       kalturaApplication: ka,
       userId: usi,
       playbackSpeed: pbs,
       caption: cap,
-      persistentSessionId: psi
+      persistentSessionId: psi,
+      hostingKalturaApplication: hostingApp,
+      hostingKalturaApplicationVersion: av
     });
   });
 });

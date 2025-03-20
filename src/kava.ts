@@ -62,10 +62,11 @@ class Kava extends BasePlugin {
     resetSessionCountdown: 30,
     dvrThreshold: 120,
     playbackContext: '',
-    applicationVersion: '',
     application: '',
     kalturaApplicationVersion: '',
-    kalturaApplication: 'PLAYER'
+    kalturaApplication: 'PLAYER',
+    hostingKalturaApplication: '',
+    hostingKalturaApplicationVersion: ''
   };
 
   /**
@@ -864,7 +865,6 @@ class Kava extends BasePlugin {
     this._model.getDeliveryType = (): string => this._getDeliveryType();
     this._model.getPlaybackType = (): string => this._getPlaybackType();
     this._model.getPlaybackContext = (): string => this.config.playbackContext;
-    this._model.getApplicationVersion = (): string => this.config.applicationVersion;
     this._model.getApplication = (): string => this._getPlayerType();
     this._model.getKalturaApplicationVersion = (): string => this.config.kalturaApplicationVersion;
     this._model.getKalturaApplication = (): string => this._getKalturaApplicationId(this.config.kalturaApplication);
@@ -876,11 +876,11 @@ class Kava extends BasePlugin {
 
   private _getPlayerType() {
     if (this.player.plugins.reels !== undefined) {
-      return "reels";
+      return 'reels';
     } else if (this.player.plugins.audioPlayer !== undefined) {
-      return "audio";
+      return 'audio';
     } else {
-      return "video";
+      return 'video';
     }
   }
 

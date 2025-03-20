@@ -23,10 +23,11 @@ describe('ApplicationEventsModel', () => {
     getVirtualEventId: () => customModel['virtualEventId'],
     getApplication: () => customModel['application'],
     getKalturaApplication: () => customModel['application'],
-    getApplicationVersion: () => customModel['applicationVersion'],
     getKalturaApplicationVersion: () => customModel['kalturaApplicationVersion'],
     getUserId: () => customModel['userId'],
-    getKS: () => customModel['ks']
+    getKS: () => customModel['ks'],
+    getHostingKalturaApplication: () => customModel['hostingKalturaApplication'],
+    getHostingKalturaApplicationVersion: () => customModel['hostingKalturaApplicationVersion']
   };
 
   const eventObj = {
@@ -109,12 +110,12 @@ describe('ApplicationEventsModel', () => {
       });
     });
 
-    it('Should return the correct application version value', () => {
-      customModel = { applicationVersion: 123 };
+    it('Should return the correct hosting Kaltura application version value', () => {
+      customModel = { hostingKalturaApplicationVersion: 123 };
 
       getApplicationEventsModel(eventObj, model).should.deep.equal({
         ...commonModel,
-        applicationVer: 123
+        hostingKalturaApplicationVersion: 123
       });
     });
 
