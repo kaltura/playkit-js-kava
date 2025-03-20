@@ -34,7 +34,7 @@
  *  hostingKalturaApplicationVersion: ''
  * }
  */
-type KavaConfigObject = {
+type _KavaConfigObject = {
   serviceUrl?: string,
   tamperAnalyticsHandler?: Function,
   viewEventCountdown?: number,
