@@ -48,6 +48,8 @@ class Kava extends BasePlugin {
   private _canPlayOccured: boolean = false;
   private _isManualPreload: boolean = false;
   private _lastViewEventPlayTime: number = -1;
+  private _hasRegisteredPlugins: boolean = false;
+  private _impressionSent: boolean = false;
 
   /**
    * Default config of the plugin.
@@ -257,6 +259,8 @@ class Kava extends BasePlugin {
     };
     this._canPlayOccured = false;
     this._isManualPreload = false;
+    this._hasRegisteredPlugins = false;
+    this._impressionSent = false;
   }
 
   private _resetSession(): void {
@@ -571,7 +575,16 @@ class Kava extends BasePlugin {
   }
 
   private _onSourceSelected(): void {
-    this._sendAnalytics(KavaEventModel.IMPRESSION);
+    if (this._hasRegisteredPlugins) {
+      this._sendAnalytics(KavaEventModel.IMPRESSION);
+      this._impressionSent = true;
+    } else {
+      this.logger.debug('Delaying IMPRESSION event until plugins are registered');
+      this.eventManager.listenOnce(this.player, this.player.Event.REGISTERED_PLUGINS_LIST_EVENT, () => {
+        // Trigger _onRegisteredPluginsListChange which now handles sending IMPRESSION as well
+      });
+    }
+
     if (!(this.player.isImage() || this.player.isLive())) {
       this.eventManager.listen(this.player, this.player.Event.Core.TIME_UPDATE, () => this._onTimeUpdate());
     }
@@ -807,6 +820,11 @@ class Kava extends BasePlugin {
 
   private _onRegisteredPluginsListChange(payload: string[]): void {
     this._model.updateModel({ registeredPlugins: payload.join(',') });
+    this._hasRegisteredPlugins = true;
+    if (!this._impressionSent) {
+      this._sendAnalytics(KavaEventModel.IMPRESSION);
+      this._impressionSent = true;
+    }
   }
 
   private _updateSessionStartTimeModel(response: any | number): void {
