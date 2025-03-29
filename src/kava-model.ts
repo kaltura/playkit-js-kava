@@ -24,7 +24,7 @@ class KavaModel {
   private canPlayTime!: number;
   private targetPosition!: number;
   private targetBuffer!: number;
-  private registeredPlugins!: string;
+  private registeredPlugins: string = '';
   public totalSegmentsDownloadTime: number = 0;
   public totalSegmentsDownloadBytes: number = 0;
   public maxSegmentDownloadTime: number = 0;
