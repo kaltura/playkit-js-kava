@@ -407,9 +407,6 @@ export function getEventModel(eventObj: KavaEvent, model: KavaModel): any {
   if (model.getPlaybackContext()) {
     commonModel.playbackContext = model.getPlaybackContext();
   }
-  if (model.getApplicationVersion()) {
-    commonModel.applicationVer = model.getApplicationVersion();
-  }
   if (model.getApplication()) {
     commonModel.application = model.getApplication();
   }
@@ -424,6 +421,12 @@ export function getEventModel(eventObj: KavaEvent, model: KavaModel): any {
   }
   if (model.getPersistentSessionId()) {
     commonModel.persistentSessionId = model.getPersistentSessionId();
+  }
+  if (model.getHostingKalturaApplication()) {
+    commonModel.hostingKalturaApplication = model.getHostingKalturaApplication();
+  }
+  if (model.getHostingKalturaApplicationVersion()) {
+    commonModel.hostingKalturaApplicationVersion = model.getHostingKalturaApplicationVersion();
   }
   const eventModel = eventObj.getEventModel(model);
   return Object.assign(eventModel, commonModel);

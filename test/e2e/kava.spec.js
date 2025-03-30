@@ -802,7 +802,8 @@ describe('KavaPlugin', function () {
                 'screenMode',
                 'tabMode',
                 'networkConnectionType',
-                'userId'
+                'userId',
+                'application'
               );
               params.networkConnectionType.should.equal('2g');
               params.tabMode.should.equal(TabMode.TAB_FOCUSED);

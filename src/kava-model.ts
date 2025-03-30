@@ -64,12 +64,13 @@ class KavaModel {
   public getDeliveryType!: () => any;
   public getPlaybackType!: () => any;
   public getPlaybackContext!: () => any;
-  public getApplicationVersion!: () => any;
   public getApplication!: () => any;
   public getKalturaApplicationVersion!: () => any;
   public getKalturaApplication!: () => any;
   public getUserId!: () => any;
   public getPersistentSessionId!: () => any;
+  public getHostingKalturaApplication!: () => any;
+  public getHostingKalturaApplicationVersion!: () => any;
 
   constructor(model?: object) {
     if (model) {

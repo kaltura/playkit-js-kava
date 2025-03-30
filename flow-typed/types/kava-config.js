@@ -6,8 +6,7 @@
  * @property {number} [viewEventCountdown] - The interval in seconds that VIEW event will be sent.
  * @property {number} [resetSessionCountdown] - The interval in seconds that Kava session will be reset.
  * @property {number} [dvrThreshold] - Threshold in seconds from the live edge.
- * @property {string} [applicationVersion] - Used to send the application version from which the user is playing the entry.
- * @property {string} [application] - Used to send the application from which the user is playing the entry.
+ * @property {string} [application] - Used to send the Player application playing the entry.
  * @property {string} [kalturaApplicationVersion] - KalturaApplication Used to send the kaltura application name KalturaApplication:(KMC,KMS,KAF,PITCH,KMS_GO,WEBCASTING,PERSONAL_CAPTURE,KME,KME_MOBILE_APP,PATH,LECTURE_CAPTURE,EP,CHAT_AND_COLLABORATION,ANALYTICS,EXPRESS_CAPTURE,KPF,KAF_GO,SITES,STUDIO
 ) from which the user is playing the entry.
  * @property {string} [kalturaApplication] - Used to send the kaltura application version from which the user is playing the entry.
@@ -17,6 +16,8 @@
  * @property {Object} [customVar2] - Custom objects field.
  * @property {Object} [customVar3] - Custom objects field.
  * @property {string} [userId] - custom user id .
+ * @property {string} [hostingKalturaApplication] - Used to send the application from which the user is playing the entry.
+ * @property {string} [hostingKalturaApplicationVersion] - Used to send the application version from which the user is playing the entry.
  * @example
  * // Default config
  * {
@@ -24,11 +25,13 @@
  *  viewEventCountdown: 30,
  *  resetSessionCountdown: 30,
  *  dvrThreshold: 120,
- *  applicationVersion: '',
  *  application: '',
  *  kalturaApplicationVersion: '',
  *  kalturaApplication: ''
- *  playbackContext: ''
+ *  playbackContext: '',
+ *  userId: '',
+ *  hostingKalturaApplication: '',
+ *  hostingKalturaApplicationVersion: ''
  * }
  */
 type _KavaConfigObject = {
@@ -40,12 +43,13 @@ type _KavaConfigObject = {
   customVar1?: Object,
   customVar2?: Object,
   customVar3?: Object,
-  applicationVersion?: string,
   application?: string,
   kalturaApplicationVersion?: string,
   kalturaApplication?: string,
   playbackContext?: string,
-  userId?: string
+  userId?: string,
+  hostingKalturaApplication?: string,
+  hostingKalturaApplicationVersion?: string
 };
 
 /**

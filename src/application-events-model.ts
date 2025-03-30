@@ -5,6 +5,7 @@ import { ApplicationEventType } from './enums/application-event-type';
 import { PageLoadType } from './enums/page-load-type';
 import { PlaykitUIEvents, PluginsEvents } from './applications-events';
 import { KalturaApplication } from './enums/kaltura-application';
+import { ApplicationFeature } from './enums/application-feature';
 
 export function getApplicationEventsModel(eventObj: KavaEvent, model: KavaModel, innerEventPayload: any): any {
   const commonModel = {
@@ -20,9 +21,6 @@ export function getApplicationEventsModel(eventObj: KavaEvent, model: KavaModel,
   if (model.getKalturaApplication()) {
     commonModel['application'] = model.getApplication();
   }
-  if (model.getApplicationVersion()) {
-    commonModel['applicationVer'] = model.getApplicationVersion();
-  }
   if (model.getKalturaApplicationVersion()) {
     commonModel['kalturaApplicationVer'] = model.getKalturaApplicationVersion();
   }
@@ -31,6 +29,12 @@ export function getApplicationEventsModel(eventObj: KavaEvent, model: KavaModel,
   }
   if (model.getKS()) {
     commonModel['ks'] = model.getKS();
+  }
+  if (model.getHostingKalturaApplication()) {
+    commonModel['hostingKalturaApplication'] = model.getHostingKalturaApplication();
+  }
+  if (model.getHostingKalturaApplicationVersion()) {
+    commonModel['hostingKalturaApplicationVersion'] = model.getHostingKalturaApplicationVersion();
   }
 
   const eventModel = eventObj.getEventModel(innerEventPayload);
@@ -61,7 +65,8 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar1: layout !== 'Hidden' ? 'Dual__screen_change_layout' : '',
       eventVar2: ButtonType.Choose,
-      eventVar3: layout
+      eventVar3: layout,
+      applicationFeature: ApplicationFeature.DUAL_SCREEN
     })
   },
   [PluginsEvents.SIDE_DISPLAYED]: {
@@ -70,7 +75,8 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventType: ApplicationEventType.PAGE_LOAD,
       eventVar1: 'Dual__screen_slide_displayed',
       eventVar2: PageLoadType.View,
-      eventVar3: payload
+      eventVar3: payload,
+      applicationFeature: ApplicationFeature.DUAL_SCREEN
     })
   },
   [PluginsEvents.SHARE_CLICKED]: {
@@ -79,7 +85,8 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar1: 'Share_embed_open',
       eventVar2: ButtonType.Open,
-      eventVar3: ''
+      eventVar3: '',
+      applicationFeature: ApplicationFeature.SHARE_EMBED
     })
   },
   [PluginsEvents.SHARE_CLOSE]: {
@@ -88,7 +95,8 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar1: 'Share_embed_close',
       eventVar2: ButtonType.Close,
-      eventVar3: ''
+      eventVar3: '',
+      applicationFeature: ApplicationFeature.SHARE_EMBED
     })
   },
   [PluginsEvents.SHARE_NETWORK]: {
@@ -97,7 +105,8 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       const model = {
         eventType: ApplicationEventType.BUTTON_CLICKED,
         eventVar2: ButtonType.Share,
-        eventVar3: payload['videoClippingOption'] === 'full' ? 'full-length' : payload['videoClippingOption']
+        eventVar3: payload['videoClippingOption'] === 'full' ? 'full-length' : payload['videoClippingOption'],
+        applicationFeature: ApplicationFeature.SHARE_EMBED
       };
       let eventVar1: string = '';
 
@@ -128,7 +137,8 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar1: 'Share_embed_copy_click',
       eventVar2: ButtonType.Share,
-      eventVar3: payload['videoClippingOption'] === 'full' ? 'full-length' : payload['videoClippingOption']
+      eventVar3: payload['videoClippingOption'] === 'full' ? 'full-length' : payload['videoClippingOption'],
+      applicationFeature: ApplicationFeature.SHARE_EMBED
     })
   },
   [PluginsEvents.DOWNLOAD_ITEM_CLICKED]: {
@@ -136,7 +146,8 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
     getEventModel: (payload: any): any => {
       const model = {
         eventType: ApplicationEventType.BUTTON_CLICKED,
-        eventVar2: ButtonType.Download
+        eventVar2: ButtonType.Download,
+        applicationFeature: ApplicationFeature.DOWNLOAD
       };
       const { assetType, fileType, description } = payload;
 
@@ -169,7 +180,8 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar1: 'Download_open',
       eventVar2: ButtonType.Open,
-      eventVar3: ''
+      eventVar3: '',
+      applicationFeature: ApplicationFeature.DOWNLOAD
     })
   },
   [PluginsEvents.HIDE_OVERLAY]: {
@@ -178,7 +190,8 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar1: 'Download_close',
       eventVar2: ButtonType.Close,
-      eventVar3: ''
+      eventVar3: '',
+      applicationFeature: ApplicationFeature.DOWNLOAD
     })
   },
   [PluginsEvents.BUMPER_CLICKED]: {
@@ -187,7 +200,8 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar1: 'Bumper_click',
       eventVar2: ButtonType.Link,
-      eventVar3: payload['clickThroughUrl']
+      eventVar3: payload['clickThroughUrl'],
+      applicationFeature: ApplicationFeature.BUMPER
     })
   },
   [PluginsEvents.NAVIGATION_OPEN]: {
@@ -196,7 +210,8 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventType: payload['auto'] ? ApplicationEventType.PAGE_LOAD : ApplicationEventType.BUTTON_CLICKED,
       eventVar1: payload['auto'] ? 'Navigation_open_auto' : 'Navigation_open_manual',
       eventVar2: PageLoadType.View,
-      eventVar3: ''
+      eventVar3: '',
+      applicationFeature: ApplicationFeature.NAVIGATION
     })
   },
   [PluginsEvents.NAVIGATION_CLOSE]: {
@@ -205,14 +220,16 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar1: 'Navigation_close',
       eventVar2: ButtonType.Close,
-      eventVar3: ''
+      eventVar3: '',
+      applicationFeature: ApplicationFeature.NAVIGATION
     })
   },
   [PluginsEvents.NAVIGATION_SEARCH]: {
     type: 'NAVIGATION_SEARCH',
     getEventModel: (payload: any): any => {
       const model = {
-        eventType: ApplicationEventType.BUTTON_CLICKED
+        eventType: ApplicationEventType.BUTTON_CLICKED,
+        applicationFeature: ApplicationFeature.NAVIGATION
       };
 
       let eventVar1: string = '';
@@ -246,7 +263,8 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       const model = {
         eventType: ApplicationEventType.BUTTON_CLICKED,
         eventVar2: ButtonType.Choose,
-        eventVar3: ''
+        eventVar3: '',
+        applicationFeature: ApplicationFeature.NAVIGATION
       };
 
       let eventVar1: string = '';
@@ -270,7 +288,8 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
     getEventModel: (payload: any): any => {
       const model = {
         eventType: ApplicationEventType.BUTTON_CLICKED,
-        eventVar3: ''
+        eventVar3: '',
+        applicationFeature: ApplicationFeature.NAVIGATION
       };
 
       const { isTextExpanded, itemType } = payload;
@@ -300,7 +319,8 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventType: payload['auto'] ? ApplicationEventType.PAGE_LOAD : ApplicationEventType.BUTTON_CLICKED,
       eventVar1: payload['auto'] ? 'Transcript_open_auto' : 'Transcript_open_manual',
       eventVar2: PageLoadType.View,
-      eventVar3: ''
+      eventVar3: '',
+      applicationFeature: ApplicationFeature.TRANSCRIPT
     })
   },
   [PluginsEvents.TRANSCRIPT_CLOSE]: {
@@ -309,7 +329,8 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar1: 'Transcript_close',
       eventVar2: ButtonType.Close,
-      eventVar3: ''
+      eventVar3: '',
+      applicationFeature: ApplicationFeature.TRANSCRIPT
     })
   },
   [PluginsEvents.TRANSCRIPT_DOWNLOAD]: {
@@ -318,7 +339,8 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar1: 'Transcript_download',
       eventVar2: ButtonType.Download,
-      eventVar3: payload['videoPosition']
+      eventVar3: payload['videoPosition'],
+      applicationFeature: ApplicationFeature.TRANSCRIPT
     })
   },
   [PluginsEvents.TRANSCRIPT_PRINT]: {
@@ -327,7 +349,8 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar1: 'Transcript_print',
       eventVar2: ButtonType.Download,
-      eventVar3: payload['videoPosition']
+      eventVar3: payload['videoPosition'],
+      applicationFeature: ApplicationFeature.TRANSCRIPT
     })
   },
   [PluginsEvents.TRANSCRIPT_SEARCH]: {
@@ -336,7 +359,8 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar1: 'Transcript_search',
       eventVar2: ButtonType.Search,
-      eventVar3: payload.search
+      eventVar3: payload.search,
+      applicationFeature: ApplicationFeature.TRANSCRIPT
     })
   },
   [PluginsEvents.TRANSCRIPT_NAVIGATE_RESULT]: {
@@ -345,7 +369,8 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar1: 'Transcript_navigate_result',
       eventVar2: ButtonType.Navigate,
-      eventVar3: payload.index
+      eventVar3: payload.index,
+      applicationFeature: ApplicationFeature.TRANSCRIPT
     })
   },
   [PluginsEvents.TRANSCRIPT_POPOUT_OPEN]: {
@@ -354,7 +379,8 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar1: 'Transcript_popout_open',
       eventVar2: ButtonType.Expand,
-      eventVar3: ''
+      eventVar3: '',
+      applicationFeature: ApplicationFeature.TRANSCRIPT
     })
   },
   [PluginsEvents.TRANSCRIPT_POPOUT_CLOSE]: {
@@ -363,7 +389,8 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar1: 'Transcript_popout_close',
       eventVar2: ButtonType.Collapse,
-      eventVar3: payload.type
+      eventVar3: payload.type,
+      applicationFeature: ApplicationFeature.TRANSCRIPT
     })
   },
   [PluginsEvents.TRANSCRIPT_POPOUT_DRAG]: {
@@ -372,7 +399,8 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar1: 'Transcript_popout_drag',
       eventVar2: ButtonType.Edit,
-      eventVar3: `${payload.position.x},${payload.position.y}`
+      eventVar3: `${payload.position.x},${payload.position.y}`,
+      applicationFeature: ApplicationFeature.TRANSCRIPT
     })
   },
   [PluginsEvents.TRANSCRIPT_POPOUT_RESIZE]: {
@@ -381,7 +409,8 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar1: 'Transcript_popout_resize',
       eventVar2: ButtonType.Edit,
-      eventVar3: `${payload.size.x},${payload.size.y}`
+      eventVar3: `${payload.size.x},${payload.size.y}`,
+      applicationFeature: ApplicationFeature.TRANSCRIPT
     })
   },
   [PluginsEvents.PLAYLIST_OPEN]: {
@@ -390,7 +419,8 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventType: payload['auto'] ? ApplicationEventType.PAGE_LOAD : ApplicationEventType.BUTTON_CLICKED,
       eventVar1: payload['auto'] ? 'Playlist_side_panel_open_auto' : 'Playlist_side_panel_open_manual',
       eventVar2: PageLoadType.View,
-      eventVar3: payload['position']
+      eventVar3: payload['position'],
+      applicationFeature: ApplicationFeature.PLAYLIST
     })
   },
   [PluginsEvents.PLAYLIST_CLOSE]: {
@@ -399,7 +429,8 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar1: 'Playlist_side_panel_close_manual',
       eventVar2: ButtonType.Close,
-      eventVar3: payload['position']
+      eventVar3: payload['position'],
+      applicationFeature: ApplicationFeature.PLAYLIST
     })
   },
   [PluginsEvents.SKIP_BUTTON_CLICK]: {
@@ -408,7 +439,8 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       const model = {
         eventType: ApplicationEventType.BUTTON_CLICKED,
         eventVar2: ButtonType.Navigate,
-        eventVar3: ''
+        eventVar3: '',
+        applicationFeature: ApplicationFeature.SKIP
       };
 
       const { mode } = payload;
@@ -426,7 +458,8 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       const model = {
         eventType: ApplicationEventType.PAGE_LOAD,
         eventVar2: PageLoadType.View,
-        eventVar3: ''
+        eventVar3: '',
+        applicationFeature: ApplicationFeature.SKIP
       };
 
       const { mode } = payload;
@@ -444,7 +477,8 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar1: 'Related_open_manual',
       eventVar2: ButtonType.Open,
-      eventVar3: payload['expandMode']
+      eventVar3: payload['expandMode'],
+      applicationFeature: ApplicationFeature.RELATED
     })
   },
   [PluginsEvents.RELATED_CLOSE]: {
@@ -453,7 +487,8 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar1: 'Related_close',
       eventVar2: ButtonType.Close,
-      eventVar3: ''
+      eventVar3: '',
+      applicationFeature: ApplicationFeature.RELATED
     })
   },
   [PluginsEvents.RELATED_ENTRY_SELECTED]: {
@@ -462,7 +497,8 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar1: 'Related_entry_click',
       eventVar2: ButtonType.Navigate,
-      eventVar3: ''
+      eventVar3: '',
+      applicationFeature: ApplicationFeature.RELATED
     })
   },
   [PluginsEvents.RELATED_ENTRY_AUTO_PLAYED]: {
@@ -471,7 +507,8 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventType: ApplicationEventType.PAGE_LOAD,
       eventVar1: 'Related_entry_auto_continue',
       eventVar2: PageLoadType.View,
-      eventVar3: ''
+      eventVar3: '',
+      applicationFeature: ApplicationFeature.RELATED
     })
   },
   [PluginsEvents.RELATED_GRID_DISPLAYED]: {
@@ -480,7 +517,8 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventType: ApplicationEventType.PAGE_LOAD,
       eventVar1: 'Related_open_auto',
       eventVar2: PageLoadType.View,
-      eventVar3: ''
+      eventVar3: '',
+      applicationFeature: ApplicationFeature.RELATED
     })
   },
   [PluginsEvents.CALL_TO_ACTION_BUTTON_CLICK]: {
@@ -489,7 +527,8 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar3: payload['label'],
       eventVar2: ButtonType.Link,
-      eventVar1: payload['type'] === 'primary' ? 'CTA_primary_button_click' : 'CTA_secondary_button_click'
+      eventVar1: payload['type'] === 'primary' ? 'CTA_primary_button_click' : 'CTA_secondary_button_click',
+      applicationFeature: ApplicationFeature.CALL_TO_ACTION
     })
   },
   [PluginsEvents.CALL_TO_ACTION_DISPLAYED]: {
@@ -499,7 +538,8 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventVar1: 'CTA_displayed',
       eventVar2: PageLoadType.View,
       eventVar3: payload.displayType,
-      eventVar4: payload.isMetadataBased ? 'metadata_based' : 'player_level'
+      eventVar4: payload.isMetadataBased ? 'metadata_based' : 'player_level',
+      applicationFeature: ApplicationFeature.CALL_TO_ACTION
     })
   },
   [PluginsEvents.HOTSPOT_DISPLAYED]: {
@@ -508,7 +548,8 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventType: ApplicationEventType.PAGE_LOAD,
       eventVar1: 'Hotspot_displayed',
       eventVar2: PageLoadType.View,
-      eventVar3: payload['label']
+      eventVar3: payload['label'],
+      applicationFeature: ApplicationFeature.HOTSPOPT
     })
   },
   [PluginsEvents.HOTSPOT_CLICK]: {
@@ -517,7 +558,8 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar1: 'Hotspot_click',
       eventVar2: ButtonType.Link,
-      eventVar3: payload['label']
+      eventVar3: payload['label'],
+      applicationFeature: ApplicationFeature.HOTSPOPT
     })
   },
   [PluginsEvents.QUIZ_STARTED]: {
@@ -526,7 +568,8 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar1: 'Quiz_start',
       eventVar2: ButtonType.Load,
-      eventVar3: ''
+      eventVar3: '',
+      applicationFeature: ApplicationFeature.QUIZ
     })
   },
   [PluginsEvents.QUIZ_SUBMITTED]: {
@@ -535,7 +578,8 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar1: 'Quiz_submit',
       eventVar2: ButtonType.Send,
-      eventVar3: ''
+      eventVar3: '',
+      applicationFeature: ApplicationFeature.QUIZ
     })
   },
   [PluginsEvents.QUIZ_SKIPPED]: {
@@ -544,7 +588,8 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar1: 'Quiz_skip_question',
       eventVar2: ButtonType.Navigate,
-      eventVar3: questionIndex
+      eventVar3: questionIndex,
+      applicationFeature: ApplicationFeature.QUIZ
     })
   },
   [PluginsEvents.QUIZ_SEEK]: {
@@ -553,7 +598,8 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar1: 'Quiz_nav_click',
       eventVar2: ButtonType.Navigate,
-      eventVar3: ''
+      eventVar3: '',
+      applicationFeature: ApplicationFeature.QUIZ
     })
   },
   [PlaykitUIEvents.USER_CLICKED_LOGO]: {
@@ -562,7 +608,8 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar1: 'Logo_click',
       eventVar2: ButtonType.Link,
-      eventVar3: payload['logoUrl']
+      eventVar3: payload['logoUrl'],
+      applicationFeature: ApplicationFeature.UI
     })
   },
   [PlaykitUIEvents.USER_SELECTED_CAPTIONS_SIZE]: {
@@ -571,7 +618,8 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar1: 'Advanced_captions_size',
       eventVar2: ButtonType.Choose,
-      eventVar3: payload
+      eventVar3: payload,
+      applicationFeature: ApplicationFeature.UI
     })
   },
   [PlaykitUIEvents.USER_SELECTED_CAPTIONS_ALIGNMENT]: {
@@ -580,7 +628,8 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar1: 'Advanced_captions_font_alignment',
       eventVar2: ButtonType.Choose,
-      eventVar3: payload
+      eventVar3: payload,
+      applicationFeature: ApplicationFeature.UI
     })
   },
   [PlaykitUIEvents.USER_SELECTED_CAPTIONS_FONT_COLOR]: {
@@ -589,7 +638,8 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar1: 'Advanced_captions_font_color',
       eventVar2: ButtonType.Choose,
-      eventVar3: payload
+      eventVar3: payload,
+      applicationFeature: ApplicationFeature.UI
     })
   },
   [PlaykitUIEvents.USER_SELECTED_CAPTIONS_FONT_FAMILY]: {
@@ -598,7 +648,8 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar1: 'Advanced_captions_font_family',
       eventVar2: ButtonType.Choose,
-      eventVar3: payload
+      eventVar3: payload,
+      applicationFeature: ApplicationFeature.UI
     })
   },
   [PlaykitUIEvents.USER_SELECTED_CAPTIONS_FONT_STYLE]: {
@@ -607,7 +658,8 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar1: 'Advanced_captions_font_style',
       eventVar2: ButtonType.Choose,
-      eventVar3: payload
+      eventVar3: payload,
+      applicationFeature: ApplicationFeature.UI
     })
   },
   [PlaykitUIEvents.USER_SELECTED_CAPTIONS_FONT_OPACITY]: {
@@ -616,7 +668,8 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar1: 'Advanced_captions_font_opacity',
       eventVar2: ButtonType.Choose,
-      eventVar3: `${payload * 100}%`
+      eventVar3: `${payload * 100}%`,
+      applicationFeature: ApplicationFeature.UI
     })
   },
   [PlaykitUIEvents.USER_SELECTED_CAPTIONS_BACKGROUND_COLOR]: {
@@ -625,7 +678,8 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar1: 'Advanced_captions_background_color',
       eventVar2: ButtonType.Choose,
-      eventVar3: payload
+      eventVar3: payload,
+      applicationFeature: ApplicationFeature.UI
     })
   },
   [PlaykitUIEvents.USER_SELECTED_CAPTIONS_BACKGROUND_OPACITY]: {
@@ -634,7 +688,8 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar1: 'Advanced_captions_background_opacity',
       eventVar2: ButtonType.Choose,
-      eventVar3: `${payload * 100}%`
+      eventVar3: `${payload * 100}%`,
+      applicationFeature: ApplicationFeature.UI
     })
   },
   [PluginsEvents.DETECT_AD_BLOCK_FULL_OVERLAY_SHOWN]: {
@@ -643,7 +698,8 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventType: ApplicationEventType.PAGE_LOAD,
       eventVar2: PageLoadType.View,
       eventVar1: 'Ad_blocker_displayed',
-      eventVar3: 'Allow_playback'
+      eventVar3: 'Allow_playback',
+      applicationFeature: ApplicationFeature.DETECT_AD_BLOCK
     })
   },
   [PluginsEvents.DETECT_AD_BLOCK_PARTIAL_OVERLAY_SHOWN]: {
@@ -652,7 +708,8 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventType: ApplicationEventType.PAGE_LOAD,
       eventVar2: PageLoadType.View,
       eventVar1: 'Ad_blocker_displayed',
-      eventVar3: 'Block_playback'
+      eventVar3: 'Block_playback',
+      applicationFeature: ApplicationFeature.DETECT_AD_BLOCK
     })
   },
   [PluginsEvents.DETECT_AD_BLOCK_SECONDARY_BUTTON_CLICKED]: {
@@ -661,7 +718,8 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar2: ButtonType.Close,
       eventVar1: 'Ad_blocker_keep_watching',
-      eventVar3: 'secondary_button'
+      eventVar3: 'secondary_button',
+      applicationFeature: ApplicationFeature.DETECT_AD_BLOCK
     })
   },
   [PluginsEvents.DETECT_AD_BLOCK_X_BUTTON_CLICKED]: {
@@ -670,7 +728,8 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar2: ButtonType.Close,
       eventVar1: 'Ad_blocker_keep_watching',
-      eventVar3: 'x_button'
+      eventVar3: 'x_button',
+      applicationFeature: ApplicationFeature.DETECT_AD_BLOCK
     })
   },
   [PluginsEvents.DETECT_AD_BLOCK_AD_BLOCKER_DISABLED]: {
@@ -679,7 +738,8 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar2: ButtonType.Close,
       eventVar1: 'Ad_blocker_disabled_ad_blocker',
-      eventVar3: 'disabled'
+      eventVar3: 'disabled',
+      applicationFeature: ApplicationFeature.DETECT_AD_BLOCK
     })
   },
   [PluginsEvents.DETECT_AD_BLOCK_AD_BLOCKER_NOT_DISABLED]: {
@@ -688,7 +748,8 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar2: ButtonType.Close,
       eventVar1: 'Ad_blocker_disabled_ad_blocker',
-      eventVar3: 'still_detected'
+      eventVar3: 'still_detected',
+      applicationFeature: ApplicationFeature.DETECT_AD_BLOCK
     })
   },
   [PluginsEvents.REELS_PLAY]: {
@@ -699,7 +760,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventVar1: 'reels_play_click',
       eventVar3: isResume ? 'resume' : 'manual_play',
       eventVar4: duration,
-      applicationFeature: 'reels_player'
+      applicationFeature: ApplicationFeature.REELS
     })
   },
   [PluginsEvents.REELS_PAUSE]: {
@@ -709,7 +770,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventVar2: ButtonType.Choose,
       eventVar1: 'reels_pause',
       eventVar4: duration,
-      applicationFeature: 'reels_player'
+      applicationFeature: ApplicationFeature.REELS
     })
   },
   [PluginsEvents.REELS_MUTE]: {
@@ -719,7 +780,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventVar2: ButtonType.Choose,
       eventVar1: 'reels_mute',
       eventVar4: duration,
-      applicationFeature: 'reels_player'
+      applicationFeature: ApplicationFeature.REELS
     })
   },
   [PluginsEvents.REELS_UNMUTE]: {
@@ -729,7 +790,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventVar2: ButtonType.Choose,
       eventVar1: 'reels_unmute',
       eventVar4: duration,
-      applicationFeature: 'reels_player'
+      applicationFeature: ApplicationFeature.REELS
     })
   },
   [PluginsEvents.REELS_SEEK]: {
@@ -740,7 +801,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventVar1: 'reels_seek',
       eventVar3: to > from ? 'forward' : 'backward',
       eventVar4: duration,
-      applicationFeature: 'reels_player'
+      applicationFeature: ApplicationFeature.REELS
     })
   },
   [PluginsEvents.REELS_POSTER_CLICKED]: {
@@ -750,7 +811,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventVar2: ButtonType.Choose,
       eventVar1: 'reels_navigate_to_entry',
       eventVar4: duration,
-      applicationFeature: 'reels_player'
+      applicationFeature: ApplicationFeature.REELS
     })
   },
   [PluginsEvents.REELS_ENTRY_LOADED]: {
@@ -761,7 +822,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventVar1: 'reels_entry_start_playback',
       eventVar3: muted ? 'muted' : 'unmuted',
       eventVar4: playlistId,
-      applicationFeature: 'reels_player'
+      applicationFeature: ApplicationFeature.REELS
     })
   },
   [PluginsEvents.REELS_PLAYLIST_LOADED]: {
@@ -772,7 +833,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventVar1: 'reels_playlist_load',
       eventVar3: `${muted ? 'muted' : 'unmuted'} ; ${autoplay ? 'autoplay_on' : 'autoplay_off'}`,
       eventVar4: playlistId,
-      applicationFeature: 'reels_player'
+      applicationFeature: ApplicationFeature.REELS
     })
   }
 };
