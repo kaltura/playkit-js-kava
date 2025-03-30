@@ -12,6 +12,7 @@ import { DownloadEvent, InfoEvent, ModerationEvent, RelatedEvent, ShareEvent } f
 import { PluginsEvents, PlaykitUIEvents } from './applications-events';
 import { EventBucketName } from './enums/event-bucket-name';
 import { ApplicationEventsModel, getApplicationEventsModel } from './application-events-model';
+import { Application } from './enums/application';
 
 const { Error: PKError, Utils } = core;
 const DIVIDER: number = 1024;
@@ -875,11 +876,11 @@ class Kava extends BasePlugin {
 
   private _getPlayerType() {
     if (this.player.plugins.reels !== undefined) {
-      return 'reels';
+      return Application.REELS;
     } else if (this.player.plugins.audioPlayer !== undefined) {
-      return 'audio';
+      return Application.AUDIO;
     } else {
-      return 'video';
+      return Application.VIDEO;
     }
   }
 

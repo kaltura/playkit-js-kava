@@ -1,7 +1,7 @@
 // @flow
 
 /**
- * @typedef {object} KavaConfigobject
+ * @typedef {Object} KavaConfigObject
  * @property {string} [serviceUrl] - The Kaltura API server.
  * @property {number} [viewEventCountdown] - The interval in seconds that VIEW event will be sent.
  * @property {number} [resetSessionCountdown] - The interval in seconds that Kava session will be reset.
@@ -12,9 +12,9 @@
  * @property {string} [kalturaApplication] - Used to send the kaltura application version from which the user is playing the entry.
  * @property {string} [playbackContext] - Used to send the id of the category from which the user is playing the entry.
  * @property {Function} [tamperAnalyticsHandler] - An optional handler to implement. Can be used to manipulate the model data before analytics event sent, or to cancel a certain analytics request.
- * @property {object} [customVar1] - Custom objects field.
- * @property {object} [customVar2] - Custom objects field.
- * @property {object} [customVar3] - Custom objects field.
+ * @property {Object} [customVar1] - Custom objects field.
+ * @property {Object} [customVar2] - Custom objects field.
+ * @property {Object} [customVar3] - Custom objects field.
  * @property {string} [userId] - custom user id .
  * @property {string} [hostingKalturaApplication] - Used to send the application from which the user is playing the entry.
  * @property {string} [hostingKalturaApplicationVersion] - Used to send the application version from which the user is playing the entry.
@@ -40,9 +40,9 @@ type _KavaConfigObject = {
   viewEventCountdown?: number,
   resetSessionCountdown?: number,
   dvrThreshold?: number,
-  customVar1?: object,
-  customVar2?: object,
-  customVar3?: object,
+  customVar1?: Object,
+  customVar2?: Object,
+  customVar3?: Object,
   application?: string,
   kalturaApplicationVersion?: string,
   kalturaApplication?: string,
@@ -54,7 +54,7 @@ type _KavaConfigObject = {
 
 /**
  * @function tamperAnalyticsHandler
- * @param {object} model - Event model
+ * @param {Object} model - Event model
  * @memberof KavaConfigObject
  * @returns {boolean} - Should send the request or not.
  * @example
