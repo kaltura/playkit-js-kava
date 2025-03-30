@@ -874,7 +874,7 @@ class Kava extends BasePlugin {
     this._model.getHostingKalturaApplicationVersion = (): string => this.config.applicationVersion;
   }
 
-  private _getPlayerType() {
+  private _getPlayerType(): Application {
     if (this.player.plugins.reels !== undefined) {
       return Application.REELS;
     } else if (this.player.plugins.audioPlayer !== undefined) {
