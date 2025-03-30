@@ -580,8 +580,8 @@ class Kava extends BasePlugin {
       this._impressionSent = true;
     } else {
       this.logger.debug('Delaying IMPRESSION event until plugins are registered');
-      this.eventManager.listenOnce(this.player, this.player.Event.REGISTERED_PLUGINS_LIST_EVENT, () => {
-        // Trigger _onRegisteredPluginsListChange which now handles sending IMPRESSION as well
+      this.eventManager.listenOnce(this.player, this.player.Event.REGISTERED_PLUGINS_LIST_EVENT, (e) => {
+        this._onRegisteredPluginsListChange(e.payload);
       });
     }
 
