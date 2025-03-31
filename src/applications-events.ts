@@ -45,7 +45,7 @@ export const EadEvents = {
   EAD_REPLAY: 'EAD_replay',
   EAD_PAUSE: 'EAD_pause',
   EAD_PLAY: 'EAD_play',
-  EAD_SCROLL: 'EAD_scroll',
+  EAD_SCROLL: 'EAD_scroll'
 };
 
 export const DualscreenEvents = {
