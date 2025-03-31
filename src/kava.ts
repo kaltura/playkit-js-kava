@@ -328,7 +328,6 @@ class Kava extends BasePlugin {
     this.eventManager.listen(this.player, this.player.Event.Core.MUTE_CHANGE, () => this._updateSoundModeInModel());
     this.eventManager.listen(this.player, this.player.Event.Core.ENTER_FULLSCREEN, () => this._onFullScreenChanged(ScreenMode.FULLSCREEN));
     this.eventManager.listen(this.player, this.player.Event.Core.EXIT_FULLSCREEN, () => this._onFullScreenChanged(ScreenMode.NOT_IN_FULLSCREEN));
-    this.eventManager.listen(this.player, this.player.Event.REGISTERED_PLUGINS_LIST_EVENT, (e) => this._onRegisteredPluginsListChange(e.payload));
     this.eventManager.listen(this.player, RelatedEvent.RELATED_OPEN, () => this._onRelatedClicked());
     this.eventManager.listen(this.player, RelatedEvent.RELATED_SELECTED, () => this._onRelatedSelected());
     this.eventManager.listen(this.player, ShareEvent.SHARE_CLICKED, () => this._onShareClicked());
@@ -573,7 +572,11 @@ class Kava extends BasePlugin {
   }
 
   private _onSourceSelected(): void {
+    const plugins = Object.values(this.player.plugins).map((plugin: any) => plugin.name);
+    this._model.updateModel({ registeredPlugins: plugins.join(',') });
+
     this._sendAnalytics(KavaEventModel.IMPRESSION);
+
     if (!(this.player.isImage() || this.player.isLive())) {
       this.eventManager.listen(this.player, this.player.Event.Core.TIME_UPDATE, () => this._onTimeUpdate());
     }
@@ -805,10 +808,6 @@ class Kava extends BasePlugin {
   private _onFullScreenChanged(screenMode: number): void {
     this._model.updateModel({ screenMode: screenMode });
     this._sendAnalytics(screenMode === ScreenMode.FULLSCREEN ? KavaEventModel.ENTER_FULLSCREEN : KavaEventModel.EXIT_FULLSCREEN);
-  }
-
-  private _onRegisteredPluginsListChange(payload: string[]): void {
-    this._model.updateModel({ registeredPlugins: payload.join(',') });
   }
 
   private _updateSessionStartTimeModel(response: any | number): void {

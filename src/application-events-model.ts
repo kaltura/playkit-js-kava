@@ -149,14 +149,14 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
         eventVar2: ButtonType.Download,
         applicationFeature: ApplicationFeature.DOWNLOAD
       };
-      const { assetType, fileType, description } = payload;
+      const { assetType, fileType, description, isDefault } = payload;
 
       let eventVar1: string;
       let eventVar3: string;
 
       switch (assetType) {
         case 'Media':
-          eventVar1 = 'Download_video_download';
+          eventVar1 = isDefault ? 'Download_video_download' : 'Download_additional_stream_download';
           eventVar3 = description;
           break;
         case 'Captions':
