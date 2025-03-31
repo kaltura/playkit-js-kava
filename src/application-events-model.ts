@@ -602,6 +602,76 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       applicationFeature: ApplicationFeature.QUIZ
     })
   },
+  [PluginsEvents.EAD_ON]: {
+    type: 'EAD_ON',
+    getEventModel: ({ language }) => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      eventVar1: 'EAD_on',
+      eventVar2: ButtonType.Toggle,
+      eventVar3: language,
+      applicationFeature: ApplicationFeature.EAD
+    })
+  },
+  [PluginsEvents.EAD_OFF]: {
+    type: 'EAD_OFF',
+    getEventModel: ({ language }) => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      eventVar1: 'EAD_off',
+      eventVar2: ButtonType.Toggle,
+      eventVar3: language,
+      applicationFeature: ApplicationFeature.EAD
+    })
+  },
+  [PluginsEvents.EAD_SKIP]: {
+    type: 'EAD_SKIP',
+    getEventModel: ({ trigger }) => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      eventVar1: 'EAD_skip',
+      eventVar2: ButtonType.Toggle,
+      eventVar3: trigger,
+      applicationFeature: ApplicationFeature.EAD
+    })
+  },
+  [PluginsEvents.EAD_REPLAY]: {
+    type: 'EAD_REPLAY',
+    getEventModel: ({ trigger }) => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      eventVar1: 'EAD_replay',
+      eventVar2: ButtonType.Toggle,
+      eventVar3: trigger,
+      applicationFeature: ApplicationFeature.EAD
+    })
+  },
+  [PluginsEvents.EAD_PAUSE]: {
+    type: 'EAD_PAUSE',
+    getEventModel: () => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      eventVar1: 'EAD_pause',
+      eventVar2: ButtonType.Toggle,
+      eventVar3: '',
+      applicationFeature: ApplicationFeature.EAD
+    })
+  },
+  [PluginsEvents.EAD_PLAY]: {
+    type: 'EAD_PLAY',
+    getEventModel: () => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      eventVar1: 'EAD_play',
+      eventVar2: ButtonType.Toggle,
+      eventVar3: '',
+      applicationFeature: ApplicationFeature.EAD
+    })
+  },
+  [PluginsEvents.EAD_SCROLL]: {
+    type: 'EAD_SCROLL',
+    getEventModel: () => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      eventVar1: 'EAD_scroll',
+      eventVar2: ButtonType.Toggle,
+      eventVar3: '',
+      applicationFeature: ApplicationFeature.EAD
+    })
+  },
   [PlaykitUIEvents.USER_CLICKED_LOGO]: {
     type: 'USER_CLICKED_LOGO',
     getEventModel: (payload: any): any => ({
