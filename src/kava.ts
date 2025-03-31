@@ -576,11 +576,11 @@ class Kava extends BasePlugin {
 
   private _onSourceSelected(): void {
     if (this._hasRegisteredPlugins) {
-      this._sendImpressionOnce();
+      this._sendImpression();
     } else {
       this.logger.debug('Delaying IMPRESSION event until plugins are registered');
       this.eventManager.listenOnce(this.player, this.player.Event.REGISTERED_PLUGINS_LIST_EVENT, () => {
-        this._sendImpressionOnce();
+        this._sendImpression();
       });
     }
 
@@ -589,7 +589,7 @@ class Kava extends BasePlugin {
     }
   }
 
-  private _sendImpressionOnce(): void {
+  private _sendImpression(): void {
     if (!this._impressionSent) {
       this._sendAnalytics(KavaEventModel.IMPRESSION);
       this._impressionSent = true;
