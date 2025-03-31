@@ -576,17 +576,23 @@ class Kava extends BasePlugin {
 
   private _onSourceSelected(): void {
     if (this._hasRegisteredPlugins) {
-      this._sendAnalytics(KavaEventModel.IMPRESSION);
-      this._impressionSent = true;
+      this._sendImpressionOnce();
     } else {
       this.logger.debug('Delaying IMPRESSION event until plugins are registered');
-      this.eventManager.listenOnce(this.player, this.player.Event.REGISTERED_PLUGINS_LIST_EVENT, (e) => {
-        this._onRegisteredPluginsListChange(e.payload);
+      this.eventManager.listenOnce(this.player, this.player.Event.REGISTERED_PLUGINS_LIST_EVENT, () => {
+        this._sendImpressionOnce();
       });
     }
 
     if (!(this.player.isImage() || this.player.isLive())) {
       this.eventManager.listen(this.player, this.player.Event.Core.TIME_UPDATE, () => this._onTimeUpdate());
+    }
+  }
+
+  private _sendImpressionOnce(): void {
+    if (!this._impressionSent) {
+      this._sendAnalytics(KavaEventModel.IMPRESSION);
+      this._impressionSent = true;
     }
   }
 
@@ -821,10 +827,6 @@ class Kava extends BasePlugin {
   private _onRegisteredPluginsListChange(payload: string[]): void {
     this._model.updateModel({ registeredPlugins: payload.join(',') });
     this._hasRegisteredPlugins = true;
-    if (!this._impressionSent) {
-      this._sendAnalytics(KavaEventModel.IMPRESSION);
-      this._impressionSent = true;
-    }
   }
 
   private _updateSessionStartTimeModel(response: any | number): void {
