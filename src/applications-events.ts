@@ -38,6 +38,16 @@ export const TranscriptEvents = {
   TRANSCRIPT_POPOUT_RESIZE: 'transcript_popout_resize'
 };
 
+export const EadEvents = {
+  EAD_ON: 'EAD_on',
+  EAD_OFF: 'EAD_off',
+  EAD_SKIP: 'EAD_skip',
+  EAD_REPLAY: 'EAD_replay',
+  EAD_PAUSE: 'EAD_pause',
+  EAD_PLAY: 'EAD_play',
+  EAD_SCROLL: 'EAD_scroll'
+};
+
 export const DualscreenEvents = {
   CHANGE_LAYOUT: 'dualscreen_change_layout',
   SIDE_DISPLAYED: 'dualscreen_side_displayed'
@@ -123,5 +133,6 @@ export const PluginsEvents = {
   ...HotspotsEvents,
   ...IvqEventTypes,
   ...DetectAdBlockEvents,
-  ...ReelsEvents
+  ...ReelsEvents,
+  ...EadEvents
 };

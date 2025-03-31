@@ -13,5 +13,6 @@ export enum ApplicationFeature {
   QUIZ = 'quiz',
   UI = 'ui',
   DETECT_AD_BLOCK = 'detect_ad_block',
-  REELS = 'reels_player'
+  REELS = 'reels_player',
+  EAD = 'extended_audio_description'
 }
