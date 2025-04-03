@@ -8,7 +8,11 @@ export const PlaykitUIEvents = {
   USER_SELECTED_CAPTIONS_FONT_STYLE: `${playkitUIEventsNamespace}-userselectedcaptionsfontstyle`,
   USER_SELECTED_CAPTIONS_FONT_OPACITY: `${playkitUIEventsNamespace}-userselectedcaptionsfontopacity`,
   USER_SELECTED_CAPTIONS_BACKGROUND_COLOR: `${playkitUIEventsNamespace}-userselectedcaptionsbackgroundcolor`,
-  USER_SELECTED_CAPTIONS_BACKGROUND_OPACITY: `${playkitUIEventsNamespace}-userselectedcaptionsbackgroundopacity`
+  USER_SELECTED_CAPTIONS_BACKGROUND_OPACITY: `${playkitUIEventsNamespace}-userselectedcaptionsbackgroundopacity`,
+  USER_SHOWED_CAPTIONS: `${playkitUIEventsNamespace}-usershowedcaptions`,
+  USER_HID_CAPTIONS: `${playkitUIEventsNamespace}-userhidcaptions`,
+  USER_SELECTED_CAPTION_TRACK: `${playkitUIEventsNamespace}-userselectedcaptiontrack`,
+  USER_SELECTED_AUDIO_TRACK: `${playkitUIEventsNamespace}-userselectedaudiotrack`,
 };
 
 export const NavigationEvents = {
