@@ -791,7 +791,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventVar1: 'Captions_language_selected',
       eventVar2: ButtonType.Choose,
       eventVar3: captionTrack?.language,
-      eventVar4: autoSelected ? 'Auto display': 'Manual selection',
+      eventVar4: autoSelected ? 'Auto display' : 'Manual selection',
       applicationFeature: ApplicationFeature.CAPTIONS
     })
   },
