@@ -604,21 +604,23 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
   },
   [PluginsEvents.EAD_ON]: {
     type: 'EAD_ON',
-    getEventModel: ({ language }) => ({
+    getEventModel: (payload: any) => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar1: 'EAD_on',
       eventVar2: ButtonType.Toggle,
-      eventVar3: language,
+      eventVar3: payload?.language,
+      eventVar4: payload?.settings ? 'settings' : 'toggle',
       applicationFeature: ApplicationFeature.EAD
     })
   },
   [PluginsEvents.EAD_OFF]: {
     type: 'EAD_OFF',
-    getEventModel: ({ language }) => ({
+    getEventModel: (payload: any) => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar1: 'EAD_off',
       eventVar2: ButtonType.Toggle,
-      eventVar3: language,
+      eventVar3: payload?.language,
+      eventVar4: payload?.settings ? 'settings' : 'toggle',
       applicationFeature: ApplicationFeature.EAD
     })
   },
@@ -627,7 +629,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
     getEventModel: ({ trigger }) => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar1: 'EAD_skip',
-      eventVar2: ButtonType.Toggle,
+      eventVar2: ButtonType.Navigate,
       eventVar3: trigger,
       applicationFeature: ApplicationFeature.EAD
     })
@@ -637,7 +639,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
     getEventModel: ({ trigger }) => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar1: 'EAD_replay',
-      eventVar2: ButtonType.Toggle,
+      eventVar2: ButtonType.Navigate,
       eventVar3: trigger,
       applicationFeature: ApplicationFeature.EAD
     })
@@ -667,7 +669,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
     getEventModel: () => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar1: 'EAD_scroll',
-      eventVar2: ButtonType.Toggle,
+      eventVar2: ButtonType.Browse,
       eventVar3: '',
       applicationFeature: ApplicationFeature.EAD
     })
@@ -689,7 +691,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventVar1: 'Advanced_captions_size',
       eventVar2: ButtonType.Choose,
       eventVar3: payload,
-      applicationFeature: ApplicationFeature.UI
+      applicationFeature: ApplicationFeature.ADVANCED_CAPTIONS
     })
   },
   [PlaykitUIEvents.USER_SELECTED_CAPTIONS_ALIGNMENT]: {
@@ -699,7 +701,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventVar1: 'Advanced_captions_font_alignment',
       eventVar2: ButtonType.Choose,
       eventVar3: payload,
-      applicationFeature: ApplicationFeature.UI
+      applicationFeature: ApplicationFeature.ADVANCED_CAPTIONS
     })
   },
   [PlaykitUIEvents.USER_SELECTED_CAPTIONS_FONT_COLOR]: {
@@ -709,7 +711,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventVar1: 'Advanced_captions_font_color',
       eventVar2: ButtonType.Choose,
       eventVar3: payload,
-      applicationFeature: ApplicationFeature.UI
+      applicationFeature: ApplicationFeature.ADVANCED_CAPTIONS
     })
   },
   [PlaykitUIEvents.USER_SELECTED_CAPTIONS_FONT_FAMILY]: {
@@ -719,7 +721,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventVar1: 'Advanced_captions_font_family',
       eventVar2: ButtonType.Choose,
       eventVar3: payload,
-      applicationFeature: ApplicationFeature.UI
+      applicationFeature: ApplicationFeature.ADVANCED_CAPTIONS
     })
   },
   [PlaykitUIEvents.USER_SELECTED_CAPTIONS_FONT_STYLE]: {
@@ -729,7 +731,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventVar1: 'Advanced_captions_font_style',
       eventVar2: ButtonType.Choose,
       eventVar3: payload,
-      applicationFeature: ApplicationFeature.UI
+      applicationFeature: ApplicationFeature.ADVANCED_CAPTIONS
     })
   },
   [PlaykitUIEvents.USER_SELECTED_CAPTIONS_FONT_OPACITY]: {
@@ -739,7 +741,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventVar1: 'Advanced_captions_font_opacity',
       eventVar2: ButtonType.Choose,
       eventVar3: `${payload * 100}%`,
-      applicationFeature: ApplicationFeature.UI
+      applicationFeature: ApplicationFeature.ADVANCED_CAPTIONS
     })
   },
   [PlaykitUIEvents.USER_SELECTED_CAPTIONS_BACKGROUND_COLOR]: {
@@ -749,7 +751,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventVar1: 'Advanced_captions_background_color',
       eventVar2: ButtonType.Choose,
       eventVar3: payload,
-      applicationFeature: ApplicationFeature.UI
+      applicationFeature: ApplicationFeature.ADVANCED_CAPTIONS
     })
   },
   [PlaykitUIEvents.USER_SELECTED_CAPTIONS_BACKGROUND_OPACITY]: {
@@ -759,7 +761,49 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventVar1: 'Advanced_captions_background_opacity',
       eventVar2: ButtonType.Choose,
       eventVar3: `${payload * 100}%`,
-      applicationFeature: ApplicationFeature.UI
+      applicationFeature: ApplicationFeature.ADVANCED_CAPTIONS
+    })
+  },
+  [PlaykitUIEvents.USER_SHOWED_CAPTIONS]: {
+    type: 'USER_SHOWED_CAPTIONS',
+    getEventModel: (payload: any): any => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      eventVar1: 'Captions_on',
+      eventVar2: ButtonType.Toggle,
+      eventVar3: payload?.language,
+      applicationFeature: ApplicationFeature.CAPTIONS
+    })
+  },
+  [PlaykitUIEvents.USER_HID_CAPTIONS]: {
+    type: 'USER_HID_CAPTIONS',
+    getEventModel: (payload: any): any => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      eventVar1: 'Captions_off',
+      eventVar2: ButtonType.Toggle,
+      eventVar3: payload?.language,
+      applicationFeature: ApplicationFeature.CAPTIONS
+    })
+  },
+  [PlaykitUIEvents.USER_SELECTED_CAPTION_TRACK]: {
+    type: 'USER_SELECTED_CAPTION_TRACK',
+    getEventModel: ({ captionTrack, autoSelected }): any => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      eventVar1: 'Captions_language_selected',
+      eventVar2: ButtonType.Choose,
+      eventVar3: captionTrack?.language,
+      eventVar4: autoSelected ? 'Auto display' : 'Manual selection',
+      applicationFeature: ApplicationFeature.CAPTIONS
+    })
+  },
+  [PlaykitUIEvents.USER_SELECTED_AUDIO_TRACK]: {
+    type: 'USER_SELECTED_AUDIO_TRACK',
+    getEventModel: ({ audioTrack }): any => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      eventVar1: 'audioSelected',
+      eventVar2: ButtonType.Choose,
+      eventVar3: audioTrack?.language,
+      eventVar4: audioTrack?.language?.startsWith('ad-') ? 'AD' : 'non_AD',
+      applicationFeature: ApplicationFeature.AUDION_TRACKS
     })
   },
   [PluginsEvents.DETECT_AD_BLOCK_FULL_OVERLAY_SHOWN]: {

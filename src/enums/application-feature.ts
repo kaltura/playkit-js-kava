@@ -14,5 +14,8 @@ export enum ApplicationFeature {
   UI = 'ui',
   DETECT_AD_BLOCK = 'detect_ad_block',
   REELS = 'reels_player',
-  EAD = 'extended_audio_description'
+  EAD = 'extended_audio_description',
+  ADVANCED_CAPTIONS = 'advanced_captions',
+  CAPTIONS = 'captions',
+  AUDION_TRACKS = 'audio_tracks'
 }
