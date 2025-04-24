@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 1.10.3 (2025-04-24)
+
+
+### Bug Fixes
+
+* **FEC-14074:** EAD events ([#199](https://github.com/kaltura/playkit-js-kava/issues/199)) ([6a58acb](https://github.com/kaltura/playkit-js-kava/commit/6a58acb402c481bad301ea4fdcc6e6ff04a335b1))
+
 ### 1.10.2 (2025-04-02)
 
 
