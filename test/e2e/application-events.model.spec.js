@@ -9,7 +9,8 @@ const commonModel = {
   sessionId: '91011',
   kalturaApplication: KalturaApplication.PLAYER,
   eventType: undefined,
-  feature: undefined
+  feature: undefined,
+  application: undefined
 };
 
 describe('ApplicationEventsModel', () => {

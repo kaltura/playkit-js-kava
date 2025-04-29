@@ -12,14 +12,12 @@ export function getApplicationEventsModel(eventObj: KavaEvent, model: KavaModel,
     partnerId: model.getPartnerId(),
     entryId: model.getEntryId(),
     sessionId: model.getSessionId(),
-    kalturaApplication: KalturaApplication.PLAYER
+    kalturaApplication: KalturaApplication.PLAYER,
+    application: model.getApplication(false)
   };
 
   if (model.getVirtualEventId()) {
     commonModel['virtualEventId'] = model.getVirtualEventId();
-  }
-  if (model.getKalturaApplication()) {
-    commonModel['application'] = model.getApplication();
   }
   if (model.getKalturaApplicationVersion()) {
     commonModel['kalturaApplicationVer'] = model.getKalturaApplicationVersion();

@@ -13,6 +13,7 @@ import { PluginsEvents, PlaykitUIEvents } from './applications-events';
 import { EventBucketName } from './enums/event-bucket-name';
 import { ApplicationEventsModel, getApplicationEventsModel } from './application-events-model';
 import { Application } from './enums/application';
+import { PlayerSkin } from './enums/player-skin';
 
 const { Error: PKError, Utils } = core;
 const DIVIDER: number = 1024;
@@ -865,12 +866,17 @@ class Kava extends BasePlugin {
     this._model.getDeliveryType = (): string => this._getDeliveryType();
     this._model.getPlaybackType = (): string => this._getPlaybackType();
     this._model.getPlaybackContext = (): string => this.config.playbackContext;
-    this._model.getApplication = (): string => this._getPlayerType();
+    this._model.getApplication = (playerEvent?: boolean): string => this._getApplication(playerEvent);
     this._model.getKalturaApplicationVersion = (): string => this.config.kalturaApplicationVersion;
     this._model.getKalturaApplication = (): string => this._getKalturaApplicationId(this.config.kalturaApplication);
     this._model.getUserId = (): string => this.config.userId;
     this._model.getHostingKalturaApplication = (): string => this.config.application;
     this._model.getHostingKalturaApplicationVersion = (): string => this.config.applicationVersion;
+    this._model.getPlayerSkin = (): number => this._getPlayerSkin();
+  }
+
+  private _getApplication(playerEvent = true): string {
+    return playerEvent ? this.config.application : this._getPlayerType();
   }
 
   private _getPlayerType(): Application {
@@ -880,6 +886,16 @@ class Kava extends BasePlugin {
       return Application.AUDIO;
     } else {
       return Application.VIDEO;
+    }
+  }
+
+  private _getPlayerSkin(): PlayerSkin {
+    if (this.player.plugins.reels !== undefined) {
+      return PlayerSkin.REELS;
+    } else if (this.player.plugins.audioPlayer !== undefined) {
+      return PlayerSkin.AUDIO;
+    } else {
+      return PlayerSkin.PLAYER;
     }
   }
 

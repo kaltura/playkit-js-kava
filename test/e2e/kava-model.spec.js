@@ -36,7 +36,8 @@ const ab = 3,
   ka = 'ka',
   usi = '1234',
   pbs = 1,
-  psi = '1234-1234';
+  psi = '1234-1234',
+  ps = 1;
 
 describe('KavaModel', () => {
   let model;
@@ -96,6 +97,7 @@ describe('KavaModel', () => {
     model.getPersistentSessionId = () => psi;
     model.getHostingKalturaApplication = () => hostingApp;
     model.getHostingKalturaApplicationVersion = () => av;
+    model.getPlayerSkin = () => ps;
   });
 
   it('should update the model', function () {
@@ -137,7 +139,8 @@ describe('KavaModel', () => {
       caption: cap,
       persistentSessionId: psi,
       hostingKalturaApplication: hostingApp,
-      hostingKalturaApplicationVersion: av
+      hostingKalturaApplicationVersion: av,
+      playerSkin: ps
     });
   });
 });
