@@ -876,6 +876,8 @@ class Kava extends BasePlugin {
   }
 
   private _getApplication(playerEvent = true): string {
+    // for player event, we want to return the application value from the configuration
+    // otherwise (i.e. application event), we want to return the player type
     return playerEvent ? this.config.application : this._getPlayerType();
   }
 
