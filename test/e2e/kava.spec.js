@@ -803,7 +803,7 @@ describe('KavaPlugin', function () {
                 'tabMode',
                 'networkConnectionType',
                 'userId',
-                'application'
+                'playerSkin'
               );
               params.networkConnectionType.should.equal('2g');
               params.tabMode.should.equal(TabMode.TAB_FOCUSED);

@@ -374,7 +374,8 @@ export function getEventModel(eventObj: KavaEvent, model: KavaModel): any {
     clientVer: model.getClientVer(),
     clientTag: model.getClientTag(),
     position: model.getPosition(),
-    playbackSpeed: model.getPlaybackSpeed()
+    playbackSpeed: model.getPlaybackSpeed(),
+    playerSkin: model.getPlayerSkin()
   };
 
   if (model.getCaption()) {
