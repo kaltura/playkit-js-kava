@@ -72,6 +72,7 @@ class KavaModel {
   public getHostingKalturaApplication!: () => any;
   public getHostingKalturaApplicationVersion!: () => any;
   public getPlayerSkin!: () => any;
+  public getV2ToV7Redirect!: () => any;
 
   constructor(model?: object) {
     if (model) {
