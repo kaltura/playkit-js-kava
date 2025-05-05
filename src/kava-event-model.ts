@@ -79,7 +79,9 @@ export const KavaEventModel = {
       if (model.getPlayerJSLoadTime() !== null) {
         eventModel.playerJSLoadTime = model.getPlayerJSLoadTime();
       }
-      eventModel['loadedPlugins'] = model.getRegisteredPlugins();
+      const isV2ToV7Redirected = model.getV2ToV7Redirect();
+      const registeredPlugins = model.getRegisteredPlugins();
+      eventModel['loadedPlugins'] = isV2ToV7Redirected ? `v2-v7redirect,${registeredPlugins}` : registeredPlugins;
       return eventModel;
     }
   },

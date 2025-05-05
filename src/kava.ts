@@ -873,6 +873,8 @@ class Kava extends BasePlugin {
     this._model.getHostingKalturaApplication = (): string => this.config.application;
     this._model.getHostingKalturaApplicationVersion = (): string => this.config.applicationVersion;
     this._model.getPlayerSkin = (): number => this._getPlayerSkin();
+    // @ts-expect-error - isV2ToV7Redirected doe not exist on KalturaPlayer
+    this._model.getV2ToV7Redirect = (): boolean => this.player.isV2ToV7Redirected;
   }
 
   private _getApplication(playerEvent = true): string {
