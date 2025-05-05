@@ -128,6 +128,10 @@ class FakeModel {
   getRegisteredPlugins() {
     return 'kava,skip,bumper';
   }
+
+  getV2ToV7Redirect() {
+    return false;
+  }
 }
 
 describe('KavaEventModel', () => {
