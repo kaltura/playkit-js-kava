@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 1.11.0 (2025-05-11)
+
+
+### Features
+
+* **FEC-14293:** Report v2-v7 player loads to kava in Event multi vars 1 ([#201](https://github.com/kaltura/playkit-js-kava/issues/201)) ([8692ca9](https://github.com/kaltura/playkit-js-kava/commit/8692ca977e06d62123904f105ec6b388ba37bd49))
+
 ### 1.10.3 (2025-04-24)
 
 
