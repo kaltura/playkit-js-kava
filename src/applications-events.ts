@@ -48,6 +48,7 @@ export const EadEvents = {
   EAD_SKIP: 'EAD_skip',
   EAD_REPLAY: 'EAD_replay',
   EAD_PAUSE: 'EAD_pause',
+  EAD_RESUME: 'EAD_resume',
   EAD_PLAY: 'EAD_play',
   EAD_SCROLL: 'EAD_scroll'
 };

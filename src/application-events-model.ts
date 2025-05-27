@@ -644,11 +644,21 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
   },
   [PluginsEvents.EAD_PAUSE]: {
     type: 'EAD_PAUSE',
-    getEventModel: () => ({
+    getEventModel: ({ trigger }) => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar1: 'EAD_pause',
-      eventVar2: ButtonType.Toggle,
-      eventVar3: '',
+      eventVar2: ButtonType.Navigate,
+      eventVar3: trigger,
+      applicationFeature: ApplicationFeature.EAD
+    })
+  },
+  [PluginsEvents.EAD_RESUME]: {
+    type: 'EAD_PAUSE',
+    getEventModel: ({ trigger }) => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      eventVar1: 'EAD_resume',
+      eventVar2: ButtonType.Navigate,
+      eventVar3: trigger,
       applicationFeature: ApplicationFeature.EAD
     })
   },
