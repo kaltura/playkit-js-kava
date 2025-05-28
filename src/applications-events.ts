@@ -123,6 +123,17 @@ export const ReelsEvents = {
   REELS_PLAYLIST_LOADED: 'reels_playlist_loaded'
 };
 
+export const SummaryAndChaptersEvents = {
+  SUMMARY_CHAPTERS_OPEN: 'summary_chapters_open',
+  SUMMARY_CHAPTERS_CLOSE: 'summary_chapters_close',
+  SUMMARY_CHAPTERS_READ_CHAPTERS: 'summary_chapters_read_chapters',
+  SUMMARY_CHAPTERS_READ_OVERVIEW: 'summary_chapters_read_overview',
+  SUMMARY_CHAPTERS_COPY_TO_CLIPBOARD: 'summary_chapters_copy_to_clipboard',
+  SUMMARY_CHAPTERS_CHAPTER_EXPAND: 'summary_chapters_expand',
+  SUMMARY_CHAPTERS_CHAPTER_COLLAPSE: 'summary_chapters_collapse',
+  SUMMARY_CHAPTERS_CHAPTER_SEEK: 'summary_chapters_seek'
+};
+
 export const PluginsEvents = {
   ...NavigationEvents,
   ...DownloadEvents,
@@ -138,5 +149,6 @@ export const PluginsEvents = {
   ...IvqEventTypes,
   ...DetectAdBlockEvents,
   ...ReelsEvents,
-  ...EadEvents
+  ...EadEvents,
+  ...SummaryAndChaptersEvents
 };

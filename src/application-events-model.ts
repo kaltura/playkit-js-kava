@@ -947,5 +947,93 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventVar4: playlistId,
       applicationFeature: ApplicationFeature.REELS
     })
+  },
+  [PluginsEvents.SUMMARY_CHAPTERS_OPEN]: {
+    type: 'SUMMARY_CHAPTERS_OPEN',
+    getEventModel: ({ muted, autoplay, playlistId }) => ({
+      eventType: ApplicationEventType.PAGE_LOAD,
+      eventVar2: PageLoadType.View,
+      eventVar1: 'reels_playlist_load',
+      eventVar3: `${muted ? 'muted' : 'unmuted'} ; ${autoplay ? 'autoplay_on' : 'autoplay_off'}`,
+      eventVar4: playlistId,
+      applicationFeature: ApplicationFeature.REELS
+    })
+  },
+  [PluginsEvents.SUMMARY_CHAPTERS_CLOSE]: {
+    type: 'REELS_PLAYLIST_LOADED',
+    getEventModel: ({ muted, autoplay, playlistId }) => ({
+      eventType: ApplicationEventType.PAGE_LOAD,
+      eventVar2: PageLoadType.View,
+      eventVar1: 'reels_playlist_load',
+      eventVar3: `${muted ? 'muted' : 'unmuted'} ; ${autoplay ? 'autoplay_on' : 'autoplay_off'}`,
+      eventVar4: playlistId,
+      applicationFeature: ApplicationFeature.REELS
+    })
+  },
+  [PluginsEvents.SUMMARY_CHAPTERS_READ_CHAPTERS]: {
+    type: 'SUMMARY_CHAPTERS_READ_CHAPTERS',
+    getEventModel: () => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      eventVar2: ButtonType.Choose,
+      eventVar1: 'summary_chapters_read_as_chapters',
+      eventVar3: '',
+      eventVar4: '',
+      applicationFeature: ApplicationFeature.SUMMARY_CHAPTERS
+    })
+  },
+  [PluginsEvents.SUMMARY_CHAPTERS_READ_OVERVIEW]: {
+    type: 'SUMMARY_CHAPTERS_READ_OVERVIEW',
+    getEventModel: () => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      eventVar2: ButtonType.Choose,
+      eventVar1: 'summary_chapters_read_as_overview',
+      eventVar3: '',
+      eventVar4: '',
+      applicationFeature: ApplicationFeature.SUMMARY_CHAPTERS
+    })
+  },
+  [PluginsEvents.SUMMARY_CHAPTERS_COPY_TO_CLIPBOARD]: {
+    type: 'SUMMARY_CHAPTERS_COPY_TO_CLIPBOARD',
+    getEventModel: () => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      eventVar2: ButtonType.Navigate,
+      eventVar1: 'summary_chapters_copy_to_clipboard',
+      eventVar3: '',
+      eventVar4: '',
+      applicationFeature: ApplicationFeature.SUMMARY_CHAPTERS
+    })
+  },
+  [PluginsEvents.SUMMARY_CHAPTERS_CHAPTER_EXPAND]: {
+    type: 'SUMMARY_CHAPTERS_CHAPTER_EXPAND',
+    getEventModel: ({ chapterNumber }) => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      eventVar2: ButtonType.Expand,
+      eventVar1: 'summary_chapters_expand_chapter',
+      eventVar3: '',
+      eventVar4: chapterNumber,
+      applicationFeature: ApplicationFeature.REELS
+    })
+  },
+  [PluginsEvents.SUMMARY_CHAPTERS_CHAPTER_COLLAPSE]: {
+    type: 'REELS_PLAYLIST_LOADED',
+    getEventModel: ({ chapterNumber }) => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      eventVar2: ButtonType.Collapse,
+      eventVar1: 'summary_chapters_collapse_chapter',
+      eventVar3: '',
+      eventVar4: chapterNumber,
+      applicationFeature: ApplicationFeature.REELS
+    })
+  },
+  [PluginsEvents.SUMMARY_CHAPTERS_CHAPTER_SEEK]: {
+    type: 'REELS_PLAYLIST_LOADED',
+    getEventModel: ({ muted, autoplay, playlistId }) => ({
+      eventType: ApplicationEventType.PAGE_LOAD,
+      eventVar2: PageLoadType.View,
+      eventVar1: 'reels_playlist_load',
+      eventVar3: `${muted ? 'muted' : 'unmuted'} ; ${autoplay ? 'autoplay_on' : 'autoplay_off'}`,
+      eventVar4: playlistId,
+      applicationFeature: ApplicationFeature.REELS
+    })
   }
 };
