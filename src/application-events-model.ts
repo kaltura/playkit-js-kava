@@ -961,11 +961,11 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
   },
   [PluginsEvents.SUMMARY_CHAPTERS_CLOSE]: {
     type: 'SUMMARY_CHAPTERS_CLOSE',
-    getEventModel: ({ buttonType }) => ({
+    getEventModel: ({ buttonName }) => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar2: ButtonType.Toggle,
       eventVar1: 'summary_chapters_close_plugin',
-      eventVar3: buttonType,
+      eventVar3: buttonName,
       eventVar4: '',
       applicationFeature: ApplicationFeature.SUMMARY_CHAPTERS
     })
@@ -1005,34 +1005,34 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
   },
   [PluginsEvents.SUMMARY_CHAPTERS_CHAPTER_EXPAND]: {
     type: 'SUMMARY_CHAPTERS_CHAPTER_EXPAND',
-    getEventModel: ({ chapterNumber }) => ({
+    getEventModel: ({ chapterNumber, buttonName }) => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar2: ButtonType.Expand,
       eventVar1: 'summary_chapters_expand_chapter',
-      eventVar3: '',
+      eventVar3: buttonName,
       eventVar4: chapterNumber,
       applicationFeature: ApplicationFeature.SUMMARY_CHAPTERS
     })
   },
   [PluginsEvents.SUMMARY_CHAPTERS_CHAPTER_COLLAPSE]: {
-    type: 'REELS_PLAYLIST_LOADED',
-    getEventModel: ({ chapterNumber }) => ({
+    type: 'SUMMARY_CHAPTERS_CHAPTER_COLLAPSE',
+    getEventModel: ({ chapterNumber, buttonName }) => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar2: ButtonType.Collapse,
       eventVar1: 'summary_chapters_collapse_chapter',
-      eventVar3: '',
+      eventVar3: buttonName,
       eventVar4: chapterNumber,
       applicationFeature: ApplicationFeature.SUMMARY_CHAPTERS
     })
   },
   [PluginsEvents.SUMMARY_CHAPTERS_CHAPTER_SEEK]: {
-    type: 'REELS_PLAYLIST_LOADED',
-    getEventModel: ({ muted, autoplay, playlistId }) => ({
-      eventType: ApplicationEventType.PAGE_LOAD,
-      eventVar2: PageLoadType.View,
-      eventVar1: 'reels_playlist_load',
-      eventVar3: `${muted ? 'muted' : 'unmuted'} ; ${autoplay ? 'autoplay_on' : 'autoplay_off'}`,
-      eventVar4: playlistId,
+    type: 'SUMMARY_CHAPTERS_CHAPTER_SEEK',
+    getEventModel: ({ chapterNumber, buttonName }) => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      eventVar2: ButtonType.Navigate,
+      eventVar1: 'summary_chapters_seek_to_chapter',
+      eventVar3: buttonName,
+      eventVar4: chapterNumber,
       applicationFeature: ApplicationFeature.SUMMARY_CHAPTERS
     })
   }
