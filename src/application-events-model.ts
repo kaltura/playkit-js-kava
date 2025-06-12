@@ -1011,7 +1011,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventVar1: 'summary_chapters_expand_chapter',
       eventVar3: '',
       eventVar4: chapterNumber,
-      applicationFeature: ApplicationFeature.REELS
+      applicationFeature: ApplicationFeature.SUMMARY_CHAPTERS
     })
   },
   [PluginsEvents.SUMMARY_CHAPTERS_CHAPTER_COLLAPSE]: {
@@ -1022,7 +1022,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventVar1: 'summary_chapters_collapse_chapter',
       eventVar3: '',
       eventVar4: chapterNumber,
-      applicationFeature: ApplicationFeature.REELS
+      applicationFeature: ApplicationFeature.SUMMARY_CHAPTERS
     })
   },
   [PluginsEvents.SUMMARY_CHAPTERS_CHAPTER_SEEK]: {
@@ -1033,7 +1033,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventVar1: 'reels_playlist_load',
       eventVar3: `${muted ? 'muted' : 'unmuted'} ; ${autoplay ? 'autoplay_on' : 'autoplay_off'}`,
       eventVar4: playlistId,
-      applicationFeature: ApplicationFeature.REELS
+      applicationFeature: ApplicationFeature.SUMMARY_CHAPTERS
     })
   }
 };

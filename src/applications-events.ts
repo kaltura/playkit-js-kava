@@ -129,9 +129,9 @@ export const SummaryAndChaptersEvents = {
   SUMMARY_CHAPTERS_READ_CHAPTERS: 'summary_chapters_read_chapters',
   SUMMARY_CHAPTERS_READ_OVERVIEW: 'summary_chapters_read_overview',
   SUMMARY_CHAPTERS_COPY_TO_CLIPBOARD: 'summary_chapters_copy_to_clipboard',
-  SUMMARY_CHAPTERS_CHAPTER_EXPAND: 'summary_chapters_expand',
-  SUMMARY_CHAPTERS_CHAPTER_COLLAPSE: 'summary_chapters_collapse',
-  SUMMARY_CHAPTERS_CHAPTER_SEEK: 'summary_chapters_seek'
+  SUMMARY_CHAPTERS_CHAPTER_EXPAND: 'summary_chapters_chapter_expand',
+  SUMMARY_CHAPTERS_CHAPTER_COLLAPSE: 'summary_chapters_chapter_collapse',
+  SUMMARY_CHAPTERS_CHAPTER_SEEK: 'summary_chapters_chapter_seek'
 };
 
 export const PluginsEvents = {
