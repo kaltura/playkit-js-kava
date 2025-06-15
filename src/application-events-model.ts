@@ -1010,7 +1010,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventVar2: ButtonType.Expand,
       eventVar1: 'summary_chapters_expand_chapter',
       eventVar3: buttonName,
-      eventVar4: chapterNumber,
+      eventVar4: chapterNumber + 1,
       applicationFeature: ApplicationFeature.SUMMARY_CHAPTERS
     })
   },
@@ -1021,7 +1021,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventVar2: ButtonType.Collapse,
       eventVar1: 'summary_chapters_collapse_chapter',
       eventVar3: buttonName,
-      eventVar4: chapterNumber,
+      eventVar4: chapterNumber + 1,
       applicationFeature: ApplicationFeature.SUMMARY_CHAPTERS
     })
   },
@@ -1032,7 +1032,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventVar2: ButtonType.Navigate,
       eventVar1: 'summary_chapters_seek_to_chapter',
       eventVar3: buttonName,
-      eventVar4: chapterNumber,
+      eventVar4: chapterNumber + 1,
       applicationFeature: ApplicationFeature.SUMMARY_CHAPTERS
     })
   }
