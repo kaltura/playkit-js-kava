@@ -958,6 +958,94 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       applicationFeature: ApplicationFeature.REELS
     })
   },
+  [PluginsEvents.SUMMARY_CHAPTERS_OPEN]: {
+    type: 'SUMMARY_CHAPTERS_OPEN',
+    getEventModel: ({ buttonName }) => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      eventVar2: ButtonType.Toggle,
+      eventVar1: 'summary_chapters_open_plugin',
+      eventVar3: buttonName,
+      eventVar4: '',
+      applicationFeature: ApplicationFeature.SUMMARY_CHAPTERS
+    })
+  },
+  [PluginsEvents.SUMMARY_CHAPTERS_CLOSE]: {
+    type: 'SUMMARY_CHAPTERS_CLOSE',
+    getEventModel: ({ buttonName }) => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      eventVar2: ButtonType.Toggle,
+      eventVar1: 'summary_chapters_close_plugin',
+      eventVar3: buttonName,
+      eventVar4: '',
+      applicationFeature: ApplicationFeature.SUMMARY_CHAPTERS
+    })
+  },
+  [PluginsEvents.SUMMARY_CHAPTERS_READ_CHAPTERS]: {
+    type: 'SUMMARY_CHAPTERS_READ_CHAPTERS',
+    getEventModel: () => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      eventVar2: ButtonType.Choose,
+      eventVar1: 'summary_chapters_read_as_chapters',
+      eventVar3: '',
+      eventVar4: '',
+      applicationFeature: ApplicationFeature.SUMMARY_CHAPTERS
+    })
+  },
+  [PluginsEvents.SUMMARY_CHAPTERS_READ_OVERVIEW]: {
+    type: 'SUMMARY_CHAPTERS_READ_OVERVIEW',
+    getEventModel: () => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      eventVar2: ButtonType.Choose,
+      eventVar1: 'summary_chapters_read_as_overview',
+      eventVar3: '',
+      eventVar4: '',
+      applicationFeature: ApplicationFeature.SUMMARY_CHAPTERS
+    })
+  },
+  [PluginsEvents.SUMMARY_CHAPTERS_COPY_TO_CLIPBOARD]: {
+    type: 'SUMMARY_CHAPTERS_COPY_TO_CLIPBOARD',
+    getEventModel: () => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      eventVar2: ButtonType.Choose,
+      eventVar1: 'summary_chapters_copy_to_clipboard',
+      eventVar3: '',
+      eventVar4: '',
+      applicationFeature: ApplicationFeature.SUMMARY_CHAPTERS
+    })
+  },
+  [PluginsEvents.SUMMARY_CHAPTERS_CHAPTER_EXPAND]: {
+    type: 'SUMMARY_CHAPTERS_CHAPTER_EXPAND',
+    getEventModel: ({ chapterNumber, buttonName }) => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      eventVar2: ButtonType.Expand,
+      eventVar1: 'summary_chapters_expand_chapter',
+      eventVar3: buttonName,
+      eventVar4: chapterNumber + 1,
+      applicationFeature: ApplicationFeature.SUMMARY_CHAPTERS
+    })
+  },
+  [PluginsEvents.SUMMARY_CHAPTERS_CHAPTER_COLLAPSE]: {
+    type: 'SUMMARY_CHAPTERS_CHAPTER_COLLAPSE',
+    getEventModel: ({ chapterNumber, buttonName }) => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      eventVar2: ButtonType.Collapse,
+      eventVar1: 'summary_chapters_collapse_chapter',
+      eventVar3: buttonName,
+      eventVar4: chapterNumber + 1,
+      applicationFeature: ApplicationFeature.SUMMARY_CHAPTERS
+    })
+  },
+  [PluginsEvents.SUMMARY_CHAPTERS_CHAPTER_SEEK]: {
+    type: 'SUMMARY_CHAPTERS_CHAPTER_SEEK',
+    getEventModel: ({ chapterNumber, buttonName }) => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      eventVar2: ButtonType.Navigate,
+      eventVar1: 'summary_chapters_seek_to_chapter',
+      eventVar3: buttonName,
+      eventVar4: chapterNumber + 1,
+      applicationFeature: ApplicationFeature.SUMMARY_CHAPTERS
+    })
+  },
   [PlaykitUIEvents.USER_COPIED_DEBUG_INFO]: {
     type: 'USER_COPIED_DEBUG_INFO',
     getEventModel: (): any => ({
