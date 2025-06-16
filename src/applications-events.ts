@@ -140,6 +140,5 @@ export const PluginsEvents = {
   ...IvqEventTypes,
   ...DetectAdBlockEvents,
   ...ReelsEvents,
-  ...EadEvents,
-  ...PlaykitUIEvents
+  ...EadEvents
 };

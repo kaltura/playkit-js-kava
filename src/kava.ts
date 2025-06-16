@@ -356,19 +356,14 @@ class Kava extends BasePlugin {
   }
 
   private _bindApplicationEvents(): void {
-    // Get all events from PluginsEvents that are not in PlaykitUIEvents to avoid duplicate event handling
-    const playkitUIEventValues = Object.values(PlaykitUIEvents);
     Object.values(PluginsEvents).forEach((event) => {
-      // Skip events that are already handled by _bindPlaykitUIEvents
-      if (!playkitUIEventValues.includes(event)) {
-        this.eventManager.listen(this.player, event, (e: FakeEvent) => {
-          if (e.type in ApplicationEventsModel) {
-            if (this._isApplicationEventValid(e)) {
-              this._sendAnalytics(ApplicationEventsModel[e.type], EventBucketName.ApplicationEvents, e.payload);
-            }
+      this.eventManager.listen(this.player, event, (e: FakeEvent) => {
+        if (e.type in ApplicationEventsModel) {
+          if (this._isApplicationEventValid(e)) {
+            this._sendAnalytics(ApplicationEventsModel[e.type], EventBucketName.ApplicationEvents, e.payload);
           }
-        });
-      }
+        }
+      });
     });
   }
 

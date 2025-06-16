@@ -958,7 +958,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       applicationFeature: ApplicationFeature.REELS
     })
   },
-  [PluginsEvents.USER_COPIED_DEBUG_INFO]: {
+  [PlaykitUIEvents.USER_COPIED_DEBUG_INFO]: {
     type: 'USER_COPIED_DEBUG_INFO',
     getEventModel: (): any => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
