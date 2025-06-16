@@ -12,7 +12,8 @@ export const PlaykitUIEvents = {
   USER_SHOWED_CAPTIONS: `${playkitUIEventsNamespace}-usershowedcaptions`,
   USER_HID_CAPTIONS: `${playkitUIEventsNamespace}-userhidcaptions`,
   USER_SELECTED_CAPTION_TRACK: `${playkitUIEventsNamespace}-userselectedcaptiontrack`,
-  USER_SELECTED_AUDIO_TRACK: `${playkitUIEventsNamespace}-userselectedaudiotrack`
+  USER_SELECTED_AUDIO_TRACK: `${playkitUIEventsNamespace}-userselectedaudiotrack`,
+  USER_COPIED_DEBUG_INFO: `${playkitUIEventsNamespace}-usercopieddebuginfo`
 };
 
 export const NavigationEvents = {
@@ -48,6 +49,7 @@ export const EadEvents = {
   EAD_SKIP: 'EAD_skip',
   EAD_REPLAY: 'EAD_replay',
   EAD_PAUSE: 'EAD_pause',
+  EAD_RESUME: 'EAD_resume',
   EAD_PLAY: 'EAD_play',
   EAD_SCROLL: 'EAD_scroll'
 };

@@ -18,5 +18,6 @@ export enum ApplicationFeature {
   ADVANCED_CAPTIONS = 'advanced_captions',
   CAPTIONS = 'captions',
   AUDION_TRACKS = 'audio_tracks',
-  SUMMARY_CHAPTERS = 'summary_chapters'
+  SUMMARY_CHAPTERS = 'summary_chapters',
+  DEBUG_INFO = 'debug_info'
 }

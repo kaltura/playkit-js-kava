@@ -644,11 +644,21 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
   },
   [PluginsEvents.EAD_PAUSE]: {
     type: 'EAD_PAUSE',
-    getEventModel: () => ({
+    getEventModel: ({ trigger }) => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar1: 'EAD_pause',
-      eventVar2: ButtonType.Toggle,
-      eventVar3: '',
+      eventVar2: ButtonType.Navigate,
+      eventVar3: trigger,
+      applicationFeature: ApplicationFeature.EAD
+    })
+  },
+  [PluginsEvents.EAD_RESUME]: {
+    type: 'EAD_PAUSE',
+    getEventModel: ({ trigger }) => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      eventVar1: 'EAD_resume',
+      eventVar2: ButtonType.Navigate,
+      eventVar3: trigger,
       applicationFeature: ApplicationFeature.EAD
     })
   },
@@ -1034,6 +1044,16 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventVar3: buttonName,
       eventVar4: chapterNumber + 1,
       applicationFeature: ApplicationFeature.SUMMARY_CHAPTERS
+    })
+  },
+  [PlaykitUIEvents.USER_COPIED_DEBUG_INFO]: {
+    type: 'USER_COPIED_DEBUG_INFO',
+    getEventModel: (): any => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      eventVar2: ButtonType.Choose,
+      eventVar1: 'copy_debug_info',
+      eventVar3: '',
+      applicationFeature: ApplicationFeature.DEBUG_INFO
     })
   }
 };
