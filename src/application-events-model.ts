@@ -957,5 +957,15 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventVar4: playlistId,
       applicationFeature: ApplicationFeature.REELS
     })
+  },
+  [PlaykitUIEvents.USER_COPIED_DEBUG_INFO]: {
+    type: 'USER_COPIED_DEBUG_INFO',
+    getEventModel: (): any => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      eventVar2: ButtonType.Choose,
+      eventVar1: 'copy_debug_info',
+      eventVar3: '',
+      applicationFeature: ApplicationFeature.DEBUG_INFO
+    })
   }
 };
