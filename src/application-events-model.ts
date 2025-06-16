@@ -950,13 +950,13 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
   },
   [PluginsEvents.SUMMARY_CHAPTERS_OPEN]: {
     type: 'SUMMARY_CHAPTERS_OPEN',
-    getEventModel: ({ muted, autoplay, playlistId }) => ({
-      eventType: ApplicationEventType.PAGE_LOAD,
-      eventVar2: PageLoadType.View,
-      eventVar1: 'reels_playlist_load',
-      eventVar3: `${muted ? 'muted' : 'unmuted'} ; ${autoplay ? 'autoplay_on' : 'autoplay_off'}`,
-      eventVar4: playlistId,
-      applicationFeature: ApplicationFeature.REELS
+    getEventModel: ({ buttonName }) => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      eventVar2: ButtonType.Toggle,
+      eventVar1: 'summary_chapters_open_plugin',
+      eventVar3: buttonName,
+      eventVar4: '',
+      applicationFeature: ApplicationFeature.SUMMARY_CHAPTERS
     })
   },
   [PluginsEvents.SUMMARY_CHAPTERS_CLOSE]: {
