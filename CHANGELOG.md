@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 1.12.0 (2025-06-19)
+
+
+### Features
+
+* **FEC-14506:** S&C plugin product analytics ([153e3c5](https://github.com/kaltura/playkit-js-kava/commit/153e3c552d46c144d80d4c9ee0415e210b70bb14))
+
 ## 1.11.0 (2025-05-11)
 
 
