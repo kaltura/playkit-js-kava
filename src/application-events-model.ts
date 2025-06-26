@@ -1055,5 +1055,16 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventVar3: '',
       applicationFeature: ApplicationFeature.DEBUG_INFO
     })
+  },
+  [PluginsEvents.AUDIO_PLAYER_VISUALIZATION_STATE]: {
+    type: 'AUDIO_PLAYER_VISUALIZATION_STATE',
+    getEventModel: (payload: any): any => ({
+      eventType: ApplicationEventType.PAGE_LOAD,
+      eventVar2: PageLoadType.Analytics,
+      eventVar1: 'audio_player_visualization_state',
+      eventVar3: payload.state,
+      eventVar4: payload.size,
+      applicationFeature: ApplicationFeature.AUDIO_PLAYER
+    })
   }
 };

@@ -136,6 +136,10 @@ export const SummaryAndChaptersEvents = {
   SUMMARY_CHAPTERS_CHAPTER_SEEK: 'summary_chapters_chapter_seek'
 };
 
+export const AudioPlayerEvents = {
+  AUDIO_PLAYER_VISUALIZATION_STATE: 'audio_player_visualization_state'
+};
+
 export const PluginsEvents = {
   ...NavigationEvents,
   ...DownloadEvents,
@@ -152,5 +156,6 @@ export const PluginsEvents = {
   ...DetectAdBlockEvents,
   ...ReelsEvents,
   ...EadEvents,
-  ...SummaryAndChaptersEvents
+  ...SummaryAndChaptersEvents,
+  ...AudioPlayerEvents
 };
