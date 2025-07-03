@@ -1,4 +1,4 @@
-import { BasePlugin, core, KalturaPlayer } from '@playkit-js/kaltura-player-js';
+import {BasePlugin, core, KalturaPlayer, LocalStorageManager} from '@playkit-js/kaltura-player-js';
 import { FakeEvent, VideoTrack } from '@playkit-js/playkit-js';
 import { OVPAnalyticsService } from '@playkit-js/playkit-js-providers/analytics-service';
 import { KavaEventModel, KavaEventType } from './kava-event-model';
@@ -288,8 +288,15 @@ class Kava extends BasePlugin {
         return;
       }
     }
+    if (this.shouldLogAnalticsFailures()) {
+      model.numOfAnalyticsFailures = LocalStorageManager.getItem(`${model.entryId}`) || 0;
+    }
     this.logger.debug(`Sending KAVA event ${model.eventType}:${eventObj.type}`);
     this.sendAnalytics(model).catch(() => {});
+  }
+
+  private shouldLogAnalticsFailures(): boolean {
+    return this.config?.logAnalyticsFailures && this.player?.isLive();
   }
 
   private _handleServerResponseSuccess(response: any, model: any): void {
@@ -298,8 +305,58 @@ class Kava extends BasePlugin {
   }
 
   private _handleServerResponseFailed(err: any, model: any): void {
+    if (this.shouldLogAnalticsFailures()) {
+      this.loggedFailedEventsToLocalStorage(err, model);
+    }
     this.logger.warn('Failed to send KAVA event', model, err);
   }
+
+  /**
+   * Logs failed events to browser's local storage
+   * @param {any} error - The error that occurred
+   * @param {KavaModel} model - The Kava model
+   * @returns {void}
+   */
+  private loggedFailedEventsToLocalStorage(error: any, model: KavaModel): void {
+    // Generate current datetime in a storage-friendly format
+    const datetime = new Date().toISOString().replace(/[:.]/g, '-');
+
+    // Get event type and entryId from model
+    const eventType = model['eventType'] || 'unknown';
+    const entryId = model['entryId'] || 'unknown';
+    const sessionId = model['sessionId'] || 'unknown';
+    const partnerId = model['partnerId'] || 'unknown';
+    const position = model['position'] || 0;
+    const errorDetails = model['errorDetails'] || null;
+
+    // Construct storage key
+    const storageKey = `${datetime}-${eventType}-${entryId}`;
+
+    // Create the data object to store
+    const dataToStore = {
+      error: error,
+      model: {
+        // Store essential properties only to avoid localStorage size issues
+        eventType,
+        entryId,
+        sessionId,
+        partnerId,
+        position,
+        errorDetails
+      }
+    };
+
+    //In case that we log error, add counter to the localstorage of how many failures
+    const failureCountKey = `${entryId}`;
+    try {
+      const counter = LocalStorageManager.getItem(failureCountKey) || 0;
+      LocalStorageManager.setItem(failureCountKey, counter + 1);
+      LocalStorageManager.setItem(storageKey, JSON.stringify(dataToStore));
+    } catch (e) {
+      this.logger.warn('Failed to store failed event in localStorage:', e);
+    }
+  }
+
 
   private _addBindings(): void {
     this.eventManager.listen(this._timer, KavaTimer.Event.TICK, () => this._rateHandler.countCurrent());
@@ -874,6 +931,12 @@ class Kava extends BasePlugin {
     this._model.getHostingKalturaApplicationVersion = (): string => this.config.applicationVersion;
     this._model.getPlayerSkin = (): number => this._getPlayerSkin();
     this._model.getV2ToV7Redirect = (): boolean => this.player.isV2ToV7Redirected;
+    this._model.getNumFailedAnalyticReports = (): number => this.getNumFailedAnalyticReports();
+  }
+
+  private getNumFailedAnalyticReports(): number {
+    const failureCountKey = `'${this.config.entryId}'`;
+    return LocalStorageManager.getItem(failureCountKey) || 0;
   }
 
   private _getApplication(playerEvent = true): string {
