@@ -18,6 +18,7 @@ import { PlayerSkin } from './enums/player-skin';
 const { Error: PKError, Utils } = core;
 const DIVIDER: number = 1024;
 const TEXT_TYPE: string = 'TEXT';
+const FAILED_LIVE_EVENT_PREFIX = "FailedLiveEvent_";
 /**
  * Kaltura Advanced Analytics plugin.
  * @class Kava
@@ -288,15 +289,15 @@ class Kava extends BasePlugin {
         return;
       }
     }
-    if (this.shouldLogAnalticsFailures()) {
-      model.numOfAnalyticsFailures = LocalStorageManager.getItem(`${model.entryId}`) || 0;
+    if (this.shouldLogLiveAnalyticsFailures()) {
+      model.numOfLiveAnalyticsFailures = LocalStorageManager.getItem(`${model.entryId}`) || 0;
     }
     this.logger.debug(`Sending KAVA event ${model.eventType}:${eventObj.type}`);
     this.sendAnalytics(model).catch(() => {});
   }
 
-  private shouldLogAnalticsFailures(): boolean {
-    return this.config?.logAnalyticsFailures && this.player?.isLive();
+  private shouldLogLiveAnalyticsFailures(): boolean {
+    return this.config?.logLiveAnalyticsFailures && this.player?.isLive();
   }
 
   private _handleServerResponseSuccess(response: any, model: any): void {
@@ -305,8 +306,8 @@ class Kava extends BasePlugin {
   }
 
   private _handleServerResponseFailed(err: any, model: any): void {
-    if (this.shouldLogAnalticsFailures()) {
-      this.loggedFailedEventsToLocalStorage(err, model);
+    if (this.shouldLogLiveAnalyticsFailures()) {
+      this.loggedFailedLiveAnalyticsEventsToLocalStorage(err, model);
     }
     this.logger.warn('Failed to send KAVA event', model, err);
   }
@@ -317,9 +318,9 @@ class Kava extends BasePlugin {
    * @param {KavaModel} model - The Kava model
    * @returns {void}
    */
-  private loggedFailedEventsToLocalStorage(error: any, model: KavaModel): void {
+  private loggedFailedLiveAnalyticsEventsToLocalStorage(error: any, model: KavaModel): void {
     // Generate current datetime in a storage-friendly format
-    const datetime = new Date().toISOString().replace(/[:.]/g, '-');
+    const datetime = new Date().toISOString();
 
     // Get event type and entryId from model
     const eventType = model['eventType'] || 'unknown';
@@ -328,9 +329,10 @@ class Kava extends BasePlugin {
     const partnerId = model['partnerId'] || 'unknown';
     const position = model['position'] || 0;
     const errorDetails = model['errorDetails'] || null;
+    const numOfLoggedFailedEvents = this.config?.numOfLoggedFailedEvents || 100;
 
     // Construct storage key
-    const storageKey = `${datetime}-${eventType}-${entryId}`;
+    const storageKey = `${FAILED_LIVE_EVENT_PREFIX}${datetime}-${eventType}-${entryId}`;
 
     // Create the data object to store
     const dataToStore = {
@@ -352,8 +354,37 @@ class Kava extends BasePlugin {
       const counter = LocalStorageManager.getItem(failureCountKey) || 0;
       LocalStorageManager.setItem(failureCountKey, counter + 1);
       LocalStorageManager.setItem(storageKey, JSON.stringify(dataToStore));
+      this.deleteOldestFailedAnalyticsStorageItem(numOfLoggedFailedEvents, FAILED_LIVE_EVENT_PREFIX);
+      //delete the oldest n stored item.
     } catch (e) {
       this.logger.warn('Failed to store failed event in localStorage:', e);
+    }
+  }
+
+  private extractBetween(str, prefix, suffix) {
+    const start = str.indexOf(prefix);
+    if (start === -1) return null;
+
+    const end = str.indexOf(suffix, start + prefix.length);
+    if (end === -1) return null;
+
+    return str.substring(start + prefix.length, end);
+  }
+
+  private deleteOldestFailedAnalyticsStorageItem(tailLength: number, eventPrefix: string): void {
+    const dateTimeSuffix = 'Z-';
+    const keys = Object.keys(LocalStorageManager.getStorageObject()).filter((key) => key.includes(eventPrefix));
+
+    if (keys.length > tailLength) {
+      // Sort keys by creation time (assuming they are in the format 'YYYY-MM-DDTHH:mm:ss.sssZ')
+      //"@playkit-js/kaltura-player-js_FailedEvents_2025-07-06T13-56-38-172Z-99-0_lb78dwcy"
+      const mapKeys = keys.map((key) => this.extractBetween(key, eventPrefix, dateTimeSuffix));
+      mapKeys.sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
+      // Remove the oldest key
+      const oldestItemKey = keys.find((key) => key.includes(mapKeys[0]));
+      if (oldestItemKey) {
+        LocalStorageManager.removeItem(oldestItemKey);
+      }
     }
   }
 
