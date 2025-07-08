@@ -18,7 +18,8 @@ import { PlayerSkin } from './enums/player-skin';
 const { Error: PKError, Utils } = core;
 const DIVIDER: number = 1024;
 const TEXT_TYPE: string = 'TEXT';
-const FAILED_LIVE_EVENT_PREFIX = "FailedLiveEvent_";
+const FAILED_LIVE_EVENT_KEY_PREFIX = "FailedLiveEvent_";
+const FAILED_LIVE_COUNTER_KEY_PREFIX = "FailedLiveEventCounter_";
 /**
  * Kaltura Advanced Analytics plugin.
  * @class Kava
@@ -332,7 +333,7 @@ class Kava extends BasePlugin {
     const numOfLoggedFailedEvents = this.config?.numOfLoggedFailedEvents || 100;
 
     // Construct storage key
-    const storageKey = `${FAILED_LIVE_EVENT_PREFIX}${datetime}-${eventType}-${entryId}`;
+    const storageKey = `${FAILED_LIVE_EVENT_KEY_PREFIX}${datetime}-${eventType}-${entryId}`;
 
     // Create the data object to store
     const dataToStore = {
@@ -349,16 +350,19 @@ class Kava extends BasePlugin {
     };
 
     //In case that we log error, add counter to the localstorage of how many failures
-    const failureCountKey = `${entryId}`;
+    const failureCountKey = this.getFailedCounterKey(entryId);
     try {
       const counter = LocalStorageManager.getItem(failureCountKey) || 0;
       LocalStorageManager.setItem(failureCountKey, counter + 1);
       LocalStorageManager.setItem(storageKey, JSON.stringify(dataToStore));
-      this.deleteOldestFailedAnalyticsStorageItem(numOfLoggedFailedEvents, FAILED_LIVE_EVENT_PREFIX);
+      this.deleteOldestFailedAnalyticsStorageItem(numOfLoggedFailedEvents, FAILED_LIVE_EVENT_KEY_PREFIX);
       //delete the oldest n stored item.
     } catch (e) {
       this.logger.warn('Failed to store failed event in localStorage:', e);
     }
+  }
+  private getFailedCounterKey(entryId: string): string {
+    return `${FAILED_LIVE_COUNTER_KEY_PREFIX}-${entryId}`;
   }
 
   private extractBetween(str, prefix, suffix) {
@@ -966,8 +970,7 @@ class Kava extends BasePlugin {
   }
 
   private getNumFailedAnalyticReports(): number {
-    const failureCountKey = `'${this.config.entryId}'`;
-    return LocalStorageManager.getItem(failureCountKey) || 0;
+    return parseInt(LocalStorageManager.getItem(this.getFailedCounterKey(this.config.entryId)) || 0);
   }
 
   private _getApplication(playerEvent = true): string {
