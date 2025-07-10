@@ -78,6 +78,6 @@ export class LogFailedLiveEvents {
   }
 
   public getNumFailedAnalyticReports(): number {
-    return parseInt(LocalStorageManager.getItem(this._logFailedLiveEvents.getFailedCounterKey(this.config.entryId)) || 0);
+    return parseInt(LocalStorageManager.getItem(this.getFailedCounterKey(this.config.entryId)) || 0);
   }
 }
