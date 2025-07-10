@@ -1,4 +1,4 @@
-import { BasePlugin, core, KalturaPlayer, LocalStorageManager } from '@playkit-js/kaltura-player-js';
+import { BasePlugin, core, KalturaPlayer } from '@playkit-js/kaltura-player-js';
 import { FakeEvent, VideoTrack } from '@playkit-js/playkit-js';
 import { OVPAnalyticsService } from '@playkit-js/playkit-js-providers/analytics-service';
 import { KavaEventModel, KavaEventType } from './kava-event-model';
@@ -14,13 +14,12 @@ import { EventBucketName } from './enums/event-bucket-name';
 import { ApplicationEventsModel, getApplicationEventsModel } from './application-events-model';
 import { Application } from './enums/application';
 import { PlayerSkin } from './enums/player-skin';
+import { LogFailedLiveEvents } from './log-failed-live-events';
 
 const { Error: PKError, Utils } = core;
 const DIVIDER: number = 1024;
 const TEXT_TYPE: string = 'TEXT';
-const FAILED_LIVE_EVENT_KEY_PREFIX = 'FailedLiveEvent_';
-const FAILED_LIVE_COUNTER_KEY_PREFIX = 'FailedLiveEventCounter_';
-const NUM_OF_LOGGED_FAILED_EVENTS: number = 100;
+
 /**
  * Kaltura Advanced Analytics plugin.
  * @class Kava
@@ -53,6 +52,7 @@ class Kava extends BasePlugin {
   private _canPlayOccured: boolean = false;
   private _isManualPreload: boolean = false;
   private _lastViewEventPlayTime: number = -1;
+  private _logFailedLiveEvents: LogFailedLiveEvents;
 
   /**
    * Default config of the plugin.
@@ -85,6 +85,7 @@ class Kava extends BasePlugin {
 
   constructor(name: string, player: KalturaPlayer, config: KavaConfigObject) {
     super(name, player, config);
+    this._logFailedLiveEvents = new LogFailedLiveEvents(this.logger, config.numOfLoggedFailedEvents);
     this._rateHandler = new KavaRateHandler();
     this._model = new KavaModel();
     this._setModelDelegates();
@@ -291,15 +292,13 @@ class Kava extends BasePlugin {
         return;
       }
     }
-    if (this.shouldLogLiveAnalyticsFailures()) {
-      model.numOfLiveAnalyticsFailures = LocalStorageManager.getItem(`${model.entryId}`) || 0;
-    }
+
     this.logger.debug(`Sending KAVA event ${model.eventType}:${eventObj.type}`);
     this.sendAnalytics(model).catch(() => {});
   }
 
   private shouldLogLiveAnalyticsFailures(): boolean {
-    return this.config?.logLiveAnalyticsFailures && this.player?.isLive();
+    return !(this.config?.logLiveAnalyticsFailures && this.player?.isLive());
   }
 
   private _handleServerResponseSuccess(response: any, model: any): void {
@@ -309,72 +308,9 @@ class Kava extends BasePlugin {
 
   private _handleServerResponseFailed(err: any, model: any): void {
     if (this.shouldLogLiveAnalyticsFailures()) {
-      this.loggedFailedLiveAnalyticsEventsToLocalStorage(err, model);
+      this._logFailedLiveEvents.loggedFailedLiveAnalyticsEventsToLocalStorage(err, model);
     }
     this.logger.warn('Failed to send KAVA event', model, err);
-  }
-
-  /**
-   * Logs failed events to browser's local storage
-   * @param {any} error - The error that occurred
-   * @param {KavaModel} model - The Kava model
-   * @returns {void}
-   */
-  private loggedFailedLiveAnalyticsEventsToLocalStorage(error: any, model: KavaModel): void {
-    // Get essentail event info from model
-    const eventType = model['eventType'] || 'unknown';
-    const entryId = model['entryId'] || 'unknown';
-    const sessionId = model['sessionId'] || 'unknown';
-    const partnerId = model['partnerId'] || 'unknown';
-    const position = model['position'] || 0;
-    const errorDetails = model['errorDetails'] || null;
-    const numOfLoggedFailedEvents = this.config?.numOfLoggedFailedEvents || NUM_OF_LOGGED_FAILED_EVENTS;
-
-    // Construct storage key
-    const storageKey = `${FAILED_LIVE_EVENT_KEY_PREFIX}-${entryId}`;
-
-    // Create the data object to store
-    const dataToStore = {
-      error: error,
-      model: {
-        // Store essential properties only to avoid localStorage size issues
-        eventType,
-        entryId,
-        sessionId,
-        partnerId,
-        position,
-        errorDetails
-      }
-    };
-
-    //In case that we log error, add counter to the localstorage of how many failures
-    const failureCountKey = this.getFailedCounterKey(entryId);
-    try {
-      const counter = LocalStorageManager.getItem(failureCountKey) || 0;
-      LocalStorageManager.setItem(failureCountKey, counter + 1);
-      this.appendNewFailedLiveEventToLocalStorage(dataToStore, storageKey, numOfLoggedFailedEvents);
-    } catch (e) {
-      this.logger.warn('Failed to store failed event in localStorage:', e);
-    }
-  }
-
-  private appendNewFailedLiveEventToLocalStorage(data: any, storageKey: string, tailLength: number): void {
-    //get the stored object from localStorage
-    const storedObject = LocalStorageManager.getItem(storageKey);
-    // If the stored object is not an array, initialize it
-    let storedArray: any[] = storedObject ? storedObject : [];
-    // Append the new data to the array
-    storedArray.push({ date: new Date(), data });
-    // If the array exceeds the tail length, remove the oldest items
-    if (storedArray.length > tailLength) {
-      storedArray = storedArray.slice(storedArray.length - tailLength);
-    }
-    // Store the updated array back to localStorage
-    LocalStorageManager.setItem(storageKey, JSON.stringify(storedArray));
-  }
-
-  private getFailedCounterKey(entryId: string): string {
-    return `${FAILED_LIVE_COUNTER_KEY_PREFIX}-${entryId}`;
   }
 
   private _addBindings(): void {
@@ -950,11 +886,7 @@ class Kava extends BasePlugin {
     this._model.getHostingKalturaApplicationVersion = (): string => this.config.applicationVersion;
     this._model.getPlayerSkin = (): number => this._getPlayerSkin();
     this._model.getV2ToV7Redirect = (): boolean => this.player.isV2ToV7Redirected;
-    this._model.getNumFailedAnalyticReports = (): number => this.getNumFailedAnalyticReports();
-  }
-
-  private getNumFailedAnalyticReports(): number {
-    return parseInt(LocalStorageManager.getItem(this.getFailedCounterKey(this.config.entryId)) || 0);
+    this._model.getNumFailedAnalyticReports = (): number => this._logFailedLiveEvents.getNumFailedAnalyticReports();
   }
 
   private _getApplication(playerEvent = true): string {
