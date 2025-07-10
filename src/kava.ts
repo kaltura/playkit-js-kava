@@ -298,7 +298,7 @@ class Kava extends BasePlugin {
   }
 
   private shouldLogLiveAnalyticsFailures(): boolean {
-    return !(this.config?.logLiveAnalyticsFailures && this.player?.isLive());
+    return this.config?.logLiveAnalyticsFailures && this.player?.isLive();
   }
 
   private _handleServerResponseSuccess(response: any, model: any): void {
