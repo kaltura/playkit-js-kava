@@ -62,6 +62,8 @@ Type: [Object][41]
 - `customVar3` **[Object][41]?** Custom objects field.
 - `userId` **[string][42]?** custom user id .
 - `persistentSessionId` **[string][42]?** UUID for anonymous users.
+- `logLiveAnalyticsFailures` **[boolean][45]?** Whether to log live analytics failures to the console. Defaults to `false`.
+- `numOfLoggedFailedEvents` **[number][43]?** The number of failed live events to log to the console. Defaults to `100`.
 
 ### Examples
 
