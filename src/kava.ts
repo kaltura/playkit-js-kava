@@ -1,4 +1,4 @@
-import {BasePlugin, core, KalturaPlayer, LocalStorageManager} from '@playkit-js/kaltura-player-js';
+import { BasePlugin, core, KalturaPlayer, LocalStorageManager } from '@playkit-js/kaltura-player-js';
 import { FakeEvent, VideoTrack } from '@playkit-js/playkit-js';
 import { OVPAnalyticsService } from '@playkit-js/playkit-js-providers/analytics-service';
 import { KavaEventModel, KavaEventType } from './kava-event-model';
@@ -18,8 +18,9 @@ import { PlayerSkin } from './enums/player-skin';
 const { Error: PKError, Utils } = core;
 const DIVIDER: number = 1024;
 const TEXT_TYPE: string = 'TEXT';
-const FAILED_LIVE_EVENT_KEY_PREFIX = "FailedLiveEvent_";
-const FAILED_LIVE_COUNTER_KEY_PREFIX = "FailedLiveEventCounter_";
+const FAILED_LIVE_EVENT_KEY_PREFIX = 'FailedLiveEvent_';
+const FAILED_LIVE_COUNTER_KEY_PREFIX = 'FailedLiveEventCounter_';
+const NUM_OF_LOGGED_FAILED_EVENTS: number = 100;
 /**
  * Kaltura Advanced Analytics plugin.
  * @class Kava
@@ -320,20 +321,17 @@ class Kava extends BasePlugin {
    * @returns {void}
    */
   private loggedFailedLiveAnalyticsEventsToLocalStorage(error: any, model: KavaModel): void {
-    // Generate current datetime in a storage-friendly format
-    const datetime = new Date().toISOString();
-
-    // Get event type and entryId from model
+    // Get essentail event info from model
     const eventType = model['eventType'] || 'unknown';
     const entryId = model['entryId'] || 'unknown';
     const sessionId = model['sessionId'] || 'unknown';
     const partnerId = model['partnerId'] || 'unknown';
     const position = model['position'] || 0;
     const errorDetails = model['errorDetails'] || null;
-    const numOfLoggedFailedEvents = this.config?.numOfLoggedFailedEvents || 100;
+    const numOfLoggedFailedEvents = this.config?.numOfLoggedFailedEvents || NUM_OF_LOGGED_FAILED_EVENTS;
 
     // Construct storage key
-    const storageKey = `${FAILED_LIVE_EVENT_KEY_PREFIX}${datetime}-${eventType}-${entryId}`;
+    const storageKey = `${FAILED_LIVE_EVENT_KEY_PREFIX}-${entryId}`;
 
     // Create the data object to store
     const dataToStore = {
@@ -354,44 +352,30 @@ class Kava extends BasePlugin {
     try {
       const counter = LocalStorageManager.getItem(failureCountKey) || 0;
       LocalStorageManager.setItem(failureCountKey, counter + 1);
-      LocalStorageManager.setItem(storageKey, JSON.stringify(dataToStore));
-      this.deleteOldestFailedAnalyticsStorageItem(numOfLoggedFailedEvents, FAILED_LIVE_EVENT_KEY_PREFIX);
-      //delete the oldest n stored item.
+      this.appendNewFailedLiveEventToLocalStorage(dataToStore, storageKey, numOfLoggedFailedEvents);
     } catch (e) {
       this.logger.warn('Failed to store failed event in localStorage:', e);
     }
   }
+
+  private appendNewFailedLiveEventToLocalStorage(data: any, storageKey: string, tailLength: number): void {
+    //get the stored object from localStorage
+    const storedObject = LocalStorageManager.getItem(storageKey);
+    // If the stored object is not an array, initialize it
+    let storedArray: any[] = storedObject ? storedObject : [];
+    // Append the new data to the array
+    storedArray.push({ date: new Date(), data });
+    // If the array exceeds the tail length, remove the oldest items
+    if (storedArray.length > tailLength) {
+      storedArray = storedArray.slice(storedArray.length - tailLength);
+    }
+    // Store the updated array back to localStorage
+    LocalStorageManager.setItem(storageKey, JSON.stringify(storedArray));
+  }
+
   private getFailedCounterKey(entryId: string): string {
     return `${FAILED_LIVE_COUNTER_KEY_PREFIX}-${entryId}`;
   }
-
-  private extractBetween(str, prefix, suffix) {
-    const start = str.indexOf(prefix);
-    if (start === -1) return null;
-
-    const end = str.indexOf(suffix, start + prefix.length);
-    if (end === -1) return null;
-
-    return str.substring(start + prefix.length, end);
-  }
-
-  private deleteOldestFailedAnalyticsStorageItem(tailLength: number, eventPrefix: string): void {
-    const dateTimeSuffix = 'Z-';
-    const keys = Object.keys(LocalStorageManager.getStorageObject()).filter((key) => key.includes(eventPrefix));
-
-    if (keys.length > tailLength) {
-      // Sort keys by creation time (assuming they are in the format 'YYYY-MM-DDTHH:mm:ss.sssZ')
-      //"@playkit-js/kaltura-player-js_FailedEvents_2025-07-06T13-56-38-172Z-99-0_lb78dwcy"
-      const mapKeys = keys.map((key) => this.extractBetween(key, eventPrefix, dateTimeSuffix));
-      mapKeys.sort((a, b) => new Date(a).getTime() - new Date(b).getTime());
-      // Remove the oldest key
-      const oldestItemKey = keys.find((key) => key.includes(mapKeys[0]));
-      if (oldestItemKey) {
-        LocalStorageManager.removeItem(oldestItemKey);
-      }
-    }
-  }
-
 
   private _addBindings(): void {
     this.eventManager.listen(this._timer, KavaTimer.Event.TICK, () => this._rateHandler.countCurrent());
