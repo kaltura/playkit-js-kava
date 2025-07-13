@@ -12,7 +12,6 @@ const FAILED_LIVE_COUNTER_KEY_PREFIX = 'FailedLiveEventCounter_';
 export const NUM_OF_LOGGED_FAILED_EVENTS: number = 100;
 
 export class LogFailedLiveEvents {
-  //add costructor that get logger and config
   private logger: any;
   private numOfLoggedFailedEvents: any;
   constructor(logger: any, numOfLoggedFailedEvents: any) {
