@@ -9,7 +9,7 @@ import { LocalStorageManager } from '@playkit-js/kaltura-player-js';
 
 const FAILED_LIVE_EVENT_KEY_PREFIX = 'FailedLiveEvent_';
 const FAILED_LIVE_COUNTER_KEY_PREFIX = 'FailedLiveEventCounter_';
-const NUM_OF_LOGGED_FAILED_EVENTS: number = 100;
+export const NUM_OF_LOGGED_FAILED_EVENTS: number = 100;
 
 export class LogFailedLiveEvents {
   //add costructor that get logger and config
@@ -77,7 +77,7 @@ export class LogFailedLiveEvents {
     return `${FAILED_LIVE_COUNTER_KEY_PREFIX}-${entryId}`;
   }
 
-  public getNumFailedAnalyticReports(): number {
-    return parseInt(LocalStorageManager.getItem(this.getFailedCounterKey(this.config.entryId)) || 0);
+  public getNumFailedAnalyticReports(entryId: string): number {
+    return parseInt(LocalStorageManager.getItem(this.getFailedCounterKey(entryId)) || 0);
   }
 }

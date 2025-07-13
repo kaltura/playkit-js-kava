@@ -14,7 +14,7 @@ import { EventBucketName } from './enums/event-bucket-name';
 import { ApplicationEventsModel, getApplicationEventsModel } from './application-events-model';
 import { Application } from './enums/application';
 import { PlayerSkin } from './enums/player-skin';
-import { LogFailedLiveEvents } from './log-failed-live-events';
+import { LogFailedLiveEvents, NUM_OF_LOGGED_FAILED_EVENTS } from './log-failed-live-events';
 
 const { Error: PKError, Utils } = core;
 const DIVIDER: number = 1024;
@@ -71,7 +71,8 @@ class Kava extends BasePlugin {
     kalturaApplicationVersion: '',
     kalturaApplication: 'PLAYER',
     hostingKalturaApplication: '',
-    hostingKalturaApplicationVersion: ''
+    hostingKalturaApplicationVersion: '',
+    numOfLoggedFailedEvents: NUM_OF_LOGGED_FAILED_EVENTS
   };
 
   /**
@@ -886,7 +887,7 @@ class Kava extends BasePlugin {
     this._model.getHostingKalturaApplicationVersion = (): string => this.config.applicationVersion;
     this._model.getPlayerSkin = (): number => this._getPlayerSkin();
     this._model.getV2ToV7Redirect = (): boolean => this.player.isV2ToV7Redirected;
-    this._model.getNumFailedAnalyticReports = (): number => this._logFailedLiveEvents.getNumFailedAnalyticReports();
+    this._model.getNumFailedAnalyticReports = (): number => this._logFailedLiveEvents.getNumFailedAnalyticReports(this.config.entryId);
   }
 
   private _getApplication(playerEvent = true): string {
