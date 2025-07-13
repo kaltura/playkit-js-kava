@@ -14,10 +14,12 @@ import { EventBucketName } from './enums/event-bucket-name';
 import { ApplicationEventsModel, getApplicationEventsModel } from './application-events-model';
 import { Application } from './enums/application';
 import { PlayerSkin } from './enums/player-skin';
+import { LogFailedLiveEvents, NUM_OF_LOGGED_FAILED_EVENTS } from './log-failed-live-events';
 
 const { Error: PKError, Utils } = core;
 const DIVIDER: number = 1024;
 const TEXT_TYPE: string = 'TEXT';
+
 /**
  * Kaltura Advanced Analytics plugin.
  * @class Kava
@@ -50,6 +52,7 @@ class Kava extends BasePlugin {
   private _canPlayOccured: boolean = false;
   private _isManualPreload: boolean = false;
   private _lastViewEventPlayTime: number = -1;
+  private _logFailedLiveEvents: LogFailedLiveEvents;
 
   /**
    * Default config of the plugin.
@@ -68,7 +71,8 @@ class Kava extends BasePlugin {
     kalturaApplicationVersion: '',
     kalturaApplication: 'PLAYER',
     hostingKalturaApplication: '',
-    hostingKalturaApplicationVersion: ''
+    hostingKalturaApplicationVersion: '',
+    numOfLoggedFailedEvents: NUM_OF_LOGGED_FAILED_EVENTS
   };
 
   /**
@@ -82,6 +86,7 @@ class Kava extends BasePlugin {
 
   constructor(name: string, player: KalturaPlayer, config: KavaConfigObject) {
     super(name, player, config);
+    this._logFailedLiveEvents = new LogFailedLiveEvents(this.logger, config.numOfLoggedFailedEvents);
     this._rateHandler = new KavaRateHandler();
     this._model = new KavaModel();
     this._setModelDelegates();
@@ -288,8 +293,13 @@ class Kava extends BasePlugin {
         return;
       }
     }
+
     this.logger.debug(`Sending KAVA event ${model.eventType}:${eventObj.type}`);
     this.sendAnalytics(model).catch(() => {});
+  }
+
+  private shouldLogLiveAnalyticsFailures(): boolean {
+    return this.config?.logLiveAnalyticsFailures && this.player?.isLive();
   }
 
   private _handleServerResponseSuccess(response: any, model: any): void {
@@ -298,6 +308,9 @@ class Kava extends BasePlugin {
   }
 
   private _handleServerResponseFailed(err: any, model: any): void {
+    if (this.shouldLogLiveAnalyticsFailures()) {
+      this._logFailedLiveEvents.logFailedLiveAnalyticsEventsToLocalStorage(err, model);
+    }
     this.logger.warn('Failed to send KAVA event', model, err);
   }
 
@@ -874,6 +887,7 @@ class Kava extends BasePlugin {
     this._model.getHostingKalturaApplicationVersion = (): string => this.config.applicationVersion;
     this._model.getPlayerSkin = (): number => this._getPlayerSkin();
     this._model.getV2ToV7Redirect = (): boolean => this.player.isV2ToV7Redirected;
+    this._model.getNumFailedAnalyticReports = (): number => this._logFailedLiveEvents.getNumFailedAnalyticReports(this.config.entryId);
   }
 
   private _getApplication(playerEvent = true): string {

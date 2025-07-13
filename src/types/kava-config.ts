@@ -47,7 +47,9 @@ export type KavaConfigObject = {
   playbackContext?: string,
   userId?: string,
   hostingKalturaApplication?: string,
-  hostingKalturaApplicationVersion?: string
+  hostingKalturaApplicationVersion?: string,
+  logLiveAnalyticsFailures?: boolean,
+  numOfLoggedFailedEvents?: number,
 };
 
 /**
