@@ -309,7 +309,7 @@ class Kava extends BasePlugin {
 
   private _handleServerResponseFailed(err: any, model: any): void {
     if (this.shouldLogLiveAnalyticsFailures()) {
-      this._logFailedLiveEvents.loggedFailedLiveAnalyticsEventsToLocalStorage(err, model);
+      this._logFailedLiveEvents.logFailedLiveAnalyticsEventsToLocalStorage(err, model);
     }
     this.logger.warn('Failed to send KAVA event', model, err);
   }

@@ -20,7 +20,7 @@ export class LogFailedLiveEvents {
     this.numOfLoggedFailedEvents = numOfLoggedFailedEvents || NUM_OF_LOGGED_FAILED_EVENTS;
   }
 
-  public loggedFailedLiveAnalyticsEventsToLocalStorage(error: any, model: KavaModel): void {
+  public logFailedLiveAnalyticsEventsToLocalStorage(error: any, model: KavaModel): void {
     // Get essential event info from model
     const eventType = model['eventType'] || 'unknown';
     const entryId = model['entryId'] || 'unknown';
