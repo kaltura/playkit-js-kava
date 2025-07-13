@@ -48,6 +48,7 @@ export type KavaConfigObject = {
   userId?: string,
   hostingKalturaApplication?: string,
   hostingKalturaApplicationVersion?: string,
+  logLiveAnalyticsFailures?: boolean,
   numOfLoggedFailedEvents?: number,
 };
 
