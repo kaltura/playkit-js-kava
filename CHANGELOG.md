@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 1.13.0 (2025-07-17)
+
+
+### Features
+
+* **FEC-14557:** log analytic failure events ([#206](https://github.com/kaltura/playkit-js-kava/issues/206)) ([97a045a](https://github.com/kaltura/playkit-js-kava/commit/97a045ae8661c37b3c2982241f2f4fe3d9203e20))
+
 ## 1.12.0 (2025-06-19)
 
 
