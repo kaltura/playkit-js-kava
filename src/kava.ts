@@ -304,6 +304,11 @@ class Kava extends BasePlugin {
 
   private _handleServerResponseSuccess(response: any, model: any): void {
     this.logger.debug('KAVA event sent', model);
+    const event: Partial<FakeEvent> = {
+      type: 'kavaRequestSucceeded',
+      payload: { response, model }
+    };
+    this.player.dispatchEvent(event as FakeEvent);
     this._updateSessionStartTimeModel(response);
   }
 
@@ -312,6 +317,12 @@ class Kava extends BasePlugin {
       this._logFailedLiveEvents.logFailedLiveAnalyticsEventsToLocalStorage(err, model);
     }
     this.logger.warn('Failed to send KAVA event', model, err);
+    const event: Partial<FakeEvent> = {
+      // TODO try to export as type
+      type: 'kavaRequestFailed',
+      payload: { error: err, model }
+    };
+    this.player.dispatchEvent(event as FakeEvent);
   }
 
   private _addBindings(): void {
