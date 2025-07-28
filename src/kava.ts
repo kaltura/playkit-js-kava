@@ -304,7 +304,6 @@ class Kava extends BasePlugin {
 
   private _handleServerResponseSuccess(response: any, model: any): void {
     this.logger.debug('KAVA event sent', model);
-    // Dispatch the 'kavaRequestSucceeded' event when a Kava event is sent successfully
     const event: Partial<FakeEvent> = {
       type: 'kavaRequestSucceeded',
       payload: { response, model }
@@ -318,9 +317,8 @@ class Kava extends BasePlugin {
       this._logFailedLiveEvents.logFailedLiveAnalyticsEventsToLocalStorage(err, model);
     }
     this.logger.warn('Failed to send KAVA event', model, err);
-    // Always dispatch the 'kavaRequestFailed' event when a request fails
     const event: Partial<FakeEvent> = {
-      // TODO maybe export
+      // TODO try to export as type
       type: 'kavaRequestFailed',
       payload: { error: err, model }
     };
