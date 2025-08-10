@@ -1066,5 +1066,16 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventVar4: payload.size,
       applicationFeature: ApplicationFeature.AUDIO_PLAYER
     })
+  },
+  [PluginsEvents.CPE_TRACKER_HOVER]: {
+    type: 'CPE_TRACKER_HOVER',
+    getEventModel: (): any => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      eventVar2: ButtonType.Navigate,
+      eventVar1: 'CPE_tracker_hover',
+      eventVar3: '',
+      eventVar4: '',
+      applicationFeature: ApplicationFeature.CPE_TRACKER
+    })
   }
 };

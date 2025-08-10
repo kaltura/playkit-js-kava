@@ -9,7 +9,7 @@ import { HttpMethodType } from './enums/http-method-type';
 import { KalturaApplication } from './enums/kaltura-application';
 import { KavaConfigObject, KavaEvent } from './types';
 import { DownloadEvent, InfoEvent, ModerationEvent, RelatedEvent, ShareEvent } from './temp-imported-plugins-event-names-temp';
-import { PluginsEvents, PlaykitUIEvents } from './applications-events';
+import { PluginsEvents, PlaykitUIEvents, KavaEvents } from './applications-events';
 import { EventBucketName } from './enums/event-bucket-name';
 import { ApplicationEventsModel, getApplicationEventsModel } from './application-events-model';
 import { Application } from './enums/application';
@@ -305,7 +305,7 @@ class Kava extends BasePlugin {
   private _handleServerResponseSuccess(response: any, model: any): void {
     this.logger.debug('KAVA event sent', model);
     const event: Partial<FakeEvent> = {
-      type: 'kavaRequestSucceeded',
+      type: KavaEvents.KAVA_REQUEST_SUCCEEDED,
       payload: { response, model }
     };
     this.player.dispatchEvent(event as FakeEvent);
@@ -318,8 +318,7 @@ class Kava extends BasePlugin {
     }
     this.logger.warn('Failed to send KAVA event', model, err);
     const event: Partial<FakeEvent> = {
-      // TODO try to export as type
-      type: 'kavaRequestFailed',
+      type: KavaEvents.KAVA_REQUEST_FAILED,
       payload: { error: err, model }
     };
     this.player.dispatchEvent(event as FakeEvent);

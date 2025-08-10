@@ -20,5 +20,6 @@ export enum ApplicationFeature {
   AUDION_TRACKS = 'audio_tracks',
   SUMMARY_CHAPTERS = 'summary_chapters',
   DEBUG_INFO = 'debug_info',
-  AUDIO_PLAYER = 'audio_player'
+  AUDIO_PLAYER = 'audio_player',
+  CPE_TRACKER = 'cpe_tracker'
 }
