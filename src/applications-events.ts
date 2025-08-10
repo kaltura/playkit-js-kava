@@ -140,6 +140,16 @@ export const AudioPlayerEvents = {
   AUDIO_PLAYER_VISUALIZATION_STATE: 'audio_player_visualization_state'
 };
 
+export const CpeTrackerEvents = {
+  CPE_TRACKER_HOVER: 'cpe_tracker_hover'
+};
+
+// events fired by the kava plugin itself - the kava plugin does not listen to these events
+export const KavaEvents = {
+  KAVA_REQUEST_SUCCEEDED: 'kava_request_succeeded',
+  KAVA_REQUEST_FAILED: 'kava_request_failed'
+};
+
 export const PluginsEvents = {
   ...NavigationEvents,
   ...DownloadEvents,
@@ -157,5 +167,6 @@ export const PluginsEvents = {
   ...ReelsEvents,
   ...EadEvents,
   ...SummaryAndChaptersEvents,
-  ...AudioPlayerEvents
+  ...AudioPlayerEvents,
+  ...CpeTrackerEvents
 };
