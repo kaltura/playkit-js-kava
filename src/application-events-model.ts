@@ -1077,5 +1077,27 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventVar4: '',
       applicationFeature: ApplicationFeature.CPE_TRACKER
     })
+  },
+  [PluginsEvents.BANNER_MESSAGE_DISPLAYS]: {
+    type: 'BANNER_MESSAGE_DISPLAYS',
+    getEventModel: (): any => ({
+      eventType: ApplicationEventType.PAGE_LOAD,
+      eventVar2: PageLoadType.Analytics,
+      eventVar1: 'banner_message_displays',
+      eventVar3: '',
+      eventVar4: '',
+      applicationFeature: ApplicationFeature.BANNER_OVERLAY
+    })
+  },
+  [PluginsEvents.BANNER_MESSAGE_MANUALLY_DISMISSED]: {
+    type: 'BANNER_MESSAGE_MANUALLY_DISMISSED',
+    getEventModel: (): any => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      eventVar2: ButtonType.Close,
+      eventVar1: 'banner_message_manually_dismissed',
+      eventVar3: '',
+      eventVar4: '',
+      applicationFeature: ApplicationFeature.BANNER_OVERLAY
+    })
   }
 };

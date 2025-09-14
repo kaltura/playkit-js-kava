@@ -144,6 +144,11 @@ export const CpeTrackerEvents = {
   CPE_TRACKER_HOVER: 'cpe_tracker_hover'
 };
 
+export const BannerOverlayEvents = {
+  BANNER_MESSAGE_DISPLAYS: 'banner_message_displays',
+  BANNER_MESSAGE_MANUALLY_DISMISSED: 'banner_message_manually_dismissed'
+};
+
 // events fired by the kava plugin itself - the kava plugin does not listen to these events
 export const KavaEvents = {
   KAVA_REQUEST_SUCCEEDED: 'kava_request_succeeded',
@@ -168,5 +173,6 @@ export const PluginsEvents = {
   ...EadEvents,
   ...SummaryAndChaptersEvents,
   ...AudioPlayerEvents,
-  ...CpeTrackerEvents
+  ...CpeTrackerEvents,
+  ...BannerOverlayEvents
 };
