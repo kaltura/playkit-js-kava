@@ -13,7 +13,8 @@ export const PlaykitUIEvents = {
   USER_HID_CAPTIONS: `${playkitUIEventsNamespace}-userhidcaptions`,
   USER_SELECTED_CAPTION_TRACK: `${playkitUIEventsNamespace}-userselectedcaptiontrack`,
   USER_SELECTED_AUDIO_TRACK: `${playkitUIEventsNamespace}-userselectedaudiotrack`,
-  USER_COPIED_DEBUG_INFO: `${playkitUIEventsNamespace}-usercopieddebuginfo`
+  USER_COPIED_DEBUG_INFO: `${playkitUIEventsNamespace}-usercopieddebuginfo`,
+  DISPLAY_INFO_BEFORE_PLAYBACK: `${playkitUIEventsNamespace}-displayinfobeforeplayback`
 };
 
 export const NavigationEvents = {
