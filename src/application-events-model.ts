@@ -1099,5 +1099,15 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventVar4: '',
       applicationFeature: ApplicationFeature.BANNER_OVERLAY
     })
+  },
+  [PlaykitUIEvents.DISPLAY_INFO_BEFORE_PLAYBACK]: {
+    type: 'DISPLAY_INFO_BEFORE_PLAYBACK',
+    getEventModel: (): any => ({
+      eventType: ApplicationEventType.PAGE_LOAD,
+      eventVar2: PageLoadType.View,
+      eventVar1: 'display_info_before_playback',
+      eventVar3: '',
+      applicationFeature: ApplicationFeature.UI
+    })
   }
 };
