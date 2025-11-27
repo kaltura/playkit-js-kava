@@ -22,7 +22,7 @@ export const PlaykitUIEvents = {
   USER_SELECTED_CAPTIONS_PRESET_EASY_READING: `${playkitUIEventsNamespace}-userselectedcaptionspreseteasyreading`,
   USER_SELECTED_CAPTIONS_PRESET_EARLY_READERS: `${playkitUIEventsNamespace}-userselectedcaptionspresetearlyreaders`,
   USER_SELECTED_CAPTIONS_PRESET_NIGHT_MODE: `${playkitUIEventsNamespace}-userselectedcaptionspresetnightmode`,
-  USER_SELECTED_CAPTIONS_CUSTOM: `${playkitUIEventsNamespace}-userselectedcaptionscustom`,
+  USER_SELECTED_CAPTIONS_CUSTOM: `${playkitUIEventsNamespace}-userselectedcaptionscustom`
 };
 
 export const NavigationEvents = {
