@@ -702,6 +702,16 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       applicationFeature: ApplicationFeature.ADVANCED_CAPTIONS
     })
   },
+  [PlaykitUIEvents.USER_SELECTED_CAPTIONS_WEIGHT]: {
+    type: 'USER_SELECTED_CAPTIONS_WEIGHT',
+    getEventModel: (payload: any): any => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      eventVar1: 'Advanced_captions_weight',
+      eventVar2: ButtonType.Choose,
+      eventVar3: payload,
+      applicationFeature: ApplicationFeature.ADVANCED_CAPTIONS
+    })
+  },
   [PlaykitUIEvents.USER_SELECTED_CAPTIONS_ALIGNMENT]: {
     type: 'USER_SELECTED_CAPTIONS_ALIGNMENT',
     getEventModel: (payload: any): any => ({
@@ -769,6 +779,76 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventVar1: 'Advanced_captions_background_opacity',
       eventVar2: ButtonType.Choose,
       eventVar3: `${payload * 100}%`,
+      applicationFeature: ApplicationFeature.ADVANCED_CAPTIONS
+    })
+  },
+  [PlaykitUIEvents.USER_SELECTED_CAPTIONS_PRESET_MINIMALIST]: {
+    type: 'USER_SELECTED_CAPTIONS_PRESET_MINIMALIST',
+    getEventModel: () => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      eventVar1: ButtonType.Choose,
+      eventVar2: 'Advanced_captions_preset_minimalist',
+      eventVar3: '',
+      applicationFeature: ApplicationFeature.ADVANCED_CAPTIONS
+    })
+  },
+  [PlaykitUIEvents.USER_SELECTED_CAPTIONS_PRESET_HIGH_CONTRAST]: {
+    type: 'USER_SELECTED_CAPTIONS_PRESET_HIGH_CONTRAST',
+    getEventModel: () => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      eventVar1: ButtonType.Choose,
+      eventVar2: 'Advanced_captions_preset_high_contrast',
+      eventVar3: '',
+      applicationFeature: ApplicationFeature.ADVANCED_CAPTIONS
+    })
+  },
+  [PlaykitUIEvents.USER_SELECTED_CAPTIONS_PRESET_CLASSIC_TV_STYLE]: {
+    type: 'USER_SELECTED_CAPTIONS_PRESET_CLASSIC_TV_STYLE',
+    getEventModel: () => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      eventVar1: ButtonType.Choose,
+      eventVar2: 'Advanced_captions_preset_classic_tv_style',
+      eventVar3: '',
+      applicationFeature: ApplicationFeature.ADVANCED_CAPTIONS
+    })
+  },
+  [PlaykitUIEvents.USER_SELECTED_CAPTIONS_PRESET_EASY_READING]: {
+    type: 'USER_SELECTED_CAPTIONS_PRESET_EASY_READING',
+    getEventModel: () => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      eventVar1: ButtonType.Choose,
+      eventVar2: 'Advanced_captions_preset_easy_reading',
+      eventVar3: '',
+      applicationFeature: ApplicationFeature.ADVANCED_CAPTIONS
+    })
+  },
+  [PlaykitUIEvents.USER_SELECTED_CAPTIONS_PRESET_EARLY_READERS]: {
+    type: 'USER_SELECTED_CAPTIONS_PRESET_EARLY_READERS',
+    getEventModel: () => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      eventVar1: ButtonType.Choose,
+      eventVar2: 'Advanced_captions_preset_early_readers',
+      eventVar3: '',
+      applicationFeature: ApplicationFeature.ADVANCED_CAPTIONS
+    })
+  },
+  [PlaykitUIEvents.USER_SELECTED_CAPTIONS_PRESET_NIGHT_MODE]: {
+    type: 'USER_SELECTED_CAPTIONS_PRESET_NIGHT_MODE',
+    getEventModel: () => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      eventVar1: ButtonType.Choose,
+      eventVar2: 'Advanced_captions_preset_night_mode',
+      eventVar3: '',
+      applicationFeature: ApplicationFeature.ADVANCED_CAPTIONS
+    })
+  },
+  [PlaykitUIEvents.USER_SELECTED_CAPTIONS_CUSTOM]: {
+    type: 'USER_SELECTED_CAPTIONS_CUSTOM',
+    getEventModel: () => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      eventVar1: ButtonType.Choose,
+      eventVar2: 'Advanced_captions_custom',
+      eventVar3: '',
       applicationFeature: ApplicationFeature.ADVANCED_CAPTIONS
     })
   },
