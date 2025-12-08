@@ -2,6 +2,7 @@ const playkitUIEventsNamespace = 'playkit-ui';
 export const PlaykitUIEvents = {
   USER_CLICKED_LOGO: `${playkitUIEventsNamespace}-userclickedlogo`,
   USER_SELECTED_CAPTIONS_SIZE: `${playkitUIEventsNamespace}-userselectedcaptionssize`,
+  USER_SELECTED_CAPTIONS_WEIGHT: `${playkitUIEventsNamespace}-userselectedcaptionsweight`,
   USER_SELECTED_CAPTIONS_ALIGNMENT: `${playkitUIEventsNamespace}-userselectedcaptionsalignment`,
   USER_SELECTED_CAPTIONS_FONT_COLOR: `${playkitUIEventsNamespace}-userselectedcaptionsfontcolor`,
   USER_SELECTED_CAPTIONS_FONT_FAMILY: `${playkitUIEventsNamespace}-userselectedcaptionsfontfamily`,
@@ -14,7 +15,14 @@ export const PlaykitUIEvents = {
   USER_SELECTED_CAPTION_TRACK: `${playkitUIEventsNamespace}-userselectedcaptiontrack`,
   USER_SELECTED_AUDIO_TRACK: `${playkitUIEventsNamespace}-userselectedaudiotrack`,
   USER_COPIED_DEBUG_INFO: `${playkitUIEventsNamespace}-usercopieddebuginfo`,
-  DISPLAY_INFO_BEFORE_PLAYBACK: `${playkitUIEventsNamespace}-displayinfobeforeplayback`
+  DISPLAY_INFO_BEFORE_PLAYBACK: `${playkitUIEventsNamespace}-displayinfobeforeplayback`,
+  USER_SELECTED_CAPTIONS_PRESET_MINIMALIST: `${playkitUIEventsNamespace}-userselectedcaptionspresetminimalist`,
+  USER_SELECTED_CAPTIONS_PRESET_HIGH_CONTRAST: `${playkitUIEventsNamespace}-userselectedcaptionspresethighcontrast`,
+  USER_SELECTED_CAPTIONS_PRESET_CLASSIC_TV_STYLE: `${playkitUIEventsNamespace}-userselectedcaptionspresetclassictvstyle`,
+  USER_SELECTED_CAPTIONS_PRESET_EASY_READING: `${playkitUIEventsNamespace}-userselectedcaptionspreseteasyreading`,
+  USER_SELECTED_CAPTIONS_PRESET_EARLY_READERS: `${playkitUIEventsNamespace}-userselectedcaptionspresetearlyreaders`,
+  USER_SELECTED_CAPTIONS_PRESET_NIGHT_MODE: `${playkitUIEventsNamespace}-userselectedcaptionspresetnightmode`,
+  USER_SELECTED_CAPTIONS_CUSTOM: `${playkitUIEventsNamespace}-userselectedcaptionscustom`
 };
 
 export const NavigationEvents = {
