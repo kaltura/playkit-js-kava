@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 1.13.2 (2025-12-18)
+
+
+### Bug Fixes
+
+* **FEC-14684:** Advanced captions presets beacons ([#214](https://github.com/kaltura/playkit-js-kava/issues/214)) ([c245b36](https://github.com/kaltura/playkit-js-kava/commit/c245b36b267a49da237f0e73dcd1129987fe2a85))
+
 ### 1.13.1 (2025-10-23)
 
 ## 1.13.0 (2025-07-17)
