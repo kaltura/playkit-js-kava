@@ -1192,11 +1192,11 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
   },
   [PluginsEvents.GENIE_OPEN]: {
     type: 'GENIE_OPEN',
-    getEventModel: (): any => ({
+    getEventModel: (payload: any): any => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar2: ButtonType.Open,
       eventVar1: 'genie_open_plugin',
-      eventVar3: '',
+      eventVar3: payload.trigger,
       eventVar4: '',
       applicationFeature: ApplicationFeature.GENIE
     })
