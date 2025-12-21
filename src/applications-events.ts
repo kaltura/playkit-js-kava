@@ -167,7 +167,7 @@ export const KavaEvents = {
 export const GenieEvents = {
   GENIE_OPEN: 'genie_open_plugin',
   GENIE_CLOSE: 'genie_close_plugin',
-  NEW_THREAD: 'new_thread'
+  GENIE_NEW_THREAD: 'new_thread'
 };
 
 export const PluginsEvents = {
