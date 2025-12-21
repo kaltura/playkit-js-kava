@@ -164,6 +164,12 @@ export const KavaEvents = {
   KAVA_REQUEST_FAILED: 'kava_request_failed'
 };
 
+export const GenieEvents = {
+  GENIE_OPEN: 'genie_open_plugin',
+  GENIE_CLOSE: 'genie_close_plugin',
+  NEW_THREAD: 'new_thread'
+};
+
 export const PluginsEvents = {
   ...NavigationEvents,
   ...DownloadEvents,
@@ -183,5 +189,6 @@ export const PluginsEvents = {
   ...SummaryAndChaptersEvents,
   ...AudioPlayerEvents,
   ...CpeTrackerEvents,
-  ...BannerOverlayEvents
+  ...BannerOverlayEvents,
+  ...GenieEvents
 };

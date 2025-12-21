@@ -1189,5 +1189,38 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventVar3: '',
       applicationFeature: ApplicationFeature.UI
     })
+  },
+  [PluginsEvents.GENIE_OPEN]: {
+    type: 'GENIE_OPEN',
+    getEventModel: (): any => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      eventVar2: ButtonType.Open,
+      eventVar1: 'genie_open_plugin',
+      eventVar3: '',
+      eventVar4: '',
+      applicationFeature: ApplicationFeature.GENIE
+    })
+  },
+  [PluginsEvents.GENIE_CLOSE]: {
+    type: 'GENIE_CLOSE',
+    getEventModel: (): any => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      eventVar2: ButtonType.Close,
+      eventVar1: 'genie_close_plugin',
+      eventVar3: '',
+      eventVar4: '',
+      applicationFeature: ApplicationFeature.GENIE
+    })
+  },
+  [PluginsEvents.NEW_THREAD]: {
+    type: 'NEW_THREAD',
+    getEventModel: (): any => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      eventVar2: ButtonType.Navigate,
+      eventVar1: 'new_thread',
+      eventVar3: '',
+      eventVar4: '',
+      applicationFeature: ApplicationFeature.GENIE
+    })
   }
 };
