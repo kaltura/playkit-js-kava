@@ -1225,8 +1225,8 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       applicationFeature: ApplicationFeature.GENIE
     })
   },
-  [PluginsEvents.NEW_THREAD]: {
-    type: 'NEW_THREAD',
+  [PluginsEvents.GENIE_NEW_THREAD]: {
+    type: 'GENIE_NEW_THREAD',
     getEventModel: (): any => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar2: ButtonType.Open,
