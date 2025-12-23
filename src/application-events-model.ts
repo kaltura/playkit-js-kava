@@ -1190,36 +1190,34 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       applicationFeature: ApplicationFeature.UI
     })
   },
-  [PluginsEvents.GENIE_OPEN]: {
-    type: 'GENIE_OPEN',
-    getEventModel: (payload: any): any => {
-      if (payload.trigger === 'user') {
-        return {
-          eventType: ApplicationEventType.BUTTON_CLICKED,
-          eventVar2: ButtonType.Open,
-          eventVar1: 'genie_open_plugin',
-          eventVar3: payload.trigger,
-          eventVar4: '',
-          applicationFeature: ApplicationFeature.GENIE
-        };
-      } else {
-        return {
-          eventType: ApplicationEventType.PAGE_LOAD,
-          eventVar2: PageLoadType.View,
-          eventVar1: 'genie_open_plugin',
-          eventVar3: payload.trigger,
-          eventVar4: '',
-          applicationFeature: ApplicationFeature.GENIE
-        };
-      }
-    }
+  [PluginsEvents.GENIE_OPEN_AUTO]: {
+    type: 'GENIE_OPEN_AUTO',
+    getEventModel: (): any => ({
+      eventType: ApplicationEventType.PAGE_LOAD,
+      eventVar2: PageLoadType.View,
+      eventVar1: 'genie_open_auto',
+      eventVar3: '',
+      eventVar4: '',
+      applicationFeature: ApplicationFeature.GENIE
+    })
+  },
+  [PluginsEvents.GENIE_OPEN_MANUAL]: {
+    type: 'GENIE_OPEN_MANUAL',
+    getEventModel: (): any => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      eventVar2: ButtonType.Open,
+      eventVar1: 'genie_open_manual',
+      eventVar3: '',
+      eventVar4: '',
+      applicationFeature: ApplicationFeature.GENIE
+    })
   },
   [PluginsEvents.GENIE_CLOSE]: {
     type: 'GENIE_CLOSE',
     getEventModel: (): any => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar2: ButtonType.Close,
-      eventVar1: 'genie_close_plugin',
+      eventVar1: 'genie_close',
       eventVar3: '',
       eventVar4: '',
       applicationFeature: ApplicationFeature.GENIE
@@ -1230,7 +1228,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
     getEventModel: (): any => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar2: ButtonType.Open,
-      eventVar1: 'new_thread',
+      eventVar1: 'genie_new_thread',
       eventVar3: '',
       eventVar4: '',
       applicationFeature: ApplicationFeature.GENIE

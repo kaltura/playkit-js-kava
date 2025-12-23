@@ -165,9 +165,10 @@ export const KavaEvents = {
 };
 
 export const GenieEvents = {
-  GENIE_OPEN: 'genie_open_plugin',
-  GENIE_CLOSE: 'genie_close_plugin',
-  GENIE_NEW_THREAD: 'new_thread'
+  GENIE_OPEN_AUTO: 'genie_open_auto',
+  GENIE_OPEN_MANUAL: 'genie_open_manual',
+  GENIE_CLOSE: 'genie_close',
+  GENIE_NEW_THREAD: 'genie_new_thread'
 };
 
 export const PluginsEvents = {
