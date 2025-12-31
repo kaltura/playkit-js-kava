@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 1.14.0 (2025-12-31)
+
+
+### Features
+
+* **FEC-14823:** Add beacons to genie plugin ([#216](https://github.com/kaltura/playkit-js-kava/issues/216)) ([3bdb89b](https://github.com/kaltura/playkit-js-kava/commit/3bdb89b87408fb78045023d3cb7196e1a2a3215c))
+
 ### 1.13.2 (2025-12-18)
 
 
