@@ -9,6 +9,29 @@ PlayKit JS Kava plugin integrates Kava (Kaltura Advanced Video Analytics) with t
 
 The main purpose of this plugin is to track and collect various events and data about the video player.
 
+
+### Events Handled By Kava:
+```
+  VIEW
+  IMPRESSION
+  PLAY_REQUEST
+  PLAY
+  RESUME
+  PAUSE
+  BUFFER_START
+  BUFFER_END
+  REPLAY  SEEK 
+  PLAY_REACHED_25_PERCENT 
+  PLAY_REACHED_50_PERCENT 
+  PLAY_REACHED_75_PERCENT  
+  PLAY_REACHED_100_PERCENT
+  SOURCE_SELECTED
+  AUDIO_SELECTED
+  FLAVOR_SWITCH
+  SPEED
+  CAPTIONS
+  ERROR
+```  
 PlayKit JS Kava is written in [ECMAScript6], statically analysed using [Flow] and transpiled in ECMAScript5 using [Babel].
 
 [flow]: https://flow.org/
@@ -73,6 +96,58 @@ Finally, add the bundle as a script tag in your page, and initialize the player
     });
   </script>
 </div>
+```
+
+## Configuration:
+
+### Kava Plugin Properties
+
+- `serviceUrl` optional -  The Kaltura API server. default is kalturas default analytics url
+- `requestMethod`  optional - The http method to be used for sending the beacons, GET or POST, the default is GET.
+- `viewEventCountdown` optional - The interval in seconds that VIEW event will be sent. default is every 10 seconds
+- `resetSessionCountdown` optional - The interval in seconds that Kava session will be reset. default is 30 seconds
+- `dvrThreshold` optional - Threshold in seconds from the live edge. default is 120 seconds
+- `userId`  optional - custom user id .
+- `applicationVersion` optional -  Used to send the application version from which the user is playing the entry.
+- `customVar1` optional - Custom object field.
+- `customVar2` optional -  Custom object field.
+- `customVar3` optional -  Custom object field.
+- `persistentSessionId` optional -  UUID for anonymous users.
+- `playbackContext`  optional - Used to send the id of the category from which the user is playing the entry. (usually populated by the player)
+- `tamperAnalyticsHandler`  Optional handler to implement. Can be used to manipulate the model data before analytics event sent, or to cancel a certain analytics request.
+
+
+### Example:
+
+```javascript
+// Default config
+"kava": {
+ serviceUrl: '//analytics.kaltura.com/api_v3/index.php',
+ requestMethod: 'GET',
+ viewEventCountdown: 10,
+ resetSessionCountdown: 30,
+ dvrThreshold: 120,
+ applicationVersion: '',
+ playbackContext: ''
+}
+```
+
+
+* Values the player will add automatically to the plugin config using the player's internal knowledge
+
+```
+{
+  "playerVersion": "", 
+  "playerName": "",
+  "partnerId":,
+  "uiConfId": ,
+  "referrer": "",
+  "encodedReferrer": "",
+  "entryId": "",
+  "entryType": "",
+  "sessionId": "",
+  "ks": ""
+}
 ```
 
 ## Documentation
