@@ -34,7 +34,7 @@
     "@babel/runtime": "^7.23.8",
     "@microsoft/api-extractor": "^7.39.1",
     "@playkit-js/browserslist-config": "1.0.8",
-    "@playkit-js/kaltura-player-js": "3.18.0-canary.0-7e6ca86",
+    "@playkit-js/kaltura-player-js": "3.17.77",
     "@playkit-js/moderation": "3.2.13-canary.0-5376147",
     "@playkit-js/playkit-js": "^0.84.6",
     "@playkit-js/playkit-js-downloads": "1.1.0-canary.0-60c49dc",
@@ -68,7 +68,7 @@
     "webpack-dev-server": "^4.15.1"
   },
   "peerDependencies": {
-    "@playkit-js/kaltura-player-js": "3.17.16",
+    "@playkit-js/kaltura-player-js": "3.17.77",
     "@playkit-js/playkit-js": "^0.84.6",
     "@playkit-js/playkit-js-providers": "^2.40.4"
   },
