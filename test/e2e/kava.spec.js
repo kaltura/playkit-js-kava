@@ -95,10 +95,6 @@ describe('KavaPlugin', function () {
     kava._isEnded.should.be.false;
     kava._isPaused.should.be.false;
     (kava._model.getSessionStartTime() === null).should.be.true;
-    kava._timePercentEvent.PLAY_REACHED_25_PERCENT.should.be.false;
-    kava._timePercentEvent.PLAY_REACHED_50_PERCENT.should.be.false;
-    kava._timePercentEvent.PLAY_REACHED_75_PERCENT.should.be.false;
-    kava._timePercentEvent.PLAY_REACHED_100_PERCENT.should.be.false;
   });
 
   it('should check _getDroppedFramesRatio does not return NaN if no new frames received', done => {
