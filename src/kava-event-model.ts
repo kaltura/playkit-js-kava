@@ -212,6 +212,15 @@ export const KavaEventModel = {
     getEventModel: (): any => ({})
   },
   /**
+   * @type {string} PLAY_REACHED_90_PERCENT
+   * @memberof KavaEventType
+   */
+  PLAY_REACHED_90_PERCENT: {
+    type: 'PLAY_REACHED_90_PERCENT',
+    index: 15,
+    getEventModel: (): any => ({})
+  },
+  /**
    * @type {string} SOURCE_SELECTED
    * @memberof KavaEventType
    */
