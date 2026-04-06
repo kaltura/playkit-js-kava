@@ -40,6 +40,7 @@ class Kava extends BasePlugin {
   private _isEnded!: boolean;
   private _isPaused!: boolean;
   private _isBuffering!: boolean;
+  private _timePercentEvent!: { [time: string]: boolean };
   private _isPlaying!: boolean;
   private _loadStartTime!: number;
   private _lastDroppedFrames: number = 0;
@@ -256,6 +257,13 @@ class Kava extends BasePlugin {
     this._isEnded = false;
     this._isPaused = false;
     this._isBuffering = false;
+    this._timePercentEvent = {
+      PLAY_REACHED_25: false,
+      PLAY_REACHED_50: false,
+      PLAY_REACHED_75: false,
+      PLAY_REACHED_90: false,
+      PLAY_REACHED_100: false
+    };
     this._canPlayOccured = false;
     this._isManualPreload = false;
   }
@@ -353,11 +361,6 @@ class Kava extends BasePlugin {
     this.eventManager.listen(this.player, InfoEvent.INFO_SCREEN_OPEN, () => this._onInfoScreenOpened());
     this.eventManager.listen(this.player, ModerationEvent.REPORT_CLICKED, () => this._onReportClicked());
     this.eventManager.listen(this.player, ModerationEvent.REPORT_SUBMITTED, (event) => this._onReportSubmitted(event));
-    this.eventManager.listenOnce(this.player, this.player.Event.Core.PLAY_REACHED_25_PERCENT, (event) => this._onPlayerReached(event));
-    this.eventManager.listenOnce(this.player, this.player.Event.Core.PLAY_REACHED_50_PERCENT, (event) => this._onPlayerReached(event));
-    this.eventManager.listenOnce(this.player, this.player.Event.Core.PLAY_REACHED_75_PERCENT, (event) => this._onPlayerReached(event));
-    this.eventManager.listenOnce(this.player, this.player.Event.Core.PLAY_REACHED_90_PERCENT, (event) => this._onPlayerReached(event));
-    this.eventManager.listenOnce(this.player, this.player.Event.Core.PLAY_REACHED_100_PERCENT, (event) => this._onPlayerReached(event));
     this._bindApplicationEvents();
     this._bindPlaykitUIEvents();
     this._initTabMode();
@@ -624,18 +627,25 @@ class Kava extends BasePlugin {
 
   private _onTimeUpdate(): void {
     this._updatePlayTimeSumModel();
-  }
-
-  private _onPlayerReached(event: FakeEvent): void {
-    if (event.type === this.player.Event.Core.PLAY_REACHED_25_PERCENT) {
+    const percent = parseFloat((this.player.currentTime! / this.player.duration!).toFixed(2));
+    if (!this._timePercentEvent.PLAY_REACHED_25 && percent >= 0.25) {
+      this._timePercentEvent.PLAY_REACHED_25 = true;
       this._sendAnalytics(KavaEventModel.PLAY_REACHED_25_PERCENT);
-    } else if (event.type === this.player.Event.Core.PLAY_REACHED_50_PERCENT) {
+    }
+    if (!this._timePercentEvent.PLAY_REACHED_50 && percent >= 0.5) {
+      this._timePercentEvent.PLAY_REACHED_50 = true;
       this._sendAnalytics(KavaEventModel.PLAY_REACHED_50_PERCENT);
-    } else if (event.type === this.player.Event.Core.PLAY_REACHED_75_PERCENT) {
+    }
+    if (!this._timePercentEvent.PLAY_REACHED_75 && percent >= 0.75) {
+      this._timePercentEvent.PLAY_REACHED_75 = true;
       this._sendAnalytics(KavaEventModel.PLAY_REACHED_75_PERCENT);
-    } else if (event.type === this.player.Event.Core.PLAY_REACHED_90_PERCENT) {
+    }
+    if (!this._timePercentEvent.PLAY_REACHED_90 && percent >= 0.9) {
+      this._timePercentEvent.PLAY_REACHED_90 = true;
       this._sendAnalytics(KavaEventModel.PLAY_REACHED_90_PERCENT);
-    } else if (event.type === this.player.Event.Core.PLAY_REACHED_100_PERCENT) {
+    }
+    if (!this._timePercentEvent.PLAY_REACHED_100 && percent === 1) {
+      this._timePercentEvent.PLAY_REACHED_100 = true;
       this._sendAnalytics(KavaEventModel.PLAY_REACHED_100_PERCENT);
     }
   }
