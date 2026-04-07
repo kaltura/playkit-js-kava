@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 1.14.1 (2026-04-07)
+
+
+### Bug Fixes
+
+* **FEC-14911:** Refactor Kava to use native player milestone events and add 90% milestone support ([#217](https://github.com/kaltura/playkit-js-kava/issues/217)) ([dc70d4e](https://github.com/kaltura/playkit-js-kava/commit/dc70d4e8c39a9cda0f86bad2700b35da0c93da87))
+
 ## 1.14.0 (2025-12-31)
 
 
