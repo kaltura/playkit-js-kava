@@ -1,0 +1,260 @@
+{
+  "repositoryName": "playkit-js-kava",
+  "coreResponsibility": {
+    "type": "Analytics Plugin",
+    "description": "A player plugin that integrates Kaltura Advanced Video Analytics (KAVA) with the Kaltura Player, tracking and reporting video playback events, quality metrics, and user interactions to the Kaltura analytics service for QoS/QoE monitoring and business intelligence."
+  },
+  "domainAndLogicOwnership": {
+    "featureOwnership": [
+      "Video Analytics Event Tracking (VIEW, IMPRESSION, PLAY, PAUSE, RESUME, BUFFER, SEEK)",
+      "Quality of Service (QoS) Metrics Collection (bitrate, buffer time, dropped frames, segment download times)",
+      "Quality of Experience (QoE) Metrics Tracking (join time, buffering events, error tracking)",
+      "Playback Milestone Reporting (25%, 50%, 75%, 90%, 100% completion)",
+      "User Interaction Analytics (audio/caption selection, flavor switching, speed changes)",
+      "Application Event Analytics (UI interactions, button clicks, page loads, feature usage)",
+      "Session Management (session creation, timeout handling, reset after inactivity)",
+      "Periodic VIEW Event Reporting (configurable interval reporting during active playback)",
+      "Live Stream Analytics with Failed Event Logging",
+      "Plugin Integration Analytics (Share, Downloads, Moderation, Related plugins)",
+      "Network Performance Metrics (connection type, bandwidth, overhead, manifest/segment timing)",
+      "Viewability and Tab Focus Tracking",
+      "Error Event Reporting with Position Context"
+    ],
+    "dataHandling": [
+      "Player State Tracking (playing, paused, buffering, seeking, ended states)",
+      "Bitrate and ABR Statistics (actual bitrate, average bitrate, flavor switches)",
+      "Buffer Health Metrics (buffer time, buffer time sum, forward buffer health, target buffer)",
+      "Timing Data (join time, play time sum, session duration, event timestamps)",
+      "Video Track Information (audio language, caption language, video quality)",
+      "Performance Metrics (dropped frames ratio, segment download times, manifest download times)",
+      "Network Connection Data (connection type, bandwidth, network overhead)",
+      "User Context (partner ID, entry ID, session ID, user ID, KS token)",
+      "Playback Context (playback mode, delivery type, DVR threshold for live)",
+      "Application Context (application name, version, hosting application, player skin)",
+      "Custom Variables (customVar1, customVar2, customVar3 for extensibility)",
+      "Error Data (error code, error details, error position in playback)",
+      "Event Sequence Tracking (event index for ordered event reconstruction)"
+    ]
+  },
+  "integrationPoints": {
+    "upstream": {
+      "services": [
+        "Kaltura Analytics API (analytics.kaltura.com/api_v3/index.php) - Primary analytics ingestion endpoint"
+      ],
+      "repositories": [
+        "@playkit-js/kaltura-player-js - Core player framework providing player instance and events",
+        "@playkit-js/playkit-js - Base PlayKit library providing player core functionality",
+        "@playkit-js/playkit-js-providers - Provides OVPAnalyticsService for HTTP analytics transmission"
+      ],
+      "dataProviders": [
+        "Player Event System - Consumes player lifecycle events (PLAY, PAUSE, PLAYING, SEEKING, SEEKED, ENDED, ERROR, etc.)",
+        "Player State Machine - Reads current playback state, position, buffered ranges",
+        "Video Track API - Accesses selected audio/video/text tracks",
+        "Player Configuration - Receives partner ID, entry ID, session ID, KS token",
+        "Player Performance API - Reads dropped frames, quality metrics via HTMLVideoElement",
+        "Performance Observer API - Monitors network resource timing for segments and manifests"
+      ]
+    },
+    "downstream": {
+      "consumers": [
+        "Kaltura Analytics Backend - Receives all analytics events for storage, processing, and reporting",
+        "Kaltura BI/Reporting Systems - Consumes aggregated analytics data for dashboards and reports",
+        "Player Applications - Can access plugin via player.plugins.kava for custom analytics or event models",
+        "Third-party Analytics Integration - Applications can use tamperAnalyticsHandler to intercept/modify events"
+      ],
+      "apis": [
+        "Public Plugin API (player.plugins.kava.sendAnalytics) - Allows custom analytics event submission",
+        "Event Model API (player.plugins.kava.getEventModel) - Retrieves structured event data",
+        "Event Type API (player.plugins.kava.EventType) - Exposes KAVA event type constants"
+      ]
+    },
+    "externalAPIs": {
+      "kaltura": [
+        "Kaltura Analytics API v3 (analytics.kaltura.com/api_v3/index.php) - POST/GET requests for event tracking",
+        "OVPAnalyticsService.trackEvent - Provided by @playkit-js/playkit-js-providers for analytics transmission"
+      ],
+      "thirdParty": [
+        "Performance Observer API - Browser API for monitoring network resource timing",
+        "HTMLVideoElement Quality API - Browser API for dropped/decoded frames metrics",
+        "Network Information API - Browser API for connection type detection",
+        "Page Visibility API - Browser API for tab focus/visibility tracking",
+        "localStorage API - Browser storage for failed live event logging"
+      ],
+      "playerIntegrations": [
+        "Share Plugin Events - Tracks share button clicks and social network interactions",
+        "Downloads Plugin Events - Tracks download button interactions",
+        "Moderation Plugin Events - Tracks moderation feature usage",
+        "Related Plugin Events - Tracks related content interactions",
+        "PlayKit UI Events - Tracks UI interactions, layout changes, dual-screen features"
+      ]
+    }
+  },
+  "technicalStack": {
+    "languages": [
+      "TypeScript (primary implementation language)",
+      "JavaScript (transpiled output)"
+    ],
+    "frameworks": [
+      "Kaltura Player JS (Player framework)",
+      "PlayKit JS (Core player library)",
+      "Webpack (Build and bundling)",
+      "Babel (Transpilation)",
+      "Karma + Mocha + Chai (Testing)"
+    ],
+    "buildTools": [
+      "Webpack 5",
+      "TypeScript Compiler",
+      "API Extractor (Type definition generation)",
+      "ESLint + Prettier (Code quality)"
+    ],
+    "entryPoints": {
+      "main": "src/index.ts - Plugin registration entry point that registers 'kava' plugin with Kaltura Player",
+      "coreLogic": [
+        "src/kava.ts - Main plugin class (Kava extends BasePlugin), lifecycle management, event binding, analytics transmission",
+        "src/kava-model.ts - Data model class storing all analytics metrics and state",
+        "src/kava-event-model.ts - Defines player event types and their data models (VIEW, IMPRESSION, PLAY, PAUSE, etc.)",
+        "src/application-events-model.ts - Defines application/UI event types and models (button clicks, page loads)",
+        "src/kava-timer.ts - Timer management using Web Workers for periodic VIEW event reporting",
+        "src/kava-rate-handler.ts - Bitrate calculation and ABR tracking logic"
+      ],
+      "utilities": [
+        "src/log-failed-live-events.ts - localStorage logging for failed live stream analytics",
+        "src/enums/ - Event types, application features, button types, HTTP methods"
+      ]
+    }
+  },
+  "triageKeywords": {
+    "primaryIndicators": [
+      "kava",
+      "analytics not sending",
+      "analytics not working",
+      "VIEW event",
+      "IMPRESSION event",
+      "playkit-js-kava",
+      "@playkit-js/playkit-js-kava"
+    ],
+    "eventRelated": [
+      "buffer time not reporting",
+      "join time incorrect",
+      "playTimeSum",
+      "bufferTimeSum",
+      "eventIndex",
+      "analytics session",
+      "VIEW event not sent",
+      "milestone event",
+      "25% 50% 75% 90% 100% completion"
+    ],
+    "qualityMetrics": [
+      "actualBitrate not reported",
+      "averageBitrate",
+      "droppedFramesRatio",
+      "segmentDownloadTime",
+      "manifestDownloadTime",
+      "bandwidth calculation",
+      "forwardBufferHealth",
+      "targetBuffer",
+      "network performance metrics",
+      "QoS metrics",
+      "QoE tracking"
+    ],
+    "integrationIssues": [
+      "analytics.kaltura.com",
+      "OVPAnalyticsService",
+      "trackEvent failed",
+      "analytics API error",
+      "analytics request timeout",
+      "analytics endpoint"
+    ],
+    "configurationIssues": [
+      "serviceUrl",
+      "viewEventCountdown",
+      "resetSessionCountdown",
+      "tamperAnalyticsHandler",
+      "kava config",
+      "kalturaApplication",
+      "playbackContext"
+    ],
+    "errorPatterns": [
+      "kava plugin error",
+      "analytics error event",
+      "ERROR event not sent",
+      "error position",
+      "errorCode in analytics",
+      "failed live events log"
+    ],
+    "performanceIssues": [
+      "analytics overhead",
+      "kava timer",
+      "WorkerTimer",
+      "periodic reporting",
+      "session timeout",
+      "session reset"
+    ],
+    "specificFeatures": [
+      "flavor switch tracking",
+      "caption selection analytics",
+      "audio language analytics",
+      "seek analytics",
+      "replay event",
+      "DVR analytics",
+      "live analytics",
+      "application events",
+      "button click analytics",
+      "share analytics",
+      "download analytics",
+      "moderation analytics"
+    ]
+  },
+  "commonBugPatterns": {
+    "description": "Common issues that strongly indicate this repository",
+    "patterns": [
+      "Analytics events not being sent to Kaltura",
+      "VIEW events stopping or not firing at expected intervals",
+      "Incorrect buffer time or play time sum calculations",
+      "Join time not calculated correctly on first play",
+      "Bitrate not being reported or incorrect ABR metrics",
+      "Session resetting unexpectedly or not resetting after timeout",
+      "Dropped frames ratio not reporting accurately",
+      "Segment/manifest download times missing or incorrect",
+      "Error events not capturing correct error context",
+      "Live stream analytics failures not being logged",
+      "Application events (button clicks, UI interactions) not tracked",
+      "Network performance metrics (bandwidth, connection type) not reported",
+      "Milestone events (25%, 50%, 75%, 90%, 100%) not firing",
+      "Analytics data incorrect after seek or replay",
+      "Custom analytics handler (tamperAnalyticsHandler) not being invoked"
+    ]
+  },
+  "antiPatterns": {
+    "description": "Issues that should NOT be triaged to this repository",
+    "patterns": [
+      "Video playback not starting (core player issue)",
+      "Video buffering or stalling (core player issue)",
+      "ABR switching logic or quality selection (player core issue)",
+      "Player UI rendering or controls (kaltura-player-js or UI components)",
+      "Media loading or source selection (playkit-js or providers)",
+      "DRM/licensing issues (playkit-js-drm or providers)",
+      "Ad playback or insertion (ad plugins)",
+      "Live stream delivery or DVR functionality (player core)",
+      "Backend analytics processing or BI reporting (Kaltura server-side)",
+      "Player configuration loading (kaltura-player-js)"
+    ]
+  },
+  "metadata": {
+    "repositoryUrl": "https://github.com/kaltura/playkit-js-kava",
+    "packageName": "@playkit-js/playkit-js-kava",
+    "pluginName": "kava",
+    "npmKeywords": [
+      "kaltura",
+      "analytics",
+      "QOE",
+      "QOS",
+      "player",
+      "playkit-js",
+      "playkit-js-kava",
+      "html5 player"
+    ],
+    "license": "AGPL-3.0",
+    "lastUpdated": "2026-04-23"
+  }
+}
