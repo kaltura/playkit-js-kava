@@ -192,6 +192,16 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       applicationFeature: ApplicationFeature.DOWNLOAD
     })
   },
+  [PluginsEvents.DOWNLOAD_SUMMARY_CHAPTERS_DOWNLOAD]: {
+    type: 'DOWNLOAD_SUMMARY_CHAPTERS_DOWNLOAD',
+    getEventModel: (): any => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      eventVar1: 'Download_summary_chapters_download',
+      eventVar2: ButtonType.Download,
+      eventVar3: '',
+      applicationFeature: ApplicationFeature.DOWNLOAD
+    })
+  },
   [PluginsEvents.BUMPER_CLICKED]: {
     type: 'BUMPER_CLICKED',
     getEventModel: (payload: any): any => ({
@@ -1121,6 +1131,28 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar2: ButtonType.Navigate,
       eventVar1: 'summary_chapters_seek_to_chapter',
+      eventVar3: buttonName,
+      eventVar4: chapterNumber + 1,
+      applicationFeature: ApplicationFeature.SUMMARY_CHAPTERS
+    })
+  },
+    [PluginsEvents.SUMMARY_CHAPTERS_DOWNLOAD_SUMMARY]: {
+    type: 'SUMMARY_CHAPTERS_DOWNLOAD_SUMMARY',
+    getEventModel: () => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      eventVar2: ButtonType.Download,
+      eventVar1: 'summary_chapters_download_summary',
+      eventVar3: '',
+      eventVar4: '',
+      applicationFeature: ApplicationFeature.SUMMARY_CHAPTERS
+    })
+  },
+  [PluginsEvents.SUMMARY_CHAPTERS_CHAPTER_SHARE]: {
+    type: 'SUMMARY_CHAPTERS_CHAPTER_SHARE',
+    getEventModel: ({ chapterNumber, buttonName }) => ({
+      eventType: ApplicationEventType.BUTTON_CLICKED,
+      eventVar2: ButtonType.Share,
+      eventVar1: 'summary_chapters_share_chapter',
       eventVar3: buttonName,
       eventVar4: chapterNumber + 1,
       applicationFeature: ApplicationFeature.SUMMARY_CHAPTERS

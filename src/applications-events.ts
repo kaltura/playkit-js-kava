@@ -36,7 +36,8 @@ export const NavigationEvents = {
 export const DownloadEvents = {
   DOWNLOAD_ITEM_CLICKED: 'download_item_clicked',
   SHOW_OVERLAY: 'download_show_overlay',
-  HIDE_OVERLAY: 'download_hide_overlay'
+  HIDE_OVERLAY: 'download_hide_overlay',
+  DOWNLOAD_SUMMARY_CHAPTERS_DOWNLOAD: 'download_summary_chapters_download'
 };
 
 export const TranscriptEvents = {
@@ -142,7 +143,9 @@ export const SummaryAndChaptersEvents = {
   SUMMARY_CHAPTERS_COPY_TO_CLIPBOARD: 'summary_chapters_copy_to_clipboard',
   SUMMARY_CHAPTERS_CHAPTER_EXPAND: 'summary_chapters_chapter_expand',
   SUMMARY_CHAPTERS_CHAPTER_COLLAPSE: 'summary_chapters_chapter_collapse',
-  SUMMARY_CHAPTERS_CHAPTER_SEEK: 'summary_chapters_chapter_seek'
+  SUMMARY_CHAPTERS_CHAPTER_SEEK: 'summary_chapters_chapter_seek',
+  SUMMARY_CHAPTERS_CHAPTER_SHARE: 'summary_chapters_chapter_share',
+  SUMMARY_CHAPTERS_DOWNLOAD_SUMMARY: 'summary_chapters_download_summary'
 };
 
 export const AudioPlayerEvents = {
