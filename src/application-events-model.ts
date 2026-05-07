@@ -1136,7 +1136,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       applicationFeature: ApplicationFeature.SUMMARY_CHAPTERS
     })
   },
-    [PluginsEvents.SUMMARY_CHAPTERS_DOWNLOAD_SUMMARY]: {
+  [PluginsEvents.SUMMARY_CHAPTERS_DOWNLOAD_SUMMARY]: {
     type: 'SUMMARY_CHAPTERS_DOWNLOAD_SUMMARY',
     getEventModel: () => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
