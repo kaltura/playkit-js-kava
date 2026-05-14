@@ -1149,12 +1149,12 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
   },
   [PluginsEvents.SUMMARY_CHAPTERS_CHAPTER_SHARE]: {
     type: 'SUMMARY_CHAPTERS_CHAPTER_SHARE',
-    getEventModel: ({ chapterNumber, buttonName }) => ({
+    getEventModel: ({ chapterNumber }) => ({
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar2: ButtonType.Share,
       eventVar1: 'summary_chapters_share_chapter',
-      eventVar3: buttonName,
-      eventVar4: chapterNumber + 1,
+      eventVar3: chapterNumber + 1,
+      eventVar4: '',
       applicationFeature: ApplicationFeature.SUMMARY_CHAPTERS
     })
   },
