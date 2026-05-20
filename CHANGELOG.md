@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 1.14.2 (2026-05-20)
+
+
+### Bug Fixes
+
+* **CR-609:** Share chapter - product analytics ([#222](https://github.com/kaltura/playkit-js-kava/issues/222)) ([2b7664c](https://github.com/kaltura/playkit-js-kava/commit/2b7664c732aafadaf971455db17ee05f9f6f168f))
+
 ### 1.14.1 (2026-04-07)
 
 
