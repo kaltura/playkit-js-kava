@@ -22,7 +22,7 @@
  * // Default config
  * {
  *  serviceUrl: '//analytics.kaltura.com/api_v3/index.php',
- *  viewEventCountdown: 30,
+ *  viewEventCountdown: 10,
  *  resetSessionCountdown: 30,
  *  dvrThreshold: 120,
  *  application: '',
