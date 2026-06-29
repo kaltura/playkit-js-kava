@@ -678,7 +678,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventType: ApplicationEventType.BUTTON_CLICKED,
       eventVar1: 'EAD_play',
       eventVar2: ButtonType.Toggle,
-      eventVar3: payload?.showText,
+      eventVar3: payload?.showText ?? '',
       applicationFeature: ApplicationFeature.EAD
     })
   },
