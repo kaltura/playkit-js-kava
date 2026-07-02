@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 1.15.0 (2026-07-02)
+
+
+### Features
+
+* **FEC-14927:** EAD plugin: add player beacon to track playback with and without text display ([#223](https://github.com/kaltura/playkit-js-kava/issues/223)) ([91f5d27](https://github.com/kaltura/playkit-js-kava/commit/91f5d27e0d42df50a606e406ec2cd2c0eaa4e412))
+
 ### 1.14.2 (2026-05-20)
 
 
