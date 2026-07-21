@@ -63,6 +63,9 @@ export const KavaEventModel = {
       if (model.getSourceEntryId() !== null) {
         eventModel.sourceEntryId = model.getSourceEntryId();
       }
+      // if (model.getStreamRole() !== null) {
+      eventModel.streamRole = model.getStreamRole();
+      //   }
 
       return eventModel;
     }

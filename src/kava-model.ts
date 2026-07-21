@@ -43,6 +43,7 @@ class KavaModel {
   private reportType: number = NaN;
   private playbackMode: number = NaN;
   private sourceEntryId: string | null = null;
+  public getStreamRole!: () => string | null;
 
   public getActualBitrate!: () => any;
   public getPlaybackSpeed!: () => any;

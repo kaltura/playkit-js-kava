@@ -893,6 +893,7 @@ class Kava extends BasePlugin {
     this._model.getPlayerSkin = (): number => this._getPlayerSkin();
     this._model.getV2ToV7Redirect = (): boolean => this.player.isV2ToV7Redirected;
     this._model.getNumFailedAnalyticReports = (): number => this._logFailedLiveEvents.getNumFailedAnalyticReports(this.config.entryId);
+    this._model.getStreamRole = (): string | null => (this.player.isLive() ? (this.player.isOnFallbackSource ? 'secondary' : 'primary') : null);
   }
 
   private _getApplication(playerEvent = true): string {

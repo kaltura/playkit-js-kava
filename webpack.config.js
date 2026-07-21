@@ -55,9 +55,10 @@ module.exports = (env, { mode }) => {
       '@playkit-js/playkit-js-providers': 'root KalturaPlayer.providers'
     },
     devServer: {
-      static: {
-        directory: path.join(__dirname, 'demo')
-      },
+      static: [
+        { directory: path.join(__dirname, 'demo') },
+        { directory: path.join(__dirname, '../kaltura-player-js/dist'), publicPath: '/kaltura-player-js/dist' }
+      ],
       client: {
         progress: true
       }
