@@ -67,6 +67,11 @@ export const KavaEventModel = {
       eventModel.streamRole = model.getStreamRole();
       //   }
 
+      const liveStreamType = model.getLiveStreamType();
+      if (liveStreamType !== undefined) {
+        eventModel.streamType = liveStreamType;
+      }
+
       return eventModel;
     }
   },

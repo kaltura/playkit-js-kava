@@ -883,6 +883,7 @@ class Kava extends BasePlugin {
     this._model.getPosition = (): number => this._getPosition();
     this._model.getDeliveryType = (): string => this._getDeliveryType();
     this._model.getPlaybackType = (): string => this._getPlaybackType();
+    this._model.getLiveStreamType = (): number | undefined => this._getLiveStreamType();
     this._model.getPlaybackContext = (): string => this.config.playbackContext;
     this._model.getApplication = (playerEvent?: boolean): string => this._getApplication(playerEvent);
     this._model.getKalturaApplicationVersion = (): string => this.config.kalturaApplicationVersion;
@@ -966,6 +967,16 @@ class Kava extends BasePlugin {
       return 'live';
     }
     return 'vod';
+  }
+
+  private _getLiveStreamType(): number | undefined {
+    if (!this.player.isLive()) {
+      return undefined;
+    }
+    const stValue = (this.player as any).getLiveEntryStValue?.();
+    if (stValue === '0') return 1;
+    if (stValue === '1') return 2;
+    return undefined;
   }
 
   private _validate(): boolean {
