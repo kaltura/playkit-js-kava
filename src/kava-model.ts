@@ -74,6 +74,7 @@ class KavaModel {
   public getPlayerSkin!: () => any;
   public getV2ToV7Redirect!: () => any;
   public getNumFailedAnalyticReports!: () => number;
+  public getLiveStreamType!: () => number | undefined;
 
   constructor(model?: object) {
     if (model) {

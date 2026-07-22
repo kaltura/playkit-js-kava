@@ -893,6 +893,7 @@ class Kava extends BasePlugin {
     this._model.getPlayerSkin = (): number => this._getPlayerSkin();
     this._model.getV2ToV7Redirect = (): boolean => this.player.isV2ToV7Redirected;
     this._model.getNumFailedAnalyticReports = (): number => this._logFailedLiveEvents.getNumFailedAnalyticReports(this.config.entryId);
+    this._model.getLiveStreamType = (): number | undefined => this._getLiveStreamType();
   }
 
   private _getApplication(playerEvent = true): string {
@@ -997,6 +998,16 @@ class Kava extends BasePlugin {
       // $FlowFixMe
       tabMode: this._isTabHidden(hiddenAttr) && !this.player.isInPictureInPicture() ? TabMode.TAB_NOT_FOCUSED : TabMode.TAB_FOCUSED
     });
+  }
+
+  private _getLiveStreamType(): number | undefined {
+    if (!this.player.isLive()) {
+      return undefined;
+    } 
+    const stValue = (this.player as any).getLiveEntryStValue?.();
+    if (stValue === '0') return 1;
+    if (stValue === '1') return 2;
+    return undefined;
   }
 
   private _isTabHidden(hiddenAttr: string): boolean {
