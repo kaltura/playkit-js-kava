@@ -1005,6 +1005,7 @@ class Kava extends BasePlugin {
       return undefined;
     }
     const stValue = (this.player as any).getLiveEntryStValue?.();
+    // '0' = primary stream, '1' = backup stream
     if (stValue === '0') return 1;
     if (stValue === '1') return 2;
     return undefined;
