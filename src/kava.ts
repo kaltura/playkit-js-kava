@@ -1003,7 +1003,7 @@ class Kava extends BasePlugin {
   private _getLiveStreamType(): number | undefined {
     if (!this.player.isLive()) {
       return undefined;
-    } 
+    }
     const stValue = (this.player as any).getLiveEntryStValue?.();
     if (stValue === '0') return 1;
     if (stValue === '1') return 2;
