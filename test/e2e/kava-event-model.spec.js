@@ -132,6 +132,10 @@ class FakeModel {
   getV2ToV7Redirect() {
     return false;
   }
+
+  getLiveStreamType() {
+    return 1;
+  }
 }
 
 describe('KavaEventModel', () => {
@@ -161,7 +165,8 @@ describe('KavaEventModel', () => {
       networkConnectionOverhead: fakeModel.getNetworkConnectionOverhead(),
       flavorParamsId: fakeModel.getFlavorParamsId(),
       playbackMode: fakeModel.getPlaybackMode(),
-      sourceEntryId: fakeModel.getSourceEntryId()
+      sourceEntryId: fakeModel.getSourceEntryId(),
+      streamType: fakeModel.getLiveStreamType()
     });
   });
 
