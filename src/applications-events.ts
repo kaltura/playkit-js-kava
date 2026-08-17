@@ -174,6 +174,11 @@ export const GenieEvents = {
   GENIE_NEW_THREAD: 'genie_new_thread'
 };
 
+export const VodCompletionEvents = {
+  VOD_COMPLETION_VIDEO_STARTED: 'video_started',
+  VOD_COMPLETION_VIDEO_COMPLETED: 'video_completed'
+}
+
 export const PluginsEvents = {
   ...NavigationEvents,
   ...DownloadEvents,
@@ -194,5 +199,6 @@ export const PluginsEvents = {
   ...AudioPlayerEvents,
   ...CpeTrackerEvents,
   ...BannerOverlayEvents,
-  ...GenieEvents
+  ...GenieEvents,
+  ...VodCompletionEvents
 };

@@ -75,6 +75,18 @@ describe('ApplicationEventsModel', () => {
       });
     });
   });
+  describe('Content Milestone parameters', () => {
+    it('Should return the correct Content Milestone params including eventVar2', () => {
+      eventModel = { eventType: ApplicationEventType.CONTENT_MILESTONE, eventVar1: 'var1', eventVar2: 'var2' };
+
+      getApplicationEventsModel(eventObj, model).should.deep.equal({
+        ...commonModel,
+        eventType: ApplicationEventType.CONTENT_MILESTONE,
+        eventName: 'var1',
+        eventVar2: 'var2'
+      });
+    });
+  });
   describe('Optional parameters', () => {
     it('Should return the correct event type value', () => {
       customModel = { application: 'abc' };

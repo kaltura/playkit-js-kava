@@ -23,5 +23,6 @@ export enum ApplicationFeature {
   AUDIO_PLAYER = 'audio_player',
   CPE_TRACKER = 'cpe_tracker',
   BANNER_OVERLAY = 'banner_overlay',
-  GENIE = 'genie'
+  GENIE = 'genie',
+  VOD_COMPLETION = 'vod_completion'
 }
