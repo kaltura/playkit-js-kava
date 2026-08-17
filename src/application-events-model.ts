@@ -1281,7 +1281,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
   },
   [PluginsEvents.VOD_COMPLETION_VIDEO_COMPLETED]: {
     type: 'VOD_COMPLETION_VIDEO_COMPLETED',
-    getEventModel: ({completionThreshold}: any): any => ({
+    getEventModel: ({ completionThreshold }: any): any => ({
       eventType: ApplicationEventType.CONTENT_MILESTONE,
       eventVar1: 'video_completed',
       eventVar2: completionThreshold,

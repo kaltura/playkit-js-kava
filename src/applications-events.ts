@@ -177,7 +177,7 @@ export const GenieEvents = {
 export const VodCompletionEvents = {
   VOD_COMPLETION_VIDEO_STARTED: 'video_started',
   VOD_COMPLETION_VIDEO_COMPLETED: 'video_completed'
-}
+};
 
 export const PluginsEvents = {
   ...NavigationEvents,
