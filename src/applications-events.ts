@@ -175,8 +175,8 @@ export const GenieEvents = {
 };
 
 export const VodCompletionEvents = {
-  VOD_COMPLETION_VIDEO_STARTED: 'video_started',
-  VOD_COMPLETION_VIDEO_COMPLETED: 'video_completed'
+  VOD_COMPLETION_VIDEO_STARTED: 'vod_completion_video_started',
+  VOD_COMPLETION_VIDEO_COMPLETED: 'vod_completion_video_completed'
 };
 
 export const PluginsEvents = {
