@@ -51,6 +51,11 @@ export function getApplicationEventsModel(eventObj: KavaEvent, model: KavaModel,
     namedEventModel['pageType'] = eventVar2;
     namedEventModel['pageValue'] = eventVar3;
     namedEventModel['pageInfo'] = eventVar4;
+  } else if (eventModel.eventType === ApplicationEventType.CONTENT_MILESTONE) {
+    namedEventModel['eventName'] = eventVar1;
+    if (typeof eventVar2 !== 'undefined') {
+      namedEventModel['completionThreshold'] = eventVar2;
+    }
   }
 
   return Object.assign(namedEventModel, commonModel);
@@ -1264,6 +1269,23 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventVar3: '',
       eventVar4: '',
       applicationFeature: ApplicationFeature.GENIE
+    })
+  },
+  [PluginsEvents.VOD_COMPLETION_VIDEO_STARTED]: {
+    type: 'VOD_COMPLETION_VIDEO_STARTED',
+    getEventModel: (): any => ({
+      eventType: ApplicationEventType.CONTENT_MILESTONE,
+      eventVar1: 'video_started',
+      applicationFeature: ApplicationFeature.VOD_COMPLETION
+    })
+  },
+  [PluginsEvents.VOD_COMPLETION_VIDEO_COMPLETED]: {
+    type: 'VOD_COMPLETION_VIDEO_COMPLETED',
+    getEventModel: ({ completionThreshold }: any): any => ({
+      eventType: ApplicationEventType.CONTENT_MILESTONE,
+      eventVar1: 'video_completed',
+      eventVar2: completionThreshold,
+      applicationFeature: ApplicationFeature.VOD_COMPLETION
     })
   }
 };

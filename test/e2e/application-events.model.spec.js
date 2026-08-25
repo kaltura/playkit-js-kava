@@ -75,6 +75,29 @@ describe('ApplicationEventsModel', () => {
       });
     });
   });
+  describe('Content Milestone parameters', () => {
+    it('Should return the correct Content Milestone params with completionThreshold', () => {
+      eventModel = { eventType: ApplicationEventType.CONTENT_MILESTONE, eventVar1: 'var1', eventVar2: 'var2' };
+
+      getApplicationEventsModel(eventObj, model).should.deep.equal({
+        ...commonModel,
+        eventType: ApplicationEventType.CONTENT_MILESTONE,
+        eventName: 'var1',
+        completionThreshold: 'var2'
+      });
+    });
+    it('Should return the correct Content Milestone params without completionThreshold', () => {
+      eventModel = { eventType: ApplicationEventType.CONTENT_MILESTONE, eventVar1: 'var1' };
+
+      const result = getApplicationEventsModel(eventObj, model);
+      result.should.deep.equal({
+        ...commonModel,
+        eventType: ApplicationEventType.CONTENT_MILESTONE,
+        eventName: 'var1'
+      });
+      result.should.not.have.property('completionThreshold');
+    });
+  });
   describe('Optional parameters', () => {
     it('Should return the correct event type value', () => {
       customModel = { application: 'abc' };
