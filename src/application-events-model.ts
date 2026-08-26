@@ -1288,14 +1288,14 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       applicationFeature: ApplicationFeature.VOD_COMPLETION
     })
   },
-  [PostMessageBridgeEvents.POST_MESSAGE_BRIDGE_ACTIVE]: {
+  [PluginsEvents.POST_MESSAGE_BRIDGE_ACTIVE]: {
     type: 'POST_MESSAGE_BRIDGE_ACTIVE',
     getEventModel: ({ sendAllEvents, eventsToSend }: any): any => ({
       eventType: ApplicationEventType.PAGE_LOAD,
       eventVar1: 'post_message_bridge_active',
-      eventVar2: sendAllEvents,
-      eventVar3: eventsToSend,
-      eventVar4: '',
+      eventVar2: PageLoadType.View,
+      eventVar3: sendAllEvents,
+      eventVar4: eventsToSend,
       applicationFeature: ApplicationFeature.POST_MESSAGE_BRIDGE
     })
   }
