@@ -145,7 +145,9 @@ export const SummaryAndChaptersEvents = {
   SUMMARY_CHAPTERS_CHAPTER_COLLAPSE: 'summary_chapters_chapter_collapse',
   SUMMARY_CHAPTERS_CHAPTER_SEEK: 'summary_chapters_chapter_seek',
   SUMMARY_CHAPTERS_CHAPTER_SHARE: 'summary_chapters_chapter_share',
-  SUMMARY_CHAPTERS_DOWNLOAD_SUMMARY: 'summary_chapters_download_summary'
+  SUMMARY_CHAPTERS_DOWNLOAD_SUMMARY: 'summary_chapters_download_summary',
+  SUMMARY_CHAPTERS_ALLOW_DOWNLOAD_TOGGLED: 'summary_chapters_allow_download_toggled',
+  SUMMARY_CHAPTERS_ALLOW_SHARE_CHAPTER_TOGGLED: 'summary_chapters_allow_share_chapter_toggled'
 };
 
 export const AudioPlayerEvents = {
