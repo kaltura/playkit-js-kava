@@ -3,7 +3,7 @@ import { KavaEvent } from './types';
 import { ButtonType } from './enums/button-type';
 import { ApplicationEventType } from './enums/application-event-type';
 import { PageLoadType } from './enums/page-load-type';
-import { PlaykitUIEvents, PluginsEvents } from './applications-events';
+import { PlaykitUIEvents, PluginsEvents, PostMessageBridgeEvents } from './applications-events';
 import { KalturaApplication } from './enums/kaltura-application';
 import { ApplicationFeature } from './enums/application-feature';
 
@@ -1286,6 +1286,17 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventVar1: 'video_completed',
       eventVar2: completionThreshold,
       applicationFeature: ApplicationFeature.VOD_COMPLETION
+    })
+  },
+  [PostMessageBridgeEvents.POST_MESSAGE_BRIDGE_ACTIVE]: {
+    type: 'POST_MESSAGE_BRIDGE_ACTIVE',
+    getEventModel: ({ sendAllEvents, eventsToSend }: any): any => ({
+      eventType: ApplicationEventType.PAGE_LOAD,
+      eventVar1: 'post_message_bridge_active',
+      eventVar2: sendAllEvents,
+      eventVar3: eventsToSend,
+      eventVar4: '',
+      applicationFeature: ApplicationFeature.POST_MESSAGE_BRIDGE
     })
   }
 };
