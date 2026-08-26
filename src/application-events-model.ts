@@ -3,7 +3,7 @@ import { KavaEvent } from './types';
 import { ButtonType } from './enums/button-type';
 import { ApplicationEventType } from './enums/application-event-type';
 import { PageLoadType } from './enums/page-load-type';
-import { PlaykitUIEvents, PluginsEvents, PostMessageBridgeEvents } from './applications-events';
+import { PlaykitUIEvents, PluginsEvents } from './applications-events';
 import { KalturaApplication } from './enums/kaltura-application';
 import { ApplicationFeature } from './enums/application-feature';
 
