@@ -1165,7 +1165,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
   },
   [PluginsEvents.SUMMARY_CHAPTERS_DISPLAY_BEFORE_PLAYBACK]: {
     type: 'SUMMARY_CHAPTERS_DISPLAY_BEFORE_PLAYBACK',
-    getEventModel: ({displayBeforePlay}): any => ({
+    getEventModel: ({ displayBeforePlay }): any => ({
       eventType: ApplicationEventType.PAGE_LOAD,
       eventVar1: 'summary_chapters_display_before_playback',
       eventVar2: PageLoadType.View,
