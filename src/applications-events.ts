@@ -145,7 +145,10 @@ export const SummaryAndChaptersEvents = {
   SUMMARY_CHAPTERS_CHAPTER_COLLAPSE: 'summary_chapters_chapter_collapse',
   SUMMARY_CHAPTERS_CHAPTER_SEEK: 'summary_chapters_chapter_seek',
   SUMMARY_CHAPTERS_CHAPTER_SHARE: 'summary_chapters_chapter_share',
-  SUMMARY_CHAPTERS_DOWNLOAD_SUMMARY: 'summary_chapters_download_summary'
+  SUMMARY_CHAPTERS_DOWNLOAD_SUMMARY: 'summary_chapters_download_summary',
+  SUMMARY_CHAPTERS_PANEL_POSITION_CHANGED: 'summary_chapters_panel_position_changed',
+  SUMMARY_CHAPTERS_EXPAND_MODE_CHANGED: 'summary_chapters_expand_mode_changed',
+  SUMMARY_CHAPTERS_EXPAND_ON_FIRST_PLAY_TOGGLED: 'summary_chapters_expand_on_first_play_toggled'
 };
 
 export const AudioPlayerEvents = {
