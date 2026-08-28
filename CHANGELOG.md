@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 1.17.0 (2026-08-28)
+
+
+### Features
+
+* **FEC-15050:** Compliance Viewing Plugin — real-time unique watched percentage tracking and completion beacon ([#225](https://github.com/kaltura/playkit-js-kava/issues/225)) ([dc4ba45](https://github.com/kaltura/playkit-js-kava/commit/dc4ba45444971b1a38230aa749f21e65ee799249)), closes [kaltura/playkit-js-vod-completion#1](https://github.com/kaltura/playkit-js-vod-completion/issues/1)
+
 ### 1.16.1 (2026-07-30)
 
 ## 1.16.0 (2026-07-30)
