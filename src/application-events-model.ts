@@ -1163,7 +1163,7 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       applicationFeature: ApplicationFeature.SUMMARY_CHAPTERS
     })
   },
-    [PluginsEvents.SUMMARY_CHAPTERS_DISPLAY_BEFORE_PLAYBACK]: {
+  [PluginsEvents.SUMMARY_CHAPTERS_DISPLAY_BEFORE_PLAYBACK]: {
     type: 'SUMMARY_CHAPTERS_DISPLAY_BEFORE_PLAYBACK',
     getEventModel: ({ displayBeforePlay }): any => ({
       eventType: ApplicationEventType.PAGE_LOAD,
