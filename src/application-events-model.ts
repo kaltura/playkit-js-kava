@@ -1174,6 +1174,28 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       applicationFeature: ApplicationFeature.SUMMARY_CHAPTERS
     })
   },
+  [PluginsEvents.SUMMARY_CHAPTERS_ALLOW_DOWNLOAD_TOGGLED]: {
+    type: 'SUMMARY_CHAPTERS_ALLOW_DOWNLOAD_TOGGLED',
+    getEventModel: ({ allowDownload }) => ({
+      eventType: ApplicationEventType.PAGE_LOAD,
+      eventVar2: PageLoadType.View,
+      eventVar1: 'summary_chapters_allow_download_toggled',
+      eventVar3: allowDownload,
+      eventVar4: '',
+      applicationFeature: ApplicationFeature.SUMMARY_CHAPTERS
+    })
+  },
+  [PluginsEvents.SUMMARY_CHAPTERS_ALLOW_SHARE_CHAPTER_TOGGLED]: {
+    type: 'SUMMARY_CHAPTERS_ALLOW_SHARE_CHAPTER_TOGGLED',
+    getEventModel: ({ allowShareChapter }) => ({
+      eventType: ApplicationEventType.PAGE_LOAD,
+      eventVar2: PageLoadType.View,
+      eventVar1: 'summary_chapters_allow_share_chapter_toggled',
+      eventVar3: allowShareChapter,
+      eventVar4: '',
+      applicationFeature: ApplicationFeature.SUMMARY_CHAPTERS
+    })
+  },
   [PlaykitUIEvents.USER_COPIED_DEBUG_INFO]: {
     type: 'USER_COPIED_DEBUG_INFO',
     getEventModel: (): any => ({
