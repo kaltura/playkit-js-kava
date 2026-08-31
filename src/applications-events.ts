@@ -146,6 +146,7 @@ export const SummaryAndChaptersEvents = {
   SUMMARY_CHAPTERS_CHAPTER_SEEK: 'summary_chapters_chapter_seek',
   SUMMARY_CHAPTERS_CHAPTER_SHARE: 'summary_chapters_chapter_share',
   SUMMARY_CHAPTERS_DOWNLOAD_SUMMARY: 'summary_chapters_download_summary',
+  SUMMARY_CHAPTERS_DISPLAY_BEFORE_PLAYBACK: 'summary_chapters_display_before_playback',
   SUMMARY_CHAPTERS_ALLOW_DOWNLOAD_TOGGLED: 'summary_chapters_allow_download_toggled',
   SUMMARY_CHAPTERS_ALLOW_SHARE_CHAPTER_TOGGLED: 'summary_chapters_allow_share_chapter_toggled'
 };
@@ -181,6 +182,10 @@ export const VodCompletionEvents = {
   VOD_COMPLETION_VIDEO_COMPLETED: 'vod_completion_video_completed'
 };
 
+export const PostMessageBridgeEvents = {
+  POST_MESSAGE_BRIDGE_ACTIVE: 'post_message_bridge_active'
+};
+
 export const PluginsEvents = {
   ...NavigationEvents,
   ...DownloadEvents,
@@ -202,5 +207,6 @@ export const PluginsEvents = {
   ...CpeTrackerEvents,
   ...BannerOverlayEvents,
   ...GenieEvents,
-  ...VodCompletionEvents
+  ...VodCompletionEvents,
+  ...PostMessageBridgeEvents
 };
