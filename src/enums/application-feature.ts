@@ -24,5 +24,6 @@ export enum ApplicationFeature {
   CPE_TRACKER = 'cpe_tracker',
   BANNER_OVERLAY = 'banner_overlay',
   GENIE = 'genie',
-  VOD_COMPLETION = 'vod_completion'
+  VOD_COMPLETION = 'vod_completion',
+  POST_MESSAGE_BRIDGE = 'post_message_bridge'
 }

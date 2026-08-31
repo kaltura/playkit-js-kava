@@ -1163,6 +1163,39 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       applicationFeature: ApplicationFeature.SUMMARY_CHAPTERS
     })
   },
+  [PluginsEvents.SUMMARY_CHAPTERS_DISPLAY_BEFORE_PLAYBACK]: {
+    type: 'SUMMARY_CHAPTERS_DISPLAY_BEFORE_PLAYBACK',
+    getEventModel: ({ displayBeforePlay }): any => ({
+      eventType: ApplicationEventType.PAGE_LOAD,
+      eventVar1: 'summary_chapters_display_before_playback',
+      eventVar2: PageLoadType.View,
+      eventVar3: displayBeforePlay,
+      eventVar4: '',
+      applicationFeature: ApplicationFeature.SUMMARY_CHAPTERS
+    })
+  },
+  [PluginsEvents.SUMMARY_CHAPTERS_ALLOW_DOWNLOAD_TOGGLED]: {
+    type: 'SUMMARY_CHAPTERS_ALLOW_DOWNLOAD_TOGGLED',
+    getEventModel: ({ allowDownload }) => ({
+      eventType: ApplicationEventType.PAGE_LOAD,
+      eventVar2: PageLoadType.View,
+      eventVar1: 'summary_chapters_allow_download_toggled',
+      eventVar3: allowDownload,
+      eventVar4: '',
+      applicationFeature: ApplicationFeature.SUMMARY_CHAPTERS
+    })
+  },
+  [PluginsEvents.SUMMARY_CHAPTERS_ALLOW_SHARE_CHAPTER_TOGGLED]: {
+    type: 'SUMMARY_CHAPTERS_ALLOW_SHARE_CHAPTER_TOGGLED',
+    getEventModel: ({ allowShareChapter }) => ({
+      eventType: ApplicationEventType.PAGE_LOAD,
+      eventVar2: PageLoadType.View,
+      eventVar1: 'summary_chapters_allow_share_chapter_toggled',
+      eventVar3: allowShareChapter,
+      eventVar4: '',
+      applicationFeature: ApplicationFeature.SUMMARY_CHAPTERS
+    })
+  },
   [PluginsEvents.SUMMARY_CHAPTERS_PANEL_POSITION_CHANGED]: {
     type: 'SUMMARY_CHAPTERS_PANEL_POSITION_CHANGED',
     getEventModel: ({ panelPosition }) => ({
@@ -1319,6 +1352,17 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       eventVar1: 'video_completed',
       eventVar2: completionThreshold,
       applicationFeature: ApplicationFeature.VOD_COMPLETION
+    })
+  },
+  [PluginsEvents.POST_MESSAGE_BRIDGE_ACTIVE]: {
+    type: 'POST_MESSAGE_BRIDGE_ACTIVE',
+    getEventModel: ({ sendAllEvents, eventsToSend }: any): any => ({
+      eventType: ApplicationEventType.PAGE_LOAD,
+      eventVar1: 'post_message_bridge_active',
+      eventVar2: PageLoadType.View,
+      eventVar3: sendAllEvents,
+      eventVar4: eventsToSend,
+      applicationFeature: ApplicationFeature.POST_MESSAGE_BRIDGE
     })
   }
 };
