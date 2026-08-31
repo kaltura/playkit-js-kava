@@ -1163,6 +1163,17 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       applicationFeature: ApplicationFeature.SUMMARY_CHAPTERS
     })
   },
+  [PluginsEvents.SUMMARY_CHAPTERS_DISPLAY_BEFORE_PLAYBACK]: {
+    type: 'SUMMARY_CHAPTERS_DISPLAY_BEFORE_PLAYBACK',
+    getEventModel: ({ displayBeforePlay }): any => ({
+      eventType: ApplicationEventType.PAGE_LOAD,
+      eventVar1: 'summary_chapters_display_before_playback',
+      eventVar2: PageLoadType.View,
+      eventVar3: displayBeforePlay,
+      eventVar4: '',
+      applicationFeature: ApplicationFeature.SUMMARY_CHAPTERS
+    })
+  },
   [PlaykitUIEvents.USER_COPIED_DEBUG_INFO]: {
     type: 'USER_COPIED_DEBUG_INFO',
     getEventModel: (): any => ({
