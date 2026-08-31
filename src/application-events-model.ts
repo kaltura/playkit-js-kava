@@ -1196,6 +1196,39 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       applicationFeature: ApplicationFeature.SUMMARY_CHAPTERS
     })
   },
+  [PluginsEvents.SUMMARY_CHAPTERS_PANEL_POSITION_CHANGED]: {
+    type: 'SUMMARY_CHAPTERS_PANEL_POSITION_CHANGED',
+    getEventModel: ({ panelPosition }) => ({
+      eventType: ApplicationEventType.PAGE_LOAD,
+      eventVar2: PageLoadType.View,
+      eventVar1: 'summary_chapters_panel_position_changed',
+      eventVar3: panelPosition,
+      eventVar4: '',
+      applicationFeature: ApplicationFeature.SUMMARY_CHAPTERS
+    })
+  },
+  [PluginsEvents.SUMMARY_CHAPTERS_EXPAND_MODE_CHANGED]: {
+    type: 'SUMMARY_CHAPTERS_EXPAND_MODE_CHANGED',
+    getEventModel: ({ expandMode }) => ({
+      eventType: ApplicationEventType.PAGE_LOAD,
+      eventVar2: PageLoadType.View,
+      eventVar1: 'summary_chapters_expand_mode_changed',
+      eventVar3: expandMode,
+      eventVar4: '',
+      applicationFeature: ApplicationFeature.SUMMARY_CHAPTERS
+    })
+  },
+  [PluginsEvents.SUMMARY_CHAPTERS_EXPAND_ON_FIRST_PLAY_TOGGLED]: {
+    type: 'SUMMARY_CHAPTERS_EXPAND_ON_FIRST_PLAY_TOGGLED',
+    getEventModel: ({ expandOnFirstPlay }) => ({
+      eventType: ApplicationEventType.PAGE_LOAD,
+      eventVar2: PageLoadType.View,
+      eventVar1: 'summary_chapters_expand_on_first_play_toggled',
+      eventVar3: expandOnFirstPlay,
+      eventVar4: '',
+      applicationFeature: ApplicationFeature.SUMMARY_CHAPTERS
+    })
+  },
   [PlaykitUIEvents.USER_COPIED_DEBUG_INFO]: {
     type: 'USER_COPIED_DEBUG_INFO',
     getEventModel: (): any => ({
