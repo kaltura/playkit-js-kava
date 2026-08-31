@@ -179,6 +179,10 @@ export const VodCompletionEvents = {
   VOD_COMPLETION_VIDEO_COMPLETED: 'vod_completion_video_completed'
 };
 
+export const PostMessageBridgeEvents = {
+  POST_MESSAGE_BRIDGE_ACTIVE: 'post_message_bridge_active'
+};
+
 export const PluginsEvents = {
   ...NavigationEvents,
   ...DownloadEvents,
@@ -200,5 +204,6 @@ export const PluginsEvents = {
   ...CpeTrackerEvents,
   ...BannerOverlayEvents,
   ...GenieEvents,
-  ...VodCompletionEvents
+  ...VodCompletionEvents,
+  ...PostMessageBridgeEvents
 };
