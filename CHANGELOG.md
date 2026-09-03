@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 1.18.0 (2026-09-03)
+
+
+### Features
+
+* **FEC-15086:** Summary&Chapters: make side-panel position (left / right) configurable ([#229](https://github.com/kaltura/playkit-js-kava/issues/229)) ([fdd975b](https://github.com/kaltura/playkit-js-kava/commit/fdd975b275596ba72fd5f8d1b5da5597376dc1a5))
+
 ### 1.17.2 (2026-08-28)
 
 ### 1.17.1 (2026-08-28)
