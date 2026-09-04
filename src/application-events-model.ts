@@ -1229,6 +1229,17 @@ export const ApplicationEventsModel: { [playerEventName: string]: KavaEvent } = 
       applicationFeature: ApplicationFeature.SUMMARY_CHAPTERS
     })
   },
+  [PluginsEvents.SUMMARY_CHAPTERS_LAYOUT_CHANGED]: {
+    type: 'SUMMARY_CHAPTERS_LAYOUT_CHANGED',
+    getEventModel: ({ layout }) => ({
+      eventType: ApplicationEventType.PAGE_LOAD,
+      eventVar2: PageLoadType.View,
+      eventVar1: 'summary_chapters_layout_changed',
+      eventVar3: layout,
+      eventVar4: '',
+      applicationFeature: ApplicationFeature.SUMMARY_CHAPTERS
+    })
+  },
   [PlaykitUIEvents.USER_COPIED_DEBUG_INFO]: {
     type: 'USER_COPIED_DEBUG_INFO',
     getEventModel: (): any => ({
