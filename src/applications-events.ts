@@ -151,7 +151,8 @@ export const SummaryAndChaptersEvents = {
   SUMMARY_CHAPTERS_ALLOW_SHARE_CHAPTER_TOGGLED: 'summary_chapters_allow_share_chapter_toggled',
   SUMMARY_CHAPTERS_PANEL_POSITION_CHANGED: 'summary_chapters_panel_position_changed',
   SUMMARY_CHAPTERS_EXPAND_MODE_CHANGED: 'summary_chapters_expand_mode_changed',
-  SUMMARY_CHAPTERS_EXPAND_ON_FIRST_PLAY_TOGGLED: 'summary_chapters_expand_on_first_play_toggled'
+  SUMMARY_CHAPTERS_EXPAND_ON_FIRST_PLAY_TOGGLED: 'summary_chapters_expand_on_first_play_toggled',
+  SUMMARY_CHAPTERS_LAYOUT_CHANGED: 'summary_chapters_layout_changed'
 };
 
 export const AudioPlayerEvents = {
