@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 1.19.0 (2026-09-24)
+
+
+### Features
+
+* **FEC-15088:** Summary&Chapters: make layout options (summary & chapters / summary only / chapters only) configurable ([#230](https://github.com/kaltura/playkit-js-kava/issues/230)) ([0fb00d2](https://github.com/kaltura/playkit-js-kava/commit/0fb00d232abc28671fa2192f2c17d0980c3644d3)), closes [-kaltura/playkit-js-unisphere-summary#15](https://github.com/-kaltura/playkit-js-unisphere-summary/issues/15) [kaltura/playkit-js-unisphere-summary#15](https://github.com/kaltura/playkit-js-unisphere-summary/issues/15)
+
 ## 1.18.0 (2026-09-03)
 
 
