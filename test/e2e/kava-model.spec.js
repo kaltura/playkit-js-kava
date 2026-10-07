@@ -174,12 +174,12 @@ describe('KavaModel', () => {
       resultModel.pfSessionId.should.equal('sess-67890');
     });
 
-    it('should add both ids to application events', () => {
+    it('should not add ids to application events', () => {
       model.getPfPageViewId = () => 'pv-12345';
       model.getPfSessionId = () => 'sess-67890';
       const resultModel = model.getModel(applicationEvent, EventBucketName.ApplicationEvents, {});
-      resultModel.pfPageViewId.should.equal('pv-12345');
-      resultModel.pfSessionId.should.equal('sess-67890');
+      resultModel.should.not.have.property('pfPageViewId');
+      resultModel.should.not.have.property('pfSessionId');
     });
 
     it('should add only the id that is defined', () => {
