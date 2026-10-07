@@ -1,4 +1,5 @@
 import {KavaModel} from '../../src/kava-model';
+import {EventBucketName} from '../../src/enums/event-bucket-name';
 
 const ab = 3,
   avb = 5,
@@ -98,6 +99,8 @@ describe('KavaModel', () => {
     model.getHostingKalturaApplication = () => hostingApp;
     model.getHostingKalturaApplicationVersion = () => av;
     model.getPlayerSkin = () => ps;
+    model.getPfPageViewId = () => undefined;
+    model.getPfSessionId = () => undefined;
   });
 
   it('should update the model', function () {
@@ -141,6 +144,50 @@ describe('KavaModel', () => {
       hostingKalturaApplication: hostingApp,
       hostingKalturaApplicationVersion: av,
       playerSkin: ps
+    });
+  });
+
+  describe('PathFactory ids', () => {
+    const applicationEvent = {
+      type: 'MY_APP_EVENT',
+      index: 100,
+      getEventModel: () => ({eventType: 1, applicationFeature: 'feature'})
+    };
+
+    it('should not add pfPageViewId and pfSessionId when values are undefined', () => {
+      const resultModel = model.getModel(eventModel.MY_EVENT);
+      resultModel.should.not.have.any.keys('pfPageViewId', 'pfSessionId');
+    });
+
+    it('should not add pfPageViewId and pfSessionId when values are empty strings', () => {
+      model.getPfPageViewId = () => '';
+      model.getPfSessionId = () => '';
+      const resultModel = model.getModel(eventModel.MY_EVENT);
+      resultModel.should.not.have.any.keys('pfPageViewId', 'pfSessionId');
+    });
+
+    it('should add both ids to player events', () => {
+      model.getPfPageViewId = () => 'pv-12345';
+      model.getPfSessionId = () => 'sess-67890';
+      const resultModel = model.getModel(eventModel.MY_EVENT);
+      resultModel.pfPageViewId.should.equal('pv-12345');
+      resultModel.pfSessionId.should.equal('sess-67890');
+    });
+
+    it('should add both ids to application events', () => {
+      model.getPfPageViewId = () => 'pv-12345';
+      model.getPfSessionId = () => 'sess-67890';
+      const resultModel = model.getModel(applicationEvent, EventBucketName.ApplicationEvents, {});
+      resultModel.pfPageViewId.should.equal('pv-12345');
+      resultModel.pfSessionId.should.equal('sess-67890');
+    });
+
+    it('should add only the id that is defined', () => {
+      model.getPfPageViewId = () => 'pv-12345';
+      model.getPfSessionId = () => undefined;
+      const resultModel = model.getModel(eventModel.MY_EVENT);
+      resultModel.pfPageViewId.should.equal('pv-12345');
+      resultModel.should.not.have.property('pfSessionId');
     });
   });
 });

@@ -75,6 +75,8 @@ class KavaModel {
   public getV2ToV7Redirect!: () => any;
   public getNumFailedAnalyticReports!: () => number;
   public getLiveStreamType!: () => number | undefined;
+  public getPfPageViewId!: () => string | undefined;
+  public getPfSessionId!: () => string | undefined;
 
   constructor(model?: object) {
     if (model) {
@@ -417,12 +419,29 @@ class KavaModel {
    * @instance
    */
   public getModel(eventObj: KavaEvent, eventBucketName: EventBucketName = EventBucketName.PlayerEvents, eventPayload?: any): any {
+    let model: any;
     switch (eventBucketName) {
       case EventBucketName.PlayerEvents:
-        return getEventModel(eventObj, this);
+        model = getEventModel(eventObj, this);
+        return this._addPathFactoryIds(model);
       case EventBucketName.ApplicationEvents:
         return getApplicationEventsModel(eventObj, this, eventPayload);
     }
+  }
+
+  private _addPathFactoryIds(model: any): any {
+    if (!model) {
+      return model;
+    }
+    const pfPageViewId = this.getPfPageViewId();
+    if (pfPageViewId) {
+      model.pfPageViewId = pfPageViewId;
+    }
+    const pfSessionId = this.getPfSessionId();
+    if (pfSessionId) {
+      model.pfSessionId = pfSessionId;
+    }
+    return model;
   }
 }
 
