@@ -419,10 +419,9 @@ class KavaModel {
    * @instance
    */
   public getModel(eventObj: KavaEvent, eventBucketName: EventBucketName = EventBucketName.PlayerEvents, eventPayload?: any): any {
-    let model: any;
     switch (eventBucketName) {
       case EventBucketName.PlayerEvents:
-        model = getEventModel(eventObj, this);
+        const model = getEventModel(eventObj, this);
         return this._addPathFactoryIds(model);
       case EventBucketName.ApplicationEvents:
         return getApplicationEventsModel(eventObj, this, eventPayload);
