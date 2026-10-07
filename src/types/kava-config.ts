@@ -50,6 +50,8 @@ export type KavaConfigObject = {
   hostingKalturaApplicationVersion?: string,
   logLiveAnalyticsFailures?: boolean,
   numOfLoggedFailedEvents?: number,
+  pfPageViewId?: string,
+  pfSessionId?: string,
 };
 
 /**

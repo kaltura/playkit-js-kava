@@ -894,6 +894,8 @@ class Kava extends BasePlugin {
     this._model.getV2ToV7Redirect = (): boolean => this.player.isV2ToV7Redirected;
     this._model.getNumFailedAnalyticReports = (): number => this._logFailedLiveEvents.getNumFailedAnalyticReports(this.config.entryId);
     this._model.getLiveStreamType = (): number | undefined => this._getLiveStreamType();
+    this._model.getPfPageViewId = (): string | undefined => this.config.pfPageViewId;
+    this._model.getPfSessionId = (): string | undefined => this.config.pfSessionId;
   }
 
   private _getApplication(playerEvent = true): string {

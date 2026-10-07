@@ -224,6 +224,44 @@ describe('KavaPlugin', function () {
       player.play();
     });
 
+    it('should send pfPageViewId and pfSessionId in events when set in setup', done => {
+      sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
+        if (params.eventType === KavaEventModel.IMPRESSION.index) {
+          try {
+            params.pfPageViewId.should.equal('pv-12345');
+            params.pfSessionId.should.equal('sess-67890');
+            done();
+          } catch (e) {
+            done(e);
+          }
+        }
+        return new RequestBuilder();
+      });
+      const configCopy = JSON.parse(JSON.stringify(config));
+      configCopy.plugins.kava.pfPageViewId = 'pv-12345';
+      configCopy.plugins.kava.pfSessionId = 'sess-67890';
+      setupPlayer(configCopy);
+      kava = getKavaPlugin();
+      player.play();
+    });
+
+    it('should not send pfPageViewId and pfSessionId in events when not set in setup', done => {
+      sandbox.stub(OVPAnalyticsService, 'trackEvent').callsFake((serviceUrl, params) => {
+        if (params.eventType === KavaEventModel.IMPRESSION.index) {
+          try {
+            params.should.not.have.any.keys('pfPageViewId', 'pfSessionId');
+            done();
+          } catch (e) {
+            done(e);
+          }
+        }
+        return new RequestBuilder();
+      });
+      setupPlayer(config);
+      kava = getKavaPlugin();
+      player.play();
+    });
+
     it('should send IMPRESSION event with playerJSLoadTime', done => {
       sandbox.stub(window.performance, 'getEntriesByType').callsFake(() => {
         return [
